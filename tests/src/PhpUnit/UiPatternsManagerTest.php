@@ -79,7 +79,7 @@ class UiPatternsManagerTest extends TestCase {
    *    Full module path.
    */
   protected function getTestModulePath() {
-    return realpath(dirname(__FILE__) . '/../../modules/ui_patterns_test');
+    return realpath(dirname(__FILE__) . '/../../../modules/ui_patterns_test');
   }
 
 }

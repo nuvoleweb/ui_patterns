@@ -11,6 +11,7 @@ default:
         - Drupal\DrupalExtension\Context\DrupalContext
         - NuvoleWeb\Drupal\DrupalExtension\Context\DrupalContext
         - NuvoleWeb\Drupal\DrupalExtension\Context\SelectFieldContext
+        - Drupal\ui_patterns\Tests\Behat\FeatureContext
   extensions:
     Behat\MinkExtension:
       goutte: ~
