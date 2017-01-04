@@ -26,6 +26,7 @@ before_script:
   - composer install --prefer-dist --quiet
   - cd drupal
   - ../vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
+  - ../vendor/bin/drush en ui_patterns -y
   # Run Drush web server.
   - ../vendor/bin/drush --debug runserver :8888 > ~/debug.txt 2>&1 &
   - sleep 4s
