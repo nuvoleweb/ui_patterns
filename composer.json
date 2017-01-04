@@ -1,0 +1,42 @@
+{
+  "name": "drupal/ui_patterns",
+  "type": "drupal-module",
+  "description": "UI Patterns.",
+  "keywords": ["drupal", "web", "ui"],
+  "minimum-stability": "stable",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Nuvole Web",
+      "email": "info@nuvole.org"
+    }
+  ],
+  "prefer-stable": true,
+  "require-dev": {
+    "phpunit/phpunit": "5.5.*",
+    "bovigo/assert": "~1.7",
+    "drupal/coder": "8.2.8",
+    "nuvoleweb/drupal-behat": "1.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Drupal\\ui_patterns\\": "./src/",
+      "Drupal\\ui_patterns\\Tests\\": "./tests/src/"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer",
+      "./vendor/bin/phpcs --config-set show_progress 1",
+      "cp scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
+    ],
+    "post-update-cmd": [
+      "./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer",
+      "./vendor/bin/phpcs --config-set show_progress 1",
+      "cp scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
+    ],
+    "phpcs": "./vendor/bin/phpcs --standard=Drupal,DrupalPractice ./src ./tests/src",
+    "phpcbf": "./vendor/bin/phpcbf --standard=Drupal,DrupalPractice ./src ./tests/src",
+    "phpunit": "./vendor/bin/phpunit tests/src/PhpUnit"
+  }
+}

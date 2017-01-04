@@ -1,0 +1,33 @@
+default:
+  suites:
+    default:
+      paths:
+        - %paths.base%/tests/features
+      contexts:
+        - Drupal\DrupalExtension\Context\ConfigContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MarkupContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - NuvoleWeb\Drupal\DrupalExtension\Context\DrupalContext
+        - NuvoleWeb\Drupal\DrupalExtension\Context\SelectFieldContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      javascript_session: selenium2
+      base_url: http://127.0.0.1:8888
+    NuvoleWeb\Drupal\DrupalExtension:
+      api_driver: "drupal"
+      drupal:
+        # Change this to the absolute path to Drupal install.
+        drupal_root: "tests/target/drupal"
+      region_map:
+        left sidebar: "#sidebar-first"
+        content: "#content"
+      selectors:
+        error_message_selector: '.messages--error'
+      text:
+        node_submit_label: "Save and publish"
+  formatters:
+    progress: ~

@@ -1,0 +1,63 @@
+{#
+/**
+ * @file
+ * UI Pattern library page.
+ */
+#}
+
+<header class="mc">
+  <h1 class="ta-center mv4">{{ "UI Patterns"|t }}</h1>
+  {% if patterns is not empty %}
+    <nav class="menu mw9" style="margin: 0 auto">
+      <div class="menu--group">
+        <h6 class="menu--heading"><span class="menu--item">{{ "Available patterns"|t }}</span></h6>
+        <ul class="menu--wrapper">
+          {% for pattern_name, pattern in patterns %}
+            <li class="menu--item"><a href="#{{ pattern_name }}" class="menu--link">{{ pattern.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  {% endif %}
+  <hr>
+</header>
+
+
+{% for pattern_name, pattern in patterns %}
+  <a name="{{ pattern_name }}"></a>
+  <div class="wrapper tc">
+    <div class="mt5">
+      <h6 class="mb0">{{ pattern.label }}</h6>
+      <p class="mb4">
+        {{ pattern.description }} <br>
+        <a class="fs5" href="{{ url('ui_patterns.patterns.single', {'name': pattern_name}) }}">{{ "View as stand-alone"|t }}</a>
+      </p>
+    </div>
+    <div class="mb5">
+      <table class="table tl mw12 fs5" style="margin: auto">
+        <thead>
+          <th>{{ "ID"|t }}</th>
+          <th>{{ "Field"|t }}</th>
+          <th>{{ "Description"|t }}</th>
+        </thead>
+        <tbody>
+        {% for name, field in pattern.fields %}
+          <tr>
+            <td><code class="fs4">{{ name }}</code></td>
+            <td>{{ field.label }}</td>
+            <td>{{ field.description }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="{{ pattern.extra.wrapped ? 'wrapper' }}">
+    <div class="mb5">
+      {{ pattern.rendered }}
+    </div>
+    <hr>
+  </div>
+{% endfor %}
+
+

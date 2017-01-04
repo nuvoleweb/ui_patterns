@@ -1,0 +1,36 @@
+{
+  "name": "drupal/target",
+  "description": "Target site to run UI Patterns module Behat tests on TravisCI.",
+  "type": "project",
+  "require": {
+    "composer/installers": "^1.2",
+    "drupal-composer/drupal-scaffold": "^2.2",
+    "drupal/core": "8.2.4",
+    "drush/drush": "~8.0",
+    "drupal/layout_plugin": "1.0-alpha23",
+    "drupal/ds": "2.6"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "post-install-cmd": ["DrupalComposer\\DrupalScaffold\\Plugin::scaffold"],
+    "post-update-cmd": ["DrupalComposer\\DrupalScaffold\\Plugin::scaffold"]
+  },
+  "repositories": [
+    {"type": "composer", "url": "https://packages.drupal.org/8"},
+    {"type": "path", "url": "../modules/*"},
+    {"type": "path", "url": "../../*"}
+  ],
+  "extra": {
+    "installer-paths": {
+      "drupal/core": ["type:drupal-core"],
+      "drupal/modules/contrib/{$name}": ["type:drupal-module"],
+      "drupal/profiles/contrib/{$name}": ["type:drupal-profile"],
+      "drupal/themes/contrib/{$name}": ["type:drupal-theme"],
+      "drupal/libraries/{$name}": ["type:drupal-library"]
+    }
+  },
+  "conflict": {
+    "drupal/drupal": "*"
+  }
+}

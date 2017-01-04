@@ -1,0 +1,83 @@
+<?php
+
+namespace Drupal\ui_patterns\Tests\Unit;
+
+use Drupal\Tests\UnitTestCase;
+use Drupal\ui_patterns\UiPatternsManager;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\hasKey;
+use function bovigo\assert\predicate\equals;
+
+/**
+ * @coversDefaultClass \Drupal\ui_patterns\UiPatternsManager
+ *
+ * @group ui_patterns
+ */
+class UiPatternsManagerTest extends UnitTestCase {
+
+  /**
+   * Test processDefinition.
+   *
+   * @covers ::processDefinition
+   */
+  public function testProcessDefinition() {
+    $cache_backend = $this->createMock('Drupal\Core\Cache\CacheBackendInterface');
+
+    $theme_handler = $this->getMockBuilder('Drupal\Core\Extension\ThemeHandlerInterface')
+      ->disableOriginalConstructor()
+      ->getMock();
+    $theme_handler->method('getThemeDirectories')->willReturn([]);
+    $theme_handler->method('themeExists')->willReturn(TRUE);
+
+    $extension = $this->getMockBuilder('Drupal\Core\Extension\Extension')
+      ->disableOriginalConstructor()
+      ->getMock();
+    $extension->method('getPath')->willReturn($this->getTestModulePath());
+
+    $module_handler = $this->createMock('Drupal\Core\Extension\ModuleHandlerInterface');
+    $module_handler->method('getModuleDirectories')->willReturn([
+      'ui_patterns_test' => $this->getTestModulePath(),
+    ]);
+    $module_handler->method('getModule')->willReturn($extension);
+    $module_handler->method('moduleExists')->willReturn(TRUE);
+
+    $plugin_manager = new UiPatternsManager($module_handler, $theme_handler, $cache_backend);
+    $definitions = $plugin_manager->getDefinitions();
+
+    foreach (['pattern1', 'pattern2'] as $id) {
+      assert($definitions, hasKey($id));
+      assert($definitions[$id], hasKey('label')
+        ->and(hasKey('description'))
+        ->and(hasKey('fields'))
+        ->and(hasKey('libraries'))
+        ->and(hasKey('theme hook'))
+        ->and(hasKey('theme variables')));
+      assert($definitions[$id]['theme hook'], equals("pattern__{$id}"));
+      assert($definitions[$id]['libraries'], equals([
+        'module/library1',
+        'module/library2',
+      ]));
+
+      $variables = array_keys($definitions[$id]['fields']);
+      $variables[] = 'attributes';
+      foreach ($variables as $variable) {
+        assert($definitions[$id]['theme variables'], hasKey($variable));
+      }
+    }
+
+    $definition = $plugin_manager->getDefinitionByThemeHook('custom_theme_hook');
+    assert($definition, hasKey('id'));
+    assert($definition['id'], equals('custom_theme'));
+  }
+
+  /**
+   * Get full path of test module.
+   *
+   * @return string
+   *    Full module path.
+   */
+  protected function getTestModulePath() {
+    return realpath(dirname(__FILE__) . '/../../modules/ui_patterns_test');
+  }
+
+}

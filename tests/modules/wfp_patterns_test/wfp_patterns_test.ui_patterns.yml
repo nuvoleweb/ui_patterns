@@ -1,0 +1,55 @@
+
+pattern1:
+  label: Pattern 1
+  description: Pattern 1 description
+  fields:
+    title:
+      type: text
+      label: Title
+      description: Title description for Pattern 1.
+      example: Title example for Pattern 1
+    subtitle:
+      type: text
+      label: Subtitle
+      description: Subtitle description for Pattern 1.
+      example: Subtitle example for Pattern 1
+  libraries:
+    - module/library1
+    - module/library2
+  extra:
+    wrapped: true
+
+pattern2:
+  label: Pattern 2
+  description: Pattern 2 description
+  fields:
+    title:
+      type: text
+      label: Title
+      description: Title description for Pattern 2.
+      example: Title example for Pattern 2
+    subtitle:
+      type: text
+      label: Subtitle
+      description: Subtitle description for Pattern 2.
+      example: Subtitle example for Pattern 2
+  libraries:
+    - module/library1
+    - module/library2
+  extra:
+    wrapped: false
+    attributes:
+      class:
+        - mw12
+        - mc
+
+custom_theme:
+  label: Custom theme pattern
+  description: Custom theme pattern description
+  fields:
+    title:
+      type: text
+      label: Title
+      description: Title description for Custom theme pattern.
+      example: Title example for Custom theme pattern\
+  theme hook: custom_theme_hook
