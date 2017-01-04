@@ -13,3 +13,28 @@ Feature: Overview
     When I am logged in as a user with the "authenticated" role
     And I am on "/patterns"
     Then I should get a "403" HTTP response
+
+  Scenario: Patterns overview page displays all available patterns.
+
+    Given I am logged in as a user with the "access patterns page" permission
+    And I am on "/patterns"
+
+    Then I should see the heading "Pattern 1"
+    And I should see "Title example for Pattern 1" in the "Title 1" row
+    And I should see "Subtitle example for Pattern 1" in the "Subtitle 1" row
+
+    Then I should see the heading "Pattern 2"
+    And I should see "Title example for Pattern 2" in the "Title 2" row
+    And I should see "Subtitle example for Pattern 2" in the "Subtitle 2" row
+
+    Then I should see the heading "Custom theme pattern"
+
+    And I click "View Pattern 1 as stand-alone"
+
+    Then I should see the heading "Pattern 1"
+    And I should see "Title example for Pattern 1" in the "Title 1" row
+    And I should see "Subtitle example for Pattern 1" in the "Subtitle 1" row
+
+    But I should not see the heading "Pattern 2"
+    And I should not see "Title example for Pattern 2"
+    And I should not see "Subtitle example for Pattern 2"

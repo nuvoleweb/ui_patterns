@@ -22,7 +22,6 @@
   <hr>
 </header>
 
-
 {% for pattern_name, pattern in patterns %}
   <a name="{{ pattern_name }}"></a>
   <div class="wrapper tc">
@@ -30,7 +29,7 @@
       <h6 class="mb0">{{ pattern.label }}</h6>
       <p class="mb4">
         {{ pattern.description }} <br>
-        <a class="fs5" href="{{ url('ui_patterns.patterns.single', {'name': pattern_name}) }}">{{ "View as stand-alone"|t }}</a>
+        <a class="fs5" href="{{ url('ui_patterns.patterns.single', {'name': pattern_name}) }}">"View {{ pattern.label }} as stand-alone</a>
       </p>
     </div>
     <div class="mb5">
