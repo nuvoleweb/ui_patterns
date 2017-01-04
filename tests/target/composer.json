@@ -13,8 +13,14 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "post-install-cmd": ["DrupalComposer\\DrupalScaffold\\Plugin::scaffold"],
-    "post-update-cmd": ["DrupalComposer\\DrupalScaffold\\Plugin::scaffold"]
+    "post-install-cmd": [
+      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+      "rm drupal/modules/contrib/ui_patterns && ln -sf ../../../../.. drupal/modules/contrib/ui_patterns"
+    ],
+    "post-update-cmd": [
+      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+      "rm drupal/modules/contrib/ui_patterns && ln -sf ../../../../.. drupal/modules/contrib/ui_patterns"
+    ]
   },
   "repositories": [
     {"type": "composer", "url": "https://packages.drupal.org/8"},

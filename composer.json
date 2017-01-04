@@ -28,14 +28,12 @@
     "post-install-cmd": [
       "./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer",
       "./vendor/bin/phpcs --config-set show_progress 1",
-      "cp scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push",
-      "ln -sf `pwd` `pwd`/tests/target/drupal/modules/contrib/ui_patterns"
+      "cp scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
     ],
     "post-update-cmd": [
       "./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer",
       "./vendor/bin/phpcs --config-set show_progress 1",
-      "cp scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push",
-      "ln -sf `pwd` `pwd`/tests/target/drupal/modules/contrib/ui_patterns"
+      "cp scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
     ],
     "phpcs": "./vendor/bin/phpcs --standard=Drupal,DrupalPractice ./src ./tests/src",
     "phpcbf": "./vendor/bin/phpcbf --standard=Drupal,DrupalPractice ./src ./tests/src",
