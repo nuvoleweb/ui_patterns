@@ -10,7 +10,7 @@ env:
 
 install:
   - composer self-update
-  - composer install --prefer-dist --quiet
+  - composer install --prefer-dist
   - ./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer
   - ./vendor/bin/phpcs --config-set show_progress 1
 
@@ -23,7 +23,7 @@ before_script:
   - mysql -e 'create database drupal'
   # Install Drupal 8 target site.
   - cd tests/target
-  - composer install --prefer-dist --quiet
+  - composer install --prefer-dist
   - cd drupal
   - ../vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
   - ../vendor/bin/drush en ui_patterns -y
