@@ -2,6 +2,7 @@ name: UI Patterns test
 type: module
 description: Test module for UI Patterns.
 core: 8.x
-package: WFP
+hidden: true
+package: User interface
 dependencies:
   - ui_patterns

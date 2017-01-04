@@ -24,9 +24,9 @@ Feature: Setup
     And I should see the link "Edit"
 
   Scenario: Test that required modules are enabled.
-    Given I am logged in as a user with the "administrator" role
-    And I am on "admin/modules"
-    Then the "UI Patterns" checkbox should be checked
+    Then the following modules are enabled:
+      | ui_patterns      |
+      | ui_patterns_test |
 
   @javascript
   Scenario: Test that JavaScript driver is properly setup.
