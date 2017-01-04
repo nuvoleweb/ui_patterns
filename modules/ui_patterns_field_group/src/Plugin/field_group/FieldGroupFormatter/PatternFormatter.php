@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns\Plugin\field_group\FieldGroupFormatter;
+namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -59,7 +59,13 @@ class PatternFormatter extends FieldGroupFormatterBase implements ConfigurableFi
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     self::transformFormToSettings($configuration['settings']);
-    return new static($configuration, $plugin_id, $plugin_definition, $container->get('plugin.manager.ui_patterns'), $container->get('entity_field.manager'));
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('plugin.manager.ui_patterns'),
+      $container->get('entity_field.manager')
+    );
   }
 
   /**

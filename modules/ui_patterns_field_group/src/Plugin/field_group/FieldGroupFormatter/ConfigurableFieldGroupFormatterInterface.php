@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns\Plugin\field_group\FieldGroupFormatter;
+namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
 use Drupal\field_group\FieldGroupFormatterInterface;
 

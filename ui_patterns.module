@@ -6,9 +6,6 @@
  */
 
 use Drupal\Core\Template\Attribute;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Component\Plugin\Factory\DefaultFactory;
-use Drupal\ui_patterns\Plugin\field_group\FieldGroupFormatter\ConfigurableFieldGroupFormatterInterface;
 
 /**
  * Implements hook_theme().
@@ -56,59 +53,4 @@ function ui_patterns_preprocess_pattern(&$variables, $hook, $info) {
   foreach ($definition['libraries'] as $library) {
     $variables['#attached']['library'][] = $library;
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function ui_patterns_form_entity_view_display_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  array_unshift($form['actions']['submit']['#submit'], 'ui_patterns_field_group_field_overview_submit');
-}
-
-/**
- * Form submit callback to fix the field_group configuration.
- *
- * @param array $form
- *   The form.
- * @param \Drupal\Core\Form\FormStateInterface $form_state
- *   The form state.
- */
-function ui_patterns_field_group_field_overview_submit($form, FormStateInterface $form_state) {
-  /* @var \Drupal\Core\Entity\EntityDisplayBase $display */
-  $display = $form['#context'];
-
-  // This code is mostly a copy of field_group_field_overview_submit
-  // but with only the essentials.
-  $entity_type = $display->get('targetEntityType');
-  $bundle = $display->get('bundle');
-  $mode = $display->get('mode');
-  $context = field_group_get_context_from_display($display);
-
-  // Update existing groups.
-  $groups = field_group_info_groups($entity_type, $bundle, $context, $mode, TRUE);
-  $field_group_form_state = $form_state->get('field_group');
-  if (!empty($field_group_form_state)) {
-    foreach ($form['#fieldgroups'] as $group_name) {
-      // Only save updated groups.
-      if (!isset($field_group_form_state[$group_name])) {
-        continue;
-      }
-
-      $group = $groups[$group_name];
-
-      if (isset($field_group_form_state[$group_name]->format_settings)) {
-        // There are other places that get a plugin from the form values too.
-        // But here we fix them for saving it.
-        $plugin_definition = \Drupal::service('plugin.manager.field_group.formatters')->getDefinition($group->format_type);
-        $plugin_class = DefaultFactory::getPluginClass($group->format_type, $plugin_definition);
-        if (is_subclass_of($plugin_class, ConfigurableFieldGroupFormatterInterface::class)) {
-          $plugin_class::transformFormToSettings($field_group_form_state[$group_name]->format_settings);
-        }
-      }
-    }
-
-    // Set the form_state so that the submit hook of field_groups can work.
-    $form_state->set('field_group', $field_group_form_state);
-  }
-
 }

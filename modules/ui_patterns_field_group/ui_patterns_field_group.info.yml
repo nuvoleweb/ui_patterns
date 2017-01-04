@@ -1,0 +1,8 @@
+name: UI Patterns Field Groups
+type: module
+description: Use patters to format field groups.
+core: 8.x
+package: User interface
+dependencies:
+  - field_group
+  - ui_patterns
