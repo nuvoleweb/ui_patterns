@@ -57,7 +57,14 @@ class PatternLibraryController extends ControllerBase {
 
     $definitions = $this->patternsManager->getDefinitions();
     foreach ($definitions as $name => $definition) {
-      $definitions[$name]['rendered'] = $this->themeManager->render($definition['theme hook'], $this->getVariables($name));
+      $render = [];
+      try {
+        $render = $this->themeManager->render($definition['theme hook'], $this->getVariables($name));
+      }
+      catch (\Twig_Error_Loader $e) {
+        drupal_set_message($e->getRawMessage(), 'error');
+      }
+      $definitions[$name]['rendered'] = $render;
     }
 
     return [
