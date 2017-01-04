@@ -9,8 +9,9 @@
     "drush/drush": "~8.0",
     "drupal/layout_plugin": "1.0-alpha23",
     "drupal/ds": "2.6",
-    "drupal/field_group": "1.0-rc6"
-
+    "drupal/field_group": "1.0-rc6",
+    "drupal/coffee": "1.0-beta2",
+    "drupal/features": "3.2"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -20,8 +21,7 @@
       "ln -sf ../../../../.. drupal/modules/contrib/ui_patterns"
     ],
     "post-update-cmd": [
-      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-      "ln -sf ../../../../.. drupal/modules/contrib/ui_patterns"
+      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold"
     ]
   },
   "repositories": [

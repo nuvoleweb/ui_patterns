@@ -5,12 +5,12 @@ pattern1:
   fields:
     title:
       type: text
-      label: Title
+      label: Title pattern 1
       description: Title description for Pattern 1.
       example: Title example for Pattern 1
     subtitle:
       type: text
-      label: Subtitle
+      label: Subtitle pattern 1
       description: Subtitle description for Pattern 1.
       example: Subtitle example for Pattern 1
   libraries:
@@ -25,12 +25,12 @@ pattern2:
   fields:
     title:
       type: text
-      label: Title
+      label: Title pattern 2
       description: Title description for Pattern 2.
       example: Title example for Pattern 2
     subtitle:
       type: text
-      label: Subtitle
+      label: Subtitle pattern 2
       description: Subtitle description for Pattern 2.
       example: Subtitle example for Pattern 2
   libraries:
