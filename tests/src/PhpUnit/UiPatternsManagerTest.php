@@ -2,18 +2,19 @@
 
 namespace Drupal\ui_patterns\Tests\Unit;
 
-use Drupal\Tests\UnitTestCase;
-use Drupal\ui_patterns\UiPatternsManager;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\hasKey;
 use function bovigo\assert\predicate\equals;
+use Drupal\Component\FileCache\FileCacheFactory;
+use PHPUnit\Framework\TestCase;
+use Drupal\ui_patterns\UiPatternsManager;
 
 /**
  * @coversDefaultClass \Drupal\ui_patterns\UiPatternsManager
  *
  * @group ui_patterns
  */
-class UiPatternsManagerTest extends UnitTestCase {
+class UiPatternsManagerTest extends TestCase {
 
   /**
    * Test processDefinition.
@@ -41,6 +42,7 @@ class UiPatternsManagerTest extends UnitTestCase {
     $module_handler->method('getModule')->willReturn($extension);
     $module_handler->method('moduleExists')->willReturn(TRUE);
 
+    FileCacheFactory::setPrefix('something');
     $plugin_manager = new UiPatternsManager($module_handler, $theme_handler, $cache_backend);
     $definitions = $plugin_manager->getDefinitions();
 

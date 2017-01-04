@@ -34,7 +34,7 @@ before_script:
 
 script:
   - composer phpcs
-#  - composer phpunit
+  - ./vendor/bin/phpunit --bootstrap ./tests/target/vendor/autoload.php tests/src/PhpUnit
   - ./vendor/bin/behat
 
 notifications:
