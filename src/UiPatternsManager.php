@@ -94,8 +94,10 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
       throw new PluginException('UI Pattern plugin property "fields" must be an array.');
     }
 
+    $definition['custom theme hook'] = TRUE;
     if (empty($definition['theme hook'])) {
       $definition['theme hook'] = "pattern__{$plugin_id}";
+      $definition['custom theme hook'] = FALSE;
     }
 
     $definition['theme variables'] = array_fill_keys(array_keys($definition['fields']), NULL);
@@ -112,7 +114,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
       }
     }
 
-    throw new PluginException(sprintf('No UI Pattern definition found for theme hook "".', $hook));
+    throw new PluginException("No UI Pattern definition found for theme hook '{$hook}'.");
   }
 
 }

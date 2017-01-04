@@ -57,14 +57,7 @@ class PatternLibraryController extends ControllerBase {
 
     $definitions = $this->patternsManager->getDefinitions();
     foreach ($definitions as $name => $definition) {
-      $render = [];
-      try {
-        $render = $this->themeManager->render($definition['theme hook'], $this->getVariables($name));
-      }
-      catch (\Twig_Error_Loader $e) {
-        drupal_set_message($e->getRawMessage(), 'error');
-      }
-      $definitions[$name]['rendered'] = $render;
+      $definitions[$name]['rendered'] = $this->renderDefinition($definition);
     }
 
     return [
@@ -82,12 +75,32 @@ class PatternLibraryController extends ControllerBase {
   public function single($name) {
 
     $definition = $this->patternsManager->getDefinition($name);
-    $definition['rendered'] = $this->themeManager->render($definition['theme hook'], $this->getVariables($name));
+    $definition['rendered'] = $this->renderDefinition($definition);
 
     return [
       '#theme' => 'patterns_single_page',
       '#pattern' => $definition,
     ];
+  }
+
+  /**
+   * Render definition array.
+   *
+   * @param array $definition
+   *    Definition array.
+   *
+   * @return array|\Drupal\Component\Render\MarkupInterface|string
+   *    Render array.
+   */
+  protected function renderDefinition(array $definition) {
+    $rendered = [];
+    try {
+      $rendered = $this->themeManager->render($definition['theme hook'], $this->getVariables($definition['id']));
+    }
+    catch (\Twig_Error_Loader $e) {
+      drupal_set_message($e->getRawMessage(), 'error');
+    }
+    return $rendered;
   }
 
   /**

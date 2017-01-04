@@ -29,9 +29,19 @@ function ui_patterns_theme($existing, $type, $theme, $path) {
       'libraries' => $definition['libraries'],
       'preprocess functions' => ['ui_patterns_preprocess_pattern']
     ];
-  }
 
+    if (!$definition['custom theme hook'] && \Drupal::moduleHandler()->moduleExists($definition['provider'])) {
+      $items[$definition['theme hook']]['path'] = drupal_get_path('module', $definition['provider']) . '/templates';
+    }
+  }
   return $items;
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function ui_patterns_theme_registry_alter(&$theme_registry) {
+
 }
 
 /**
