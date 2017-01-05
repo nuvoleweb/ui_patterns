@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Overrides Bartik's theme implementation to display a single page.
+ */
+#}
+<div id="page-wrapper">
+  <div id="page">
+    <div id="main-wrapper" class="layout-main-wrapper layout-container clearfix">
+      <div id="main" class="layout-main clearfix">
+        <main id="content" class="column main-content" role="main">
+          <section class="section">
+            <a id="main-content" tabindex="-1"></a>
+            {{ page.content }}
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
