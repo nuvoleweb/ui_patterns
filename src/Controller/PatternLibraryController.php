@@ -3,8 +3,6 @@
 namespace Drupal\ui_patterns\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Render\Markup;
-use Drupal\Core\Theme\ThemeManager;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -23,17 +21,9 @@ class PatternLibraryController extends ControllerBase {
   protected $patternsManager;
 
   /**
-   * Theme manager service.
-   *
-   * @var \Drupal\Core\Theme\ThemeManager
-   */
-  protected $themeManager;
-
-  /**
    * {@inheritdoc}
    */
-  public function __construct(UiPatternsManager $ui_patterns_manager, ThemeManager $theme_manager) {
-    $this->themeManager = $theme_manager;
+  public function __construct(UiPatternsManager $ui_patterns_manager) {
     $this->patternsManager = $ui_patterns_manager;
   }
 
@@ -41,66 +31,7 @@ class PatternLibraryController extends ControllerBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('plugin.manager.ui_patterns'),
-      $container->get('theme.manager')
-    );
-  }
-
-  /**
-   * Render pattern library page.
-   *
-   * @return array
-   *   Return render array.
-   */
-  public function overview() {
-
-    $definitions = $this->patternsManager->getDefinitions();
-    foreach ($definitions as $name => $definition) {
-      $definitions[$name]['rendered'] = $this->renderDefinition($definition);
-    }
-
-    return [
-      '#theme' => 'patterns_overview_page',
-      '#patterns' => $definitions,
-    ];
-  }
-
-  /**
-   * Render pattern library page.
-   *
-   * @return array
-   *   Return render array.
-   */
-  public function single($name) {
-
-    $definition = $this->patternsManager->getDefinition($name);
-    $definition['rendered'] = $this->renderDefinition($definition);
-
-    return [
-      '#theme' => 'patterns_single_page',
-      '#pattern' => $definition,
-    ];
-  }
-
-  /**
-   * Render definition array.
-   *
-   * @param array $definition
-   *    Definition array.
-   *
-   * @return array|\Drupal\Component\Render\MarkupInterface|string
-   *    Render array.
-   */
-  protected function renderDefinition(array $definition) {
-    $rendered = [];
-    try {
-      $rendered = $this->themeManager->render($definition['theme hook'], $this->getVariables($definition['id']));
-    }
-    catch (\Twig_Error_Loader $e) {
-      drupal_set_message($e->getRawMessage(), 'error');
-    }
-    return $rendered;
+    return new static($container->get('plugin.manager.ui_patterns'));
   }
 
   /**
@@ -115,60 +46,39 @@ class PatternLibraryController extends ControllerBase {
   }
 
   /**
-   * Get variables for given pattern function.
-   *
-   * @param string $name
-   *    Pattern name, i.e. its theme function.
+   * Render pattern library page.
    *
    * @return array
-   *    Variables array.
+   *   Return render array.
    */
-  protected function getVariables($name) {
-    $variables = [];
+  public function single($name) {
+
     $definition = $this->patternsManager->getDefinition($name);
-    foreach ($definition['fields'] as $name => $field) {
-      // Some fields are used as twig array keys and don't need escaping.
-      if (!isset($field['escape']) || $field['escape'] != FALSE) {
-        // The examples are not user submitted and are safe markup.
-        $field['example'] = self::getExampleMarkup($field['example']);
-      }
+    $definition['rendered'] = $this->patternsManager->renderExample($name);
 
-      $variables[$name] = $field['example'];
-    }
-
-    if (isset($definition['extra']['attributes'])) {
-      $variables['attributes'] = $definition['extra']['attributes'];
-    }
-
-    return $variables;
+    return [
+      '#theme' => 'patterns_single_page',
+      '#pattern' => $definition,
+    ];
   }
 
   /**
-   * Make safe markup out of the example strings.
+   * Render pattern library page.
    *
-   * @param string|string[] $example
-   *   The example, may be a string or an array.
-   *
-   * @return array|\Drupal\Component\Render\MarkupInterface|string
-   *   The safe markup of the example
+   * @return array
+   *   Return render array.
    */
-  protected static function getExampleMarkup($example) {
-    if (is_array($example)) {
-      // Check to see if the example is a render array.
-      if (array_key_exists('theme', $example) || array_key_exists('type', $example)) {
-        $rendered = [];
-        foreach ($example as $key => $value) {
-          $rendered['#' . $key] = $value;
-        }
+  public function overview() {
 
-        return $rendered;
-      }
-
-      // Recursively escape the string elements.
-      return array_map([self::class, __METHOD__], $example);
+    $definitions = $this->patternsManager->getDefinitions();
+    foreach ($definitions as $name => $definition) {
+      $definitions[$name]['rendered'] = $this->patternsManager->renderExample($name);
     }
 
-    return Markup::create($example);
+    return [
+      '#theme' => 'patterns_overview_page',
+      '#patterns' => $definitions,
+    ];
   }
 
 }

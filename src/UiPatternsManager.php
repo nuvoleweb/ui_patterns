@@ -9,6 +9,8 @@ use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
 use Drupal\Core\Plugin\Discovery\YamlDiscovery;
+use Drupal\Core\Theme\ThemeManager;
+use Drupal\Core\Render\Markup;
 
 /**
  * Provides the default ui_patterns manager.
@@ -21,6 +23,13 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @var \Drupal\Core\Extension\ThemeHandlerInterface
    */
   protected $themeHandler;
+
+  /**
+   * Theme manager service.
+   *
+   * @var \Drupal\Core\Theme\ThemeManager
+   */
+  protected $themeManager;
 
   /**
    * Provides default values for all ui_patterns plugins.
@@ -44,32 +53,12 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *   Cache backend instance to use.
    */
-  public function __construct(ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, CacheBackendInterface $cache_backend) {
+  public function __construct(ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, ThemeManager $theme_manager, CacheBackendInterface $cache_backend) {
     // Add more services as required.
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
+    $this->themeManager = $theme_manager;
     $this->setCacheBackend($cache_backend, 'ui_patterns', ['ui_patterns']);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function providerExists($provider) {
-    return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getDiscovery() {
-    if (!isset($this->discovery)) {
-      $directories = $this->moduleHandler->getModuleDirectories() + $this->themeHandler->getThemeDirectories();
-      $this->discovery = new YamlDiscovery('ui_patterns', $directories);
-      $this->discovery->addTranslatableProperty('label', 'label_context');
-      $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
-    }
-
-    return $this->discovery;
   }
 
   /**
@@ -115,6 +104,99 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     }
 
     throw new PluginException("No UI Pattern definition found for theme hook '{$hook}'.");
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function renderExample($pattern_id) {
+    $rendered = [];
+    $definition = $this->getDefinition($pattern_id);
+    try {
+      $rendered = $this->themeManager->render($definition['theme hook'], $this->getExampleVariables($definition['id']));
+    }
+    catch (\Twig_Error_Loader $e) {
+      drupal_set_message($e->getRawMessage(), 'error');
+    }
+    return $rendered;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function providerExists($provider) {
+    return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDiscovery() {
+    if (!isset($this->discovery)) {
+      $directories = $this->moduleHandler->getModuleDirectories() + $this->themeHandler->getThemeDirectories();
+      $this->discovery = new YamlDiscovery('ui_patterns', $directories);
+      $this->discovery->addTranslatableProperty('label', 'label_context');
+      $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
+    }
+
+    return $this->discovery;
+  }
+
+  /**
+   * Get variables for given pattern function.
+   *
+   * @param string $name
+   *    Pattern name, i.e. its theme function.
+   *
+   * @return array
+   *    Variables array.
+   */
+  protected function getExampleVariables($name) {
+    $variables = [];
+    $definition = $this->getDefinition($name);
+    foreach ($definition['fields'] as $name => $field) {
+      // Some fields are used as twig array keys and don't need escaping.
+      if (!isset($field['escape']) || $field['escape'] != FALSE) {
+        // The examples are not user submitted and are safe markup.
+        $field['example'] = self::getExampleMarkup($field['example']);
+      }
+
+      $variables[$name] = $field['example'];
+    }
+
+    if (isset($definition['extra']['attributes'])) {
+      $variables['attributes'] = $definition['extra']['attributes'];
+    }
+
+    return $variables;
+  }
+
+  /**
+   * Make safe markup out of the example strings.
+   *
+   * @param string|string[] $example
+   *   The example, may be a string or an array.
+   *
+   * @return array|\Drupal\Component\Render\MarkupInterface|string
+   *   The safe markup of the example
+   */
+  protected static function getExampleMarkup($example) {
+    if (is_array($example)) {
+      // Check to see if the example is a render array.
+      if (array_key_exists('theme', $example) || array_key_exists('type', $example)) {
+        $rendered = [];
+        foreach ($example as $key => $value) {
+          $rendered['#' . $key] = $value;
+        }
+
+        return $rendered;
+      }
+
+      // Recursively escape the string elements.
+      return array_map([self::class, __METHOD__], $example);
+    }
+
+    return Markup::create($example);
   }
 
 }
