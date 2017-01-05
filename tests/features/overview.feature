@@ -28,6 +28,7 @@ Feature: Overview
     And I should see "Subtitle example for Pattern 2" in the "Subtitle 2" row
 
     Then I should see the heading "Custom theme pattern"
+    And I should see "This template is defined only in the theme and not provided by the declaring module."
 
     And I click "View Pattern 1 as stand-alone"
 
@@ -38,5 +39,3 @@ Feature: Overview
     But I should not see the heading "Pattern 2"
     And I should not see "Title example for Pattern 2"
     And I should not see "Subtitle example for Pattern 2"
-
-    And I should see "This template is defined only in the theme and not provided by the declaring module."

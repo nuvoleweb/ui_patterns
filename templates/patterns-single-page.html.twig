@@ -1,37 +1,42 @@
 {#
 /**
  * @file
- * UI Pattern library page.
+ * UI Pattern library standalone page, override this in your theme.
  */
 #}
 
-<header class="mc tc">
-  <h1 class="mv4 mb0">{{ pattern.label }}</h1>
-  <p class="mb4">{{ pattern.description }}</p>
-</header>
-<div class="wrapper tc">
-  <div class="mb5">
-    <table class="table tl mw12 fs5" style="margin: auto">
-      <thead>
-        <th>{{ "ID"|t }}</th>
-        <th>{{ "Field"|t }}</th>
-        <th>{{ "Description"|t }}</th>
-      </thead>
-      <tbody>
-      {% for name, field in pattern.fields %}
-        <tr>
-          <td><code class="fs4">{{ name }}</code></td>
-          <td>{{ field.label }}</td>
-          <td>{{ field.description }}</td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-<div class="{{ pattern.extra.wrapped ? 'wrapper' }}">
-  <div class="mb5">
-    {{ pattern.rendered }}
-  </div>
-  <hr>
-</div>
+{% if pattern is not empty %}
+
+  {# Pattern name and desciption. #}
+  <h3>{{ pattern.label }}</h3>
+  <p>{{ pattern.description }}</p>
+
+  {# Pattern fields descriptions. #}
+  <table>
+    <thead>
+    <tr>
+      <th>{{ "ID"|t }}</th>
+      <th>{{ "Field"|t }}</th>
+      <th>{{ "Description"|t }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for name, field in pattern.fields %}
+      <tr>
+        <td><code class="fs4">{{ name }}</code></td>
+        <td>{{ field.label }}</td>
+        <td>{{ field.description }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {# Rendered pattern preview. #}
+  <fieldset>
+    <legend>{{ "Preview"|t }}</legend>
+    <div>
+      {{ pattern.rendered }}
+    </div>
+  </fieldset>
+
+{% endif %}
