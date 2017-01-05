@@ -1,0 +1,8 @@
+name: UI Patterns Layout Plugin
+type: module
+description: Use patterns as layout plugins.
+core: 8.x
+package: User interface
+dependencies:
+  - layout_plugin
+  - ui_patterns
