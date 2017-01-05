@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns_layout_plugin\Plugin\Layout;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\layout_plugin\Plugin\Layout\LayoutBase;
 use Drupal\ui_patterns\UiPatternsManager;
@@ -55,12 +56,80 @@ class PatternLayout extends LayoutBase implements ContainerFactoryPluginInterfac
    */
   public function build(array $regions) {
     $build = parent::build($regions);
+    $configuration = $this->getConfiguration();
+
+    // Remove default field template if "Only content" option has been selected.
+    if ($configuration['pattern']['field_templates'] == 'only_content') {
+      $this->processOnlyContentFields($build, $regions);
+    }
 
     // Patterns expect regions to be passed along in a render array fashion.
     foreach ($regions as $region_name => $region) {
       $build["#$region_name"] = $build[$region_name];
     }
+
     return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return parent::defaultConfiguration() + [
+      'pattern' => [
+        'field_templates' => 'default',
+      ],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+    $configuration = $this->getConfiguration();
+
+    $form['pattern'] = [
+      '#group' => 'additional_settings',
+      '#type' => 'details',
+      '#title' => $this->t('Pattern settings'),
+      '#tree' => TRUE,
+    ];
+    $form['pattern']['field_templates'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Field templates'),
+      '#options' => [
+        'default' => $this->t("Default"),
+        'only_content' => $this->t("Only content"),
+      ],
+      '#description' => implode('<br/>', [
+        $this->t("<b>Default</b>: use field templates to wrap field content."),
+        $this->t("<b>Only content</b>: only print field content, without field wrapping or label."),
+      ]),
+      '#default_value' => $configuration['pattern']['field_templates'],
+    ];
+
+    return $form;
+  }
+
+  /**
+   * Remove default field template if "Only content" option has been selected.
+   *
+   * @param array $build
+   *    Build array.
+   * @param array $regions
+   *    Layout regions.
+   */
+  protected function processOnlyContentFields(array &$build, array $regions) {
+    foreach ($regions as $region_name => $region) {
+      if (isset($build[$region_name]) && is_array($build[$region_name])) {
+        foreach ($build[$region_name] as $field_name => $field) {
+          if (is_array($field) && isset($field['#theme']) && $field['#theme'] == 'field') {
+            $build[$region_name][$field_name]['#theme'] = NULL;
+          }
+        }
+      }
+    }
   }
 
 }
