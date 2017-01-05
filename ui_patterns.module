@@ -38,13 +38,6 @@ function ui_patterns_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_theme_registry_alter().
- */
-function ui_patterns_theme_registry_alter(&$theme_registry) {
-
-}
-
-/**
  * Implement template_preprocess_HOOK().
  */
 function ui_patterns_preprocess_pattern(&$variables, $hook, $info) {

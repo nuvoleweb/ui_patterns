@@ -25,8 +25,8 @@ Feature: Setup
 
   Scenario: Test that required modules are enabled.
     Then the following modules are enabled:
-      | ui_patterns      |
-      | ui_patterns_test |
+      | ui_patterns            |
+      | ui_patterns_test       |
 
   @javascript
   Scenario: Test that JavaScript driver is properly setup.

@@ -38,3 +38,5 @@ Feature: Overview
     But I should not see the heading "Pattern 2"
     And I should not see "Title example for Pattern 2"
     And I should not see "Subtitle example for Pattern 2"
+
+    And I should see "This template is defined only in the theme and not provided by the declaring module."

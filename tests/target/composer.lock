@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b669554d57f8f92bf107c42f08d0c860",
-    "content-hash": "d38a3a281d4defa61344a71bacbae004",
+    "hash": "272f224234bb86cdc4577ad6fb1033cd",
+    "content-hash": "0f3642cbf36aa363a6bf0456436fe127",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1334,6 +1334,30 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/layout_plugin"
             }
+        },
+        {
+            "name": "drupal/ui_patterns_test",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "./custom/ui_patterns_test",
+                "reference": "b65608ba75b9be195c5fa5e500776548710c91c0",
+                "shasum": null
+            },
+            "type": "drupal-module",
+            "description": "Test module for UI Patterns Behat tests."
+        },
+        {
+            "name": "drupal/ui_patterns_test_theme",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "./custom/ui_patterns_test_theme",
+                "reference": "62d37c2f13a29214cd07b1eaf4e7d09f53118b63",
+                "shasum": null
+            },
+            "type": "drupal-theme",
+            "description": "Test theme for UI Patterns Behat tests."
         },
         {
             "name": "drush/drush",

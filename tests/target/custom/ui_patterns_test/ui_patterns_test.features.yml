@@ -1,0 +1,15 @@
+excluded:
+  - block.block.ui_patterns_test_theme_account_menu
+  - block.block.ui_patterns_test_theme_branding
+  - block.block.ui_patterns_test_theme_breadcrumbs
+  - block.block.ui_patterns_test_theme_content
+  - block.block.ui_patterns_test_theme_footer
+  - block.block.ui_patterns_test_theme_help
+  - block.block.ui_patterns_test_theme_local_actions
+  - block.block.ui_patterns_test_theme_local_tasks
+  - block.block.ui_patterns_test_theme_main_menu
+  - block.block.ui_patterns_test_theme_messages
+  - block.block.ui_patterns_test_theme_powered
+  - block.block.ui_patterns_test_theme_search
+  - block.block.ui_patterns_test_theme_tools
+required: true

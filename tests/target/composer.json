@@ -11,7 +11,9 @@
     "drupal/ds": "2.6",
     "drupal/field_group": "1.0-rc6",
     "drupal/coffee": "1.0-beta2",
-    "drupal/features": "3.2"
+    "drupal/features": "3.2",
+    "drupal/ui_patterns_test": "1.0.0",
+    "drupal/ui_patterns_test_theme": "1.0.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -26,16 +28,13 @@
   },
   "repositories": [
     {"type": "composer", "url": "https://packages.drupal.org/8"},
-    {"type": "path", "url": "../modules/*"},
-    {"type": "path", "url": "../../*"}
+    {"type": "path", "url": "./custom/*"}
   ],
   "extra": {
     "installer-paths": {
       "drupal/core": ["type:drupal-core"],
       "drupal/modules/contrib/{$name}": ["type:drupal-module"],
-      "drupal/profiles/contrib/{$name}": ["type:drupal-profile"],
-      "drupal/themes/contrib/{$name}": ["type:drupal-theme"],
-      "drupal/libraries/{$name}": ["type:drupal-library"]
+      "drupal/themes/contrib/{$name}": ["type:drupal-theme"]
     }
   },
   "conflict": {

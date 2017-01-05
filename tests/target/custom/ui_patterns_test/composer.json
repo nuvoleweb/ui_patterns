@@ -1,0 +1,6 @@
+{
+  "name": "drupal/ui_patterns_test",
+  "description": "Test module for UI Patterns Behat tests.",
+  "version": "1.0.0",
+  "type": "drupal-module"
+}

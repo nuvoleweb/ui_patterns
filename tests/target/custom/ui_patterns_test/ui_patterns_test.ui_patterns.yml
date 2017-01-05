@@ -51,5 +51,5 @@ custom_theme:
       type: text
       label: Title
       description: Title description for Custom theme pattern.
-      example: Title example for Custom theme pattern\
+      example: This template is defined only in the theme and not provided by the declaring module.
   theme hook: custom_theme_hook
