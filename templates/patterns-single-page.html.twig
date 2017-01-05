@@ -7,29 +7,7 @@
 
 {% if pattern is not empty %}
 
-  {# Pattern name and desciption. #}
-  <h3>{{ pattern.label }}</h3>
-  <p>{{ pattern.description }}</p>
-
-  {# Pattern fields descriptions. #}
-  <table>
-    <thead>
-    <tr>
-      <th>{{ "ID"|t }}</th>
-      <th>{{ "Field"|t }}</th>
-      <th>{{ "Description"|t }}</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for name, field in pattern.fields %}
-      <tr>
-        <td><code class="fs4">{{ name }}</code></td>
-        <td>{{ field.label }}</td>
-        <td>{{ field.description }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  {{ pattern.meta }}
 
   {# Rendered pattern preview. #}
   <fieldset>

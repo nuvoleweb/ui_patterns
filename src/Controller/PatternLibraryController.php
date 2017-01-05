@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Theme\ThemeManager;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -21,9 +22,17 @@ class PatternLibraryController extends ControllerBase {
   protected $patternsManager;
 
   /**
+   * Theme manager service.
+   *
+   * @var \Drupal\Core\Theme\ThemeManager
+   */
+  protected $themeManager;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(UiPatternsManager $ui_patterns_manager) {
+  public function __construct(UiPatternsManager $ui_patterns_manager, ThemeManager $theme_manager) {
+    $this->themeManager = $theme_manager;
     $this->patternsManager = $ui_patterns_manager;
   }
 
@@ -31,7 +40,10 @@ class PatternLibraryController extends ControllerBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('plugin.manager.ui_patterns'));
+    return new static(
+      $container->get('plugin.manager.ui_patterns'),
+      $container->get('theme.manager')
+    );
   }
 
   /**
@@ -55,6 +67,7 @@ class PatternLibraryController extends ControllerBase {
 
     $definition = $this->patternsManager->getDefinition($name);
     $definition['rendered'] = $this->patternsManager->renderExample($name);
+    $definition['meta'] = $this->themeManager->render('patterns_meta_information', ['pattern' => $definition]);
 
     return [
       '#theme' => 'patterns_single_page',
@@ -73,6 +86,7 @@ class PatternLibraryController extends ControllerBase {
     $definitions = $this->patternsManager->getDefinitions();
     foreach ($definitions as $name => $definition) {
       $definitions[$name]['rendered'] = $this->patternsManager->renderExample($name);
+      $definitions[$name]['meta'] = $this->themeManager->render('patterns_meta_information', ['pattern' => $definition]);
     }
 
     return [

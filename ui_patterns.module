@@ -20,6 +20,10 @@ function ui_patterns_theme($existing, $type, $theme, $path) {
       'variables' => ['pattern' => NULL],
       'path' => $path . '/templates',
     ],
+    'patterns_meta_information' => [
+      'variables' => ['pattern' => NULL],
+      'path' => $path . '/templates',
+    ],
   ];
 
   $definitions = \Drupal::service('plugin.manager.ui_patterns')->getDefinitions();
