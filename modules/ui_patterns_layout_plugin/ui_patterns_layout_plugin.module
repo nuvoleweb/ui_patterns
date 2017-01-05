@@ -4,3 +4,24 @@
  * @file
  * Contains module file.
  */
+
+/**
+ * Implements hook_layout_alter().
+ */
+function ui_patterns_layout_plugin_layout_alter(&$definitions) {
+
+  $pattern_definitions = \Drupal::service('plugin.manager.ui_patterns')->getDefinitions();
+  foreach ($pattern_definitions as $pattern_definition) {
+    $definition = [
+      'label' => $pattern_definition['label'],
+      'theme' => $pattern_definition['theme hook'],
+      'provider' => $pattern_definition['provider'],
+      'category' => 'Patterns',
+      'class' => '\Drupal\layout_plugin\Plugin\Layout\LayoutDefault',
+    ];
+    foreach ($pattern_definition['fields'] as $field_name => $field) {
+      $definition['regions'][$field_name]['label'] = $field['label'];
+    }
+    $definitions['pattern__' . $pattern_definition['id']] = $definition;
+  }
+}
