@@ -23,6 +23,7 @@ function ui_patterns_layout_plugin_layout_alter(&$definitions) {
     ];
     foreach ($pattern_definition['fields'] as $field_name => $field) {
       $definition['regions'][$field_name]['label'] = $field['label'];
+      $definition['region_names'][$field_name] = $field['label'];
     }
     $definitions['pattern__' . $pattern_definition['id']] = $definition;
   }

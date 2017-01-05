@@ -12,6 +12,8 @@ dependencies:
   - search
   - system
   - ds
+  - panels
+  - page_manager_ui
   - ui_patterns
   - ui_patterns_field_group
   - ui_patterns_layout_plugin
