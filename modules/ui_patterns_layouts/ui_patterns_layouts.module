@@ -8,7 +8,7 @@
 /**
  * Implements hook_layout_alter().
  */
-function ui_patterns_layout_plugin_layout_alter(&$definitions) {
+function ui_patterns_layouts_layout_alter(&$definitions) {
 
   $pattern_definitions = \Drupal::service('plugin.manager.ui_patterns')->getDefinitions();
   foreach ($pattern_definitions as $pattern_definition) {
@@ -17,7 +17,7 @@ function ui_patterns_layout_plugin_layout_alter(&$definitions) {
       'theme' => $pattern_definition['theme hook'],
       'provider' => $pattern_definition['provider'],
       'category' => 'Patterns',
-      'class' => '\Drupal\ui_patterns_layout_plugin\Plugin\Layout\PatternLayout',
+      'class' => '\Drupal\ui_patterns_layouts\Plugin\Layout\PatternLayout',
       'pattern' => $pattern_definition['id'],
       'template_path' => NULL,
     ];

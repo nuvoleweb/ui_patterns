@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns_layout_plugin\Plugin\Layout;
+namespace Drupal\ui_patterns_layouts\Plugin\Layout;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;

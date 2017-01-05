@@ -1,4 +1,4 @@
-name: UI Patterns Layout Plugin
+name: UI Patterns Layouts
 type: module
 description: Use patterns as layout plugins.
 core: 8.x
