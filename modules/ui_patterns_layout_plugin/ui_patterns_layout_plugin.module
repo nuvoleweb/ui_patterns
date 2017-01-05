@@ -17,7 +17,8 @@ function ui_patterns_layout_plugin_layout_alter(&$definitions) {
       'theme' => $pattern_definition['theme hook'],
       'provider' => $pattern_definition['provider'],
       'category' => 'Patterns',
-      'class' => '\Drupal\layout_plugin\Plugin\Layout\LayoutDefault',
+      'class' => '\Drupal\ui_patterns_layout_plugin\Plugin\Layout\PatternLayout',
+      'pattern' => $pattern_definition['id'],
     ];
     foreach ($pattern_definition['fields'] as $field_name => $field) {
       $definition['regions'][$field_name]['label'] = $field['label'];
