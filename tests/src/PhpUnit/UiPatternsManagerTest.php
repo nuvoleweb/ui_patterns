@@ -30,6 +30,10 @@ class UiPatternsManagerTest extends TestCase {
     $theme_handler->method('getThemeDirectories')->willReturn([]);
     $theme_handler->method('themeExists')->willReturn(TRUE);
 
+    $theme_manager = $this->getMockBuilder('Drupal\Core\Theme\ThemeManager')
+      ->disableOriginalConstructor()
+      ->getMock();
+
     $extension = $this->getMockBuilder('Drupal\Core\Extension\Extension')
       ->disableOriginalConstructor()
       ->getMock();
@@ -43,7 +47,7 @@ class UiPatternsManagerTest extends TestCase {
     $module_handler->method('moduleExists')->willReturn(TRUE);
 
     FileCacheFactory::setPrefix('something');
-    $plugin_manager = new UiPatternsManager($module_handler, $theme_handler, $cache_backend);
+    $plugin_manager = new UiPatternsManager($module_handler, $theme_handler, $theme_manager, $cache_backend);
     $definitions = $plugin_manager->getDefinitions();
 
     foreach (['pattern1', 'pattern2'] as $id) {
