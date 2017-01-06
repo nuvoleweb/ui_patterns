@@ -26,7 +26,8 @@
       "ln -sf ../../../../.. drupal/modules/contrib/ui_patterns"
     ],
     "post-update-cmd": [
-      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold"
+      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+      "ln -sf ../../../../.. drupal/modules/contrib/ui_patterns"
     ]
   },
   "repositories": [
