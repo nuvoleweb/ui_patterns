@@ -7,12 +7,12 @@ pattern1:
       type: text
       label: Title pattern 1
       description: Title description for Pattern 1.
-      example: Title example for Pattern 1
+      preview: Title example for Pattern 1
     subtitle:
       type: text
       label: Subtitle pattern 1
       description: Subtitle description for Pattern 1.
-      example: Subtitle example for Pattern 1
+      preview: Subtitle example for Pattern 1
   libraries:
     - module/library1
     - module/library2
@@ -27,12 +27,12 @@ pattern2:
       type: text
       label: Title pattern 2
       description: Title description for Pattern 2.
-      example: Title example for Pattern 2
+      preview: Title example for Pattern 2
     subtitle:
       type: text
       label: Subtitle pattern 2
       description: Subtitle description for Pattern 2.
-      example: Subtitle example for Pattern 2
+      preview: Subtitle example for Pattern 2
   libraries:
     - module/library1
     - module/library2
@@ -51,5 +51,5 @@ custom_theme:
       type: text
       label: Title
       description: Title description for Custom theme pattern.
-      example: This template is defined only in the theme and not provided by the declaring module.
+      preview: This template is defined only in the theme and not provided by the declaring module.
   theme hook: custom_theme_hook

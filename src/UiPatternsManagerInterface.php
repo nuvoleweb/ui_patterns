@@ -21,7 +21,7 @@ interface UiPatternsManagerInterface extends PluginManagerInterface {
   public function getDefinitionByThemeHook($hook);
 
   /**
-   * Render patter example.
+   * Render patter preview.
    *
    * @param string $pattern_id
    *    Pattern ID, a.k.a. the UI Patter plugin ID.
@@ -29,6 +29,6 @@ interface UiPatternsManagerInterface extends PluginManagerInterface {
    * @return array|\Drupal\Component\Render\MarkupInterface|string
    *    Render array.
    */
-  public function renderExample($pattern_id);
+  public function renderPreview($pattern_id);
 
 }

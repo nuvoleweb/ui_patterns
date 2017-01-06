@@ -109,11 +109,11 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * {@inheritdoc}
    */
-  public function renderExample($pattern_id) {
+  public function renderPreview($pattern_id) {
     $rendered = [];
     $definition = $this->getDefinition($pattern_id);
     try {
-      $rendered = $this->themeManager->render($definition['theme hook'], $this->getExampleVariables($definition['id']));
+      $rendered = $this->themeManager->render($definition['theme hook'], $this->getPreviewVariables($definition['id']));
     }
     catch (\Twig_Error_Loader $e) {
       drupal_set_message($e->getRawMessage(), 'error');
@@ -151,17 +151,17 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @return array
    *    Variables array.
    */
-  protected function getExampleVariables($name) {
+  protected function getPreviewVariables($name) {
     $variables = [];
     $definition = $this->getDefinition($name);
     foreach ($definition['fields'] as $name => $field) {
       // Some fields are used as twig array keys and don't need escaping.
       if (!isset($field['escape']) || $field['escape'] != FALSE) {
         // The examples are not user submitted and are safe markup.
-        $field['example'] = self::getExampleMarkup($field['example']);
+        $field['preview'] = self::getPreviewMarkup($field['preview']);
       }
 
-      $variables[$name] = $field['example'];
+      $variables[$name] = $field['preview'];
     }
 
     if (isset($definition['extra']['attributes'])) {
@@ -172,20 +172,20 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   }
 
   /**
-   * Make safe markup out of the example strings.
+   * Make previews markup safe.
    *
-   * @param string|string[] $example
-   *   The example, may be a string or an array.
+   * @param string|string[] $preview
+   *   The preview, may be a string or an array.
    *
    * @return array|\Drupal\Component\Render\MarkupInterface|string
-   *   The safe markup of the example
+   *   Preview safe markup.
    */
-  protected static function getExampleMarkup($example) {
-    if (is_array($example)) {
-      // Check to see if the example is a render array.
-      if (array_key_exists('theme', $example) || array_key_exists('type', $example)) {
+  protected static function getPreviewMarkup($preview) {
+    if (is_array($preview)) {
+      // Check if preview is a render array.
+      if (array_key_exists('theme', $preview) || array_key_exists('type', $preview)) {
         $rendered = [];
-        foreach ($example as $key => $value) {
+        foreach ($preview as $key => $value) {
           $rendered['#' . $key] = $value;
         }
 
@@ -193,10 +193,10 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
       }
 
       // Recursively escape the string elements.
-      return array_map([self::class, __METHOD__], $example);
+      return array_map([self::class, __METHOD__], $preview);
     }
 
-    return Markup::create($example);
+    return Markup::create($preview);
   }
 
 }
