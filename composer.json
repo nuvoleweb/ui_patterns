@@ -16,7 +16,7 @@
     "phpunit/phpunit": "5.5.*",
     "bovigo/assert": "~1.7",
     "drupal/coder": "8.2.8",
-    "nuvoleweb/drupal-behat": "1.0.0"
+    "nuvoleweb/drupal-behat": "1.0.2"
   },
   "autoload": {
     "psr-4": {
@@ -33,7 +33,7 @@
     "post-update-cmd": [
       "./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer",
       "./vendor/bin/phpcs --config-set show_progress 1",
-      "cp .tests/scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
+      "cp ./tests/scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
     ],
     "phpcs": "./vendor/bin/phpcs --standard=Drupal,DrupalPractice ./src ./tests/src ./modules",
     "phpcbf": "./vendor/bin/phpcbf --standard=Drupal,DrupalPractice ./src ./tests/src ./modules"
