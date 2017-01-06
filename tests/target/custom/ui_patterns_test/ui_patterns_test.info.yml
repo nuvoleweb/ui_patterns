@@ -15,3 +15,6 @@ dependencies:
   - panels
   - page_manager_ui
   - paragraphs
+  - ui_patterns
+  - ui_patterns_field_group
+  - ui_patterns_layouts
