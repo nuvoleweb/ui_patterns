@@ -1,3 +1,4 @@
 vendor
 behat.yml
 tests/target/drupal
+composer.lock
