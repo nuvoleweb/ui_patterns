@@ -30,7 +30,7 @@ Feature: Overview
     Then I should see the heading "Custom theme pattern"
     And I should see "This template is defined only in the theme and not provided by the declaring module."
 
-    And I click "View Pattern 1 as stand-alone"
+    And I click "View Pattern 1"
 
     Then I should see the heading "Pattern 1"
     And I should see "Title example for Pattern 1" in the "Title 1" row

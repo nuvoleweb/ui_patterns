@@ -24,7 +24,8 @@ When working locally with the target site it might be handy to disable Twig cach
   
  1. Copy `tests/target/drupal/sites/example.settings.local.php` into `tests/target/drupal/sites/default/settings.local.php`
  2. Un-comment lines including `settings.local.php` in `tests/target/drupal/sites/default/settings.php`
- 3. Disable Twig cache by adding the following lines to `tests/target/drupal/sites/development.services.yml`:
+ 3. Disable Twig cache by adding the following lines to `tests/target/drupal/sites/development.services.yml` and clear
+    the cache:
  
 ```yaml
 parameters:

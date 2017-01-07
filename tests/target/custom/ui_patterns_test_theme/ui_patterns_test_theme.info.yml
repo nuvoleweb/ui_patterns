@@ -1,7 +1,9 @@
 name: UI Patterns Test Theme
 type: theme
-base theme: bartik
+base theme: bootstrap
 description: Test theme for UI Patterns module.
 package: Core
 version: VERSION
 core: 8.x
+libraries:
+  - ui_patterns_test_theme/patterns-overview

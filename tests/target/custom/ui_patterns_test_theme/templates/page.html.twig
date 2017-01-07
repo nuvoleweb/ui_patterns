@@ -1,20 +1,36 @@
-{#
-/**
- * @file
- * Overrides Bartik's theme implementation to display a single page.
- */
-#}
-<div id="page-wrapper">
-  <div id="page">
-    <div id="main-wrapper" class="layout-main-wrapper layout-container clearfix">
-      <div id="main" class="layout-main clearfix">
-        <main id="content" class="column" role="main" style="padding-top: 2em;">
-          <section class="section">
-            <a id="main-content" tabindex="-1"></a>
-            {{ page.content }}
-          </section>
-        </main>
-      </div>
+{# Main #}
+{% block main %}
+  <div class="page-header" style="background-color: #f7f7f9; margin-top: -15px;">
+    <div class="container">
+      <h1>
+        Showcase<br>
+        <small>Demo site for the <a href="https://www.drupal.org/project/ui_patterns" target="_blank">UI Patterns</a> module.</small>
+      </h1>
     </div>
   </div>
-</div>
+
+  <div role="main" class="main-container container">
+    <div class="row">
+      {# Content #}
+      <section{{ content_attributes.addClass('col-sm-12') }}>
+        {# Action Links #}
+        {% if action_links %}
+          {% block action_links %}
+            <ul class="action-links">{{ action_links }}</ul>
+          {% endblock %}
+        {% endif %}
+        {# Content #}
+        {% block content %}
+          <a id="main-content"></a>
+          {{ page.content }}
+        {% endblock %}
+      </section>
+    </div>
+  </div>
+{% endblock %}
+
+<footer class="footer container" role="contentinfo">
+  <small class="text-muted">
+    UI Patterns test site - <a href="https://www.drupal.org/project/ui_patterns" target="_blank">https://www.drupal.org/project/ui_patterns</a>
+  </small>
+</footer>
