@@ -28,6 +28,7 @@
         {# Pattern name and desciption. #}
         <a name="{{ pattern_name }}"></a>
         <a href="{{ url('ui_patterns.patterns.single', {'name': pattern.id}) }}" class="btn btn-primary btn-sm pull-right">View {{ pattern.label }} <i class="glyphicon glyphicon-chevron-right"></i></a>
+        <h2 class="page-header">{{ pattern.label }}</h2>
         {{ pattern.meta }}
 
         {# Rendered pattern preview. #}
