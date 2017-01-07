@@ -1,0 +1,40 @@
+
+jumbotron:
+  label: Jumbotron
+  description: A lightweight, flexible component that can optionally extend the entire viewport to showcase key content on your site.
+  fields:
+    title:
+      type: text
+      label: Title
+      description: Jumbotron title.
+      preview: Hello, world!
+    subtitle:
+      type: text
+      label: Description
+      description: Jumbotron description.
+      preview: This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.
+    link_label:
+      type: text
+      label: Link label
+      description: Jumbotron link label.
+      preview: Learn more
+    link_url:
+      type: text
+      label: URL
+      description: Jumbotron link URL.
+      preview: http://example.com
+
+modal:
+  label: Modal
+  description: Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart defaults.
+  fields:
+    title:
+      type: text
+      label: Title
+      description: Modal title.
+      preview: Here is your modal title
+    body:
+      type: text
+      label: Modal body
+      description: Jumbotron description.
+      preview: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.

@@ -13,12 +13,14 @@
     <div class="row">
       {# Content #}
       <section{{ content_attributes.addClass('col-sm-12') }}>
+
         {# Action Links #}
         {% if action_links %}
           {% block action_links %}
             <ul class="action-links">{{ action_links }}</ul>
           {% endblock %}
         {% endif %}
+
         {# Content #}
         {% block content %}
           <a id="main-content"></a>
