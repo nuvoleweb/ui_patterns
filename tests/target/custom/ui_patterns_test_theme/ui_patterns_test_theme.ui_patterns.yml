@@ -3,16 +3,23 @@ carousel:
   label: Carousel
   description: A slideshow component for cycling through elements, like a carousel.
   fields:
-    title:
-      type: text
-      label: Title
-      description: Modal title.
-      preview: Here is your modal title
-    body:
-      type: text
-      label: Body
-      description: Jumbotron description.
-      preview: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
+    slides:
+      type: collection
+      label: Slides
+      description: Each slide is a collection of title, subtitle and slide image.
+      preview:
+        -
+          title: Vestibulum rutrum mi nec
+          subtitle: In ac felis quis tortor malesuada pretium. Aenean commodo ligula eget dolor.
+          image: http://lorempixel.com/900/500/sports/1
+        -
+          title: Donec orci lectus
+          subtitle: Integer tincidunt. Ut a nisl id ante tempus hendrerit.
+          image: http://lorempixel.com/900/500/sports/2
+        -
+          title: Quisque ut nisi
+          subtitle: Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
+          image: http://lorempixel.com/900/500/sports/6
 
 jumbotron:
   label: Jumbotron

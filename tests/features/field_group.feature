@@ -29,13 +29,11 @@ Feature: Field group module integration
       | Modal      |
       | Metadata   |
       | Blockquote |
-    And I should see the field "Title"
-    And I should see the field "Body"
+    And I should see the field "Slides"
 
     When I select "Metadata" from "Pattern"
     And I wait "2" seconds
-    Then I should not see the field "Title"
-    Then I should not see the field "Body"
+    Then I should not see the field "Slides"
     But I should see the field "Author"
     And I should see the field "Publication date"
     And I should see the field "Categories"
