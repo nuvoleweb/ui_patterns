@@ -133,7 +133,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   protected function getDiscovery() {
     if (!isset($this->discovery)) {
-      $directories = $this->moduleHandler->getModuleDirectories() + $this->themeHandler->getThemeDirectories();
+      $directories = $this->themeHandler->getThemeDirectories() + $this->moduleHandler->getModuleDirectories();
       $this->discovery = new YamlDiscovery('ui_patterns', $directories);
       $this->discovery->addTranslatableProperty('label', 'label_context');
       $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);

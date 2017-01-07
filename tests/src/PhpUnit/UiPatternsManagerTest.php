@@ -50,30 +50,29 @@ class UiPatternsManagerTest extends TestCase {
     $plugin_manager = new UiPatternsManager($module_handler, $theme_handler, $theme_manager, $cache_backend);
     $definitions = $plugin_manager->getDefinitions();
 
-    foreach (['pattern1', 'pattern2'] as $id) {
-      assert($definitions, hasKey($id));
-      assert($definitions[$id], hasKey('label')
-        ->and(hasKey('description'))
-        ->and(hasKey('fields'))
-        ->and(hasKey('libraries'))
-        ->and(hasKey('theme hook'))
-        ->and(hasKey('theme variables')));
-      assert($definitions[$id]['theme hook'], equals("pattern__{$id}"));
-      assert($definitions[$id]['libraries'], equals([
-        'module/library1',
-        'module/library2',
-      ]));
+    $id = 'metadata';
+    assert($definitions, hasKey($id));
+    assert($definitions[$id], hasKey('label')
+      ->and(hasKey('description'))
+      ->and(hasKey('fields'))
+      ->and(hasKey('libraries'))
+      ->and(hasKey('theme hook'))
+      ->and(hasKey('theme variables')));
+    assert($definitions[$id]['theme hook'], equals("pattern__{$id}"));
+    assert($definitions[$id]['libraries'], equals([
+      'module/library1',
+      'module/library2',
+    ]));
 
-      $variables = array_keys($definitions[$id]['fields']);
-      $variables[] = 'attributes';
-      foreach ($variables as $variable) {
-        assert($definitions[$id]['theme variables'], hasKey($variable));
-      }
+    $variables = array_keys($definitions[$id]['fields']);
+    $variables[] = 'attributes';
+    foreach ($variables as $variable) {
+      assert($definitions[$id]['theme variables'], hasKey($variable));
     }
 
-    $definition = $plugin_manager->getDefinitionByThemeHook('custom_theme_hook');
+    $definition = $plugin_manager->getDefinitionByThemeHook('overridden_pattern_hook');
     assert($definition, hasKey('id'));
-    assert($definition['id'], equals('custom_theme'));
+    assert($definition['id'], equals('overridden_pattern'));
   }
 
   /**

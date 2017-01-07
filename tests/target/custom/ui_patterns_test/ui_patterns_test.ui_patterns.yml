@@ -1,55 +1,37 @@
 
-pattern1:
-  label: Pattern 1
-  description: Pattern 1 description
+metadata:
+  label: Metadata
+  description: Display a content metadata consisting of categories, publication date and author.
   fields:
-    title:
+    author:
       type: text
-      label: Title pattern 1
-      description: Title description for Pattern 1.
-      preview: Title example for Pattern 1
-    subtitle:
+      label: Author
+      description: Author of the content item.
+      preview: John Smith
+    date:
       type: text
-      label: Subtitle pattern 1
-      description: Subtitle description for Pattern 1.
-      preview: Subtitle example for Pattern 1
+      label: Publication date
+      description: The date the content item was published.
+      preview: 6th of January 2017
+    categories:
+      type: text
+      label: Categories
+      description: Categories the content item is tagged with.
+      preview: Travels, North America, Hikes
   libraries:
     - module/library1
     - module/library2
-  extra:
-    wrapped: true
 
-pattern2:
-  label: Pattern 2
-  description: Pattern 2 description
-  fields:
-    title:
-      type: text
-      label: Title pattern 2
-      description: Title description for Pattern 2.
-      preview: Title example for Pattern 2
-    subtitle:
-      type: text
-      label: Subtitle pattern 2
-      description: Subtitle description for Pattern 2.
-      preview: Subtitle example for Pattern 2
-  libraries:
-    - module/library1
-    - module/library2
-  extra:
-    wrapped: false
-    attributes:
-      class:
-        - mw12
-        - mc
-
-custom_theme:
-  label: Custom theme pattern
-  description: Custom theme pattern description
+overridden_pattern:
+  theme hook: overridden_pattern_hook
+  label: Pattern overridden in theme
+  description: The purpose of this pattern is to test the possibility of overriding templates in themes.
   fields:
     title:
       type: text
       label: Title
-      description: Title description for Custom theme pattern.
+      description: Title field description.
       preview: This template is defined only in the theme and not provided by the declaring module.
-  theme hook: custom_theme_hook
+  libraries:
+    - module/library1
+    - module/library2

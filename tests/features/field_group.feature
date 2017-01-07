@@ -24,13 +24,18 @@ Feature: Field group module integration
 
     Then I should have the following options for "Pattern":
       | option               |
-      | Pattern 1            |
-      | Pattern 2            |
-      | Custom theme pattern |
-    And I should see the field "Title pattern 1"
-    And I should not see the field "Title pattern 2"
+      | Carousel             |
+      | Jumbotron            |
+      | Modal                |
+      | Metadata             |
+      | Pattern overridden in theme |
+    And I should see the field "Title"
+    And I should see the field "Body"
 
-    When I select "Pattern 2" from "Pattern"
+    When I select "Metadata" from "Pattern"
     And I wait "2" seconds
-    Then I should not see the field "Title pattern 1"
-    And I should see the field "Title pattern 2"
+    Then I should not see the field "Title"
+    Then I should not see the field "Body"
+    But I should see the field "Author"
+    And I should see the field "Publication date"
+    And I should see the field "Categories"

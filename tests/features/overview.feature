@@ -19,23 +19,22 @@ Feature: Overview
     Given I am logged in as a user with the "access patterns page" permission
     And I am on "/patterns"
 
-    Then I should see the heading "Pattern 1"
-    And I should see "Title example for Pattern 1" in the "Title 1" row
-    And I should see "Subtitle example for Pattern 1" in the "Subtitle 1" row
+    Then I should see the heading "Metadata"
+    And I should see "Display a content metadata consisting of categories, publication date and author."
+    And I should see "Author of the content item." in the "Author" row
+    And I should see "The date the content item was published." in the "Publication date" row
+    And I should see "Categories the content item is tagged with." in the "Categories" row
 
-    Then I should see the heading "Pattern 2"
-    And I should see "Title example for Pattern 2" in the "Title 2" row
-    And I should see "Subtitle example for Pattern 2" in the "Subtitle 2" row
+    Then I should see the heading "Pattern overridden in theme"
+    And I should see "The purpose of this pattern is to test the possibility of overriding templates in themes."
 
-    Then I should see the heading "Custom theme pattern"
-    And I should see "This template is defined only in the theme and not provided by the declaring module."
+    And I click "View Metadata"
 
-    And I click "View Pattern 1"
+    Then I should see the heading "Metadata"
+    And I should see "Display a content metadata consisting of categories, publication date and author."
+    And I should see "Author of the content item." in the "Author" row
+    And I should see "The date the content item was published." in the "Publication date" row
+    And I should see "Categories the content item is tagged with." in the "Categories" row
 
-    Then I should see the heading "Pattern 1"
-    And I should see "Title example for Pattern 1" in the "Title 1" row
-    And I should see "Subtitle example for Pattern 1" in the "Subtitle 1" row
-
-    But I should not see the heading "Pattern 2"
-    And I should not see "Title example for Pattern 2"
-    And I should not see "Subtitle example for Pattern 2"
+    But I should not see the heading "Pattern overridden in theme"
+    And I should not see "The purpouse of this pattern is to test the possibility of overriding templates in themes."
