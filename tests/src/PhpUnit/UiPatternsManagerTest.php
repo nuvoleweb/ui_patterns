@@ -70,9 +70,9 @@ class UiPatternsManagerTest extends TestCase {
       assert($definitions[$id]['theme variables'], hasKey($variable));
     }
 
-    $definition = $plugin_manager->getDefinitionByThemeHook('overridden_pattern_hook');
+    $definition = $plugin_manager->getDefinitionByThemeHook('blockquote_custom');
     assert($definition, hasKey('id'));
-    assert($definition['id'], equals('overridden_pattern'));
+    assert($definition['id'], equals('blockquote'));
   }
 
   /**

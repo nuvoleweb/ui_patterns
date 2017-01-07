@@ -22,16 +22,21 @@ metadata:
     - module/library1
     - module/library2
 
-overridden_pattern:
-  theme hook: overridden_pattern_hook
-  label: Pattern overridden in theme
-  description: The purpose of this pattern is to test the possibility of overriding templates in themes.
+blockquote:
+  theme hook: blockquote_custom
+  label: Blockquote
+  description: Display a quote with attribution information.
   fields:
-    title:
+    quote:
       type: text
-      label: Title
-      description: Title field description.
-      preview: This template is defined only in the theme and not provided by the declaring module.
+      label: Quote
+      description: Quote text.
+      preview: Life is like riding a bicycle. To keep your balance, you must keep moving.
+    attribution:
+      type: text
+      label: Attribution
+      description: Quote attribution.
+      preview: Albert Einstein
   libraries:
     - module/library1
     - module/library2

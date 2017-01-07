@@ -23,12 +23,12 @@ Feature: Field group module integration
     And I press the "Save and continue" button
 
     Then I should have the following options for "Pattern":
-      | option               |
-      | Carousel             |
-      | Jumbotron            |
-      | Modal                |
-      | Metadata             |
-      | Pattern overridden in theme |
+      | option     |
+      | Carousel   |
+      | Jumbotron  |
+      | Modal      |
+      | Metadata   |
+      | Blockquote |
     And I should see the field "Title"
     And I should see the field "Body"
 

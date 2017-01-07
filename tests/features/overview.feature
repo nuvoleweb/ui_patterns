@@ -25,8 +25,9 @@ Feature: Overview
     And I should see "The date the content item was published." in the "Publication date" row
     And I should see "Categories the content item is tagged with." in the "Categories" row
 
-    Then I should see the heading "Pattern overridden in theme"
-    And I should see "The purpose of this pattern is to test the possibility of overriding templates in themes."
+    Then I should see the heading "Blockquote"
+    And I should see "Life is like riding a bicycle."
+    And I should see "Albert Einstein (overridden in theme)"
 
     And I click "View Metadata"
 
@@ -36,5 +37,6 @@ Feature: Overview
     And I should see "The date the content item was published." in the "Publication date" row
     And I should see "Categories the content item is tagged with." in the "Categories" row
 
-    But I should not see the heading "Pattern overridden in theme"
-    And I should not see "The purpouse of this pattern is to test the possibility of overriding templates in themes."
+    But I should not see the heading "Blockquote"
+    And I should not see "Life is like riding a bicycle."
+    And I should not see "Albert Einstein (overridden in theme)"
