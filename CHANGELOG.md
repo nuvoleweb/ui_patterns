@@ -4,6 +4,7 @@
 
 **Closed issues:**
 
+- Add tests for paragraphs and field groups [\#6](https://github.com/nuvoleweb/ui_patterns/issues/6)
 - Style patterns overview page [\#4](https://github.com/nuvoleweb/ui_patterns/issues/4)
 - Use Bootstrap as base theme for demo site [\#3](https://github.com/nuvoleweb/ui_patterns/issues/3)
 - Integrate UI Patters with Layout Plugin module [\#2](https://github.com/nuvoleweb/ui_patterns/issues/2)
