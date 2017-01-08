@@ -1,5 +1,5 @@
 Define your patterns
-====================
+--------------------
 
 UI patterns can be exposed by both modules and themes: all defined patterns will be collected and managed by a centralized
 UI Pattern plugin manager.
@@ -61,3 +61,13 @@ The ``blockquote`` pattern defined above will be rendered in the pattern library
 .. image:: ../_static/blockquote-preview.png
      :align: center
 
+While the Twig template file for such a pattern would look like:
+
+.. code-block:: twig
+
+    <blockquote>
+      <p>{{ quote }}</p>
+      <footer>{{ attribution }} (overridden in theme)</footer>
+    </blockquote>
+
+See ``tests/target/custom/ui_patterns_test_theme/templates/blockquote-custom.html.twig``.

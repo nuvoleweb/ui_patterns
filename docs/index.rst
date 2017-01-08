@@ -27,6 +27,9 @@ The UI Patterns project provides 3 modules:
 
 .. toctree::
    :caption: Table of Contents
-   :maxdepth: 1
 
    content/patterns-definition
+   content/field-group
+   content/layout-plugin
+   content/view-modes
+
