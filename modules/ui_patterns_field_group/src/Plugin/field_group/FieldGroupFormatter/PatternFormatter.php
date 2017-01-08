@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\field\FieldConfigInterface;
 use Drupal\field_group\FieldGroupFormatterBase;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -106,16 +105,10 @@ class PatternFormatter extends FieldGroupFormatterBase implements ConfigurableFi
 
     $field_options = [];
     if (isset($this->group->children)) {
-      // When creating the field group the children are not set yet.
-      $fields = $this->fieldManager->getFieldDefinitions($this->group->entity_type, $this->group->bundle);
-      $fields = array_intersect_key($fields, array_flip($this->group->children));
-      $field_options = array_map(function ($field) {
-        if ($field instanceof FieldConfigInterface) {
-          return $field->label();
-        }
-
-        return $field->getName();
-      }, $fields);
+      // Fields can come from Field API or contrib modules like Display Suite.
+      // @todo: Generalize destination handling so that we cover all cases.
+      // @link https://github.com/nuvoleweb/ui_patterns/issues/5
+      $field_options = array_combine($this->group->children, $this->group->children);
     }
 
     $field_options = ['' => $this->t('- None -')] + $field_options;
