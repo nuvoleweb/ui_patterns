@@ -1,22 +1,11 @@
-.. UI Patterns documentation master file, created by
-   sphinx-quickstart on Sun Jan  8 11:33:35 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to UI Patterns's documentation
 ======================================
 
-Contents:
+The UI Patterns module allows developers to define self-contained UI patterns as Drupal plugins and use them seamlessly
+in their `panels <https://www.drupal.org/project/panels>`_, `field groups <https://www.drupal.org/project/field_group>`_
+or `Display Suite <https://www.drupal.org/project/ds>`_  view modes.
 
-.. toctree::
-   :maxdepth: 2
+The module also generates a pattern library page to be used as documentation for content editors or as a showcase
+for business like the one shown below:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+.. image:: https://www.drupal.org/files/project-images/ui_patters_0.png
