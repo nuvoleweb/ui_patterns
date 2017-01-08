@@ -1,5 +1,6 @@
 # UI Patterns
 [![Build Status](https://travis-ci.org/nuvoleweb/ui_patterns.svg?branch=8.x-1.x)](https://travis-ci.org/nuvoleweb/ui_patterns)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nuvoleweb/ui_patterns/badges/quality-score.png?b=8.x-1.x)](https://scrutinizer-ci.com/g/nuvoleweb/ui_patterns/?branch=8.x-1.x)
 
 Define self-contained UI patterns as Drupal plugins and use them seamlessly in your [panels](https://www.drupal.org/project/panels), 
 [field groups](https://www.drupal.org/project/field_group) or [Display Suite](https://www.drupal.org/project/ds) view modes.
