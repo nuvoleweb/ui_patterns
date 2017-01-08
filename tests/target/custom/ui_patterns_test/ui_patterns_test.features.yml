@@ -12,4 +12,7 @@ excluded:
   - block.block.ui_patterns_test_theme_powered
   - block.block.ui_patterns_test_theme_search
   - block.block.ui_patterns_test_theme_tools
+  - ui_patterns_test_theme.settings
+  - core.entity_form_display.node.article.default
+  - core.entity_view_display.node.article.default
 required: true

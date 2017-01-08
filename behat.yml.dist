@@ -12,6 +12,7 @@ default:
         - NuvoleWeb\Drupal\DrupalExtension\Context\DrupalContext
         - NuvoleWeb\Drupal\DrupalExtension\Context\SelectFieldContext
         - NuvoleWeb\Drupal\DrupalExtension\Context\VisibilityContext
+        - NuvoleWeb\Drupal\DrupalExtension\Context\ContentContext
         - Drupal\ui_patterns\Tests\Behat\FeatureContext
   extensions:
     Behat\MinkExtension:
