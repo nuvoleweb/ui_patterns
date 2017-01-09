@@ -1,7 +1,6 @@
 # Change Log
 
-## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
-
+## [8.x-1.0-beta1](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta1) (2017-01-09)
 **Closed issues:**
 
 - Add tests for paragraphs and field groups [\#6](https://github.com/nuvoleweb/ui_patterns/issues/6)
