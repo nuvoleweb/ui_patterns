@@ -25,8 +25,8 @@ and list them using the following format:
          description: Quote attribution.
          preview: Albert Einstein
      libraries:
-       - my_module/library1
-       - my_module/library2
+       - MY_MODULE/library-1
+       - MY_MODULE/library-2
 
 Let's break this down:
 
@@ -73,4 +73,4 @@ The blockquote Twig template file ``pattern--blockquote.html.twig`` could look s
 The ``blockquote`` pattern defined above will be rendered in the pattern library as follow (styled using Bootstrap theme):
 
 .. image:: ../_static/blockquote-preview.png
-:align: center
+   :align: center

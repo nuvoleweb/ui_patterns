@@ -13,16 +13,18 @@
   <table class="table table-meta">
     <thead>
     <tr>
-      <th>{{ "ID"|t }}</th>
       <th>{{ "Field"|t }}</th>
+      <th>{{ "Label"|t }}</th>
+      <th>{{ "Type"|t }}</th>
       <th>{{ "Description"|t }}</th>
     </tr>
     </thead>
     <tbody>
     {% for name, field in pattern.fields %}
       <tr>
-        <td><code class="fs4">{{ name }}</code></td>
+        <td><code>{{ name }}</code></td>
         <td>{{ field.label }}</td>
+        <td><code>{{ field.type }}</code></td>
         <td>{{ field.description }}</td>
       </tr>
     {% endfor %}
