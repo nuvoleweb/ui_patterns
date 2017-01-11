@@ -9,7 +9,7 @@ Define self-contained UI patterns as Drupal plugins and use them seamlessly in y
 The module also generates a pattern library page to be used as documentation for content editors or as a showcase 
 for business and clients:
 
-![Showcase page example](https://www.drupal.org/files/project-images/ui_patters_0.png)
+![Showcase page example](https://raw.githubusercontent.com/nuvoleweb/ui_patterns/8.x-1.x/docs/_static/pattern-library.png)
 
 ## Documentation
 
