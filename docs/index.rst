@@ -8,8 +8,8 @@ or `Display Suite <https://www.drupal.org/project/ds>`_  view modes.
 The module also generates a pattern library page to be used as documentation for content editors or as a showcase
 for business like the one shown below:
 
-.. image:: _static/patter-library.png
-     :align: center
+.. image:: _static/pattern-library.png
+   :align: center
 
 Project overview
 ----------------
