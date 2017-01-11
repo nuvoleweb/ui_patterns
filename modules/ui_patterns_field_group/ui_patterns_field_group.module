@@ -53,7 +53,8 @@ function ui_patterns_field_group_field_group_field_overview_submit($form, FormSt
         $plugin_definition = \Drupal::service('plugin.manager.field_group.formatters')->getDefinition($group->format_type);
         /* @var ConfigurableFieldGroupFormatterInterface $plugin_class */
         $plugin_class = DefaultFactory::getPluginClass($group->format_type, $plugin_definition);
-        if (is_subclass_of($plugin_class, ConfigurableFieldGroupFormatterInterface::class)) {
+        $reflection = new ReflectionClass($plugin_class);
+        if ($reflection->implementsInterface(ConfigurableFieldGroupFormatterInterface::class)) {
           $plugin_class::transformFormToSettings($field_group_form_state[$group_name]->format_settings);
         }
       }
