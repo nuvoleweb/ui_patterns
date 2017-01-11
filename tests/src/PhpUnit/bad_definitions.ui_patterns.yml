@@ -20,7 +20,7 @@ pattern3:
   fields: string
 
 pattern4:
-  throws: 'UI Pattern field name "bad name" must contain only lowercase letters, numbers, and hyphens.'
+  throws: 'UI Pattern ID "bad name" must contain only lowercase letters, numbers, and hyphens.'
   id: pattern4
   label: label
   description: description
@@ -28,7 +28,7 @@ pattern4:
     bad name:
 
 pattern5:
-  throws: 'UI Pattern field "field1" must be an array.'
+  throws: 'UI Pattern plugin property "field1" must be an array.'
   id: pattern5
   label: label
   description: description
@@ -36,7 +36,7 @@ pattern5:
     field1: string
 
 pattern6:
-  throws: 'UI Pattern plugin field property "type" is required and cannot be not set nor empty.'
+  throws: 'UI Pattern plugin property "type" is required and cannot be not set nor empty.'
   id: pattern6
   label: label
   description: description
@@ -47,7 +47,7 @@ pattern6:
       preview: preview
 
 pattern7:
-  throws: 'UI Pattern plugin field property "type" is required and cannot be not set nor empty.'
+  throws: 'UI Pattern plugin property "type" is required and cannot be not set nor empty.'
   id: pattern7
   label: label
   description: description

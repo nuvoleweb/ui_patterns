@@ -193,56 +193,69 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @throws \Drupal\Component\Plugin\Exception\PluginException
    *    Throw exception if plugin definition is not valid.
    */
-  static public function validateDefinition(array $definition) {
+  public static function validateDefinition(array $definition) {
 
-    // Check definition ID format.
-    if (preg_match('@[^a-z0-9_]+@', $definition['id'])) {
-      throw new PluginException(sprintf('UI Pattern ID "%s" must contain only lowercase letters, numbers, and hyphens.', $definition['id']));
+    self::assertMachineName($definition['id']);
+    foreach (['id', 'label', 'description', 'fields'] as $key) {
+      self::assertSetAndNotEmpty($definition, $key);
     }
+    self::assertArray('fields', $definition['fields']);
 
-    // Check for required fields.
-    $required = [
-      'id',
-      'label',
-      'description',
-      'fields',
-    ];
-    foreach ($required as $name) {
-      if (!isset($definition[$name]) || empty($definition[$name])) {
-        throw new PluginException(sprintf('UI Pattern plugin property "%s" is required and cannot be not set nor empty.', $name));
-      }
-    }
-
-    // Check that fields property is an array.
-    if (!is_array($definition['fields'])) {
-      throw new PluginException('UI Pattern plugin property "fields" must be an array.');
-    }
-
-    // Validate fields.
     foreach ($definition['fields'] as $id => $field) {
-
-      // Check field name format.
-      if (preg_match('@[^a-z0-9_]+@', $id)) {
-        throw new PluginException(sprintf('UI Pattern field name "%s" must contain only lowercase letters, numbers, and hyphens.', $id));
+      self::assertMachineName($id);
+      self::assertArray($id, $field);
+      foreach (['type', 'label', 'description', 'preview'] as $key) {
+        self::assertSetAndNotEmpty($field, $key);
       }
+    }
+  }
 
-      // Check that field is an array.
-      if (!is_array($field)) {
-        throw new PluginException(sprintf('UI Pattern field "%s" must be an array.', $id));
-      }
+  /**
+   * Assert key is set and not empty on target array.
+   *
+   * @param array $target
+   *    Target array.
+   * @param string $key
+   *    Test key.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   *    Throw exception if plugin definition is not valid.
+   */
+  public static function assertSetAndNotEmpty(array $target, $key) {
+    if (!isset($target[$key]) || empty($target[$key])) {
+      throw new PluginException(sprintf('UI Pattern plugin property "%s" is required and cannot be not set nor empty.', $key));
+    }
+  }
 
-      // Check for required fields.
-      $required = [
-        'type',
-        'label',
-        'description',
-        'preview',
-      ];
-      foreach ($required as $name) {
-        if (!isset($field[$name]) || empty($field[$name])) {
-          throw new PluginException(sprintf('UI Pattern plugin field property "%s" is required and cannot be not set nor empty.', $name));
-        }
-      }
+  /**
+   * Assert valid machine name.
+   *
+   * @param string $name
+   *    Target name.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   *    Throw exception if plugin definition is not valid.
+   */
+  public static function assertMachineName($name) {
+    if (preg_match('@[^a-z0-9_]+@', $name)) {
+      throw new PluginException(sprintf('UI Pattern ID "%s" must contain only lowercase letters, numbers, and hyphens.', $name));
+    }
+  }
+
+  /**
+   * Assert array.
+   *
+   * @param string $name
+   *    Target name.
+   * @param mixed $target
+   *    Target.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   *    Throw exception if plugin definition is not valid.
+   */
+  public static function assertArray($name, $target) {
+    if (!is_array($target)) {
+      throw new PluginException(sprintf('UI Pattern plugin property "%s" must be an array.', $name));
     }
   }
 

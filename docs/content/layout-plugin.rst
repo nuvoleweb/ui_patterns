@@ -1,4 +1,4 @@
 Use patterns as layouts
 -----------------------
 
-*Coming soon...*
+Documentation is coming soon, in the meanwhile please check the ``ui_patterns_layouts`` module and related tests.
