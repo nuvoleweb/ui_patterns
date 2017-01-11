@@ -66,22 +66,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   public function processDefinition(&$definition, $plugin_id) {
     parent::processDefinition($definition, $plugin_id);
-
-    $required = [
-      'id',
-      'label',
-      'description',
-      'fields',
-    ];
-    foreach ($required as $name) {
-      if (empty($definition[$name])) {
-        throw new PluginException(sprintf('UI Pattern plugin property "%s" is required and cannot be empty.', $name));
-      }
-    }
-
-    if (!is_array($definition['fields'])) {
-      throw new PluginException('UI Pattern plugin property "fields" must be an array.');
-    }
+    self::validateDefinition($definition);
 
     $definition['custom theme hook'] = TRUE;
     if (empty($definition['theme hook'])) {
@@ -197,6 +182,68 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     }
 
     return Markup::create($preview);
+  }
+
+  /**
+   * Validate plugin definition.
+   *
+   * @param array $definition
+   *    Plugin definition.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   *    Throw exception if plugin definition is not valid.
+   */
+  static public function validateDefinition(array $definition) {
+
+    // Check definition ID format.
+    if (preg_match('@[^a-z0-9_]+@', $definition['id'])) {
+      throw new PluginException(sprintf('UI Pattern ID "%s" must contain only lowercase letters, numbers, and hyphens.', $definition['id']));
+    }
+
+    // Check for required fields.
+    $required = [
+      'id',
+      'label',
+      'description',
+      'fields',
+    ];
+    foreach ($required as $name) {
+      if (!isset($definition[$name]) || empty($definition[$name])) {
+        throw new PluginException(sprintf('UI Pattern plugin property "%s" is required and cannot be not set nor empty.', $name));
+      }
+    }
+
+    // Check that fields property is an array.
+    if (!is_array($definition['fields'])) {
+      throw new PluginException('UI Pattern plugin property "fields" must be an array.');
+    }
+
+    // Validate fields.
+    foreach ($definition['fields'] as $id => $field) {
+
+      // Check field name format.
+      if (preg_match('@[^a-z0-9_]+@', $id)) {
+        throw new PluginException(sprintf('UI Pattern field name "%s" must contain only lowercase letters, numbers, and hyphens.', $id));
+      }
+
+      // Check that field is an array.
+      if (!is_array($field)) {
+        throw new PluginException(sprintf('UI Pattern field "%s" must be an array.', $id));
+      }
+
+      // Check for required fields.
+      $required = [
+        'type',
+        'label',
+        'description',
+        'preview',
+      ];
+      foreach ($required as $name) {
+        if (!isset($field[$name]) || empty($field[$name])) {
+          throw new PluginException(sprintf('UI Pattern plugin field property "%s" is required and cannot be not set nor empty.', $name));
+        }
+      }
+    }
   }
 
 }

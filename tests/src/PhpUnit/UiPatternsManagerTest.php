@@ -6,6 +6,7 @@ use function bovigo\assert\assert;
 use function bovigo\assert\predicate\hasKey;
 use function bovigo\assert\predicate\equals;
 use Drupal\Component\FileCache\FileCacheFactory;
+use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use PHPUnit\Framework\TestCase;
@@ -95,6 +96,21 @@ class UiPatternsManagerTest extends TestCase {
     $variables[] = 'attributes';
     foreach ($variables as $variable) {
       assert($definitions[$id]['theme variables'], hasKey($variable));
+    }
+  }
+
+  /**
+   * Test plugin validation.
+   */
+  public function testValidation() {
+    $definitions = Yaml::decode(file_get_contents(dirname(__FILE__) . '/bad_definitions.ui_patterns.yml'));
+    foreach ($definitions as $definition) {
+      try {
+        UiPatternsManager::validateDefinition($definition);
+      }
+      catch (PluginException $e) {
+        assert($e->getMessage(), equals($definition['throws']));
+      }
     }
   }
 
