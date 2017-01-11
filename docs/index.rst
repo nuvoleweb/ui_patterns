@@ -1,5 +1,5 @@
-Welcome to UI Patterns's documentation
-======================================
+Welcome to UI Patterns' documentation
+=====================================
 
 The UI Patterns module allows developers to define self-contained UI patterns as Drupal plugins and use them seamlessly
 in their `panels <https://www.drupal.org/project/panels>`_, `field groups <https://www.drupal.org/project/field_group>`_
