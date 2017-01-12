@@ -22,6 +22,7 @@ dependencies:
   - path
   - search
   - system
+  - token
   - text
   - ui_patterns
   - ui_patterns_field_group

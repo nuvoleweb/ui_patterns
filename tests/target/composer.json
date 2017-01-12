@@ -15,6 +15,7 @@
     "drupal/features": "3.2",
     "drupal/page_manager": "~1",
     "drupal/paragraphs": "~1",
+    "drupal/token": "~1",
     "drupal/bootstrap": "3.1",
     "drupal/ui_patterns_test": "1.0.0",
     "drupal/ui_patterns_test_theme": "1.0.0"
