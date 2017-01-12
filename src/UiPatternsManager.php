@@ -58,6 +58,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
     $this->themeManager = $theme_manager;
+    $this->alterInfo('ui_patterns_info');
     $this->setCacheBackend($cache_backend, 'ui_patterns', ['ui_patterns']);
   }
 

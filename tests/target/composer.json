@@ -6,6 +6,7 @@
     "composer/installers": "^1.2",
     "drupal-composer/drupal-scaffold": "^2.2",
     "drupal/core": "8.2.4",
+    "drupal/console": "0.11.3",
     "drush/drush": "~8.0",
     "drupal/layout_plugin": "~1",
     "drupal/ds": "2.6",
