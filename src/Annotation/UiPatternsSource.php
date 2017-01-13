@@ -5,14 +5,14 @@ namespace Drupal\ui_patterns\Annotation;
 use Drupal\Component\Annotation\Plugin;
 
 /**
- * Defines a UI Patterns Mapping Source item annotation object.
+ * Defines a UI Patterns Source item annotation object.
  *
- * @see \Drupal\ui_patterns\Plugin\UiPatternsMappingSourceManager
+ * @see \Drupal\ui_patterns\Plugin\UiPatternsSourceManager
  * @see plugin_api
  *
  * @Annotation
  */
-class UiPatternsMappingSource extends Plugin {
+class UiPatternsSource extends Plugin {
 
   /**
    * The plugin ID.

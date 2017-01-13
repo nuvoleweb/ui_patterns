@@ -7,12 +7,12 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
- * Provides the UI Patterns Mapping Source plugin manager.
+ * Provides the UI Patterns Source plugin manager.
  */
-class UiPatternsMappingSourceManager extends DefaultPluginManager {
+class UiPatternsSourceManager extends DefaultPluginManager {
 
   /**
-   * Constructor for UiPatternsMappingSourceManager objects.
+   * Constructor for UiPatternsSourceManager objects.
    *
    * @param \Traversable $namespaces
    *   An object that implements \Traversable which contains the root paths
@@ -23,10 +23,10 @@ class UiPatternsMappingSourceManager extends DefaultPluginManager {
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/UiPatternsMappingSource', $namespaces, $module_handler, 'Drupal\ui_patterns\Plugin\UiPatternsMappingSourceInterface', 'Drupal\ui_patterns\Annotation\UiPatternsMappingSource');
+    parent::__construct('Plugin/UiPatterns/Source', $namespaces, $module_handler, 'Drupal\ui_patterns\Plugin\UiPatternsSourceInterface', 'Drupal\ui_patterns\Annotation\UiPatternsSource');
 
-    $this->alterInfo('ui_patterns_mapping_source_info');
-    $this->setCacheBackend($cache_backend, 'ui_patterns_ui_patterns_mapping_source_plugins');
+    $this->alterInfo('ui_patterns_ui_patterns_source_info');
+    $this->setCacheBackend($cache_backend, 'ui_patterns_ui_patterns_source_plugins');
   }
 
 }

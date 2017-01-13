@@ -2,6 +2,6 @@ services:
   plugin.manager.ui_patterns:
     class: Drupal\ui_patterns\UiPatternsManager
     arguments: ['@module_handler', '@theme_handler', '@theme.manager', '@cache.discovery']
-  plugin.manager.ui_patterns_mapping_source:
-    class: Drupal\ui_patterns\Plugin\UiPatternsMappingSourceManager
+  plugin.manager.ui_patterns_source:
+    class: Drupal\ui_patterns\Plugin\UiPatternsSourceManager
     parent: default_plugin_manager
