@@ -1,0 +1,7 @@
+ui_patterns_test.pattern_display_form:
+  path: '/ui-patterns-test/display-form'
+  defaults:
+    _form: '\Drupal\ui_patterns\Form\PatternDisplayForm'
+    _title: 'Pattern display form'
+  requirements:
+    _permission: 'administer modules'

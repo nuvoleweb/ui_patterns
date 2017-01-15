@@ -110,6 +110,25 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * {@inheritdoc}
    */
+  public function getPatternsOptions() {
+    return array_map(function ($option) {
+      return $option['label'];
+    }, $this->getDefinitions());
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPatternFieldsOptions($id) {
+    $definition = $this->getDefinition($id);
+    return array_map(function ($option) {
+      return $option['label'];
+    }, $definition['fields']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function providerExists($provider) {
     return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
   }
