@@ -4,6 +4,7 @@ namespace Drupal\ui_patterns\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\ui_patterns\Plugin\UiPatternsSourceManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\ui_patterns\UiPatternsManager;
 
@@ -19,6 +20,13 @@ class PatternDisplayForm extends FormBase {
    *
    * @var \Drupal\ui_patterns\UiPatternsManager
    */
+  protected $sourceManager;
+
+  /**
+   * UI Patterns manager.
+   *
+   * @var \Drupal\ui_patterns\Plugin\UiPatternsSourceManager
+   */
   protected $patternsManager;
 
   /**
@@ -27,8 +35,9 @@ class PatternDisplayForm extends FormBase {
    * @param \Drupal\ui_patterns\UiPatternsManager $patterns_manager
    *    UI Patterns manager.
    */
-  public function __construct(UiPatternsManager $patterns_manager) {
+  public function __construct(UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager) {
     $this->patternsManager = $patterns_manager;
+    $this->sourceManager = $source_manager;
   }
 
   /**
@@ -36,7 +45,8 @@ class PatternDisplayForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('plugin.manager.ui_patterns')
+      $container->get('plugin.manager.ui_patterns'),
+      $container->get('plugin.manager.ui_patterns_source')
     );
   }
 

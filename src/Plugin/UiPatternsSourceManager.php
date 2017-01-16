@@ -29,4 +29,19 @@ class UiPatternsSourceManager extends DefaultPluginManager {
     $this->setCacheBackend($cache_backend, 'ui_patterns_ui_patterns_source_plugins');
   }
 
+  /**
+   * Filter definitions by given tag.
+   *
+   * @param string $tag
+   *    Tag used on plugin annotation.
+   *
+   * @return array
+   *    List of definitions tagged with given tag.
+   */
+  public function getDefinitionsByTag($tag) {
+    return array_filter($this->getDefinitions(), function ($definition) use ($tag) {
+      return in_array($tag, $definition['tags']);
+    });
+  }
+
 }

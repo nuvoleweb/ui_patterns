@@ -8,8 +8,12 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
  * Defines Fields API pattern source plugin.
  *
  * @UiPatternsSource(
- *  id = "field_source",
- *  label = @Translation("Field source")
+ *   id = "field_source",
+ *   label = @Translation("Field source"),
+ *   provider = "field",
+ *   tags = {
+ *     "entity_display"
+ *   }
  * )
  */
 class FieldSource extends UiPatternsSourceBase {
