@@ -9,7 +9,6 @@ use Drupal\Component\FileCache\FileCacheFactory;
 use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use PHPUnit\Framework\TestCase;
 use Drupal\ui_patterns\UiPatternsManager;
 
 /**
@@ -17,7 +16,7 @@ use Drupal\ui_patterns\UiPatternsManager;
  *
  * @group ui_patterns
  */
-class UiPatternsManagerTest extends TestCase {
+class UiPatternsManagerTest extends AbstractUiPatternsTest {
 
   /**
    * Test processDefinition.

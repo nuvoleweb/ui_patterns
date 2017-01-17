@@ -61,7 +61,7 @@ abstract class PatternDisplayForm extends FormBase {
   /**
    * Get field definitions for given context.
    *
-   * @return SourceField[]
+   * @return \Drupal\ui_patterns\Plugin\DataType\SourceField[]
    *    Field definitions.
    */
   public function getFieldDefinitions() {
@@ -180,6 +180,13 @@ abstract class PatternDisplayForm extends FormBase {
     }
 
     return $elements;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
   }
 
   /**
