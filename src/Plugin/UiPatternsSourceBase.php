@@ -6,7 +6,6 @@ use Drupal\Component\Plugin\PluginBase;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\TypedData\TypedDataManager;
-use Drupal\ui_patterns\Plugin\DataType\SourceFieldDefinition;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -79,11 +78,7 @@ abstract class UiPatternsSourceBase extends PluginBase implements UiPatternsSour
     $field = $field->setFieldName($name)
       ->setFieldLabel($label)
       ->setPluginId($this->pluginDefinition['id'])
-      ->setPluginLabel($this->pluginDefinition['label']->getUntranslatedString());
-    $violations = $field->validate();
-    if ($violations->count()) {
-
-    }
+      ->setPluginLabel($this->pluginDefinition['label']);
     return $field;
   }
 
