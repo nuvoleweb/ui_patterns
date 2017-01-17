@@ -12,6 +12,11 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 class UiPatternsSourceManager extends DefaultPluginManager {
 
   /**
+   * Separator used to namespace fields with their plugin type.
+   */
+  const FIELD_KEY_SEPARATOR = ':';
+
+  /**
    * Constructor for UiPatternsSourceManager objects.
    *
    * @param \Traversable $namespaces
@@ -42,6 +47,30 @@ class UiPatternsSourceManager extends DefaultPluginManager {
     return array_filter($this->getDefinitions(), function ($definition) use ($tag) {
       return in_array($tag, $definition['tags']);
     });
+  }
+
+  /**
+   * Get field source definitions by specified tags.
+   *
+   * @param string $tag
+   *    Field source tag.
+   *
+   * @return \Drupal\ui_patterns\Plugin\UiPatterns\Source\FieldSource[]
+   *    List of source fields.
+   */
+  public function getFieldsByTag($tag) {
+    /** @var \Drupal\ui_patterns\Plugin\UiPatternsSourceInterface $plugin */
+    /** @var \Drupal\ui_patterns\Plugin\DataType\SourceField $field */
+    $fields = [];
+    foreach ($this->getDefinitionsByTag($tag) as $id => $definition) {
+      $plugin = $this->createInstance($id);
+      foreach ($plugin->getSourceFields() as $field) {
+        $key = $field->getPluginId() . self::FIELD_KEY_SEPARATOR . $field->getFieldName();
+        $fields[$key] = $field;
+      }
+    }
+
+    return $fields;
   }
 
 }

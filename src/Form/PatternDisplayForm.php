@@ -13,7 +13,7 @@ use Drupal\ui_patterns\UiPatternsManager;
  *
  * @package Drupal\ui_patterns\Form
  */
-class PatternDisplayForm extends FormBase {
+abstract class PatternDisplayForm extends FormBase {
 
   /**
    * UI Patterns manager.
@@ -48,6 +48,29 @@ class PatternDisplayForm extends FormBase {
       $container->get('plugin.manager.ui_patterns'),
       $container->get('plugin.manager.ui_patterns_source')
     );
+  }
+
+  /**
+   * Get field source plugin tags.
+   *
+   * @return array
+   *    Field definitions.
+   */
+  abstract public function getTags();
+
+  /**
+   * Get field definitions for given context.
+   *
+   * @return SourceField[]
+   *    Field definitions.
+   */
+  public function getFieldDefinitions() {
+    $fields = [];
+    foreach ($this->getTags() as $tag) {
+      $fields += $this->sourceManager->getFieldsByTag($tag);
+    }
+
+    return $fields;
   }
 
   /**
@@ -98,13 +121,6 @@ class PatternDisplayForm extends FormBase {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-
-  }
-
-  /**
    * Get mapping form.
    *
    * @param string $pattern_id
@@ -119,6 +135,7 @@ class PatternDisplayForm extends FormBase {
       '#type' => 'table',
       '#header' => [
         $this->t('Source'),
+        $this->t('Plugin'),
         $this->t('Destination'),
         $this->t('Weight'),
       ],
@@ -134,20 +151,23 @@ class PatternDisplayForm extends FormBase {
     foreach ($this->getFieldDefinitions() as $field_name => $field) {
       $elements[$field_name] = [
         'info' => [
-          '#plain_text' => $field['label'],
+          '#plain_text' => $field->getFieldLabel(),
+        ],
+        'plugin' => [
+          '#plain_text' => $field->getPluginLabel(),
         ],
         'destination' => [
           '#type' => 'select',
-          '#title' => $this->t('Destination for @field', ['@field' => $field['label']]),
+          '#title' => $this->t('Destination for @field', ['@field' => $field->getFieldLabel()]),
           '#title_display' => 'invisible',
           '#default_value' => '_disabled',
           '#options' => $destinations,
         ],
         'weight' => [
           '#type' => 'weight',
-          '#default_value' => $field['weight'],
+          '#default_value' => 0,
           '#delta' => 20,
-          '#title' => $this->t('Weight for @field field', array('@field' => $field['label'])),
+          '#title' => $this->t('Weight for @field field', array('@field' => $field->getFieldLabel())),
           '#title_display' => 'invisible',
           '#attributes' => [
             'class' => ['field-weight'],
@@ -175,32 +195,6 @@ class PatternDisplayForm extends FormBase {
    */
   public function ajaxRebuildForm(array &$form, FormStateInterface $form_state) {
     return $form;
-  }
-
-  /**
-   * Get field definitions for given context.
-   *
-   * @return array
-   *    Field definitions.
-   */
-  public function getFieldDefinitions() {
-    return [
-      'field_1' => [
-        'name' => 'field_1',
-        'label' => 'Field 1',
-        'weight' => 0,
-      ],
-      'field_2' => [
-        'name' => 'field_2',
-        'label' => 'Field 2',
-        'weight' => 0,
-      ],
-      'field_3' => [
-        'name' => 'field_3',
-        'label' => 'Field 3',
-        'weight' => 0,
-      ],
-    ];
   }
 
 }

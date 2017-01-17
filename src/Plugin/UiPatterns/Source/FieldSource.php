@@ -18,4 +18,11 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
  */
 class FieldSource extends UiPatternsSourceBase {
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getSourceFields() {
+    return [];
+  }
+
 }

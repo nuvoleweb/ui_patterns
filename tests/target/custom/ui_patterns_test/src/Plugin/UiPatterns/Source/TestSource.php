@@ -18,4 +18,17 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
  */
 class TestSource extends UiPatternsSourceBase {
 
+  /**
+   * @inheritDoc
+   */
+  public function getSourceFields() {
+    return [
+      $this->getSourceField('field_1', 'Field 1'),
+      $this->getSourceField('field_2', 'Field 2'),
+      $this->getSourceField('field_3', 'Field 3'),
+      $this->getSourceField('field_4', 'Field 4'),
+      $this->getSourceField('field_5', 'Field 5'),
+    ];
+  }
+
 }
