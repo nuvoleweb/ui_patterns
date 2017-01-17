@@ -5,7 +5,6 @@ namespace Drupal\ui_patterns\Tests\Unit;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\hasKey;
 use function bovigo\assert\predicate\equals;
-use Drupal\Component\FileCache\FileCacheFactory;
 use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -31,33 +30,11 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    * @dataProvider definitionsProvider
    */
   public function testProcessDefinition($id, array $expected) {
-    $cache_backend = $this->createMock('Drupal\Core\Cache\CacheBackendInterface');
+    $cache_backend = $this->getCacheBackendMock();
+    $module_handler = $this->getModuleHandlerMock();
+    $theme_handler = $this->getThemeHandlerMock();
+    $theme_manager = $this->getThemeManagerMock();
 
-    $theme_handler = $this->getMockBuilder('Drupal\Core\Extension\ThemeHandlerInterface')
-      ->disableOriginalConstructor()
-      ->getMock();
-    $theme_handler->method('getThemeDirectories')->willReturn([
-      'ui_patterns_test_theme' => $this->getExtensionsPath('ui_patterns_test_theme'),
-    ]);
-    $theme_handler->method('themeExists')->willReturn(TRUE);
-
-    $theme_manager = $this->getMockBuilder('Drupal\Core\Theme\ThemeManager')
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    $extension = $this->getMockBuilder('Drupal\Core\Extension\Extension')
-      ->disableOriginalConstructor()
-      ->getMock();
-    $extension->method('getPath')->willReturn($this->getExtensionsPath('ui_patterns_test'));
-
-    $module_handler = $this->createMock('Drupal\Core\Extension\ModuleHandlerInterface');
-    $module_handler->method('getModuleDirectories')->willReturn([
-      'ui_patterns_test' => $this->getExtensionsPath('ui_patterns_test'),
-    ]);
-    $module_handler->method('getModule')->willReturn($extension);
-    $module_handler->method('moduleExists')->willReturn(TRUE);
-
-    FileCacheFactory::setPrefix('something');
     $plugin_manager = new UiPatternsManager($module_handler, $theme_handler, $theme_manager, $cache_backend);
     $definitions = $plugin_manager->getDefinitions();
 
