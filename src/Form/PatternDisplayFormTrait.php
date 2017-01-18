@@ -37,6 +37,7 @@ trait PatternDisplayFormTrait {
       '#empty_value' => '_none',
       '#title' => $this->t('Pattern'),
       '#options' => $this->patternsManager->getPatternsOptions(),
+      '#default_value' => isset($configuration['pattern']) ? $configuration['pattern'] : NULL,
       '#required' => TRUE,
       '#attributes' => ['id' => 'patterns-select'],
     ];
@@ -50,7 +51,7 @@ trait PatternDisplayFormTrait {
           ],
         ),
       ];
-      $form['pattern_mapping'][$pattern_id]['settings'] = $this->getMappingForm($pattern_id, $tag, $context);
+      $form['pattern_mapping'][$pattern_id]['settings'] = $this->getMappingForm($pattern_id, $tag, $context, $configuration);
     }
   }
 
@@ -63,11 +64,13 @@ trait PatternDisplayFormTrait {
    *    Source field plugin tag.
    * @param array $context
    *    Plugin context.
+   * @param array $configuration
+   *    Default configuration coming form the host form.
    *
    * @return array
    *    Mapping form.
    */
-  public function getMappingForm($pattern_id, $tag, array $context) {
+  public function getMappingForm($pattern_id, $tag, array $context, array $configuration) {
 
     $elements = [
       '#type' => 'table',
@@ -98,12 +101,12 @@ trait PatternDisplayFormTrait {
           '#type' => 'select',
           '#title' => $this->t('Destination for @field', ['@field' => $field->getFieldLabel()]),
           '#title_display' => 'invisible',
-          '#default_value' => '_disabled',
+          '#default_value' => $this->getDefaultValue($configuration, $field_name, 'destination'),
           '#options' => $destinations,
         ],
         'weight' => [
           '#type' => 'weight',
-          '#default_value' => 0,
+          '#default_value' => $this->getDefaultValue($configuration, $field_name, 'weight'),
           '#delta' => 20,
           '#title' => $this->t('Weight for @field field', array('@field' => $field->getFieldLabel())),
           '#title_display' => 'invisible',
@@ -150,6 +153,26 @@ trait PatternDisplayFormTrait {
         $settings['pattern_mapping'][$key]['weight'] = $weight++;
       }
     }
+  }
+
+  /**
+   * Helper function: get default value.
+   *
+   * @param array $configuration
+   *    Configuration.
+   * @param string $field_name
+   *    Field name.
+   * @param string $value
+   *    Value name.
+   *
+   * @return string
+   *    Field property value.
+   */
+  protected function getDefaultValue(array $configuration, $field_name, $value) {
+    if (isset($configuration['pattern_mapping'][$field_name][$value])) {
+      return $configuration['pattern_mapping'][$field_name][$value];
+    }
+    return NULL;
   }
 
 }
