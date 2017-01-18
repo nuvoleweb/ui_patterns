@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Contains module file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function ui_patterns_views_theme($existing, $type, $theme, $path) {
+  return [
+    'pattern_views_row' => [
+      'variables' => ['view' => NULL, 'options' => [], 'row' => NULL],
+      'path' => $path . '/templates',
+    ],
+  ];
+}
+
+/**
+ * Preprocess hook.
+ *
+ * @param $variables
+ *    Theme variables.
+ */
+function template_preprocess_pattern_views_row(&$variables) {
+  /** @var \Drupal\views\ViewExecutable $view */
+  $view = $variables['view'];
+  $options = $variables['options'];
+  $mapping = $options['pattern_mapping'];
+
+  $fields = [];
+  /** @var \Drupal\views\ResultRow $row */
+  $row = $variables['row'];
+  foreach ($view->field as $id => $field) {
+    $field_output = $view->style_plugin->getField($row->index, $id);
+    $empty = $field->isValueEmpty($field_output, $field->options['empty_zero']);
+    if (empty($field->options['exclude']) && (!$empty || (empty($field->options['hide_empty']) && empty($variables['options']['hide_empty'])))) {
+      $fields[$id] = $field_output;
+    }
+  }
+
+  $variables['pattern'] = [];
+  if ($fields) {
+    $definition = \Drupal::service('plugin.manager.ui_patterns')->getDefinition($options['pattern']);
+    $render =  [
+      '#theme' => $definition['theme hook'],
+    ];
+    foreach ($fields as $name => $field) {
+      if (isset($mapping["views_row:{$name}"])) {
+        $settings = $mapping["views_row:{$name}"];
+        $render["#{$settings['destination']}"] = $field;
+      }
+    }
+    $variables['pattern'] = $render;
+  }
+}

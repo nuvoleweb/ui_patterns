@@ -67,21 +67,21 @@ third_party_settings:
         label: Metadata
         pattern: metadata
         pattern_mapping:
+          'fields:field_tags':
+            destination: categories
+            weight: 0
+            plugin: fields
+            source: field_tags
           'ds_field:node_author':
             destination: author
-            weight: 0
+            weight: 1
             plugin: ds_field
             source: node_author
           'ds_field:node_post_date':
             destination: date
-            weight: 1
+            weight: 2
             plugin: ds_field
             source: node_post_date
-          'fields:field_tags':
-            destination: categories
-            weight: 2
-            plugin: fields
-            source: field_tags
       label: Metadata
 id: node.article.full
 targetEntityType: node

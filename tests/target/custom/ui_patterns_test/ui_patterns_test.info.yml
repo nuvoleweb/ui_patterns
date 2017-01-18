@@ -28,5 +28,6 @@ dependencies:
   - ui_patterns_field_group
   - ui_patterns_layouts
   - ui_patterns_views
-  - views_ui
   - user
+  - views
+  - views_ui

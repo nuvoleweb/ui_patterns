@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "ui_patterns",
  *   title = @Translation("Pattern"),
  *   help = @Translation("Displays fields using a pattern."),
- *   theme = "views_view_fields",
+ *   theme = "pattern_views_row",
  *   display_types = {"normal"}
  * )
  */
@@ -79,20 +79,15 @@ class Pattern extends Fields {
   protected function defineOptions() {
     $options = parent::defineOptions();
     $options['hide_empty'] = array('default' => FALSE);
-    $options['default_field_elements'] = array('default' => TRUE);
+    $options['default_field_elements'] = array('default' => FALSE);
     return $options;
   }
 
   /**
-   * Provide a form for setting options.
+   * {@inheritdoc}
    */
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     parent::buildOptionsForm($form, $form_state);
-    $options = $this->displayHandler->getFieldLabels();
-
-    if (empty($this->options['inline'])) {
-      $this->options['inline'] = array();
-    }
 
     $form['default_field_elements'] = array(
       '#type' => 'checkbox',
@@ -109,7 +104,16 @@ class Pattern extends Fields {
     );
 
     $context = ['view' => $this->view];
-    $this->buildPatternDisplayForm($form, 'views_row', $context, []);
+    $this->buildPatternDisplayForm($form, 'views_row', $context, $this->options);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitOptionsForm(&$form, FormStateInterface $form_state) {
+    $settings = $form_state->getValue('row_options');
+    self::processFormStateValues($settings);
+    $form_state->setValue('row_options', $settings);
   }
 
 }
