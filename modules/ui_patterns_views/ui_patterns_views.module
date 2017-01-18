@@ -41,7 +41,7 @@ function template_preprocess_pattern_views_row(&$variables) {
   }
 
   $variables['pattern'] = [];
-  if ($fields) {
+  if (!empty($fields)) {
     $definition = \Drupal::service('plugin.manager.ui_patterns')->getDefinition($options['pattern']);
     $render =  [
       '#theme' => $definition['theme hook'],
