@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns\Plugin;
 
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Component\Utility\NestedArray;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\TypedData\TypedDataManager;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -114,62 +113,10 @@ abstract class UiPatternsSourceBase extends PluginBase implements UiPatternsSour
   }
 
   /**
-   * Returns generic default configuration for source mapper plugins.
-   *
-   * @return array
-   *   An associative array with the default configuration.
-   */
-  protected function baseConfigurationDefaults() {
-    return [
-      'id' => $this->getPluginId(),
-      'label' => '',
-      'provider' => $this->pluginDefinition['provider'],
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function defaultConfiguration() {
-    return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setConfigurationValue($key, $value) {
-    $this->configuration[$key] = $value;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function calculateDependencies() {
     return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
-    // Process the block's submission handling if no errors occurred only.
-    if (!$form_state->getErrors()) {
-
-    }
   }
 
 }
