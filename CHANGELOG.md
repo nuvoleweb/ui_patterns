@@ -1,5 +1,20 @@
 # Change Log
 
+## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
+
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta1...HEAD)
+
+**Closed issues:**
+
+- Add pattern plugin validation [\#10](https://github.com/nuvoleweb/ui_patterns/issues/10)
+- Integrate patterns with views [\#8](https://github.com/nuvoleweb/ui_patterns/issues/8)
+- Add Field Source custom plugin [\#5](https://github.com/nuvoleweb/ui_patterns/issues/5)
+
+**Merged pull requests:**
+
+- Integrate patterns with views \#8 [\#18](https://github.com/nuvoleweb/ui_patterns/pull/18) ([ademarco](https://github.com/ademarco))
+- Add mapping source plugin \#5 [\#11](https://github.com/nuvoleweb/ui_patterns/pull/11) ([ademarco](https://github.com/ademarco))
+
 ## [8.x-1.0-beta1](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta1) (2017-01-09)
 **Closed issues:**
 
