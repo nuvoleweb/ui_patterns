@@ -26,16 +26,16 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   use PatternDisplayFormTrait;
 
   /**
-   * The available pattern definitions.
+   * UI Patterns manager.
    *
-   * @var array
+   * @var \Drupal\ui_patterns\UiPatternsManager
    */
   protected $patternsManager;
 
   /**
    * UI Patterns manager.
    *
-   * @var \Drupal\ui_patterns\UiPatternsManager
+   * @var \Drupal\ui_patterns\Plugin\UiPatternsSourceManager
    */
   protected $sourceManager;
 
@@ -107,13 +107,21 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     unset($form['id']);
     unset($form['classes']);
 
-    $context = [
-      'entity_type' => $this->configuration['group']->entity_type,
-      'entity_bundle' => $this->configuration['group']->bundle,
-      'limit' => $this->configuration['group']->children,
-    ];
+    if (isset($this->configuration['group']->children) && !empty($this->configuration['group']->children)) {
+      $context = [
+        'entity_type' => $this->configuration['group']->entity_type,
+        'entity_bundle' => $this->configuration['group']->bundle,
+        'limit' => $this->configuration['group']->children,
+      ];
 
-    $this->buildPatternDisplayForm($form, 'entity_display', $context, $this->configuration['settings']);
+      $this->buildPatternDisplayForm($form, 'entity_display', $context, $this->configuration['settings']);
+    }
+    else {
+      $form['message'] = [
+        '#markup' => $this->t('<b>Attention:</b> you have to add fields to this field group and save the whole entity display before being able to to access the pattern display configuration.'),
+      ];
+    }
+
     return $form;
   }
 

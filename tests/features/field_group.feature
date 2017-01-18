@@ -22,18 +22,4 @@ Feature: Field group module integration
     And I wait "2" seconds
     And I press the "Save and continue" button
 
-    Then I should have the following options for "Pattern":
-      | option     |
-      | Carousel   |
-      | Jumbotron  |
-      | Modal      |
-      | Metadata   |
-      | Blockquote |
-    And I should see the field "Slides"
-
-    When I select "Metadata" from "Pattern"
-    And I wait "2" seconds
-    Then I should not see the field "Slides"
-    But I should see the field "Author"
-    And I should see the field "Publication date"
-    And I should see the field "Categories"
+    Then I should see "Attention: you have to add fields to this field group and save the whole entity display before being able to to access the pattern display configuration."
