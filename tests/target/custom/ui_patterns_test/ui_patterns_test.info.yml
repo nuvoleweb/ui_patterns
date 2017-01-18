@@ -22,8 +22,8 @@ dependencies:
   - path
   - search
   - system
-  - token
   - text
+  - token
   - ui_patterns
   - ui_patterns_field_group
   - ui_patterns_layouts

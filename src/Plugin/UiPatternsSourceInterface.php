@@ -33,4 +33,15 @@ interface UiPatternsSourceInterface extends PluginInspectionInterface, PluginFor
    */
   public function getSourceFields();
 
+  /**
+   * Get context property value, if any.
+   *
+   * @param string $name
+   *    Context property name.
+   *
+   * @return mixed
+   *    Context property value.
+   */
+  public function getContextProperty($name);
+
 }

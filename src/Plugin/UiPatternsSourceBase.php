@@ -101,6 +101,19 @@ abstract class UiPatternsSourceBase extends PluginBase implements UiPatternsSour
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getContextProperty($name) {
+    $configuration = $this->getConfiguration();
+    if (isset($configuration['context'][$name])) {
+      return $configuration['context'][$name];
+    }
+    else {
+      return NULL;
+    }
+  }
+
+  /**
    * Returns generic default configuration for source mapper plugins.
    *
    * @return array

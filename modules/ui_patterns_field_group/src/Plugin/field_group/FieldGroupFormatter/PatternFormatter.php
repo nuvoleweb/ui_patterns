@@ -79,11 +79,11 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   public function preRender(&$element, $rendering_object) {
     $element['#theme'] = 'pattern__' . $this->getSetting('pattern') . '__' . $this->group->group_name;
 
-    $mapping = $this->getSetting('pattern_map');
-    foreach ($mapping as $key => $field) {
+    $mapping = $this->getSetting('pattern_mapping');
+    foreach ($mapping as $field) {
       // Make sure none of the keys are called 'type' or drupal will freak out.
-      if (isset($element[$field]) && $key != 'type') {
-        $element['#' . $key] = $element[$field];
+      if (isset($element[$field['source']]) && $field['destination'] != 'type') {
+        $element['#' . $field['destination']] = $element[$field['source']];
       }
     }
 
@@ -107,7 +107,13 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     unset($form['id']);
     unset($form['classes']);
 
-    $this->buildPatternDisplayForm($form, 'test', ['field_group' => $this], $this->configuration);
+    $context = [
+      'entity_type' => $this->configuration['group']->entity_type,
+      'entity_bundle' => $this->configuration['group']->bundle,
+      'limit' => $this->configuration['group']->children,
+    ];
+
+    $this->buildPatternDisplayForm($form, 'entity_display', $context, $this->configuration['settings']);
     return $form;
   }
 
