@@ -77,7 +77,8 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    * {@inheritdoc}
    */
   public function preRender(&$element, $rendering_object) {
-    $element['#theme'] = 'pattern__' . $this->getSetting('pattern') . '__' . $this->group->group_name;
+    $definition = $this->patternsManager->getDefinition($this->getSetting('pattern'));
+    $element['#theme'] = $definition['theme hook'] . '__' . $this->group->group_name;
 
     $mapping = $this->getSetting('pattern_mapping');
     foreach ($mapping as $field) {
