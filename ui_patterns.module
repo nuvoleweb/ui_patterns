@@ -5,8 +5,6 @@
  * Contains ui_patterns.module.
  */
 
-use Drupal\Core\Template\Attribute;
-
 /**
  * Implements hook_theme().
  */
