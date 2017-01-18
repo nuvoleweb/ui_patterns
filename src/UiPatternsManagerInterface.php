@@ -10,17 +10,6 @@ use Drupal\Component\Plugin\PluginManagerInterface;
 interface UiPatternsManagerInterface extends PluginManagerInterface {
 
   /**
-   * Get definition by associated theme hook function.
-   *
-   * @param string $hook
-   *    Theme hook function.
-   *
-   * @return array
-   *    Plugin definition.
-   */
-  public function getDefinitionByThemeHook($hook);
-
-  /**
    * Render patter preview.
    *
    * @param string $pattern_id

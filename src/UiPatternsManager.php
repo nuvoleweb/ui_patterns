@@ -82,24 +82,15 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * {@inheritdoc}
    */
-  public function getDefinitionByThemeHook($hook) {
-    foreach ($this->getDefinitions() as $definition) {
-      if ($definition['theme hook'] == $hook) {
-        return $definition;
-      }
-    }
-
-    throw new PluginException("No UI Pattern definition found for theme hook '{$hook}'.");
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function renderPreview($pattern_id) {
     $rendered = [];
     $definition = $this->getDefinition($pattern_id);
     try {
-      $rendered = $this->themeManager->render($definition['theme hook'], $this->getPreviewVariables($definition['id']));
+      $rendered = [
+        '#type' => 'pattern',
+        '#id' => $definition['id'],
+        '#fields' => $this->getPreviewVariables($definition['id']),
+      ];
     }
     catch (\Twig_Error_Loader $e) {
       drupal_set_message($e->getRawMessage(), 'error');

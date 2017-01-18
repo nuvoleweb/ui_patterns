@@ -30,8 +30,6 @@ function ui_patterns_theme($existing, $type, $theme, $path) {
   foreach ($definitions as $definition) {
     $items[$definition['theme hook']] = [
       'variables' => $definition['theme variables'],
-      'libraries' => $definition['libraries'],
-      'preprocess functions' => ['ui_patterns_preprocess_pattern']
     ];
 
     if (!$definition['custom theme hook'] && \Drupal::moduleHandler()->moduleExists($definition['provider'])) {
@@ -39,25 +37,4 @@ function ui_patterns_theme($existing, $type, $theme, $path) {
     }
   }
   return $items;
-}
-
-/**
- * Implement template_preprocess_HOOK().
- */
-function ui_patterns_preprocess_pattern(&$variables, $hook) {
-
-  // Turn attribute array into a fully-fledged attribute object.
-  if (isset($variables['attributes']) && !empty($variables['attributes']) && is_array($variables['attributes'])) {
-    $variables['attributes'] = new Attribute($variables['attributes']);
-  }
-  else {
-    $variables['attributes'] = new Attribute();
-  }
-
-  /* @var \Drupal\ui_patterns\UiPatternsManager $manager */
-  $manager = \Drupal::service('plugin.manager.ui_patterns');
-  $definition = $manager->getDefinitionByThemeHook($hook);
-  foreach ($definition['libraries'] as $library) {
-    $variables['#attached']['library'][] = $library;
-  }
 }
