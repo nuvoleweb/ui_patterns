@@ -1,0 +1,8 @@
+name: UI Patterns Views
+type: module
+description: Use patterns as Views templates.
+core: 8.x
+package: User interface
+dependencies:
+  - views
+  - ui_patterns
