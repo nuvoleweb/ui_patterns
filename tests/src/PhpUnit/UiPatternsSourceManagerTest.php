@@ -4,6 +4,8 @@ namespace Drupal\ui_patterns\Tests\Unit;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\isNotEmpty;
+use Drupal\ui_patterns\Plugin\DataType\SourceField;
+use Drupal\ui_patterns\Plugin\DataType\SourceFieldDefinition;
 use Drupal\ui_patterns\Plugin\UiPatternsSourceManager;
 
 /**
@@ -27,6 +29,19 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
 
     $definitions = $plugin_manager->getDefinitions();
     assert($definitions, isNotEmpty());
+  }
+
+  /**
+   * Test SourceField data type.
+   */
+  public function testSourceFieldDataType() {
+    $definition = new SourceFieldDefinition();
+    $field = new SourceField($definition);
+
+    $field->set('not_allowed', 'value');
+    $field->get('not_allowed');
+
+    assert($field, isNotEmpty());
   }
 
 }

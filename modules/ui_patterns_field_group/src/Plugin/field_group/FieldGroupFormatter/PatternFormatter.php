@@ -2,9 +2,10 @@
 
 namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
-use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\field_group\FieldGroupFormatterBase;
+use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
+use Drupal\ui_patterns\Plugin\UiPatternsSourceManager;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,21 +21,23 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   }
  * )
  */
-class PatternFormatter extends FieldGroupFormatterBase implements ConfigurableFieldGroupFormatterInterface, ContainerFactoryPluginInterface {
+class PatternFormatter extends FieldGroupFormatterBase implements ContainerFactoryPluginInterface {
+
+  use PatternDisplayFormTrait;
 
   /**
    * The available pattern definitions.
    *
    * @var array
    */
-  protected $patterns;
+  protected $patternsManager;
 
   /**
-   * The field manager so that we can get the field names from the keys.
+   * UI Patterns manager.
    *
-   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   * @var \Drupal\ui_patterns\UiPatternsManager
    */
-  protected $fieldManager;
+  protected $sourceManager;
 
   /**
    * Constructs a Drupal\Component\Plugin\PluginBase object.
@@ -45,25 +48,28 @@ class PatternFormatter extends FieldGroupFormatterBase implements ConfigurableFi
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
+   * @param \Drupal\ui_patterns\UiPatternsManager $patterns_manager
+   *    UI Patterns manager.
+   * @param \Drupal\ui_patterns\Plugin\UiPatternsSourceManager $source_manager
+   *     UI Patterns source manager.
    */
-  public function __construct($configuration, $plugin_id, $plugin_definition, UiPatternsManager $patternsManager, EntityFieldManagerInterface $fieldManager) {
+  public function __construct($configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager) {
     parent::__construct($plugin_id, $plugin_definition, $configuration['group'], $configuration['settings'], $configuration['label']);
     $this->configuration = $configuration;
-    $this->patterns = $patternsManager->getDefinitions();
-    $this->fieldManager = $fieldManager;
+    $this->patternsManager = $patterns_manager;
+    $this->sourceManager = $source_manager;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    self::transformFormToSettings($configuration['settings']);
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $container->get('plugin.manager.ui_patterns'),
-      $container->get('entity_field.manager')
+      $container->get('plugin.manager.ui_patterns_source')
     );
   }
 
@@ -84,6 +90,16 @@ class PatternFormatter extends FieldGroupFormatterBase implements ConfigurableFi
   }
 
   /**
+   * Get field group name.
+   *
+   * @return string
+   *    Field group name.
+   */
+  protected function getFieldGroupName() {
+    return $this->configuration['group']->group_name;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function settingsForm() {
@@ -91,88 +107,8 @@ class PatternFormatter extends FieldGroupFormatterBase implements ConfigurableFi
     unset($form['id']);
     unset($form['classes']);
 
-    $options = array_map(function ($pattern) {
-      return $pattern['label'];
-    }, $this->patterns);
-
-    $form['pattern'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Pattern'),
-      '#options' => $options,
-      '#default_value' => $this->getSetting('pattern'),
-      '#weight' => -1,
-    ];
-
-    $field_options = [];
-    if (isset($this->group->children)) {
-      // Fields can come from Field API or contrib modules like Display Suite.
-      // @todo: Generalize destination handling so that we cover all cases.
-      // @link https://github.com/nuvoleweb/ui_patterns/issues/5
-      $field_options = array_combine($this->group->children, $this->group->children);
-    }
-
-    $field_options = ['' => $this->t('- None -')] + $field_options;
-
-    // Get the path of the pattern field.
-    $pattern_path = ':input[name="format_settings[pattern]"]';
-    if (isset($this->group->group_name)) {
-      $pattern_path = ':input[name="fields[' . $this->group->group_name . '][settings_edit_form][settings][pattern]"]';
-    }
-
-    $pattern_map = $this->getSetting('pattern_map');
-    foreach ($this->patterns as $key => $pattern) {
-      $form['pattern__' . $key] = [
-        '#type' => 'fieldset',
-        '#title' => $pattern['label'],
-        '#weight' => -1,
-        '#states' => [
-          'visible' => [
-            $pattern_path => array('value' => $key),
-          ],
-        ],
-      ];
-
-      // The transitional settings are used when the display is not saved yet.
-      $transitional_setting = $this->getSetting('pattern__' . $key);
-
-      foreach ($pattern['fields'] as $name => $definition) {
-        $default_value = '';
-
-        if (isset($transitional_setting[$name])) {
-          // When opening the form again, preserve the transitional value.
-          $default_value = $transitional_setting[$name];
-        }
-        elseif (isset($pattern_map[$name])) {
-          $default_value = $pattern_map[$name];
-        }
-
-        $form['pattern__' . $key][$name] = [
-          '#type' => 'select',
-          '#title' => $definition['label'],
-          '#options' => $field_options,
-          '#default_value' => $default_value,
-        ];
-      }
-    }
-
+    $this->buildPatternDisplayForm($form, 'test', ['field_group' => $this], $this->configuration);
     return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function transformFormToSettings(&$settings) {
-    if (!isset($settings['pattern_map']) || !is_array($settings['pattern_map'])) {
-      $settings['pattern_map'] = [];
-      if (isset($settings['pattern__' . $settings['pattern']])) {
-        $settings['pattern_map'] = $settings['pattern__' . $settings['pattern']];
-      }
-
-      // Filter out all the form elements that are not wanted.
-      $settings = array_filter($settings, function ($key) {
-        return strpos($key, 'pattern__') !== 0;
-      }, ARRAY_FILTER_USE_KEY);
-    }
   }
 
   /**
@@ -180,8 +116,9 @@ class PatternFormatter extends FieldGroupFormatterBase implements ConfigurableFi
    */
   public function settingsSummary() {
     $label = 'None';
-    if (isset($this->patterns[$this->getSetting('pattern')])) {
-      $label = $this->patterns[$this->getSetting('pattern')]['label'];
+    $definitions = $this->patternsManager->getDefinitions();
+    if (isset($definitions[$this->getSetting('pattern')])) {
+      $label = $definitions[$this->getSetting('pattern')]['label'];
     }
 
     $summary = [
@@ -196,7 +133,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ConfigurableFi
   public static function defaultContextSettings($context) {
     return array(
       'pattern' => 'none',
-      'pattern_map' => [],
+      'pattern_mapping' => [],
     ) + parent::defaultContextSettings($context);
   }
 

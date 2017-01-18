@@ -54,16 +54,18 @@ class UiPatternsSourceManager extends DefaultPluginManager {
    *
    * @param string $tag
    *    Field source tag.
+   * @param array $context
+   *    Plugin context.
    *
-   * @return \Drupal\ui_patterns\Plugin\UiPatterns\Source\FieldSource[]
+   * @return \Drupal\ui_patterns\Plugin\DataType\SourceField[]
    *    List of source fields.
    */
-  public function getFieldsByTag($tag) {
+  public function getFieldsByTag($tag, $context) {
     /** @var \Drupal\ui_patterns\Plugin\UiPatternsSourceInterface $plugin */
     /** @var \Drupal\ui_patterns\Plugin\DataType\SourceField $field */
     $fields = [];
     foreach ($this->getDefinitionsByTag($tag) as $id => $definition) {
-      $plugin = $this->createInstance($id);
+      $plugin = $this->createInstance($id, ['context' => $context]);
       foreach ($plugin->getSourceFields() as $field) {
         $key = $field->getPluginId() . self::FIELD_KEY_SEPARATOR . $field->getFieldName();
         $fields[$key] = $field;
