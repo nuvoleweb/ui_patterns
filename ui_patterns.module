@@ -44,7 +44,7 @@ function ui_patterns_theme($existing, $type, $theme, $path) {
 /**
  * Implement template_preprocess_HOOK().
  */
-function ui_patterns_preprocess_pattern(&$variables, $hook, $info) {
+function ui_patterns_preprocess_pattern(&$variables, $hook) {
 
   // Turn attribute array into a fully-fledged attribute object.
   if (isset($variables['attributes']) && !empty($variables['attributes']) && is_array($variables['attributes'])) {
