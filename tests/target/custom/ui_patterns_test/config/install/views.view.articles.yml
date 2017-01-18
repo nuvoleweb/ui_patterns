@@ -72,21 +72,21 @@ display:
       row:
         type: ui_patterns
         options:
-          default_field_elements: 1
+          default_field_elements: 0
           inline:
             title: 0
             body: 0
           separator: ''
           hide_empty: 0
-          pattern: blockquote
+          pattern: media
           pattern_mapping:
             'views_row:title':
-              destination: attribution
+              destination: title
               weight: 0
               plugin: views_row
               source: title
             'views_row:body':
-              destination: quote
+              destination: body
               weight: 1
               plugin: views_row
               source: body
