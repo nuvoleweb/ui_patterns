@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns\Plugin\UiPatterns\Source;
+namespace Drupal\ui_patterns_ds\Plugin\UiPatterns\Source;
 
 use Drupal\ds\Plugin\DsPluginManager;
 use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
