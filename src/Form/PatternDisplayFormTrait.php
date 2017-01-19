@@ -16,6 +16,11 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
 trait PatternDisplayFormTrait {
 
   /**
+   * {@inheritdoc}
+   */
+  abstract protected function t($string, array $args = [], array $options = []);
+
+  /**
    * Build pattern display form.
    *
    * @param array $form
