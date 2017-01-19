@@ -10,10 +10,12 @@
 - Add pattern plugin validation [\#10](https://github.com/nuvoleweb/ui_patterns/issues/10)
 - Fix warning when saving view mode layouts [\#9](https://github.com/nuvoleweb/ui_patterns/issues/9)
 - Integrate patterns with views [\#8](https://github.com/nuvoleweb/ui_patterns/issues/8)
+- Provide Display Suite field template plugin [\#7](https://github.com/nuvoleweb/ui_patterns/issues/7)
 - Add Field Source custom plugin [\#5](https://github.com/nuvoleweb/ui_patterns/issues/5)
 
 **Merged pull requests:**
 
+- Provide Display Suite field template plugin \#7 [\#21](https://github.com/nuvoleweb/ui_patterns/pull/21) ([ademarco](https://github.com/ademarco))
 - Add a new pattern render element \#12 [\#19](https://github.com/nuvoleweb/ui_patterns/pull/19) ([ademarco](https://github.com/ademarco))
 - Integrate patterns with views \#8 [\#18](https://github.com/nuvoleweb/ui_patterns/pull/18) ([ademarco](https://github.com/ademarco))
 - Add mapping source plugin \#5 [\#11](https://github.com/nuvoleweb/ui_patterns/pull/11) ([ademarco](https://github.com/ademarco))
