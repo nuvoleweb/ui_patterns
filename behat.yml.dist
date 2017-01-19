@@ -30,6 +30,8 @@ default:
         content: "#content"
         media_heading: ".media-heading"
         media_body: ".media-body"
+        jumbotron: ".jumbotron"
+        quote: ".quote"
       selectors:
         error_message_selector: '.messages--error'
       text:

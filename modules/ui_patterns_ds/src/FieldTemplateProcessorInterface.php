@@ -1,0 +1,22 @@
+<?php
+
+namespace Drupal\ui_patterns_ds;
+
+/**
+ * Interface FieldTemplateProcessorInterface.
+ *
+ * @package Drupal\ui_patterns_ds
+ */
+interface FieldTemplateProcessorInterface {
+
+  /**
+   * Process field template variables.
+   *
+   * @param array $variables
+   *    Variables array.
+   *
+   * @see template_preprocess_field__pattern_ds_field_template()
+   */
+  public function process(&$variables);
+
+}

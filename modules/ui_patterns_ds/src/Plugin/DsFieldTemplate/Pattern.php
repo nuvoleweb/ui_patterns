@@ -136,13 +136,6 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function massageRenderValues(&$field_settings, $values) {
-
-  }
-
-  /**
    * Get name of field currently being edited.
    *
    * @return string

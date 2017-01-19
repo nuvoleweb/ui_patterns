@@ -1,8 +1,8 @@
 @api
 Feature: Content
-  In order to have use patterns to theme my content
+  In order to display my content using patterns
   As a developer
-  I want to be able to use patterns on field groups and view modes.
+  I want to be able to integrate patterns with other Drupal rendering systems.
 
   Background:
     Given "tags" terms:
@@ -24,19 +24,20 @@ Feature: Content
           field_subtitle: Jumbotron subtitle
       """
 
-  Scenario: Patterns can be used to style paragraphs.
-
+  Scenario: Patterns can be used to style field groups.
     Given I am visiting the "article" content "Article title"
-
-    Then I should see "Article title"
-    And I should see "Article body"
-    And I should see "Jumbotron title"
-    And I should see "Jumbotron subtitle"
     And I should see "Tag 1" in the "Categories" row
 
-  Scenario: Patterns can be used to style views.
+  Scenario: Patterns can be used to style paragraphs.
+    Given I am visiting the "article" content "Article title"
+    Then I should see "Jumbotron title" in the "jumbotron"
+    And I should see "Jumbotron subtitle" in the "jumbotron"
 
-    And I am on "/articles"
+  Scenario: Patterns can be used as Display Suite field templates.
+    Given I am visiting the "article" content "Article title"
+    Then I should see "Article body" in the "quote"
+
+  Scenario: Patterns can be used to style views.
+    Given I am on "/articles"
     Then I should see the link "Article title" in the "media_heading"
     And I should see "Article body" in the "media_body"
-
