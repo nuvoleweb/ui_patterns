@@ -120,6 +120,28 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * {@inheritdoc}
    */
+  public function hookTheme() {
+    $items = [];
+
+    foreach ($this->getDefinitions() as $definition) {
+      $hook = $definition['theme hook'];
+      $items[$hook] = [
+        'variables' => $definition['theme variables'],
+      ];
+
+      if (!$definition['custom theme hook'] && $this->moduleHandler->moduleExists($definition['provider'])) {
+        /** @var \Drupal\Core\Extension\Extension $module */
+        $module = $this->moduleHandler->getModule($definition['provider']);
+        $items[$hook]['path'] = $module->getPath() . '/templates';
+      }
+    }
+
+    return $items;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function providerExists($provider) {
     return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
   }

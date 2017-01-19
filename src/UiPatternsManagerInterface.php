@@ -39,4 +39,14 @@ interface UiPatternsManagerInterface extends PluginManagerInterface {
    */
   public function getPatternFieldsOptions($id);
 
+  /**
+   * Build and return pattern theme definitions.
+   *
+   * @return array
+   *    Theme definitions.
+   *
+   * @see ui_patterns_theme()
+   */
+  public function hookTheme();
+
 }

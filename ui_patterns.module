@@ -8,31 +8,16 @@
 /**
  * Implements hook_theme().
  */
-function ui_patterns_theme($existing, $type, $theme, $path) {
-  $items = [
+function ui_patterns_theme() {
+  return [
     'patterns_overview_page' => [
       'variables' => ['patterns' => NULL],
-      'path' => $path . '/templates',
     ],
     'patterns_single_page' => [
       'variables' => ['pattern' => NULL],
-      'path' => $path . '/templates',
     ],
     'patterns_meta_information' => [
       'variables' => ['pattern' => NULL],
-      'path' => $path . '/templates',
     ],
-  ];
-
-  $definitions = \Drupal::service('plugin.manager.ui_patterns')->getDefinitions();
-  foreach ($definitions as $definition) {
-    $items[$definition['theme hook']] = [
-      'variables' => $definition['theme variables'],
-    ];
-
-    if (!$definition['custom theme hook'] && \Drupal::moduleHandler()->moduleExists($definition['provider'])) {
-      $items[$definition['theme hook']]['path'] = drupal_get_path('module', $definition['provider']) . '/templates';
-    }
-  }
-  return $items;
+  ] + \Drupal::service('plugin.manager.ui_patterns')->hookTheme();
 }

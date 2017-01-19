@@ -8,11 +8,10 @@
 /**
  * Implements hook_theme().
  */
-function ui_patterns_views_theme($existing, $type, $theme, $path) {
+function ui_patterns_views_theme() {
   return [
     'pattern_views_row' => [
       'variables' => ['view' => NULL, 'options' => [], 'row' => NULL],
-      'path' => $path . '/templates',
     ],
   ];
 }
@@ -24,34 +23,30 @@ function ui_patterns_views_theme($existing, $type, $theme, $path) {
  *    Theme variables.
  */
 function template_preprocess_pattern_views_row(&$variables) {
+  /** @var \Drupal\views\ResultRow $row */
   /** @var \Drupal\views\ViewExecutable $view */
-  $view = $variables['view'];
-  $options = $variables['options'];
-  $mapping = $options['pattern_mapping'];
+  /** @var \Drupal\ui_patterns_views\Plugin\views\row\Pattern $row_plugin */
 
   $fields = [];
-  /** @var \Drupal\views\ResultRow $row */
+  $view = $variables['view'];
+  $row_plugin = $view->rowPlugin;
+  $options = $variables['options'];
   $row = $variables['row'];
+
   foreach ($view->field as $id => $field) {
     $field_output = $view->style_plugin->getField($row->index, $id);
-    $empty = $field->isValueEmpty($field_output, $field->options['empty_zero']);
-    if (empty($field->options['exclude']) && (!$empty || (empty($field->options['hide_empty']) && empty($variables['options']['hide_empty'])))) {
-      $fields[$id] = $field_output;
+    if ($row_plugin->isFieldVisible($field, $field_output)) {
+      $destination = $row_plugin->getMappingDestination('views_row', $id, $options);
+      $fields[$destination] = $field_output;
     }
   }
 
   $variables['pattern'] = [];
   if (!empty($fields)) {
-    $definition = \Drupal::service('plugin.manager.ui_patterns')->getDefinition($options['pattern']);
-    $render =  [
-      '#theme' => $definition['theme hook'],
+    $variables['pattern'] = [
+      '#type' => 'pattern',
+      '#id' => $options['pattern'],
+      '#fields' => $fields,
     ];
-    foreach ($fields as $name => $field) {
-      if (isset($mapping["views_row:{$name}"])) {
-        $settings = $mapping["views_row:{$name}"];
-        $render["#{$settings['destination']}"] = $field;
-      }
-    }
-    $variables['pattern'] = $render;
   }
 }

@@ -156,6 +156,27 @@ trait PatternDisplayFormTrait {
   }
 
   /**
+   * Helper function: return mapping destination given plugin id and field name.
+   *
+   * @param string $plugin
+   *    Current plugin ID.
+   * @param string $source
+   *    Source field name.
+   * @param array $settings
+   *    Setting array.
+   *
+   * @return string|null
+   *    Destination field or NULL if none found.
+   */
+  public function getMappingDestination($plugin, $source, array $settings) {
+    $mapping_id = $plugin . UiPatternsSourceBase::DERIVATIVE_SEPARATOR . $source;
+    if (isset($settings['pattern_mapping'][$mapping_id])) {
+      return $settings['pattern_mapping'][$mapping_id]['destination'];
+    }
+    return NULL;
+  }
+
+  /**
    * Helper function: get default value.
    *
    * @param array $configuration

@@ -6,6 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
 use Drupal\ui_patterns\Plugin\UiPatternsSourceManager;
 use Drupal\ui_patterns\UiPatternsManager;
+use Drupal\views\Plugin\views\field\FieldPluginBase;
 use Drupal\views\Plugin\views\row\Fields;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -114,6 +115,26 @@ class Pattern extends Fields {
     $settings = $form_state->getValue('row_options');
     self::processFormStateValues($settings);
     $form_state->setValue('row_options', $settings);
+  }
+
+  /**
+   * Helper function: check for all conditions that make a field visible.
+   *
+   * @param \Drupal\views\Plugin\views\field\FieldPluginBase $field
+   *    Field object.
+   * @param \Drupal\Component\Render\MarkupInterface|null $field_output
+   *    Field output.
+   *
+   * @return bool
+   *    TRUE if a field should be visible, FALSE otherwise.
+   *
+   * @see template_preprocess_pattern_views_row()
+   */
+  public function isFieldVisible(FieldPluginBase $field, $field_output) {
+    $empty_value = $field->isValueEmpty($field_output, $field->options['empty_zero']);
+    $hide_field = !$empty_value || (empty($field->options['hide_empty']) && empty($this->options['hide_empty']));
+    $empty = empty($field->options['exclude']) && $hide_field;
+    return $empty && $this->getMappingDestination('views_row', $field->field, $this->options);
   }
 
 }
