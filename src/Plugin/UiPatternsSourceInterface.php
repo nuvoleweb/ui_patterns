@@ -2,13 +2,14 @@
 
 namespace Drupal\ui_patterns\Plugin;
 
+use Drupal\Component\Plugin\ConfigurablePluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
 /**
  * Defines an interface for UI Patterns Source plugins.
  */
-interface UiPatternsSourceInterface extends PluginInspectionInterface, ContainerFactoryPluginInterface {
+interface UiPatternsSourceInterface extends PluginInspectionInterface, ContainerFactoryPluginInterface, ConfigurablePluginInterface {
 
   /**
    * Source field factory method.

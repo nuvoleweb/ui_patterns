@@ -64,9 +64,9 @@ class DsFieldTemplateSource extends UiPatternsSourceBase {
     $field = $this->fieldManager->getFieldDefinitions($entity_type, $bundle)[$field_name];
     $label = $field->label();
 
-    $sources[] = $this->getSourceField('formatted', "{$label}: Formatted");
+    $sources[] = $this->getSourceField($field_name, $label);
     foreach ($field->getFieldStorageDefinition()->getColumns() as $column_name => $column) {
-      $sources[] = $this->getSourceField("column_{$column_name}", "{$label} column: {$column_name}");
+      $sources[] = $this->getSourceField($field_name . '__' . $column_name, $label . ': ' . $column_name);
     }
     return $sources;
   }

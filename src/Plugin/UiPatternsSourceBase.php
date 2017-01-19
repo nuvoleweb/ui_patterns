@@ -2,8 +2,9 @@
 
 namespace Drupal\ui_patterns\Plugin;
 
+use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Plugin\PluginBase;
-use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TypedData\TypedDataManager;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -12,6 +13,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Base class for UI Patterns Source plugins.
  */
 abstract class UiPatternsSourceBase extends PluginBase implements UiPatternsSourceInterface {
+
+  use StringTranslationTrait;
 
   /**
    * Patterns manager service.
@@ -92,11 +95,16 @@ abstract class UiPatternsSourceBase extends PluginBase implements UiPatternsSour
    * {@inheritdoc}
    */
   public function setConfiguration(array $configuration) {
-    $this->configuration = NestedArray::mergeDeep(
-      $this->baseConfigurationDefaults(),
-      $this->defaultConfiguration(),
-      $configuration
-    );
+    $this->configuration = $configuration;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+      'context' => [],
+    ];
   }
 
   /**
@@ -104,12 +112,11 @@ abstract class UiPatternsSourceBase extends PluginBase implements UiPatternsSour
    */
   public function getContextProperty($name) {
     $configuration = $this->getConfiguration();
-    if (isset($configuration['context'][$name])) {
+    if (isset($configuration['context'][$name]) && !empty($configuration['context'][$name])) {
       return $configuration['context'][$name];
     }
-    else {
-      return NULL;
-    }
+    $reflection = new \ReflectionClass($this);
+    throw new PluginException($this->t("Context property '@property' from @class is missing or empty.", ['@property' => $name, '@class' => $reflection->getName()]));
   }
 
   /**

@@ -92,7 +92,18 @@ content:
     type: text_default
     weight: 2
     settings: {  }
-    third_party_settings: {  }
+    third_party_settings:
+      ds:
+        ft:
+          id: pattern
+          settings:
+            pattern: blockquote
+            pattern_mapping:
+              'ds_field_template:body':
+                destination: quote
+                weight: 0
+                plugin: ds_field_template
+                source: body
     label: hidden
   field_image:
     type: image
@@ -100,7 +111,14 @@ content:
     settings:
       image_style: large
       image_link: ''
-    third_party_settings: {  }
+    third_party_settings:
+      ds:
+        ft:
+          id: default
+          settings:
+            lb: ''
+            lb-col: false
+            classes: {  }
     label: hidden
   field_paragraphs:
     type: entity_reference_revisions_entity_view

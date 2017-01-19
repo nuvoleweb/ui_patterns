@@ -3,7 +3,6 @@
 namespace Drupal\ui_patterns\Form;
 
 use Drupal\Component\Utility\SortArray;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
 
 /**
@@ -15,8 +14,6 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
  * @package Drupal\ui_patterns\Form
  */
 trait PatternDisplayFormTrait {
-
-  use StringTranslationTrait;
 
   /**
    * Build pattern display form.

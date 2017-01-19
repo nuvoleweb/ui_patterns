@@ -5,6 +5,9 @@
  * Contains module file.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
+
 /**
  * Implements hook_theme().
  */
@@ -15,3 +18,36 @@ function ui_patterns_ds_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ui_patterns_ds_form_entity_view_display_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  array_unshift($form['actions']['submit']['#submit'], 'ui_patterns_ds_field_overview_submit');
+}
+
+/**
+ * Form submit callback to fix the field_group configuration.
+ *
+ * @param array $form
+ *   The form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state.
+ */
+function ui_patterns_ds_field_overview_submit($form, FormStateInterface $form_state) {
+  /* @var \Drupal\Core\Entity\EntityFormInterface $entity_form */
+  /* @var \Drupal\Core\Entity\Display\EntityDisplayInterface $display */
+  $entity_form = $form_state->getFormObject();
+  $display = $entity_form->getEntity();
+  $components = array_filter($display->getComponents(), function($component) {
+    return isset($component['third_party_settings']['ds']['ft']['settings']['pattern']);
+  });
+
+  foreach ($components as $name => $component) {
+    PatternDisplayFormTrait::processFormStateValues($component['third_party_settings']['ds']['ft']['settings']);
+    $display->setComponent($name, $component);
+  }
+
+  $display->save();
+}
+
