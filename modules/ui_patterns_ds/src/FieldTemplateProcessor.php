@@ -51,7 +51,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    *    Source value.
    */
   public function getSourceValue(array $mapping, $delta) {
-    $value = $this->variables['items'][$delta];
+    $value = $this->variables['items'][$delta]['content'];
     if ($mapping['source'] != $this->getFieldName()) {
       $column = $this->getColumnName($mapping['source']);
       $value = $this->getEntity()->get($this->getFieldName())->getValue();
