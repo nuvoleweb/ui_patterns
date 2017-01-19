@@ -86,3 +86,18 @@ media:
       label: Body
       description: Media body.
       preview: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+
+button:
+  label: Button
+  description: A simple button.
+  fields:
+    title:
+      type: text
+      label: Label
+      description: The button label
+      preview: Submit
+    url:
+      type: text
+      label: URL
+      description: The button URL
+      preview: http://example.com

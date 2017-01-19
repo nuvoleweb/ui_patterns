@@ -22,6 +22,13 @@ Feature: Content
           type: jumbotron
           field_title: Jumbotron title
           field_subtitle: Jumbotron subtitle
+      field_links:
+        -
+          uri: http://example.com
+          title: My first button
+        -
+          uri: http://example.com
+          title: My second button
       """
 
   Scenario: Patterns can be used to style field groups.
@@ -36,6 +43,8 @@ Feature: Content
   Scenario: Patterns can be used as Display Suite field templates.
     Given I am visiting the "article" content "Article title"
     Then I should see "Article body" in the "quote"
+    And I should see the link "My first button"
+    And I should see the link "My second button"
 
   Scenario: Patterns can be used to style views.
     Given I am on "/articles"

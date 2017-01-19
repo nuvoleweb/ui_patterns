@@ -15,6 +15,7 @@ dependencies:
   - field_group
   - help
   - image
+  - link
   - node
   - page_manager_ui
   - panels

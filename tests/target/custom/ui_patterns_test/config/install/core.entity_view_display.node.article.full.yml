@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.article.body
     - field.field.node.article.comment
     - field.field.node.article.field_image
+    - field.field.node.article.field_links
     - field.field.node.article.field_paragraphs
     - field.field.node.article.field_tags
     - image.style.large
@@ -15,6 +16,7 @@ dependencies:
     - entity_reference_revisions
     - field_group
     - image
+    - link
     - text
     - user
 third_party_settings:
@@ -40,6 +42,7 @@ third_party_settings:
         - field_image
         - body
         - field_paragraphs
+        - field_links
         - node_author
         - node_post_date
         - field_tags
@@ -120,6 +123,34 @@ content:
             lb-col: false
             classes: {  }
     label: hidden
+  field_links:
+    type: link
+    weight: 4
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings:
+      ds:
+        ds_limit: ''
+        ft:
+          id: pattern
+          settings:
+            pattern: button
+            pattern_mapping:
+              'ds_field_template:field_links__uri':
+                destination: url
+                weight: 0
+                plugin: ds_field_template
+                source: field_links__uri
+              'ds_field_template:field_links__title':
+                destination: title
+                weight: 1
+                plugin: ds_field_template
+                source: field_links__title
   field_paragraphs:
     type: entity_reference_revisions_entity_view
     weight: 3

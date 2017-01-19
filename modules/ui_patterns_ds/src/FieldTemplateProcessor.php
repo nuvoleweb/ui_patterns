@@ -2,29 +2,12 @@
 
 namespace Drupal\ui_patterns_ds;
 
-use Drupal\ui_patterns\UiPatternsManager;
-use Drupal\Core\Entity\EntityFieldManager;
-
 /**
  * Class FieldTemplateProcessor.
  *
  * @package Drupal\ui_patterns_ds
  */
 class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
-
-  /**
-   * Ui Patterns Manager.
-   *
-   * @var \Drupal\ui_patterns\UiPatternsManager
-   */
-  protected $patternsManager;
-
-  /**
-   * Entity Field Manager.
-   *
-   * @var \Drupal\Core\Entity\EntityFieldManager
-   */
-  protected $fieldManager;
 
   /**
    * Variables array.
@@ -34,36 +17,57 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
   protected $variables = [];
 
   /**
-   * Constructor.
-   *
-   * @param \Drupal\ui_patterns\UiPatternsManager $patterns_manager
-   *    UI Patterns manager.
-   * @param \Drupal\Core\Entity\EntityFieldManager $field_manager
-   *    Field manager.
-   */
-  public function __construct(UiPatternsManager $patterns_manager, EntityFieldManager $field_manager) {
-    $this->patternsManager = $patterns_manager;
-    $this->fieldManager = $field_manager;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function process(&$variables) {
     $this->variables = $variables;
 
-    $fields = [];
-    foreach ($this->getMapping() as $mapping) {
-      if ($mapping['source'] == $this->getFieldName()) {
-        $fields[$mapping['destination']] = $variables['items'];
+    $content = [];
+    foreach ($variables['items'] as $delta => $item) {
+      $fields = [];
+      foreach ($this->getMapping() as $mapping) {
+        $fields[$mapping['destination']] = $this->getSourceValue($mapping, $delta);
       }
+
+      $content['pattern_' . $delta] = [
+        '#type' => 'pattern',
+        '#id' => $this->getPatternId(),
+        '#fields' => $fields,
+      ];
     }
 
-    $variables['pattern'] = [
-      '#type' => 'pattern',
-      '#id' => $this->getPatternId(),
-      '#fields' => $fields,
-    ];
+    $variables['pattern'] = $content;
+  }
+
+  /**
+   * Get source value.
+   *
+   * @param array $mapping
+   *    Mapping array.
+   * @param int $delta
+   *    Field delta.
+   *
+   * @return mixed
+   *    Source value.
+   */
+  public function getSourceValue(array $mapping, $delta) {
+    $value = $this->variables['items'][$delta];
+    if ($mapping['source'] != $this->getFieldName()) {
+      $column = $this->getColumnName($mapping['source']);
+      $value = $this->getEntity()->get($this->getFieldName())->getValue();
+      $value = $value[$delta][$column];
+    }
+    return $value;
+  }
+
+  /**
+   * Get field parent entity.
+   *
+   * @return \Drupal\Core\Entity\ContentEntityBase
+   *    Parent entity.
+   */
+  protected function getEntity() {
+    return $this->variables['element']['#object'];
   }
 
   /**
@@ -97,35 +101,16 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
   }
 
   /**
-   * Get field columns.
+   * Extract column name from a source name.
+   *
+   * @param string $source
+   *    Source name.
    *
    * @return string
-   *    Field columns.
+   *    Column name.
    */
-  protected function getColumns() {
-    /** @var \Drupal\field\Entity\FieldConfig[] $fields */
-    $fields = $this->fieldManager->getFieldDefinitions($this->getEntityType(), $this->getBundle());
-    return $fields[$this->getFieldName()]->getFieldStorageDefinition()->getColumns();
-  }
-
-  /**
-   * Get entity bundle.
-   *
-   * @return string
-   *    Entity bundle.
-   */
-  protected function getBundle() {
-    return $this->variables['element']['#bundle'];
-  }
-
-  /**
-   * Get entity type.
-   *
-   * @return string
-   *    Entity type.
-   */
-  protected function getEntityType() {
-    return $this->variables['entity_type'];
+  protected function getColumnName($source) {
+    return str_replace($this->getFieldName() . '__', '', $source);
   }
 
 }
