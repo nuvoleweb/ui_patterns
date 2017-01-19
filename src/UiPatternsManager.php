@@ -10,7 +10,6 @@ use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
 use Drupal\Core\Plugin\Discovery\YamlDiscovery;
 use Drupal\Core\Theme\ThemeManager;
-use Drupal\Core\Render\Markup;
 
 /**
  * Provides the default ui_patterns manager.
@@ -82,25 +81,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * {@inheritdoc}
    */
-  public function renderPreview($pattern_id) {
-    $rendered = [];
-    $definition = $this->getDefinition($pattern_id);
-    try {
-      $rendered = [
-        '#type' => 'pattern',
-        '#id' => $definition['id'],
-        '#fields' => $this->getPreviewVariables($definition['id']),
-      ];
-    }
-    catch (\Twig_Error_Loader $e) {
-      drupal_set_message($e->getRawMessage(), 'error');
-    }
-    return $rendered;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getPatternsOptions() {
     return array_map(function ($option) {
       return $option['label'];
@@ -158,63 +138,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     }
 
     return $this->discovery;
-  }
-
-  /**
-   * Get variables for given pattern function.
-   *
-   * @param string $name
-   *    Pattern name, i.e. its theme function.
-   *
-   * @return array
-   *    Variables array.
-   */
-  protected function getPreviewVariables($name) {
-    $variables = [];
-    $definition = $this->getDefinition($name);
-    foreach ($definition['fields'] as $name => $field) {
-      // Some fields are used as twig array keys and don't need escaping.
-      if (!isset($field['escape']) || $field['escape'] != FALSE) {
-        // The examples are not user submitted and are safe markup.
-        $field['preview'] = self::getPreviewMarkup($field['preview']);
-      }
-
-      $variables[$name] = $field['preview'];
-    }
-
-    if (isset($definition['extra']['attributes'])) {
-      $variables['attributes'] = $definition['extra']['attributes'];
-    }
-
-    return $variables;
-  }
-
-  /**
-   * Make previews markup safe.
-   *
-   * @param string|string[] $preview
-   *   The preview, may be a string or an array.
-   *
-   * @return array|\Drupal\Component\Render\MarkupInterface|string
-   *   Preview safe markup.
-   */
-  protected static function getPreviewMarkup($preview) {
-    if (is_array($preview)) {
-      // Check if preview is a render array.
-      if (array_key_exists('theme', $preview) || array_key_exists('type', $preview)) {
-        $rendered = [];
-        foreach ($preview as $key => $value) {
-          $rendered['#' . $key] = $value;
-        }
-
-        return $rendered;
-      }
-
-      // Recursively escape the string elements.
-      return array_map([self::class, __METHOD__], $preview);
-    }
-
-    return Markup::create($preview);
   }
 
   /**

@@ -66,7 +66,8 @@ class PatternLibraryController extends ControllerBase {
   public function single($name) {
 
     $definition = $this->patternsManager->getDefinition($name);
-    $definition['rendered'] = $this->patternsManager->renderPreview($name);
+    $definition['rendered']['#type'] = 'pattern_preview';
+    $definition['rendered']['#id'] = $name;
     $definition['meta'] = $this->themeManager->render('patterns_meta_information', ['pattern' => $definition]);
 
     return [
@@ -85,7 +86,8 @@ class PatternLibraryController extends ControllerBase {
 
     $definitions = $this->patternsManager->getDefinitions();
     foreach ($definitions as $name => $definition) {
-      $definitions[$name]['rendered'] = $this->patternsManager->renderPreview($name);
+      $definitions[$name]['rendered']['#type'] = 'pattern_preview';
+      $definitions[$name]['rendered']['#id'] = $name;
       $definitions[$name]['meta'] = $this->themeManager->render('patterns_meta_information', ['pattern' => $definition]);
     }
 

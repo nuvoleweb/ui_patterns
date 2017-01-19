@@ -6,7 +6,7 @@ use Drupal\Core\Render\Element\RenderElement;
 use Drupal\Core\Template\Attribute;
 
 /**
- * Provides a pattern element.
+ * Renders a pattern element.
  *
  * @RenderElement("pattern")
  */
@@ -17,7 +17,7 @@ class Pattern extends RenderElement {
    *
    * @var array
    */
-  static private $definition;
+  static protected $definition;
 
   /**
    * {@inheritdoc}
