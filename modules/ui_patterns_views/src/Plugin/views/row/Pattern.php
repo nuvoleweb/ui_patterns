@@ -134,7 +134,7 @@ class Pattern extends Fields {
     $empty_value = $field->isValueEmpty($field_output, $field->options['empty_zero']);
     $hide_field = !$empty_value || (empty($field->options['hide_empty']) && empty($this->options['hide_empty']));
     $empty = empty($field->options['exclude']) && $hide_field;
-    return $empty && $this->getMappingDestination('views_row', $field->field, $this->options);
+    return $empty && $this->hasMappingDestination('views_row', $field->field, $this->options);
   }
 
 }

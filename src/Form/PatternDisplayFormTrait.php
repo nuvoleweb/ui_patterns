@@ -177,6 +177,23 @@ trait PatternDisplayFormTrait {
   }
 
   /**
+   * Helper function: check if given source field has mapping destination.
+   *
+   * @param string $plugin
+   *    Current plugin ID.
+   * @param string $source
+   *    Source field name.
+   * @param array $settings
+   *    Setting array.
+   *
+   * @return bool
+   *    TRUE if source has destination field, FALSE otherwise.
+   */
+  public function hasMappingDestination($plugin, $source, array $settings) {
+    return $this->getMappingDestination($plugin, $source, $settings) !== NULL;
+  }
+
+  /**
    * Helper function: get default value.
    *
    * @param array $configuration

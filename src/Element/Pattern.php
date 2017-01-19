@@ -85,10 +85,16 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processFields(array $element) {
-    $fields = $element['#fields'];
-    unset($element['#fields']);
-    foreach ($fields as $name => $field) {
-      $element["#{$name}"] = $field;
+    // Make sure we don't render anything in case fields are empty.
+    if (isset($element['#fields']) && !empty($element['#fields'])) {
+      $fields = $element['#fields'];
+      unset($element['#fields']);
+      foreach ($fields as $name => $field) {
+        $element["#{$name}"] = $field;
+      }
+    }
+    else {
+      $element['#markup'] = '';
     }
     return $element;
   }
