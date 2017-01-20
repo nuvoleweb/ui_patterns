@@ -11,9 +11,18 @@ use Drupal\Core\Plugin\Discovery\YamlDiscovery as PluginYamlDiscovery;
  */
 class UiPatternsDiscovery extends PluginYamlDiscovery {
 
+  /**
+   * Constructs an UiPatternsDiscovery object.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   ModuleHanderInterface.
+   * @param \Drupal\Core\Extension\ThemeHandlerInterface $themeHandler
+   *   ThemeHandlerInterface.
+   */
   public function __construct(ModuleHandlerInterface $moduleHandler, ThemeHandlerInterface $themeHandler) {
     parent::__construct('ui_patterns', array());
     // Use our discovery instead of the one set in the parent class.
     $this->discovery = new YamlDiscovery('ui_patterns', $moduleHandler, $themeHandler);
   }
+
 }

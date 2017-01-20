@@ -9,17 +9,23 @@ use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Site\Settings;
 
 /**
- * Provides recursive discovery for YAML files in all module directories and
- * directories of the default theme and all of its possible base themes.
+ * Provides recursive discovery for YAML files.
+ *
+ * Searches for YAML files in all module directories and directories of the
+ * default theme and all of its possible base themes. Multiple YAML files are
+ * merged into one definition per provider (module/theme).
  */
 class YamlDiscovery extends CoreYamlDiscovery {
 
   /**
    * Constructs a YamlDiscovery object.
    *
-   * @param $name
+   * @param string $name
+   *   The base filename to look for in each directory.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   ModuleHandlerInterface.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $themeHandler
+   *   ThemeHandlerInterface.
    */
   public function __construct($name, ModuleHandlerInterface $moduleHandler, ThemeHandlerInterface $themeHandler) {
     // Create a list of all directories to scan. This includes all module
@@ -72,11 +78,12 @@ class YamlDiscovery extends CoreYamlDiscovery {
     }
     return $all;
   }
-  
+
   /**
    * Returns an array with file paths as keys.
    *
    * @return array
+   *   An array with file paths as keys.
    */
   protected function findFiles() {
     // Add options for file scan.
@@ -89,17 +96,21 @@ class YamlDiscovery extends CoreYamlDiscovery {
       foreach ($found as $file) {
         $files[$file->uri] = array('provider' => $provider);
       }
-
     }
     return $files;
   }
 
   /**
-   * Returns an array containing the directory paths of the default theme and
-   * all its possible base themes.
+   * Returns an array containing theme directory paths.
+   *
+   * Returns the directory paths of the default theme and all its possible base
+   * themes.
    *
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $themeHandler
+   *   ThemeHandlerInterface.
+   *
    * @return array
+   *   An array containing directory paths.
    */
   protected function getDefaultAndBaseThemesDirectories(ThemeHandlerInterface $themeHandler) {
     $defaultTheme = $themeHandler->getDefault();
@@ -119,14 +130,16 @@ class YamlDiscovery extends CoreYamlDiscovery {
    * Returns a regular expression for directories to be excluded in a file scan.
    *
    * @return string
+   *   Regular expression.
    */
   protected function getNomask() {
     $ignoreDirs = Settings::get('file_scan_ignore_directories', []);
     // We add 'tests' directory to the ones found in settings.
     $ignoreDirs[] = 'tests';
-    array_walk($ignoreDirs, function(&$value) {
+    array_walk($ignoreDirs, function (&$value) {
       $value = preg_quote($value, '/');
     });
     return '/^' . implode('|', $ignoreDirs) . '$/';
   }
+
 }
