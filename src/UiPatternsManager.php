@@ -10,6 +10,7 @@ use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
 use Drupal\Core\Theme\ThemeManager;
 use Drupal\ui_patterns\Plugin\Discovery\UiPatternsDiscovery;
+use Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery;
 
 /**
  * Provides the default ui_patterns manager.
@@ -135,8 +136,17 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
       $this->discovery->addTranslatableProperty('label', 'label_context');
       $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
     }
-
     return $this->discovery;
+  }
+
+  /**
+   * Sets the YamlDiscovery.
+   *
+   * @param \Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery $yamlDiscovery
+   *   YamlDiscovery.
+   */
+  public function setYamlDiscovery(YamlDiscovery $yamlDiscovery) {
+    $this->getDiscovery()->setYamlDiscovery($yamlDiscovery);
   }
 
   /**

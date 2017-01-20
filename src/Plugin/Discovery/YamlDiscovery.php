@@ -4,37 +4,14 @@ namespace Drupal\ui_patterns\Plugin\Discovery;
 
 use Drupal\Component\FileCache\FileCacheFactory;
 use Drupal\Core\Discovery\YamlDiscovery as CoreYamlDiscovery;
-use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Site\Settings;
 
 /**
  * Provides recursive discovery for YAML files.
  *
- * Searches for YAML files in all module directories and directories of the
- * default theme and all of its possible base themes. Multiple YAML files are
- * merged into one definition per provider (module/theme).
+ * Multiple YAML files for one provider (module/theme) will be merged.
  */
 class YamlDiscovery extends CoreYamlDiscovery {
-
-  /**
-   * Constructs a YamlDiscovery object.
-   *
-   * @param string $name
-   *   The base filename to look for in each directory.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
-   *   ModuleHandlerInterface.
-   * @param \Drupal\Core\Extension\ThemeHandlerInterface $themeHandler
-   *   ThemeHandlerInterface.
-   */
-  public function __construct($name, ModuleHandlerInterface $moduleHandler, ThemeHandlerInterface $themeHandler) {
-    // Create a list of all directories to scan. This includes all module
-    // directories and directories of the default theme and all of its possible
-    // base themes.
-    $directories = $this->getDefaultAndBaseThemesDirectories($themeHandler) + $moduleHandler->getModuleDirectories();
-
-    parent::__construct($name, $directories);
-  }
 
   /**
    * {@inheritdoc}
@@ -56,7 +33,7 @@ class YamlDiscovery extends CoreYamlDiscovery {
 
     // If there are files left that were not returned from the cache, load and
     // parse them now.
-    if ($processFiles) {
+    if (!empty($processFiles)) {
       foreach ($processFiles as $file) {
         // If a file is empty or its contents are commented out, return an empty
         // array instead of NULL for type consistency.
@@ -92,38 +69,21 @@ class YamlDiscovery extends CoreYamlDiscovery {
     // Recursively scan the directories for definition files.
     $files = array();
     foreach ($this->directories as $provider => $directory) {
-      $found = file_scan_directory($directory, '/\.' . $this->name . '\.yml$/', $options);
-      foreach ($found as $file) {
-        $files[$file->uri] = array('provider' => $provider);
+      $found = $this->fileScanDirectory($directory, '/\.' . $this->name . '\.yml$/', $options);
+      foreach (array_keys($found) as $file) {
+        $files[$file] = array('provider' => $provider);
       }
     }
     return $files;
   }
 
   /**
-   * Returns an array containing theme directory paths.
+   * Wrapper method for global function call.
    *
-   * Returns the directory paths of the default theme and all its possible base
-   * themes.
-   *
-   * @param \Drupal\Core\Extension\ThemeHandlerInterface $themeHandler
-   *   ThemeHandlerInterface.
-   *
-   * @return array
-   *   An array containing directory paths.
+   * @see file.inc
    */
-  protected function getDefaultAndBaseThemesDirectories(ThemeHandlerInterface $themeHandler) {
-    $defaultTheme = $themeHandler->getDefault();
-    $baseThemes = $themeHandler->getBaseThemes($themeHandler->listInfo(), $defaultTheme);
-    $themeDirectories = $themeHandler->getThemeDirectories();
-
-    $directories = array();
-    $directories[$defaultTheme] = $themeDirectories[$defaultTheme];
-    foreach ($baseThemes as $name => $theme) {
-      $directories[$name] = $themeDirectories[$name];
-    }
-
-    return $directories;
+  public function fileScanDirectory($dir, $mask, $options = array(), $depth = 0) {
+    return file_scan_directory($dir, $mask, $options, $depth);
   }
 
   /**

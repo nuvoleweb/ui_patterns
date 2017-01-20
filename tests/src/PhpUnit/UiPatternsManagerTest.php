@@ -36,6 +36,7 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     $theme_manager = $this->getThemeManagerMock();
 
     $plugin_manager = new UiPatternsManager($module_handler, $theme_handler, $theme_manager, $cache_backend);
+    $plugin_manager->setYamlDiscovery($this->getYamlDiscoveryMock());
     $definitions = $plugin_manager->getDefinitions();
 
     assert($definitions, hasKey($id));
@@ -111,19 +112,6 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     }
 
     return $data;
-  }
-
-  /**
-   * Get full test extension path.
-   *
-   * @param string $name
-   *    Test extension name.
-   *
-   * @return string
-   *    Full test extension path.
-   */
-  protected function getExtensionsPath($name) {
-    return realpath(dirname(__FILE__) . '/../../../tests/target/custom/' . $name);
   }
 
 }
