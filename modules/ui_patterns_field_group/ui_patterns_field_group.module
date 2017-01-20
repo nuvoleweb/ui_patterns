@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
 
 /**
  * Implements hook_form_FORM_ID_alter().
