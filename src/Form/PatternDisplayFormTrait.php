@@ -47,11 +47,11 @@ trait PatternDisplayFormTrait {
     foreach ($this->patternsManager->getDefinitions() as $pattern_id => $definition) {
       $form['pattern_mapping'][$pattern_id] = [
         '#type' => 'container',
-        '#states' => array(
+        '#states' => [
           'visible' => [
-            'select[id="patterns-select"]' => array('value' => $pattern_id),
+            'select[id="patterns-select"]' => ['value' => $pattern_id],
           ],
-        ),
+        ],
       ];
       $form['pattern_mapping'][$pattern_id]['settings'] = $this->getMappingForm($pattern_id, $tag, $context, $configuration);
     }
@@ -110,7 +110,7 @@ trait PatternDisplayFormTrait {
           '#type' => 'weight',
           '#default_value' => $this->getDefaultValue($configuration, $field_name, 'weight'),
           '#delta' => 20,
-          '#title' => $this->t('Weight for @field field', array('@field' => $field->getFieldLabel())),
+          '#title' => $this->t('Weight for @field field', ['@field' => $field->getFieldLabel()]),
           '#title_display' => 'invisible',
           '#attributes' => [
             'class' => ['field-weight'],
@@ -150,7 +150,7 @@ trait PatternDisplayFormTrait {
 
       // Normalize weights.
       $weight = 0;
-      uasort($settings['pattern_mapping'], array(SortArray::class, 'sortByWeightElement'));
+      uasort($settings['pattern_mapping'], [SortArray::class, 'sortByWeightElement']);
       foreach ($settings['pattern_mapping'] as $key => $setting) {
         $settings['pattern_mapping'][$key]['weight'] = $weight++;
       }

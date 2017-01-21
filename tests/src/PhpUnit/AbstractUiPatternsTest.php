@@ -119,11 +119,11 @@ abstract class AbstractUiPatternsTest extends TestCase {
   /**
    * Get YamlDiscovery mock.
    *
-   * @return \Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery
+   * @return \Drupal\ui_patterns\Discovery\YamlDiscovery
    *   YamlDiscovery mock.
    */
   protected function getYamlDiscoveryMock() {
-    $discovery = $this->getMockBuilder('Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery')
+    $discovery = $this->getMockBuilder('Drupal\ui_patterns\Discovery\YamlDiscovery')
       ->setConstructorArgs([
         'ui_patterns',
         $this->getModuleDirectoriesMock() + $this->getDefaultAndBaseThemesDirectoriesMock(),
@@ -133,7 +133,7 @@ abstract class AbstractUiPatternsTest extends TestCase {
     $discovery->method('fileScanDirectory')
       ->willReturnCallback(array($this, 'fileScanDirectoryMock'));
 
-    /** @var \Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery $discovery */
+    /** @var \Drupal\ui_patterns\Discovery\YamlDiscovery $discovery */
     return $discovery;
   }
 

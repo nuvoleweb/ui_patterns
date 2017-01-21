@@ -9,8 +9,8 @@ use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
 use Drupal\Core\Theme\ThemeManager;
-use Drupal\ui_patterns\Plugin\Discovery\UiPatternsDiscovery;
-use Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery;
+use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
+use Drupal\ui_patterns\Discovery\YamlDiscovery;
 
 /**
  * Provides the default ui_patterns manager.
@@ -142,7 +142,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * Sets the YamlDiscovery.
    *
-   * @param \Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery $yamlDiscovery
+   * @param \Drupal\ui_patterns\Discovery\YamlDiscovery $yamlDiscovery
    *   YamlDiscovery.
    */
   public function setYamlDiscovery(YamlDiscovery $yamlDiscovery) {

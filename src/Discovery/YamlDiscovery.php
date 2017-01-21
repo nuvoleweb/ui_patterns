@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns\Plugin\Discovery;
+namespace Drupal\ui_patterns\Discovery;
 
 use Drupal\Component\FileCache\FileCacheFactory;
 use Drupal\Core\Discovery\YamlDiscovery as CoreYamlDiscovery;
@@ -44,7 +44,7 @@ class YamlDiscovery extends CoreYamlDiscovery {
     }
 
     // Create array keyed by provider with merged data as values.
-    $all = array();
+    $all = [];
     foreach ($files as $file => $value) {
       $provider = $value['provider'];
       if (isset($all[$provider])) {
@@ -65,14 +65,14 @@ class YamlDiscovery extends CoreYamlDiscovery {
    */
   protected function findFiles() {
     // Add options for file scan.
-    $options = array('nomask' => $this->getNomask());
+    $options = ['nomask' => $this->getNomask()];
 
     // Recursively scan the directories for definition files.
-    $files = array();
+    $files = [];
     foreach ($this->directories as $provider => $directory) {
       $found = $this->fileScanDirectory($directory, '/\.' . $this->name . '\.yml$/', $options);
       foreach (array_keys($found) as $file) {
-        $files[$file] = array('provider' => $provider);
+        $files[$file] = ['provider' => $provider];
       }
     }
     return $files;
@@ -83,7 +83,7 @@ class YamlDiscovery extends CoreYamlDiscovery {
    *
    * @see file.inc
    */
-  public function fileScanDirectory($dir, $mask, $options = array(), $depth = 0) {
+  public function fileScanDirectory($dir, $mask, $options = [], $depth = 0) {
     return file_scan_directory($dir, $mask, $options, $depth);
   }
 
