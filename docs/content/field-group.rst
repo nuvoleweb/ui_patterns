@@ -1,4 +1,4 @@
-Use patterns With Field Groups
+Use patterns with Field Groups
 ------------------------------
 
 Patterns can be used to style your entities' `field groups <https://www.drupal.org/project/field_group>`_ thanks to the
