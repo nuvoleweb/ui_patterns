@@ -102,13 +102,13 @@ class YamlDiscovery extends CoreYamlDiscovery {
    *   Regular expression.
    */
   protected function getNomask() {
-    $ignoreDirs = Settings::get('file_scan_ignore_directories', []);
+    $ignore = Settings::get('file_scan_ignore_directories', []);
     // We add 'tests' directory to the ones found in settings.
-    $ignoreDirs[] = 'tests';
-    array_walk($ignoreDirs, function (&$value) {
+    $ignore[] = 'tests';
+    array_walk($ignore, function (&$value) {
       $value = preg_quote($value, '/');
     });
-    return '/^' . implode('|', $ignoreDirs) . '$/';
+    return '/^' . implode('|', $ignore) . '$/';
   }
 
 }
