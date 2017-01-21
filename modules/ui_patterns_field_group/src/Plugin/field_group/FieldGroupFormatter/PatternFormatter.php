@@ -145,10 +145,10 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    * {@inheritdoc}
    */
   public static function defaultContextSettings($context) {
-    return array(
+    return [
       'pattern' => 'none',
       'pattern_mapping' => [],
-    ) + parent::defaultContextSettings($context);
+      ] + parent::defaultContextSettings($context);
   }
 
 }

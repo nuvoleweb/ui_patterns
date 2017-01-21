@@ -144,10 +144,25 @@ abstract class AbstractUiPatternsTest extends TestCase {
    *   Array with module names as keys and full paths as values.
    */
   protected function getModuleDirectoriesMock() {
-    $directories = array(
+    $directories = [
       'ui_patterns_test' => $this->getExtensionsPath('ui_patterns_test'),
-    );
+    ];
     return $directories;
+  }
+
+  /**
+   * Get Loader mock.
+   *
+   * @return \Drupal\Core\Template\Loader\FilesystemLoader
+   *    Loader mock.
+   */
+  protected function getLoaderMock() {
+    $loader = $this->getMockBuilder('Drupal\Core\Template\Loader\FilesystemLoader')
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    /** @var \Drupal\Core\Template\Loader\FilesystemLoader $loader */
+    return $loader;
   }
 
   /**
@@ -157,10 +172,10 @@ abstract class AbstractUiPatternsTest extends TestCase {
    *   Array with theme names as keys and full paths as values.
    */
   protected function getDefaultAndBaseThemesDirectoriesMock() {
-    $directories = array(
+    $directories = [
       'ui_patterns_test_theme' => $this->getExtensionsPath('ui_patterns_test_theme'),
       'bootstrap' => $this->getExtensionsPath('bootstrap'),
-    );
+    ];
     return $directories;
   }
 
@@ -171,19 +186,19 @@ abstract class AbstractUiPatternsTest extends TestCase {
    *   Array keyed with full file paths of all definition files.
    */
   public function fileScanDirectoryMock($dir) {
-    $files = array();
+    $files = [];
 
     switch ($dir) {
       case $this->getExtensionsPath('ui_patterns_test'):
-        $files = array(
+        $files = [
           $this->getExtensionsPath('ui_patterns_test') . '/ui_patterns_test.ui_patterns.yml',
-        );
+        ];
         break;
 
       case $this->getExtensionsPath('ui_patterns_test_theme'):
-        $files = array(
+        $files = [
           $this->getExtensionsPath('ui_patterns_test_theme') . '/ui_patterns_test_theme.ui_patterns.yml',
-        );
+        ];
         break;
     }
 

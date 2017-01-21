@@ -79,8 +79,8 @@ class Pattern extends Fields {
    */
   protected function defineOptions() {
     $options = parent::defineOptions();
-    $options['hide_empty'] = array('default' => FALSE);
-    $options['default_field_elements'] = array('default' => FALSE);
+    $options['hide_empty'] = ['default' => FALSE];
+    $options['default_field_elements'] = ['default' => FALSE];
     return $options;
   }
 
@@ -90,19 +90,19 @@ class Pattern extends Fields {
   public function buildOptionsForm(&$form, FormStateInterface $form_state) {
     parent::buildOptionsForm($form, $form_state);
 
-    $form['default_field_elements'] = array(
+    $form['default_field_elements'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Provide default field wrapper elements'),
       '#default_value' => $this->options['default_field_elements'],
       '#description' => $this->t('If not checked, fields that are not configured to customize their HTML elements will get no wrappers at all for their field, label and field + label wrappers. You can use this to quickly reduce the amount of markup the view provides by default, at the cost of making it more difficult to apply CSS.'),
-    );
+    ];
 
-    $form['hide_empty'] = array(
+    $form['hide_empty'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Hide empty fields'),
       '#default_value' => $this->options['hide_empty'],
       '#description' => $this->t('Do not display fields, labels or markup for fields that are empty.'),
-    );
+    ];
 
     $context = ['view' => $this->view];
     $this->buildPatternDisplayForm($form, 'views_row', $context, $this->options);
