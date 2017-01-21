@@ -6,6 +6,8 @@
 
 **Closed issues:**
 
+- Support for finding templates in subfolders [\#16](https://github.com/nuvoleweb/ui_patterns/issues/16)
+- Allow multiple pattern definitions [\#15](https://github.com/nuvoleweb/ui_patterns/issues/15)
 - Add a new pattern render element  [\#12](https://github.com/nuvoleweb/ui_patterns/issues/12)
 - Add pattern plugin validation [\#10](https://github.com/nuvoleweb/ui_patterns/issues/10)
 - Fix warning when saving view mode layouts [\#9](https://github.com/nuvoleweb/ui_patterns/issues/9)
@@ -15,6 +17,8 @@
 
 **Merged pull requests:**
 
+- Support for finding templates in subfolders \#16 [\#23](https://github.com/nuvoleweb/ui_patterns/pull/23) ([ademarco](https://github.com/ademarco))
+- Allow multiple pattern definition files \#15 [\#22](https://github.com/nuvoleweb/ui_patterns/pull/22) ([aleksip](https://github.com/aleksip))
 - Provide Display Suite field template plugin \#7 [\#21](https://github.com/nuvoleweb/ui_patterns/pull/21) ([ademarco](https://github.com/ademarco))
 - Add a new pattern render element \#12 [\#19](https://github.com/nuvoleweb/ui_patterns/pull/19) ([ademarco](https://github.com/ademarco))
 - Integrate patterns with views \#8 [\#18](https://github.com/nuvoleweb/ui_patterns/pull/18) ([ademarco](https://github.com/ademarco))
