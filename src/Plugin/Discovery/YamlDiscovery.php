@@ -19,23 +19,23 @@ class YamlDiscovery extends CoreYamlDiscovery {
    */
   public function findAll() {
     $files = $this->findFiles();
-    $processFiles = array_keys($files);
+    $process_files = array_keys($files);
 
     $file_cache = FileCacheFactory::get('yaml_discovery:' . $this->name);
 
     // Try to load from the file cache first.
-    foreach ($processFiles as $i => $file) {
+    foreach ($process_files as $i => $file) {
       $data = $file_cache->get($file);
       if ($data) {
         $files[$file]['data'] = $data;
-        unset($processFiles[$i]);
+        unset($process_files[$i]);
       }
     }
 
     // If there are files left that were not returned from the cache, load and
     // parse them now.
-    if (!empty($processFiles)) {
-      foreach ($processFiles as $file) {
+    if (!empty($process_files)) {
+      foreach ($process_files as $file) {
         // If a file is empty or its contents are commented out, return an empty
         // array instead of NULL for type consistency.
         $files[$file]['data'] = $this->decode($file);
