@@ -153,15 +153,15 @@ abstract class AbstractUiPatternsTest extends TestCase {
   /**
    * Get Loader mock.
    *
-   * @return \Drupal\Core\Template\Loader\FilesystemLoader
+   * @return \Twig_Loader_Chain
    *    Loader mock.
    */
   protected function getLoaderMock() {
-    $loader = $this->getMockBuilder('Drupal\Core\Template\Loader\FilesystemLoader')
+    $loader = $this->getMockBuilder('Twig_Loader_Chain')
       ->disableOriginalConstructor()
       ->getMock();
 
-    /** @var \Drupal\Core\Template\Loader\FilesystemLoader $loader */
+    /** @var \Twig_Loader_Chain $loader */
     return $loader;
   }
 

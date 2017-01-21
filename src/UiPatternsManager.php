@@ -8,7 +8,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
-use Drupal\Core\Template\Loader\FilesystemLoader;
 use Drupal\Core\Theme\ThemeManager;
 use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
 use Drupal\ui_patterns\Discovery\YamlDiscovery;
@@ -47,7 +46,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * Loader service.
    *
-   * @var \Drupal\Core\Template\Loader\FilesystemLoader
+   * @var \Twig_Loader_Chain
    */
   protected $loader;
 
@@ -73,7 +72,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *   Cache backend instance to use.
    */
-  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, ThemeManager $theme_manager, FilesystemLoader $loader, CacheBackendInterface $cache_backend) {
+  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, ThemeManager $theme_manager, \Twig_Loader_Chain $loader, CacheBackendInterface $cache_backend) {
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
