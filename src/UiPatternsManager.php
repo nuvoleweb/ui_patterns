@@ -8,8 +8,9 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
-use Drupal\Core\Plugin\Discovery\YamlDiscovery;
 use Drupal\Core\Theme\ThemeManager;
+use Drupal\ui_patterns\Plugin\Discovery\UiPatternsDiscovery;
+use Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery;
 
 /**
  * Provides the default ui_patterns manager.
@@ -131,13 +132,21 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   protected function getDiscovery() {
     if (!isset($this->discovery)) {
-      $directories = $this->themeHandler->getThemeDirectories() + $this->moduleHandler->getModuleDirectories();
-      $this->discovery = new YamlDiscovery('ui_patterns', $directories);
+      $this->discovery = new UiPatternsDiscovery($this->moduleHandler, $this->themeHandler);
       $this->discovery->addTranslatableProperty('label', 'label_context');
       $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
     }
-
     return $this->discovery;
+  }
+
+  /**
+   * Sets the YamlDiscovery.
+   *
+   * @param \Drupal\ui_patterns\Plugin\Discovery\YamlDiscovery $yamlDiscovery
+   *   YamlDiscovery.
+   */
+  public function setYamlDiscovery(YamlDiscovery $yamlDiscovery) {
+    $this->getDiscovery()->setYamlDiscovery($yamlDiscovery);
   }
 
   /**
