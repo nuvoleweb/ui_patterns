@@ -9,7 +9,8 @@ use Drupal\Core\Site\Settings;
 /**
  * Provides recursive discovery for YAML files.
  *
- * Multiple YAML files for one provider (module/theme) will be merged.
+ * Discovered data is keyed by provider (module/theme). If multiple YAML files
+ * are discovered from a provider their data will be merged.
  */
 class YamlDiscovery extends CoreYamlDiscovery {
 

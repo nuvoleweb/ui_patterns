@@ -141,7 +141,7 @@ abstract class AbstractUiPatternsTest extends TestCase {
    * ModuleHandlerInterface::getModuleDirectories method mock.
    *
    * @return array
-   *   Array with module names as keys and paths as values.
+   *   Array with module names as keys and full paths as values.
    */
   protected function getModuleDirectoriesMock() {
     $directories = array(
@@ -154,7 +154,7 @@ abstract class AbstractUiPatternsTest extends TestCase {
    * UiPatternsDiscovery::getDefaultAndBaseThemesDirectories method mock.
    *
    * @return array
-   *   Array keyed with full file paths of all definition files.
+   *   Array with theme names as keys and full paths as values.
    */
   protected function getDefaultAndBaseThemesDirectoriesMock() {
     $directories = array(
