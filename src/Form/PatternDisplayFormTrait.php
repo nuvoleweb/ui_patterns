@@ -10,15 +10,11 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
  *
  * @property \Drupal\ui_patterns\UiPatternsManager $patternsManager
  * @property \Drupal\ui_patterns\Plugin\UiPatternsSourceManager $sourceManager
+ * @method \Drupal\Core\StringTranslation\TranslatableMarkup t($string, array $args = [], array $options = [])
  *
  * @package Drupal\ui_patterns\Form
  */
 trait PatternDisplayFormTrait {
-
-  /**
-   * {@inheritdoc}
-   */
-  abstract protected function t($string, array $args = [], array $options = []);
 
   /**
    * Build pattern display form.
