@@ -115,6 +115,11 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
         $module = $this->moduleHandler->getModule($definition['provider']);
         $items[$hook]['path'] = $module->getPath() . '/templates';
       }
+
+      if (!empty($definition['template'])) {
+        $items[$hook]['path'] = dirname($definition['template']);
+        $items[$hook]['template'] = preg_replace('/\.html\.twig$/', '', basename($definition['template']));
+      }
     }
 
     return $items;
