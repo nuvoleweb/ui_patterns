@@ -123,12 +123,15 @@ This default behavior can be changed by using the following properties in you pa
     so the following are valid value examples:
 
 .. code-block:: yaml
+
    use: "@my_module/templates/my-template.html.twig"
-   ...
-   use: "@my_theme/templates/my-template.html.twig"
+
+.. code-block:: yaml
+
+   use: "@molecules/media/media-block.html.twig"
 
 The possibility of using stand-alone Twig templates allows for a swift integration with tools like `PatternLab <http://patternlab.io/>`_
 or modules like `Component Libraries <https://www.drupal.org/project/components>`_.
 
-**Attention:** remember to always double-quote the ``use:`` property's value or `PatternLab <http://patternlab.io/>`_
+**Attention:** always remember to double-quote the ``use:`` property's value or `PatternLab <http://patternlab.io/>`_
 will complain.
