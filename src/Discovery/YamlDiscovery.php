@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns\Discovery;
 
 use Drupal\Component\FileCache\FileCacheFactory;
 use Drupal\Core\Discovery\YamlDiscovery as CoreYamlDiscovery;
-use Drupal\Core\Site\Settings;
 
 /**
  * Provides recursive discovery for YAML files.
@@ -72,13 +71,10 @@ class YamlDiscovery extends CoreYamlDiscovery {
    *   An array with file paths as keys.
    */
   protected function findFiles() {
-    // Add options for file scan.
-    $options = ['nomask' => $this->getNomask()];
-
     // Recursively scan the directories for definition files.
     $files = [];
     foreach ($this->directories as $provider => $directory) {
-      $found = $this->fileScanDirectory($directory, '/\.' . $this->name . '\.yml$/', $options);
+      $found = $this->fileScanDirectory($directory, '/\.' . $this->name . '\.yml$/');
       foreach (array_keys($found) as $file) {
         $files[$file] = ['provider' => $provider];
       }
@@ -93,22 +89,6 @@ class YamlDiscovery extends CoreYamlDiscovery {
    */
   public function fileScanDirectory($dir, $mask, $options = [], $depth = 0) {
     return file_scan_directory($dir, $mask, $options, $depth);
-  }
-
-  /**
-   * Returns a regular expression for directories to be excluded in a file scan.
-   *
-   * @return string
-   *   Regular expression.
-   */
-  protected function getNomask() {
-    $ignore = Settings::get('file_scan_ignore_directories', []);
-    // We add 'tests' directory to the ones found in settings.
-    $ignore[] = 'tests';
-    array_walk($ignore, function (&$value) {
-      $value = preg_quote($value, '/');
-    });
-    return '/^' . implode('|', $ignore) . '$/';
   }
 
 }
