@@ -116,7 +116,7 @@ abstract class UiPatternsSourceBase extends PluginBase implements UiPatternsSour
       return $configuration['context'][$name];
     }
     $reflection = new \ReflectionClass($this);
-    throw new PluginException($this->t("Context property '@property' from @class is missing or empty.", ['@property' => $name, '@class' => $reflection->getName()]));
+    throw new PluginException($this->t("Context property '@property' from @class is missing or empty.", ['@property' => $name, '@class' => $reflection->name]));
   }
 
   /**
