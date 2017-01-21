@@ -148,7 +148,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     return [
       'pattern' => 'none',
       'pattern_mapping' => [],
-      ] + parent::defaultContextSettings($context);
+    ] + parent::defaultContextSettings($context);
   }
 
 }

@@ -8,6 +8,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
+use Drupal\Core\Template\Loader\FilesystemLoader;
 use Drupal\Core\Theme\ThemeManager;
 use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
 use Drupal\ui_patterns\Discovery\YamlDiscovery;
@@ -16,6 +17,13 @@ use Drupal\ui_patterns\Discovery\YamlDiscovery;
  * Provides the default ui_patterns manager.
  */
 class UiPatternsManager extends DefaultPluginManager implements UiPatternsManagerInterface {
+
+  /**
+   * The app root.
+   *
+   * @var string
+   */
+  protected $root;
 
   /**
    * The theme handler.
@@ -30,6 +38,13 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @var \Drupal\Core\Theme\ThemeManager
    */
   protected $themeManager;
+
+  /**
+   * Loader service.
+   *
+   * @var \Drupal\Core\Template\Loader\FilesystemLoader
+   */
+  protected $loader;
 
   /**
    * Provides default values for all ui_patterns plugins.
@@ -53,11 +68,12 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *   Cache backend instance to use.
    */
-  public function __construct(ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, ThemeManager $theme_manager, CacheBackendInterface $cache_backend) {
-    // Add more services as required.
+  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, ThemeManager $theme_manager, FilesystemLoader $loader, CacheBackendInterface $cache_backend) {
+    $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
     $this->themeManager = $theme_manager;
+    $this->loader = $loader;
     $this->alterInfo('ui_patterns_info');
     $this->setCacheBackend($cache_backend, 'ui_patterns', ['ui_patterns']);
   }

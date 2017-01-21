@@ -128,10 +128,10 @@ abstract class AbstractUiPatternsTest extends TestCase {
         'ui_patterns',
         $this->getModuleDirectoriesMock() + $this->getDefaultAndBaseThemesDirectoriesMock(),
       ])
-      ->setMethods(array('fileScanDirectory'))
+      ->setMethods(['fileScanDirectory'])
       ->getMock();
     $discovery->method('fileScanDirectory')
-      ->willReturnCallback(array($this, 'fileScanDirectoryMock'));
+      ->willReturnCallback([$this, 'fileScanDirectoryMock']);
 
     /** @var \Drupal\ui_patterns\Discovery\YamlDiscovery $discovery */
     return $discovery;
