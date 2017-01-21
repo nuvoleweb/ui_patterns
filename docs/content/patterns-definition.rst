@@ -133,5 +133,5 @@ This default behavior can be changed by using the following properties in you pa
 The possibility of using stand-alone Twig templates allows for a swift integration with tools like `PatternLab <http://patternlab.io/>`_
 or modules like `Component Libraries <https://www.drupal.org/project/components>`_.
 
-**Attention:** always remember to double-quote the ``use:`` property's value or `PatternLab <http://patternlab.io/>`_
-will complain.
+**Attention:** always remember to double-quote the ``use:`` property's value or or some YAML parsers (including Pattern
+Lab's) will complain.
