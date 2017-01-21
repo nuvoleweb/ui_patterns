@@ -1,8 +1,8 @@
 Define your patterns
 --------------------
 
-UI patterns can be exposed by both modules and themes: all defined patterns are collected and managed by a centralized
-UI Pattern plugin manager, this means that pattern IDs must be unique in order to avoid conflicts.
+Patterns can be exposed by both modules and themes: all defined patterns are collected and managed by a centralized
+plugin manager, this means that pattern IDs must be unique in order to avoid conflicts.
 
 Pattern plugins are described using the `YAML discovery method <https://www.drupal.org/docs/8/api/plugin-api/d8-plugin-discovery>`_.
 To define your patterns simply create a YAML file named ``MY_MODULE.ui_patterns.yml`` or ``MY_THEME.ui_patterns.yml``
@@ -33,8 +33,6 @@ Let's break this down:
 ``id``
     The root of a new pattern definition (``blockquote`` in the example above). It must contain only lowercase
     characters, numbers and underscores (i.e. it should validate against ``[^a-z0-9_]+``).
-``theme hook``
-    If specified it overrides the default ``pattern__[id]`` theme hook.
 ``label``
     Pattern label, used on pattern library page.
 ``description``
@@ -55,7 +53,12 @@ Let's break this down:
     Libraries that are to be loaded when rendering the pattern. UI patterns are supposed to be self-contained so they
     should define along all needed libraries.
 
-Once the pattern is defined it's time to provide its [Twig](http://twig.sensiolabs.org/) template. In order to do so
+Once the pattern is defined the module will expose them as standard Drupal theme definitions.
+
+For example, given the ``my_pattern`` pattern ID then a theme function ``pattern__my_pattern`` is created and,
+consequently, the module will look for a template file called  ``pattern--my-pattern.html.twig``.
+
+Once the pattern is defined it's time to provide its `Twig <http://twig.sensiolabs.org/>`_ template. In order to do so
 we create a Twig file called ``pattern--blockquote.html.twig`` and we place it either under ``MY_MODULE/templates``,
 if the pattern is exposed by a module, or under ``MY_THEME/templates``, if it is exposed by a theme. Obviously themes
 can always override templates exposed by modules.
@@ -74,3 +77,58 @@ The ``blockquote`` pattern defined above will be rendered in the pattern library
 
 .. image:: ../_static/blockquote-preview.png
    :align: center
+
+**Remember**: always visit the ``/pattern`` page in order to have access to a full preview of all your patterns.
+
+Organize your patterns in sub-folders
+=====================================
+
+Patterns can be defined using a single ``.ui_patterns.yml`` file however, in case of sites with a large number of
+patterns, this might quickly becomes difficult to manage.
+
+Luckily pattern definitions can be organised in sub-folders too as shown below:
+
+.. code-block:: bash
+
+    .
+    ├── templates
+    │   └── patterns
+    │       ├── button
+    │       │   ├── button.ui_patterns.yml
+    │       │   └── pattern--button.html.twig
+    │       ├── media
+    │       │   ├── media.ui_patterns.yml
+    │       │   └── pattern--media.html.twig
+    ...
+    │       └── pattern--jumbotron.html.twig
+    ├── ui_patterns_test_theme.info.yml
+    └── ui_patterns_test_theme.ui_patterns.yml
+
+
+**Note:** the example above is taken buy the actual test target site that is used to test the module itself: have a look
+at ``./tests/README.md`` and at ``./tests/target/custom`` for working examples of how to use the UI Patterns module.
+
+Override patterns behavior
+==========================
+
+This default behavior can be changed by using the following properties in you pattern definitions:
+
+``theme hook``
+    If specified it overrides the default ``pattern__[id]`` theme hook with the given value. Template file will change
+    accordingly.
+``template``
+    If specified it overrides only the template file keeping the default ``pattern__[id]`` theme hook.
+``use``
+    If specified it will use a stand alone Twig file as template. The value supports `Twig namespaces <http://symfony.com/doc/current/templating/namespaced_paths.html>`_
+    so the following are valid value examples:
+
+.. code-block:: yaml
+   use: "@my_module/templates/my-template.html.twig"
+   ...
+   use: "@my_theme/templates/my-template.html.twig"
+
+The possibility of using stand-alone Twig templates allows for a swift integration with tools like `PatternLab <http://patternlab.io/>`_
+or modules like `Component Libraries <https://www.drupal.org/project/components>`_.
+
+**Attention:** remember to always double-quote the ``use:`` property's value or `PatternLab <http://patternlab.io/>`_
+will complain.

@@ -49,7 +49,8 @@ jumbotron:
 modal:
   label: Modal
   description: Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart defaults.
-  use: @ui_patterns_test_theme/patterns/modal/modal-template.html.twig
+  # Remember to use quotes or PatternLab will complain.
+  use: "@ui_patterns_test_theme/patterns/modal/modal-template.html.twig"
   fields:
     title:
       type: text
