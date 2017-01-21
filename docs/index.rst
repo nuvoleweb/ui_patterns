@@ -14,16 +14,22 @@ for business like the one shown below:
 Project overview
 ----------------
 
-The UI Patterns project provides 3 modules:
+The UI Patterns project provides 5 modules:
 
-* **UI Patterns** (machine name ``ui_patterns``): the main module that defines the UI Pattern plugin type and integrates
-  defined patterns with Drupal's theme system.
-* **UI Patterns Field Group** (machine name ``ui_patterns_field_group``): allows to use patterns to format field groups
+* **UI Patterns**: the main module, its purpose is to expose patterns to the Drupal rendering system and provide a
+  pattern library overview page, available at ``/patterns``.
+* **UI Patterns Field Group**: allows to use patterns to format field groups
   provided by the `Field group <https://www.drupal.org/project/field_group>`_ module.
-* **UI Patterns Layouts** (machine name ``ui_patterns_layouts``): allows to use patterns as layouts provided by the
+* **UI Patterns Layouts**: allows to use patterns as layouts provided by the
   `Layout plugin <https://www.drupal.org/project/layout_plugin>`_ module. This allows patterns to be used on
   `Display Suite <https://www.drupal.org/project/ds>`_  view modes or on `panels <https://www.drupal.org/project/panels>`_
   out of the box.
+* **UI Patterns Display Suite**: allows to use patterns to format `Display Suite <https://www.drupal.org/project/ds>`_
+  field templates.
+* **UI Patterns Views**: allows to use patterns as Views row templates.
+
+By the way plugin definitions are handled the UI Patterns module also integrated with with tools like `PatternLab <http://patternlab.io/>`_
+or modules like `Component Libraries <https://www.drupal.org/project/components>`_.
 
 .. toctree::
    :caption: Table of Contents
@@ -31,5 +37,6 @@ The UI Patterns project provides 3 modules:
    content/patterns-definition
    content/field-group
    content/layout-plugin
-   content/view-modes
+   content/field-templates
+   content/views
 
