@@ -2,6 +2,7 @@
 metadata:
   label: Metadata
   description: Display a content metadata consisting of categories, publication date and author.
+  template: metadata
   fields:
     author:
       type: text

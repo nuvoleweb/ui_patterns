@@ -19,6 +19,11 @@ use Drupal\ui_patterns\Discovery\YamlDiscovery;
 class UiPatternsManager extends DefaultPluginManager implements UiPatternsManagerInterface {
 
   /**
+   * Twig template file extension.
+   */
+  const TWIG_EXTENSION = '.html.twig';
+
+  /**
    * The app root.
    *
    * @var string
@@ -122,18 +127,88 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
     foreach ($this->getDefinitions() as $definition) {
       $hook = $definition['theme hook'];
-      $items[$hook] = [
+      $item = [
         'variables' => $definition['theme variables'],
       ];
-
-      if (!$definition['custom theme hook'] && $this->moduleHandler->moduleExists($definition['provider'])) {
-        /** @var \Drupal\Core\Extension\Extension $module */
-        $module = $this->moduleHandler->getModule($definition['provider']);
-        $items[$hook]['path'] = $module->getPath() . '/templates';
-      }
+      $item += $this->processCustomThemeHookProperty($definition);
+      $item += $this->processTemplateProperty($definition);
+      $item += $this->processUseProperty($definition);
+      $items[$hook] = $item;
     }
 
     return $items;
+  }
+
+  /**
+   * Process 'custom hook theme' definition property.
+   *
+   * @param array $definition
+   *    Pattern definition array.
+   *
+   * @return array
+   *    Processed hook definition portion.
+   *
+   * @see UiPatternsManager::hookTheme()
+   */
+  protected function processCustomThemeHookProperty(array $definition) {
+    /** @var \Drupal\Core\Extension\Extension $module */
+    $return = [];
+    if (!$definition['custom theme hook'] && $this->moduleHandler->moduleExists($definition['provider'])) {
+      $module = $this->moduleHandler->getModule($definition['provider']);
+      $return['path'] = $module->getPath() . '/templates';
+    }
+    return $return;
+  }
+
+  /**
+   * Process 'template' definition property.
+   *
+   * @param array $definition
+   *    Pattern definition array.
+   *
+   * @return array
+   *    Processed hook definition portion.
+   *
+   * @see UiPatternsManager::hookTheme()
+   */
+  protected function processTemplateProperty(array $definition) {
+    $return = [];
+    if (isset($definition['template'])) {
+      $return = ['template' => $definition['template']];
+    }
+    return $return;
+  }
+
+  /**
+   * Process 'use' definition property.
+   *
+   * @param array $definition
+   *    Pattern definition array.
+   *
+   * @return array
+   *    Processed hook definition portion.
+   *
+   * @see UiPatternsManager::hookTheme()
+   */
+  protected function processUseProperty(array $definition) {
+    /** @var \Drupal\Core\Extension\Extension $module */
+    $return = [];
+    if (isset($definition['use']) && $this->loader->exists($definition['use'])) {
+      $template = $definition['use'];
+      $parts = explode(DIRECTORY_SEPARATOR, $template);
+      $name = array_pop($parts);
+      $name = str_replace(self::TWIG_EXTENSION, '', $name);
+
+      $path = $this->loader->getSourceContext($template)->getPath();
+      $path = str_replace($this->root . DIRECTORY_SEPARATOR, '', $path);
+      $path = str_replace(DIRECTORY_SEPARATOR . $name . self::TWIG_EXTENSION, '', $path);
+
+      $return = [
+        'path' => $path,
+        'template' => $name,
+      ];
+    }
+    return $return;
   }
 
   /**
