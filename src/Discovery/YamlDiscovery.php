@@ -19,16 +19,41 @@ class YamlDiscovery extends CoreYamlDiscovery {
    */
   public function findAll() {
     $files = $this->findFiles();
-    $process_files = array_keys($files);
+    $files = $this->loadFromCache($files);
 
+    // Create array keyed by provider with merged data as values.
+    $all = [];
+    foreach ($files as $file) {
+      $provider = $file['provider'];
+      if (isset($all[$provider])) {
+        $all[$provider] += $file['data'];
+      }
+      else {
+        $all[$provider] = $file['data'];
+      }
+    }
+    return $all;
+  }
+
+  /**
+   * Load files from cache.
+   *
+   * @param array $files
+   *    Files array.
+   *
+   * @return array
+   *    Files loaded from cache.
+   */
+  protected function loadFromCache(array $files) {
+    $process_files = array_keys($files);
     $file_cache = FileCacheFactory::get('yaml_discovery:' . $this->name);
 
     // Try to load from the file cache first.
-    foreach ($process_files as $i => $file) {
+    foreach ($process_files as $key => $file) {
       $data = $file_cache->get($file);
       if ($data) {
         $files[$file]['data'] = $data;
-        unset($process_files[$i]);
+        unset($process_files[$key]);
       }
     }
 
@@ -43,18 +68,7 @@ class YamlDiscovery extends CoreYamlDiscovery {
       }
     }
 
-    // Create array keyed by provider with merged data as values.
-    $all = [];
-    foreach ($files as $file => $value) {
-      $provider = $value['provider'];
-      if (isset($all[$provider])) {
-        $all[$provider] += $value['data'];
-      }
-      else {
-        $all[$provider] = $value['data'];
-      }
-    }
-    return $all;
+    return $files;
   }
 
   /**
