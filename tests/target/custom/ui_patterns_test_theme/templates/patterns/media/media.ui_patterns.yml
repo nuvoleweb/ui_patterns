@@ -10,6 +10,7 @@ media:
         theme: image
         uri: http://lorempixel.com/900/500/sports/1
         width: 150
+        attributes: {}
     title:
       type: link
       label: Title

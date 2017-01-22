@@ -49,4 +49,4 @@ Feature: Content
   Scenario: Patterns can be used to style views.
     Given I am on "/articles"
     Then I should see the link "Article title" in the "media_heading"
-    And I should see "Article body" in the "media_body"
+    And I should see "Article body" in the "media_text"

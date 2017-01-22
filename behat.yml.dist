@@ -29,7 +29,7 @@ default:
         left sidebar: "#sidebar-first"
         content: "#content"
         media_heading: ".media-heading"
-        media_body: ".media-body"
+        media_text: ".media-text"
         jumbotron: ".jumbotron"
         quote: ".quote"
       selectors:

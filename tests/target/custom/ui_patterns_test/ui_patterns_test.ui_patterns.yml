@@ -20,8 +20,8 @@ metadata:
       description: Categories the content item is tagged with.
       preview: Travels, North America, Hikes
   libraries:
-    - module/library1
-    - module/library2
+    - ui_patterns_test/library1
+    - ui_patterns_test/library2
 
 blockquote:
   theme hook: blockquote_custom
@@ -39,5 +39,5 @@ blockquote:
       description: Quote attribution.
       preview: Albert Einstein
   libraries:
-    - module/library1
-    - module/library2
+    - ui_patterns_test/library1
+    - ui_patterns_test/library2

@@ -64,3 +64,6 @@
 .bg-gray {
   background-color: #eee;
 }
+.media-left .img-responsive {
+  max-width: none;
+}
