@@ -9,7 +9,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
-use Drupal\Core\Theme\ThemeManager;
 use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
 use Drupal\ui_patterns\Discovery\YamlDiscovery;
 
@@ -38,13 +37,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @var \Drupal\Core\Extension\ThemeHandlerInterface
    */
   protected $themeHandler;
-
-  /**
-   * Theme manager service.
-   *
-   * @var \Drupal\Core\Theme\ThemeManager
-   */
-  protected $themeManager;
 
   /**
    * Loader service.
@@ -83,8 +75,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    *    Module handler service.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *    Theme handler service.
-   * @param \Drupal\Core\Theme\ThemeManager $theme_manager
-   *    Theme manager service.
    * @param \Twig_Loader_Chain $loader
    *    Twig loader service.
    * @param \Drupal\ui_patterns\UiPatternsValidation $validation
@@ -92,11 +82,10 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *    Cache backend service.
    */
-  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, ThemeManager $theme_manager, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
+  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
-    $this->themeManager = $theme_manager;
     $this->loader = $loader;
     $this->validation = $validation;
     $this->alterInfo('ui_patterns_info');

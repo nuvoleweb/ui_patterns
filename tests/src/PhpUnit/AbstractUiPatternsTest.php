@@ -102,21 +102,6 @@ abstract class AbstractUiPatternsTest extends TestCase {
   }
 
   /**
-   * Get ThemeManager mock.
-   *
-   * @return \Drupal\Core\Theme\ThemeManager
-   *    ThemeManager mock.
-   */
-  protected function getThemeManagerMock() {
-    $theme_manager = $this->getMockBuilder('Drupal\Core\Theme\ThemeManager')
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    /** @var \Drupal\Core\Theme\ThemeManager $theme_manager */
-    return $theme_manager;
-  }
-
-  /**
    * Get YamlDiscovery mock.
    *
    * @return \Drupal\ui_patterns\Discovery\YamlDiscovery
