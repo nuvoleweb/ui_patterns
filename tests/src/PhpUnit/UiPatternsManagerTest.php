@@ -5,10 +5,11 @@ namespace Drupal\ui_patterns\Tests\Unit;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\hasKey;
 use function bovigo\assert\predicate\equals;
-use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\ui_patterns\Exception\PatternDefinitionException;
 use Drupal\ui_patterns\UiPatternsManager;
+use Drupal\ui_patterns\UiPatternsValidation;
 
 /**
  * @coversDefaultClass \Drupal\ui_patterns\UiPatternsManager
@@ -35,8 +36,9 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     $theme_handler = $this->getThemeHandlerMock();
     $theme_manager = $this->getThemeManagerMock();
     $loader = $this->getLoaderMock();
+    $validation = $this->getValidationMock();
 
-    $plugin_manager = new UiPatternsManager('', $module_handler, $theme_handler, $theme_manager, $loader, $cache_backend);
+    $plugin_manager = new UiPatternsManager('', $module_handler, $theme_handler, $theme_manager, $loader, $validation, $cache_backend);
     $plugin_manager->setYamlDiscovery($this->getYamlDiscoveryMock());
     $definitions = $plugin_manager->getDefinitions();
 
@@ -81,12 +83,13 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    * Test plugin validation.
    */
   public function testValidation() {
+    $validation = new UiPatternsValidation();
     $definitions = Yaml::decode(file_get_contents(dirname(__FILE__) . '/bad_definitions.ui_patterns.yml'));
     foreach ($definitions as $definition) {
       try {
-        UiPatternsManager::validateDefinition($definition);
+        $validation->validate($definition);
       }
-      catch (PluginException $e) {
+      catch (PatternDefinitionException $e) {
         assert($e->getMessage(), equals($definition['throws']));
       }
     }

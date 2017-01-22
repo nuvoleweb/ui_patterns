@@ -2,7 +2,6 @@
 
 namespace Drupal\ui_patterns\Plugin;
 
-use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TypedData\TypedDataManager;

@@ -2,7 +2,8 @@
 
 namespace Drupal\ui_patterns;
 
-use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\ui_patterns\Exception\PatternDefinitionException;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
@@ -16,6 +17,8 @@ use Drupal\ui_patterns\Discovery\YamlDiscovery;
  * Provides the default ui_patterns manager.
  */
 class UiPatternsManager extends DefaultPluginManager implements UiPatternsManagerInterface {
+
+  use StringTranslationTrait;
 
   /**
    * Twig template file extension.
@@ -51,6 +54,13 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   protected $loader;
 
   /**
+   * Validation service.
+   *
+   * @var \Drupal\ui_patterns\UiPatternsValidation
+   */
+  protected $validation;
+
+  /**
    * Provides default values for all ui_patterns plugins.
    *
    * @var array
@@ -65,19 +75,30 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   ];
 
   /**
-   * Constructs a UiPatternsManager object.
+   * UiPatternsManager constructor.
    *
+   * @param bool|string $root
+   *    Application root directory.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
-   *   The module handler.
+   *    Module handler service.
+   * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
+   *    Theme handler service.
+   * @param \Drupal\Core\Theme\ThemeManager $theme_manager
+   *    Theme manager service.
+   * @param \Twig_Loader_Chain $loader
+   *    Twig loader service.
+   * @param \Drupal\ui_patterns\UiPatternsValidation $validation
+   *    Pattern validation service.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
-   *   Cache backend instance to use.
+   *    Cache backend service.
    */
-  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, ThemeManager $theme_manager, \Twig_Loader_Chain $loader, CacheBackendInterface $cache_backend) {
+  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, ThemeManager $theme_manager, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
     $this->themeManager = $theme_manager;
     $this->loader = $loader;
+    $this->validation = $validation;
     $this->alterInfo('ui_patterns_info');
     $this->setCacheBackend($cache_backend, 'ui_patterns', ['ui_patterns']);
   }
@@ -87,7 +108,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   public function processDefinition(&$definition, $plugin_id) {
     parent::processDefinition($definition, $plugin_id);
-    self::validateDefinition($definition);
 
     $definition['custom theme hook'] = TRUE;
     if (empty($definition['theme hook'])) {
@@ -97,6 +117,25 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
     $definition['theme variables'] = array_fill_keys(array_keys($definition['fields']), NULL);
     $definition['theme variables']['attributes'] = [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function alterDefinitions(&$definitions) {
+
+    foreach ($definitions as $id => $definition) {
+      try {
+        $this->validation->validate($definition);
+      }
+      catch (PatternDefinitionException $e) {
+        unset($definitions[$id]);
+        $message = $this->t("Pattern '@id' is skipped because of the following validation error: @message", ['@id' => $id, '@message' => $e->getMessage()]);
+        drupal_set_message($message, 'error');
+      }
+    }
+
+    parent::alterDefinitions($definitions);
   }
 
   /**
@@ -237,81 +276,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   public function setYamlDiscovery(YamlDiscovery $yamlDiscovery) {
     $this->getDiscovery()->setYamlDiscovery($yamlDiscovery);
-  }
-
-  /**
-   * Validate plugin definition.
-   *
-   * @param array $definition
-   *    Plugin definition.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\PluginException
-   *    Throw exception if plugin definition is not valid.
-   */
-  public static function validateDefinition(array $definition) {
-
-    self::assertMachineName($definition['id']);
-    foreach (['id', 'label', 'description', 'fields'] as $key) {
-      self::assertSetAndNotEmpty($definition, $key);
-    }
-    self::assertArray('fields', $definition['fields']);
-
-    foreach ($definition['fields'] as $id => $field) {
-      self::assertMachineName($id);
-      self::assertArray($id, $field);
-      foreach (['type', 'label', 'description', 'preview'] as $key) {
-        self::assertSetAndNotEmpty($field, $key);
-      }
-    }
-  }
-
-  /**
-   * Assert key is set and not empty on target array.
-   *
-   * @param array $target
-   *    Target array.
-   * @param string $key
-   *    Test key.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\PluginException
-   *    Throw exception if plugin definition is not valid.
-   */
-  public static function assertSetAndNotEmpty(array $target, $key) {
-    if (!isset($target[$key]) || empty($target[$key])) {
-      throw new PluginException(sprintf('UI Pattern plugin property "%s" is required and cannot be not set nor empty.', $key));
-    }
-  }
-
-  /**
-   * Assert valid machine name.
-   *
-   * @param string $name
-   *    Target name.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\PluginException
-   *    Throw exception if plugin definition is not valid.
-   */
-  public static function assertMachineName($name) {
-    if (preg_match('@[^a-z0-9_]+@', $name)) {
-      throw new PluginException(sprintf('UI Pattern ID "%s" must contain only lowercase letters, numbers, and hyphens.', $name));
-    }
-  }
-
-  /**
-   * Assert array.
-   *
-   * @param string $name
-   *    Target name.
-   * @param mixed $target
-   *    Target.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\PluginException
-   *    Throw exception if plugin definition is not valid.
-   */
-  public static function assertArray($name, $target) {
-    if (!is_array($target)) {
-      throw new PluginException(sprintf('UI Pattern plugin property "%s" must be an array.', $name));
-    }
   }
 
 }

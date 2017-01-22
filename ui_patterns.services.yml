@@ -1,7 +1,10 @@
 services:
+  ui_patterns.validation:
+    class: Drupal\ui_patterns\UiPatternsValidation
   plugin.manager.ui_patterns:
     class: Drupal\ui_patterns\UiPatternsManager
-    arguments: ['@app.root', '@module_handler', '@theme_handler', '@theme.manager', '@twig.loader', '@cache.discovery']
+    arguments: ['@app.root', '@module_handler', '@theme_handler', '@theme.manager', '@twig.loader', '@ui_patterns.validation', '@cache.discovery']
   plugin.manager.ui_patterns_source:
     class: Drupal\ui_patterns\Plugin\UiPatternsSourceManager
     parent: default_plugin_manager
+

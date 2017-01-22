@@ -3,7 +3,6 @@
 namespace Drupal\ui_patterns\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Theme\ThemeManager;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -22,17 +21,9 @@ class PatternLibraryController extends ControllerBase {
   protected $patternsManager;
 
   /**
-   * Theme manager service.
-   *
-   * @var \Drupal\Core\Theme\ThemeManager
-   */
-  protected $themeManager;
-
-  /**
    * {@inheritdoc}
    */
-  public function __construct(UiPatternsManager $ui_patterns_manager, ThemeManager $theme_manager) {
-    $this->themeManager = $theme_manager;
+  public function __construct(UiPatternsManager $ui_patterns_manager) {
     $this->patternsManager = $ui_patterns_manager;
   }
 
@@ -40,10 +31,7 @@ class PatternLibraryController extends ControllerBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('plugin.manager.ui_patterns'),
-      $container->get('theme.manager')
-    );
+    return new static($container->get('plugin.manager.ui_patterns'));
   }
 
   /**
@@ -68,7 +56,8 @@ class PatternLibraryController extends ControllerBase {
     $definition = $this->patternsManager->getDefinition($name);
     $definition['rendered']['#type'] = 'pattern_preview';
     $definition['rendered']['#id'] = $name;
-    $definition['meta'] = $this->themeManager->render('patterns_meta_information', ['pattern' => $definition]);
+    $definition['meta']['#theme'] = 'patterns_meta_information';
+    $definition['meta']['#pattern'] = $definition;
 
     return [
       '#theme' => 'patterns_single_page',
@@ -80,7 +69,7 @@ class PatternLibraryController extends ControllerBase {
    * Render pattern library page.
    *
    * @return array
-   *   Return render array.
+   *   Patterns overview page render array.
    */
   public function overview() {
 
@@ -88,7 +77,8 @@ class PatternLibraryController extends ControllerBase {
     foreach ($definitions as $name => $definition) {
       $definitions[$name]['rendered']['#type'] = 'pattern_preview';
       $definitions[$name]['rendered']['#id'] = $name;
-      $definitions[$name]['meta'] = $this->themeManager->render('patterns_meta_information', ['pattern' => $definition]);
+      $definitions[$name]['meta']['#theme'] = 'patterns_meta_information';
+      $definitions[$name]['meta']['#pattern'] = $definition;
     }
 
     return [
