@@ -69,7 +69,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * UiPatternsManager constructor.
    *
-   * @param bool|string $root
+   * @param string $root
    *    Application root directory.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *    Module handler service.
