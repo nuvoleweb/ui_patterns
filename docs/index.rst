@@ -39,4 +39,5 @@ or modules like `Component Libraries <https://www.drupal.org/project/components>
    content/layout-plugin
    content/field-templates
    content/views
+   content/developer-documentation
 
