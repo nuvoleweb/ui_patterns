@@ -107,7 +107,7 @@ Luckily pattern definitions can be organised in sub-folders too, as shown below:
     └── ui_patterns_test_theme.ui_patterns.yml
 
 
-**Note:** the example above is taken buy the actual test target site that is used to test the module itself: have a look
+**Note:** the example above is taken by the actual test target site that is used to test the module itself: have a look
 at ``./tests/README.md`` and at ``./tests/target/custom`` for working examples on how to use the UI Patterns module.
 
 Override patterns behavior

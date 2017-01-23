@@ -14,7 +14,7 @@ The UI Patterns module also integrates with with tools like [PatternLab](http://
 [Component Libraries](https://www.drupal.org/project/components) thanks to 
 [definition overrides](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/patterns-definition.html#override-patterns-behavior).
 
-![Showcase page example](https://raw.githubusercontent.com/nuvoleweb/ui_patterns/8.x-1.x/docs/_static/pattern-library.png)
+![Showcase page example](https://raw.githubusercontent.com/nuvoleweb/ui_patterns/8.x-1.x/docs/images/pattern-library.png)
 
 ## Project overview
 
