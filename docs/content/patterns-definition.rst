@@ -75,7 +75,7 @@ The blockquote Twig template file ``pattern--blockquote.html.twig`` could look s
 
 The ``blockquote`` pattern defined above will be rendered in the pattern library as follow (styled using Bootstrap theme):
 
-.. image:: ../_static/blockquote-preview.png
+.. image:: ../images/blockquote-preview.png
    :align: center
 
 **Remember**: always visit the ``/pattern`` page in order to have access to a full preview of all your patterns.

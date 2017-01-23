@@ -22,7 +22,7 @@ Patterns can be rendered programmatically by using the following syntax:
 
 The code above will produce the following result:
 
-.. image:: ../_static/developer-1.png
+.. image:: ../images/developer-1.png
    :align: center
    :width: 650
 
@@ -42,7 +42,7 @@ fields are already provided in the pattern definition you don't need to declare 
 
 Rendering the code above will produce the following output:
 
-.. image:: ../_static/developer-2.png
+.. image:: ../images/developer-2.png
    :align: center
    :width: 650
 

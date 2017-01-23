@@ -11,7 +11,7 @@ The example below we will style a **Jumbotron** paragraph using the Jumbotron pa
 
 Once on the paragraph **Manage display** page you can choose the Jumbotron pattern as layout:
 
-.. image:: ../_static/layouts-1.png
+.. image:: ../images/layouts-1.png
    :align: center
    :width: 450
 
@@ -37,7 +37,7 @@ following definition:
 
 You'll get the following layout:
 
-.. image:: ../_static/layouts-2.png
+.. image:: ../images/layouts-2.png
    :align: center
    :width: 450
 
@@ -45,13 +45,13 @@ You can now arrange the paragraph fields on the layout and save your settings.
 
 The paragraph below:
 
-.. image:: ../_static/layouts-3.png
+.. image:: ../images/layouts-3.png
    :align: center
    :width: 450
 
 will be now styled using the Jumbotron pattern:
 
-.. image:: ../_static/layouts-4.png
+.. image:: ../images/layouts-4.png
    :align: center
    :width: 550
 

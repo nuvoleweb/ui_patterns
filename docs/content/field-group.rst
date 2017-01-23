@@ -9,20 +9,20 @@ For example, say you want to show some metadata associated with an article, such
 After enabling the module you create a new field group of type **Pattern** and drag all fields you want to use in that
 group, as shown below:
 
-.. image:: ../_static/fieldgroup-1.png
+.. image:: ../images/fieldgroup-1.png
    :align: center
    :width: 450
 
 Once all fields are in place open the field group settings and choose the **Metadata** pattern. Once selected map the
 content type fields to the pattern destination fields and save your changes:
 
-.. image:: ../_static/fieldgroup-2.png
+.. image:: ../images/fieldgroup-2.png
    :align: center
    :width: 450
 
 Articles will now always use the **Metadata** pattern to style that field group:
 
-.. image:: ../_static/fieldgroup-3.png
+.. image:: ../images/fieldgroup-3.png
    :align: center
    :width: 550
 
