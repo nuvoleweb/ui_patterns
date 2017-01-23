@@ -1,22 +1,22 @@
 Use patterns with Layout Plugin
 -------------------------------
 
-The ``ui_patterns_layouts`` module integrates UI Patterns with the `Layout Plugin <https://www.drupal.org/project/layout_plugin>`_
-module turning your patterns into layouts.
+Patterns can be used as `Layout Plugin <https://www.drupal.org/project/layout_plugin>`_'s layouts thanks to the
+``ui_patterns_layouts`` module.
 
-By simply enabling the module you'll have the possibility to use patterns to arrange fields on entities such as nodes,
-users, `paragraphs <https://www.drupal.org/project/paragraphs>`_, etc. or to place blocks on a page using `Panels <https://www.drupal.org/project/panels>`_.
+Once exposed as layouts patterns can be used to arrange fields on entities like nodes,
+`paragraphs <https://www.drupal.org/project/paragraphs>`_, etc. or to place blocks on a page using
+`Panels <https://www.drupal.org/project/panels>`_.
 
-The example below we will style a **Jumbotron** paragraph using the Jumbotron pattern.
+In the example below we will style a **Jumbotron** paragraph using the Jumbotron paragraph.
 
-Once on the paragraph **Manage display** page you can choose the Jumbotron pattern as layout:
+Once on the paragraph **Manage display** page we choose the **Jumbotron** pattern as layout:
 
 .. image:: ../images/layouts-1.png
    :align: center
    :width: 450
 
-After doing that and saving the display the Jumbotron pattern fields will be exposed as layout regions, so given the
-following definition:
+After doing that the pattern fields will be exposed as layout regions, so given the following definition:
 
 .. code-block:: yaml
 
@@ -35,13 +35,13 @@ following definition:
          description: Jumbotron description.
          preview: This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.
 
-You'll get the following layout:
+We will get the following layout regions:
 
 .. image:: ../images/layouts-2.png
    :align: center
    :width: 450
 
-You can now arrange the paragraph fields on the layout and save your settings.
+We can now arrange the paragraph fields on the layout and save our settings.
 
 The paragraph below:
 
@@ -49,7 +49,7 @@ The paragraph below:
    :align: center
    :width: 450
 
-will be now styled using the Jumbotron pattern:
+will be now styled using the **Jumbotron** pattern as follows:
 
 .. image:: ../images/layouts-4.png
    :align: center

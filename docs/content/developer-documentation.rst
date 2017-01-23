@@ -26,8 +26,8 @@ The code above will produce the following result:
    :align: center
    :width: 650
 
-It is also possible to just render the pattern preview as show on the patterns overview page in the following way (since
-fields are already provided in the pattern definition you don't need to declare them):
+It is also possible to just render a pattern preview as displayed on the patterns overview page in the following way
+(since fields are already bundled within the pattern definition we don't need to re-declare them here):
 
 .. code-block:: php
 
@@ -49,15 +49,17 @@ Rendering the code above will produce the following output:
 Expose source field plugins
 ===========================
 
-When configuring a pattern in a view or on an entity display form you are provided with a set of source fields that you
-can map into your pattern's fields. Available source fields depends on the context in which a pattern is configured.
+When using a pattern on a view or an entity display form we are provided with a set of possible patterns source fields
+that we can map to our pattern destination fields. Available source fields depends on the context in which a pattern is
+being configured.
 
-In order to provide custom source fields to your patterns you must provide a ``@UiPatternsSource`` plugin.
+Pattern source fields are provided by plugins of type ``@UiPatternsSource``.
 
-For example, when a pattern is used as a views row template then the ``UiPatternsSourceManager`` collects all plugins
-annotated with ``@UiPatternsSource`` and tagged by ``views_row``.
+For example, when a pattern is used as a Views row template then the ``UiPatternsSourceManager`` collects all plugins
+annotated with ``@UiPatternsSource`` and tagged by ``views_row``. A context array describing the current view is then
+passed to each of the ``@UiPatternsSource`` plugins.
 
-In the example below you can see an actual implementation of such system:
+In the example below we can see the actual implementation of such a system:
 
 .. code-block:: php
 
@@ -96,10 +98,10 @@ In the example below you can see an actual implementation of such system:
 
    }
 
-At the moment the available source plugin contexts are the following:
+At the moment the available source plugin tags are the following:
 
 - ``entity_display``: provided by the ``ui_patterns`` module and triggered on an entity display configuration page.
 - ``ds_field_template``: provided by the ``ui_patterns_ds`` module and triggered when setting up a field template
   on an entity display configuration page.
-- ``views_row``: provided by the ``ui_patterns_views`` module and triggered when setting up a views row.
-- ``test``: provided by the ``ui_patterns_test`` module and used on tests.
+- ``views_row``: provided by the ``ui_patterns_views`` module and triggered on a Views row setting pane.
+- ``test``: provided by the ``ui_patterns_test`` module and used in tests.

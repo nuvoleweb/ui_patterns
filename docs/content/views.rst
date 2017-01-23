@@ -1,18 +1,18 @@
 Use patterns with Views
 -----------------------
 
-Patterns can be used as Views row templates thank to the ``ui_patterns_views`` module by using the **Patterns** row
-style plugin available on your views UI after enabling the module:
+Patterns can be used as Views row templates thanks to the ``ui_patterns_views`` module, which exposes a **Patterns** row
+style plugin.
 
 .. image:: ../images/views-1.png
    :align: center
    :width: 550
 
-After selecting the pattern row plugin add some fields to the view display and, once done, access the row plugin's
-settings pane:
+After choosing the **Pattern** row style plugin we can map the current Views display fields to the chosen pattern
+destinations, as shown below:
 
 .. image:: ../images/views-2.png
    :align: center
    :width: 550
 
-Here you can the current views display's field to the selected pattern destination fields.
+Views rows will now be styled using the selected pattern.

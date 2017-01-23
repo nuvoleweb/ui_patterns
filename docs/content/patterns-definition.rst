@@ -47,10 +47,11 @@ Let's break this down:
     ``description``
         Field description, used on pattern library page.
     ``preview``
-        Preview content, used on pattern library page. It can be either a string or a Drupal render array.
+        Preview content, used on pattern library page. It can be either a string or a Drupal render array, in which case
+        we can use keys like ``type: processed_text`` or ``theme: image``.
 
 ``libraries``
-    Libraries that are to be loaded when rendering the pattern. UI patterns are supposed to be self-contained so they
+    List of libraries to be loaded when rendering the pattern. UI patterns are supposed to be self-contained so they
     should define along all needed libraries.
 
 Once the pattern is defined the module will expose them as standard Drupal theme definitions.
@@ -63,7 +64,7 @@ we create a Twig file called ``pattern--blockquote.html.twig`` and we place it e
 if the pattern is exposed by a module, or under ``MY_THEME/templates``, if it is exposed by a theme. Obviously themes
 can always override templates exposed by modules.
 
-The blockquote Twig template file ``pattern--blockquote.html.twig`` could look something like this:
+For example, a blockquote Twig template file ``pattern--blockquote.html.twig`` could look like the following:
 
 .. code-block:: twig
 
@@ -73,20 +74,21 @@ The blockquote Twig template file ``pattern--blockquote.html.twig`` could look s
     </blockquote>
 
 
-The ``blockquote`` pattern defined above will be rendered in the pattern library as follow (styled using Bootstrap theme):
+The ``blockquote`` pattern defined above will be rendered in the pattern library as shown below (styled using the
+`Bootstrap <https://www.drupal.org/project/bootstrap>`_ theme):
 
 .. image:: ../images/blockquote-preview.png
    :align: center
 
-**Remember**: always visit the ``/pattern`` page in order to have access to a full preview of all your patterns.
+**Remember**: we can always visit the ``/pattern`` page in order to have access to a full preview of all our patterns.
 
 Organize your patterns in sub-folders
 =====================================
 
-Patterns can be defined using a single ``.ui_patterns.yml`` file however, in case of sites with a large number of
+Patterns can be defined using a single ``NAME.ui_patterns.yml`` file. However, in case of sites with a large number of
 patterns, this might quickly becomes difficult to manage.
 
-Luckily pattern definitions can be organised in sub-folders too as shown below:
+Luckily pattern definitions can be organised in sub-folders too, as shown below:
 
 .. code-block:: bash
 
@@ -106,21 +108,22 @@ Luckily pattern definitions can be organised in sub-folders too as shown below:
 
 
 **Note:** the example above is taken buy the actual test target site that is used to test the module itself: have a look
-at ``./tests/README.md`` and at ``./tests/target/custom`` for working examples of how to use the UI Patterns module.
+at ``./tests/README.md`` and at ``./tests/target/custom`` for working examples on how to use the UI Patterns module.
 
 Override patterns behavior
 ==========================
 
-This default behavior can be changed by using the following properties in you pattern definitions:
+The default behavior can be changed by using the following properties in you pattern definitions:
 
 ``theme hook``
-    If specified it overrides the default ``pattern__[id]`` theme hook with the given value. Template file will change
-    accordingly.
+    If specified it overrides the default ``pattern__[id]`` theme hook with the provided value; the template file will
+    change accordingly.
 ``template``
     If specified it overrides only the template file keeping the default ``pattern__[id]`` theme hook.
 ``use``
-    If specified it will use a stand alone Twig file as template. The value supports `Twig namespaces <http://symfony.com/doc/current/templating/namespaced_paths.html>`_
-    so the following are valid value examples:
+    If specified it will use a stand-alone Twig file as template. The value supports
+    `Twig namespaces <http://symfony.com/doc/current/templating/namespaced_paths.html>`_, so the following notations
+    are valid examples:
 
 .. code-block:: yaml
 
@@ -130,8 +133,8 @@ This default behavior can be changed by using the following properties in you pa
 
    use: "@molecules/media/media-block.html.twig"
 
-The possibility of using stand-alone Twig templates allows for a swift integration with tools like `PatternLab <http://patternlab.io/>`_
-or modules like `Component Libraries <https://www.drupal.org/project/components>`_.
+The possibility of using stand-alone Twig templates allows for a swift integration with tools like
+`PatternLab <http://patternlab.io/>`_ or modules like `Component Libraries <https://www.drupal.org/project/components>`_.
 
-**Attention:** always remember to double-quote the ``use:`` property's value or or some YAML parsers (including Pattern
-Lab's) will complain.
+**Attention:** always remember to double-quote ``use:`` values or some YAML parsers (including PatternLab's) will
+complain.
