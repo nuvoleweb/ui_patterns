@@ -1,11 +1,11 @@
 # Change Log
 
-## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
-
-[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta1...HEAD)
+## [8.x-1.0-beta2](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta2) (2017-01-23)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta1...8.x-1.0-beta2)
 
 **Closed issues:**
 
+- Improve documentation [\#25](https://github.com/nuvoleweb/ui_patterns/issues/25)
 - Improve pattern definition validation [\#20](https://github.com/nuvoleweb/ui_patterns/issues/20)
 - Support for finding templates in subfolders [\#16](https://github.com/nuvoleweb/ui_patterns/issues/16)
 - Allow multiple pattern definitions [\#15](https://github.com/nuvoleweb/ui_patterns/issues/15)
