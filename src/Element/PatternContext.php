@@ -10,7 +10,7 @@ namespace Drupal\ui_patterns\Element;
 class PatternContext {
 
   /**
-   * Pattern context type, also used to tag @UiPatternsSource plugins.
+   * Pattern context type.
    *
    * @var string
    */

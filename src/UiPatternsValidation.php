@@ -74,7 +74,7 @@ class UiPatternsValidation implements UiPatternsValidationInterface {
    *    Throw exception if plugin definition is not valid.
    */
   public function assertAllowedFieldName($name) {
-    $not_allowed = ['id', 'type', 'theme'];
+    $not_allowed = ['id', 'type', 'theme', 'context'];
     if (in_array($name, $not_allowed)) {
       throw new PatternDefinitionException(sprintf('UI Pattern field name not be one of the following reserved keywords: %s.', implode(', ', $not_allowed)));
     }

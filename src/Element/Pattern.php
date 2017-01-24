@@ -118,7 +118,7 @@ class Pattern extends RenderElement {
     if (isset($element['#context']) && !empty($element['#context']) && is_array($element['#context'])) {
       $context = $element['#context'];
       if (!isset($context['type']) || empty($context['type'])) {
-        throw new PatternRenderException("Pattern context must specify a context 'type.");
+        throw new PatternRenderException("Pattern #context array must have a valid 'type' key.");
       }
       $element['#context'] = new PatternContext($context['type'], $element['#context']);
     }

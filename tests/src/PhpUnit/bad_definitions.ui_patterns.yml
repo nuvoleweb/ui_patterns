@@ -59,7 +59,7 @@ pattern7:
       preview: preview
 
 pattern8:
-  throws: 'UI Pattern field name not be one of the following reserved keywords: id, type, theme.'
+  throws: 'UI Pattern field name not be one of the following reserved keywords: id, type, theme, context.'
   id: pattern8
   label: label
   description: description

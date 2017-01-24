@@ -106,6 +106,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
     $definition['theme variables'] = array_fill_keys(array_keys($definition['fields']), NULL);
     $definition['theme variables']['attributes'] = [];
+    $definition['theme variables']['context'] = [];
   }
 
   /**
@@ -164,6 +165,16 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     }
 
     return $items;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isPatternHook($hook) {
+    $definitions = array_filter($this->getDefinitions(), function ($definition) use ($hook) {
+      return $definition['theme hook'] == $hook;
+    });
+    return !empty($definitions);
   }
 
   /**

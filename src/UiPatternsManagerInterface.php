@@ -38,4 +38,15 @@ interface UiPatternsManagerInterface extends PluginManagerInterface {
    */
   public function hookTheme();
 
+  /**
+   * Check whereas the given theme hook is an actual pattern hook.
+   *
+   * @param string $hook
+   *    Theme hook.
+   *
+   * @return bool
+   *    Whereas the given theme hook is an actual pattern hook.
+   */
+  public function isPatternHook($hook);
+
 }

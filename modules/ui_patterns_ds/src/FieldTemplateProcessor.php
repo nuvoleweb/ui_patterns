@@ -122,7 +122,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    */
   protected function getContext() {
     return [
-      'type' => 'entity_display',
+      'type' => 'entity',
       'field_name' => $this->getFieldName(),
       'entity_type' => $this->variables['element']['#entity_type'],
       'bundle' => $this->variables['element']['#bundle'],
