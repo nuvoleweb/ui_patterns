@@ -1,5 +1,17 @@
 # Change Log
 
+## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
+
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta2...HEAD)
+
+**Closed issues:**
+
+- Add theme hook suggestions [\#31](https://github.com/nuvoleweb/ui_patterns/issues/31)
+
+**Merged pull requests:**
+
+- Add theme hook suggestions \#31 [\#32](https://github.com/nuvoleweb/ui_patterns/pull/32) ([ademarco](https://github.com/ademarco))
+
 ## [8.x-1.0-beta2](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta2) (2017-01-23)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta1...8.x-1.0-beta2)
 
