@@ -145,8 +145,9 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
     $fields = array_filter($this->parameters->get('fields'), function ($field) {
       return isset($field['settings_edit_form']['third_party_settings']['ds']['ft']['id']) && $field['settings_edit_form']['third_party_settings']['ds']['ft']['id'] == 'pattern';
     });
+
     $fields = array_keys($fields);
-    $field = reset($fields);
+    $field = !empty($fields) ? reset($fields) : NULL;
 
     if (empty($field)) {
       $trigger_element = $this->parameters->get('_triggering_element_name');
