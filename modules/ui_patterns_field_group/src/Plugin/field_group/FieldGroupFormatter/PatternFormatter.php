@@ -87,6 +87,13 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#type'] = 'pattern';
     $element['#id'] = $this->getSetting('pattern');
     $element['#fields'] = $fields;
+    $element['#context'] = [
+      'type' => 'field_group',
+      'group_name' => $this->configuration['group']->group_name,
+      'entity_type' => $this->configuration['group']->entity_type,
+      'bundle' => $this->configuration['group']->bundle,
+      'view_mode' => $this->configuration['group']->mode,
+    ];
   }
 
   /**

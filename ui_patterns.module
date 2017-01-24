@@ -5,8 +5,6 @@
  * Contains ui_patterns.module.
  */
 
-use Drupal\ui_patterns\Element\PatternContext;
-
 /**
  * Implements hook_theme().
  */
@@ -28,24 +26,7 @@ function ui_patterns_theme() {
  * Implements hook_theme_suggestions_HOOK_alter()
  */
 function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
-  if (\Drupal::service('plugin.manager.ui_patterns')->isPatternHook($hook)) {
+  if (\Drupal::service('plugin.manager.ui_patterns')->isPatternHook($hook) && !empty($variables['context'])) {
     \Drupal::service('module_handler')->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
-  }
-}
-
-/**
- * Implements hook_ui_patterns_suggestions_alter().
- */
-function ui_patterns_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
-  if ($context->isOfType('entity')) {
-    $hook = $variables['theme_hook_original'];
-    $entity_type = $context->getProperty('entity_type');
-    $bundle = $context->getProperty('bundle');
-    $view_mode = $context->getProperty('view_mode');
-
-    $suggestions[] = $hook . '__entity__' . $entity_type;
-    $suggestions[] = $hook . '__entity__' . $entity_type . '__' . $bundle;
-    $suggestions[] = $hook . '__entity__' . $entity_type . '__' . $view_mode;
-    $suggestions[] = $hook . '__entity__' . $entity_type . '__' . $bundle . '__' . $view_mode;
   }
 }

@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\ui_patterns\Element\PatternContext;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -43,5 +44,24 @@ function ui_patterns_field_group_field_group_field_overview_submit($form, FormSt
 
     // Set the form_state so that the submit hook of field_groups can work.
     $form_state->set('field_group', $field_group_form_state);
+  }
+}
+
+/**
+ * Implements hook_ui_patterns_suggestions_alter().
+ */
+function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
+  if ($context->isOfType('field_group')) {
+    $hook = $variables['theme_hook_original'];
+    $group_name = $context->getProperty('group_name');
+    $entity_type = $context->getProperty('entity_type');
+    $bundle = $context->getProperty('bundle');
+    $view_mode = $context->getProperty('view_mode');
+
+    $suggestions[] = $hook . '__field_group__' . $group_name;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
   }
 }
