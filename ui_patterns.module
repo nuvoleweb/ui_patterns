@@ -28,7 +28,7 @@ function ui_patterns_theme() {
  * Implements hook_theme_suggestions_HOOK_alter()
  */
 function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
-  if (\Drupal::service('plugin.manager.ui_patterns')->isPatternHook($hook) && !empty($variables['context'])) {
+  if (\Drupal::service('plugin.manager.ui_patterns')->isPatternHook($hook)) {
     \Drupal::service('module_handler')->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
   }
 }

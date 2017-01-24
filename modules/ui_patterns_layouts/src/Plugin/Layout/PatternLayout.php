@@ -57,6 +57,7 @@ class PatternLayout extends LayoutBase implements ContainerFactoryPluginInterfac
   public function build(array $regions) {
     $build = parent::build($regions);
     $configuration = $this->getConfiguration();
+    $definition = $this->getPluginDefinition();
 
     // Remove default field template if "Only content" option has been selected.
     if ($configuration['pattern']['field_templates'] == 'only_content') {
@@ -64,11 +65,16 @@ class PatternLayout extends LayoutBase implements ContainerFactoryPluginInterfac
     }
 
     // Patterns expect regions to be passed along in a render array fashion.
+    $fields = [];
     foreach ($regions as $region_name => $region) {
-      $build["#$region_name"] = $build[$region_name];
+      $fields[$region_name] = $build[$region_name];
     }
 
-    return $build;
+    return [
+      '#type' => 'pattern',
+      '#id' => $definition['pattern'],
+      '#fields' => $fields,
+    ];
   }
 
   /**

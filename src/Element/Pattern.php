@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns\Element;
 
 use Drupal\Core\Render\Element\RenderElement;
 use Drupal\Core\Template\Attribute;
-use Drupal\ui_patterns\Exception\PatternRenderException;
 
 /**
  * Renders a pattern element.
@@ -115,11 +114,8 @@ class Pattern extends RenderElement {
    */
   public static function processContext(array $element) {
 
-    if (isset($element['#context']) && !empty($element['#context']) && is_array($element['#context'])) {
+    if (isset($element['#context']) && !empty($element['#context']) && is_array($element['#context']) && isset($element['#context']['type']) && !empty($element['#context']['type'])) {
       $context = $element['#context'];
-      if (!isset($context['type']) || empty($context['type'])) {
-        throw new PatternRenderException("Pattern #context array must have a valid 'type' key.");
-      }
       $element['#context'] = new PatternContext($context['type'], $element['#context']);
     }
     else {
