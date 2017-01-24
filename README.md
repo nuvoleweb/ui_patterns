@@ -1,4 +1,6 @@
 # UI Patterns
+
+[![Join the chat at https://gitter.im/nuvoleweb/ui_patterns](https://badges.gitter.im/nuvoleweb/ui_patterns.svg)](https://gitter.im/nuvoleweb/ui_patterns?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/nuvoleweb/ui_patterns.svg?branch=8.x-1.x)](https://travis-ci.org/nuvoleweb/ui_patterns)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nuvoleweb/ui_patterns/badges/quality-score.png?b=8.x-1.x)](https://scrutinizer-ci.com/g/nuvoleweb/ui_patterns/?branch=8.x-1.x)
 [![Documentation Status](https://readthedocs.org/projects/ui-patterns/badge/?version=8.x-1.x)](http://ui-patterns.readthedocs.io/en/8.x-1.x/?badge=8.x-1.x)
