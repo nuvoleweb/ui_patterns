@@ -26,8 +26,12 @@ function hook_ui_patterns_ui_patterns_source_info_alter(&$definitions) {
  * @see ui_patterns_theme_suggestions_alter()
  */
 function hook_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
-  if ($context->isOfType('entity')) {
+  if ($context->isOfType('views_row')) {
     $hook = $variables['theme_hook_original'];
-    $suggestions[] = $hook . '__entity__' . $context->getProperty('entity_type');
+    $view_name = $context->getProperty('view_name');
+    $display = $context->getProperty('display');
+
+    $suggestions[] = $hook . '__views_row__' . $view_name;
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display;
   }
 }
