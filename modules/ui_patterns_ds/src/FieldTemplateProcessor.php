@@ -33,6 +33,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
         '#type' => 'pattern',
         '#id' => $this->getPatternId(),
         '#fields' => $fields,
+        '#context' => $this->getContext(),
       ];
     }
 
@@ -111,6 +112,22 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    */
   protected function getColumnName($source) {
     return str_replace($this->getFieldName() . '__', '', $source);
+  }
+
+  /**
+   * Get pattern context.
+   *
+   * @return array
+   *    Pattern context.
+   */
+  protected function getContext() {
+    return [
+      'type' => 'entity_display',
+      'field_name' => $this->getFieldName(),
+      'entity_type' => $this->variables['element']['#entity_type'],
+      'bundle' => $this->variables['element']['#bundle'],
+      'view_mode' => $this->variables['element']['#view_mode'],
+    ];
   }
 
 }

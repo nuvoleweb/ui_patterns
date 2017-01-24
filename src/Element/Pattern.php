@@ -4,6 +4,7 @@ namespace Drupal\ui_patterns\Element;
 
 use Drupal\Core\Render\Element\RenderElement;
 use Drupal\Core\Template\Attribute;
+use Drupal\ui_patterns\Exception\PatternRenderException;
 
 /**
  * Renders a pattern element.
@@ -30,6 +31,7 @@ class Pattern extends RenderElement {
         [$class, 'setDefinition'],
         [$class, 'processRenderArray'],
         [$class, 'processFields'],
+        [$class, 'processContext'],
       ],
     ];
   }
@@ -96,6 +98,34 @@ class Pattern extends RenderElement {
     else {
       $element['#markup'] = '';
     }
+    return $element;
+  }
+
+  /**
+   * Process context.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   *
+   * @throws \Drupal\ui_patterns\Exception\PatternRenderException
+   *    Throws an exception if no context type is specified.
+   */
+  public static function processContext(array $element) {
+
+    if (isset($element['#context']) && !empty($element['#context']) && is_array($element['#context'])) {
+      $context = $element['#context'];
+      if (!isset($context['type']) || empty($context['type'])) {
+        throw new PatternRenderException("Pattern context must specify a context 'type.");
+      }
+      $element['#context'] = new PatternContext($context['type'], $element['#context']);
+    }
+    else {
+      $element['#context'] = new PatternContext('empty');
+    }
+
     return $element;
   }
 

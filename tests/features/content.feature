@@ -30,7 +30,7 @@ Feature: Content
           uri: http://example.com
           title: My second button
       """
-
+  And break
   Scenario: Patterns can be used to style field groups.
     Given I am visiting the "article" content "Article title"
     And I should see "Tag 1" in the "Categories" row
