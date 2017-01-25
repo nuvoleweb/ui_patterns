@@ -56,15 +56,15 @@ Let's break this down:
 
 Once the pattern is defined the module will expose them as standard Drupal theme definitions.
 
-For example, given the ``my_pattern`` pattern ID then a theme function ``pattern__my_pattern`` is created and,
-consequently, the module will look for a template file called  ``pattern--my-pattern.html.twig``.
+For example, given the ``my_pattern`` pattern ID then a theme function ``pattern_my_pattern`` is created and,
+consequently, the module will look for a template file called  ``pattern-my-pattern.html.twig``.
 
 Once the pattern is defined it's time to provide its `Twig <http://twig.sensiolabs.org/>`_ template. In order to do so
-we create a Twig file called ``pattern--blockquote.html.twig`` and we place it either under ``MY_MODULE/templates``,
+we create a Twig file called ``pattern-blockquote.html.twig`` and we place it either under ``MY_MODULE/templates``,
 if the pattern is exposed by a module, or under ``MY_THEME/templates``, if it is exposed by a theme. Obviously themes
 can always override templates exposed by modules.
 
-For example, a blockquote Twig template file ``pattern--blockquote.html.twig`` could look like the following:
+For example, a blockquote Twig template file ``pattern-blockquote.html.twig`` could look like the following:
 
 .. code-block:: twig
 
@@ -97,12 +97,12 @@ Luckily pattern definitions can be organised in sub-folders too, as shown below:
     │   └── patterns
     │       ├── button
     │       │   ├── button.ui_patterns.yml
-    │       │   └── pattern--button.html.twig
+    │       │   └── pattern-button.html.twig
     │       ├── media
     │       │   ├── media.ui_patterns.yml
-    │       │   └── pattern--media.html.twig
+    │       │   └── pattern-media.html.twig
     ...
-    │       └── pattern--jumbotron.html.twig
+    │       └── pattern-jumbotron.html.twig
     ├── ui_patterns_test_theme.info.yml
     └── ui_patterns_test_theme.ui_patterns.yml
 
@@ -116,10 +116,10 @@ Override patterns behavior
 The default behavior can be changed by using the following properties in you pattern definitions:
 
 ``theme hook``
-    If specified it overrides the default ``pattern__[id]`` theme hook with the provided value; the template file will
+    If specified it overrides the default ``pattern_[id]`` theme hook with the provided value; the template file will
     change accordingly.
 ``template``
-    If specified it overrides only the template file keeping the default ``pattern__[id]`` theme hook.
+    If specified it overrides only the template file keeping the default ``pattern_[id]`` theme hook.
 ``use``
     If specified it will use a stand-alone Twig file as template. The value supports
     `Twig namespaces <http://symfony.com/doc/current/templating/namespaced_paths.html>`_, so the following notations

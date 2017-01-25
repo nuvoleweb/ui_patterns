@@ -100,7 +100,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
     $definition['custom theme hook'] = TRUE;
     if (empty($definition['theme hook'])) {
-      $definition['theme hook'] = "pattern__{$plugin_id}";
+      $definition['theme hook'] = "pattern_{$plugin_id}";
       $definition['custom theme hook'] = FALSE;
     }
 

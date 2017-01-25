@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_blockquote_custom__ds_field_template__body__node__article__full(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_blockquote_custom__ds_field_template__body__node__article(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_blockquote_custom__ds_field_template__body__node(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_blockquote_custom__ds_field_template__body(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_metadata(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_metadata__field_group__group_metadata__node__article__full(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_metadata__field_group__group_metadata__node__article(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_metadata__field_group__group_metadata__node(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_metadata__field_group__group_metadata(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_button(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_button__ds_field_template__field_links__node__article__full(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_button__ds_field_template__field_links__node__article(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_button__ds_field_template__field_links__node(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_button__ds_field_template__field_links(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_media(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_media__views_row__articles__page_1(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_test_theme_preprocess_pattern_media__views_row__articles(&$variables) {
+  drupal_set_message("Running: " . __FUNCTION__);
+}
+

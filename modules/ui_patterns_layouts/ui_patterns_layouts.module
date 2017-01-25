@@ -28,7 +28,7 @@ function ui_patterns_layouts_layout_alter(&$definitions) {
       $definition['regions'][$field_name]['label'] = $field['label'];
       $definition['region_names'][$field_name] = $field['label'];
     }
-    $definitions['pattern__' . $pattern_definition['id']] = $definition;
+    $definitions['pattern_' . $pattern_definition['id']] = $definition;
   }
 }
 
