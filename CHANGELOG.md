@@ -6,10 +6,12 @@
 
 **Closed issues:**
 
+- \[IMPORTANT\] Rename pattern theme prefix from "pattern\_\_" to "pattern\_" [\#36](https://github.com/nuvoleweb/ui_patterns/issues/36)
 - Add theme hook suggestions [\#31](https://github.com/nuvoleweb/ui_patterns/issues/31)
 
 **Merged pull requests:**
 
+- \[IMPORTANT\] Rename pattern theme prefix from "pattern\_\_" to "pattern\_" \#36 [\#37](https://github.com/nuvoleweb/ui_patterns/pull/37) ([ademarco](https://github.com/ademarco))
 - Add theme hook suggestions \#31 [\#32](https://github.com/nuvoleweb/ui_patterns/pull/32) ([ademarco](https://github.com/ademarco))
 
 ## [8.x-1.0-beta2](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta2) (2017-01-23)
