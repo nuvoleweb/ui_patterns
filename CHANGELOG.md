@@ -1,5 +1,18 @@
 # Change Log
 
+## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
+
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta3...HEAD)
+
+**Closed issues:**
+
+- Add Twig function to render patterns in templates [\#38](https://github.com/nuvoleweb/ui_patterns/issues/38)
+
+**Merged pull requests:**
+
+- Add Twig function to render patterns in templates \#38 [\#41](https://github.com/nuvoleweb/ui_patterns/pull/41) ([ademarco](https://github.com/ademarco))
+- Add a Gitter chat badge to README.md [\#30](https://github.com/nuvoleweb/ui_patterns/pull/30) ([gitter-badger](https://github.com/gitter-badger))
+
 ## [8.x-1.0-beta3](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta3) (2017-01-25)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta2...8.x-1.0-beta3)
 
