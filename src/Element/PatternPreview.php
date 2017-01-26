@@ -51,18 +51,19 @@ class PatternPreview extends Pattern {
    */
   protected static function getPreviewMarkup($preview) {
     if (is_array($preview)) {
-      // Check if preview is a render array.
-      if (array_key_exists('theme', $preview) || array_key_exists('type', $preview)) {
-        $rendered = [];
-        foreach ($preview as $key => $value) {
-          $rendered['#' . $key] = $value;
+      $rendered = [];
+      $hashKeys = array_key_exists('theme', $preview) || array_key_exists('type', $preview);
+      foreach ($preview as $key => $value) {
+        if ($hashKeys) {
+          $key = '#' . $key;
         }
-
-        return $rendered;
+        if (is_array($value)) {
+          $value = self::getPreviewMarkup($value);
+        }
+        $rendered[$key] = $value;
       }
 
-      // Recursively escape the string elements.
-      return array_map([self::class, __METHOD__], $preview);
+      return $rendered;
     }
 
     return Markup::create($preview);
