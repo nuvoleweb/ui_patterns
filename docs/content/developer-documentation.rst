@@ -46,6 +46,27 @@ Rendering the code above will produce the following output:
    :align: center
    :width: 650
 
+Render patterns using Twig functions
+====================================
+
+The UI Patterns module also exposes two Twig functions to easily render patterns into your Twig templates.
+
+The following two calls:
+
+.. code-block:: twig
+
+   {{ pattern('button', {title: 'Link title', url: 'http://example.com'}) }}
+   {{ pattern_preview('modal') }}
+
+Will print:
+
+.. image:: ../images/developer-3.png
+   :align: center
+   :width: 650
+
+Since patterns are rendered using the render element described above all libraries and preprocess hooks will be ran when
+using Twig functions.
+
 Working with pattern suggestions
 ================================
 
