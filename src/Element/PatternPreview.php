@@ -52,12 +52,14 @@ class PatternPreview extends Pattern {
   protected static function getPreviewMarkup($preview) {
     if (is_array($preview)) {
       $rendered = [];
+      // If preview is a render array add hashes to keys.
       $hashKeys = array_key_exists('theme', $preview) || array_key_exists('type', $preview);
       foreach ($preview as $key => $value) {
         if ($hashKeys) {
           $key = '#' . $key;
         }
         if (is_array($value)) {
+          // Process array values recursively.
           $value = self::getPreviewMarkup($value);
         }
         $rendered[$key] = $value;
