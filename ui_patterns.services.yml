@@ -8,6 +8,6 @@ services:
     class: Drupal\ui_patterns\Plugin\UiPatternsSourceManager
     parent: default_plugin_manager
   ui_patterns.twig.extension:
-    class: Drupal\ui_patterns\Template\UiPatternsTwigExtension
+    class: Drupal\ui_patterns\Template\TwigExtension
     tags:
-      - { name: twig.extension, priority: 100 }
+      - { name: twig.extension }
