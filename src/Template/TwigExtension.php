@@ -16,8 +16,6 @@ class TwigExtension extends \Twig_Extension {
     return [
       new \Twig_SimpleFunction('pattern', [$this, 'renderPattern']),
       new \Twig_SimpleFunction('pattern_preview', [$this, 'renderPatternPreview']),
-      new \Twig_SimpleFunction('ui_pattern', [$this, 'renderPattern']),
-      new \Twig_SimpleFunction('ui_pattern_preview', [$this, 'renderPatternPreview']),
     ];
   }
 

@@ -32,6 +32,7 @@ default:
         media_text: ".media-text"
         jumbotron: ".jumbotron"
         quote: ".quote"
+        modal: ".modal-dialog"
       selectors:
         error_message_selector: '.messages--error'
       text:

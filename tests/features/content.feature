@@ -74,3 +74,10 @@ Feature: Content
     Then I should see "Running: ui_patterns_test_theme_preprocess_pattern_media__views_row__articles__page_1"
     And I should see "Running: ui_patterns_test_theme_preprocess_pattern_media__views_row__articles"
     And I should see "Running: ui_patterns_test_theme_preprocess_pattern_media"
+
+  Scenario: Developers can render patterns by using Twig functions.
+    Given I am on "/patterns-test"
+    Then I should see "Here is your modal title" in the "modal"
+    And I should see the button "Save changes" in the "modal"
+    And I should see the link "Link title"
+

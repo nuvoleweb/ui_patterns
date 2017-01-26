@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Contains ui_patterns.module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function ui_patterns_test_theme() {
+  return [
+    'patterns_test_page' => [
+      'variables' => ['patterns' => NULL],
+    ],
+  ];
+}
