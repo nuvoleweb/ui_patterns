@@ -53,11 +53,9 @@ class PatternPreview extends Pattern {
     if (is_array($preview)) {
       $rendered = [];
       // If preview is a render array add hashes to keys.
-      $hashKeys = array_key_exists('theme', $preview) || array_key_exists('type', $preview);
+      $hash_keys = array_key_exists('theme', $preview) || array_key_exists('type', $preview);
       foreach ($preview as $key => $value) {
-        if ($hashKeys) {
-          $key = '#' . $key;
-        }
+        $key = $hash_keys ? '#' . $key : $key;
         if (is_array($value)) {
           // Process array values recursively.
           $value = self::getPreviewMarkup($value);

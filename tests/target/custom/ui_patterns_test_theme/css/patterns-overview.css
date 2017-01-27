@@ -67,3 +67,6 @@
 .media-left .img-responsive {
   max-width: none;
 }
+.card {
+  width: 350px;
+}
