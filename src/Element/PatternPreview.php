@@ -49,20 +49,21 @@ class PatternPreview extends Pattern {
    * @return array|\Drupal\Component\Render\MarkupInterface|string
    *   Preview safe markup.
    */
-  protected static function getPreviewMarkup($preview) {
+  public static function getPreviewMarkup($preview) {
     if (is_array($preview)) {
-      // Check if preview is a render array.
-      if (array_key_exists('theme', $preview) || array_key_exists('type', $preview)) {
-        $rendered = [];
-        foreach ($preview as $key => $value) {
-          $rendered['#' . $key] = $value;
+      $rendered = [];
+      // If preview is a render array add hashes to keys.
+      $hash_keys = array_key_exists('theme', $preview) || array_key_exists('type', $preview);
+      foreach ($preview as $key => $value) {
+        $key = $hash_keys ? '#' . $key : $key;
+        if (is_array($value)) {
+          // Process array values recursively.
+          $value = self::getPreviewMarkup($value);
         }
-
-        return $rendered;
+        $rendered[$key] = $value;
       }
 
-      // Recursively escape the string elements.
-      return array_map([self::class, __METHOD__], $preview);
+      return $rendered;
     }
 
     return Markup::create($preview);

@@ -62,3 +62,42 @@ modal:
       label: Modal body
       description: Modal description.
       preview: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
+
+card:
+  label: Card
+  description: A card component.
+  fields:
+    image:
+      type: image
+      label: Image
+      description: Card image.
+      preview:
+        type: pattern
+        id: image
+        fields:
+          image:
+            theme: image
+            uri: http://lorempixel.com/400/200/nature/2
+    title:
+      type: text
+      label: Title
+      description: Card title.
+      preview: Card title
+    text:
+      type: text
+      label: Text
+      description: Card text.
+      preview: Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+
+image:
+  label: Image
+  description: A simple image pattern, mainly used for tests.
+  fields:
+    image:
+      type: image
+      label: Image
+      description: The actual image.
+      preview:
+        theme: image
+        uri: http://lorempixel.com/350/250/nature/1
+
