@@ -6,11 +6,15 @@
 
 **Closed issues:**
 
+- Allow preview values to be empty [\#43](https://github.com/nuvoleweb/ui_patterns/issues/43)
+- Allow use of nested render arrays in preview content [\#39](https://github.com/nuvoleweb/ui_patterns/issues/39)
 - Add Twig function to render patterns in templates [\#38](https://github.com/nuvoleweb/ui_patterns/issues/38)
 
 **Merged pull requests:**
 
+- Allow preview values to be empty \#43 [\#45](https://github.com/nuvoleweb/ui_patterns/pull/45) ([ademarco](https://github.com/ademarco))
 - Add Twig function to render patterns in templates \#38 [\#41](https://github.com/nuvoleweb/ui_patterns/pull/41) ([ademarco](https://github.com/ademarco))
+- Add hashes to preview render arrays recursively \#39 [\#40](https://github.com/nuvoleweb/ui_patterns/pull/40) ([aleksip](https://github.com/aleksip))
 - Add a Gitter chat badge to README.md [\#30](https://github.com/nuvoleweb/ui_patterns/pull/30) ([gitter-badger](https://github.com/gitter-badger))
 
 ## [8.x-1.0-beta3](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta3) (2017-01-25)
