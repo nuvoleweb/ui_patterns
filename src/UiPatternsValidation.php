@@ -26,7 +26,7 @@ class UiPatternsValidation implements UiPatternsValidationInterface {
       $this->assertMachineName($id);
       $this->assertAllowedFieldName($id);
       $this->assertArray($id, $field);
-      foreach (['type', 'label', 'description', 'preview'] as $key) {
+      foreach (['type', 'label', 'description'] as $key) {
         $this->assertSetAndNotEmpty($field, $key);
       }
     }
