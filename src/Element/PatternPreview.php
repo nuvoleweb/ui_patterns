@@ -49,7 +49,7 @@ class PatternPreview extends Pattern {
    * @return array|\Drupal\Component\Render\MarkupInterface|string
    *   Preview safe markup.
    */
-  protected static function getPreviewMarkup($preview) {
+  public static function getPreviewMarkup($preview) {
     if (is_array($preview)) {
       $rendered = [];
       // If preview is a render array add hashes to keys.
