@@ -1,8 +1,8 @@
 Developer documentation
------------------------
+=======================
 
 Render patterns programmatically
-================================
+--------------------------------
 
 Patterns can be rendered programmatically by using the following syntax:
 
@@ -47,7 +47,7 @@ Rendering the code above will produce the following output:
    :width: 650
 
 Render patterns using Twig functions
-====================================
+------------------------------------
 
 The UI Patterns module also exposes two Twig functions to easily render patterns into your Twig templates.
 
@@ -68,7 +68,7 @@ Since patterns are rendered using the render element described above all librari
 using Twig functions.
 
 Working with pattern suggestions
-================================
+--------------------------------
 
 Modules that want to add theme hook suggestions to patterns can do that by implementing the following hook:
 
@@ -125,7 +125,7 @@ The following suggestions are automatically exposed by the project's sub-modules
    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display;
 
 Expose source field plugins
-===========================
+---------------------------
 
 When using a pattern on a view or an entity display form we are provided with a set of possible patterns source fields
 that we can map to our pattern destination fields. Available source fields depends on the context in which a pattern is

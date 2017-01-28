@@ -1,5 +1,5 @@
 Use patterns with Field templates
----------------------------------
+=================================
 
 Patterns can be used as Display Suite field templates by enabling the ``ui_patterns_ds`` module. This opens the
 following interesting possibilities:

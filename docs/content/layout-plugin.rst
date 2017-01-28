@@ -1,5 +1,5 @@
 Use patterns with Layout Plugin
--------------------------------
+===============================
 
 Patterns can be used as `Layout Plugin <https://www.drupal.org/project/layout_plugin>`_'s layouts thanks to the
 ``ui_patterns_layouts`` module.

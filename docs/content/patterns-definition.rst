@@ -1,5 +1,5 @@
 Define your patterns
---------------------
+====================
 
 Patterns can be exposed by both modules and themes: all defined patterns are collected and managed by a centralized
 plugin manager, this means that pattern IDs must be unique in order to avoid conflicts.
@@ -83,7 +83,7 @@ The ``blockquote`` pattern defined above will be rendered in the pattern library
 **Remember**: we can always visit the ``/pattern`` page in order to have access to a full preview of all our patterns.
 
 Organize your patterns in sub-folders
-=====================================
+-------------------------------------
 
 Patterns can be defined using a single ``NAME.ui_patterns.yml`` file. However, in case of sites with a large number of
 patterns, this might quickly becomes difficult to manage.
@@ -111,7 +111,7 @@ Luckily pattern definitions can be organised in sub-folders too, as shown below:
 at ``./tests/README.md`` and at ``./tests/target/custom`` for working examples on how to use the UI Patterns module.
 
 Override patterns behavior
-==========================
+--------------------------
 
 The default behavior can be changed by using the following properties in you pattern definitions:
 

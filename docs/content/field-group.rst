@@ -1,5 +1,5 @@
 Use patterns with Field Groups
-------------------------------
+==============================
 
 Patterns can be used to style entities' `field groups <https://www.drupal.org/project/field_group>`_ thanks to the
 ``ui_patterns_field_group`` module.
