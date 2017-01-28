@@ -1,5 +1,5 @@
 vendor
 behat.yml
-tests/target/drupal
+tests/drupal
 composer.lock
 docs/_build

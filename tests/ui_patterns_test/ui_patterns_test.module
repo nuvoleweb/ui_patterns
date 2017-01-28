@@ -8,7 +8,7 @@
 /**
  * Implements hook_theme().
  */
-function ui_patterns_test() {
+function ui_patterns_test_theme() {
   return [
     'patterns_test_page' => [
       'variables' => ['patterns' => NULL],

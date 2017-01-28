@@ -20,9 +20,6 @@ Feature: Setup
     And I enter "pass" for "Password"
     And I press the "Log in" button
 
-    Then I should see the link "View"
-    And I should see the link "Edit"
-
   Scenario: Test that required modules are enabled.
     Then the following modules are enabled:
       | ui_patterns            |

@@ -24,7 +24,7 @@ default:
       api_driver: "drupal"
       drupal:
         # Change this to the absolute path to Drupal install.
-        drupal_root: "tests/target/drupal"
+        drupal_root: "tests/drupal"
       region_map:
         left sidebar: "#sidebar-first"
         content: "#content"

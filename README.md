@@ -28,6 +28,12 @@ The UI Patterns project provides 5 modules:
 - **UI Patterns Display Suite**: allows to use patterns to format [Display Suite](https://www.drupal.org/project/ds) field templates. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/field-templates.html)
 - **UI Patterns Views**: allows to use patterns as Views row templates. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/views.html)
 
+## Try it out!
+
+Download and install the [Bootstrap Patterns](https://github.com/nuvoleweb/bootstrap_patterns) theme on a vanilla Drupal
+8 installation to quickly try out the UI Patterns module.
+
+
 ## Documentation
 
 Documentation is hosted on [Read the Docs](https://readthedocs.org/) and available [here](http://ui-patterns.readthedocs.io/en/8.x-1.x).

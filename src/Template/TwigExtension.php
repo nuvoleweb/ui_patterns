@@ -12,6 +12,13 @@ class TwigExtension extends \Twig_Extension {
   /**
    * {@inheritdoc}
    */
+  public function getName() {
+    return 'ui_patterns';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getFunctions() {
     return [
       new \Twig_SimpleFunction('pattern', [$this, 'renderPattern']),

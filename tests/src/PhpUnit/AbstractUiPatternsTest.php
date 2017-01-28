@@ -24,10 +24,10 @@ abstract class AbstractUiPatternsTest extends TestCase {
   protected function getExtensionsPath($name) {
     switch ($name) {
       case 'bootstrap':
-        return realpath(dirname(__FILE__) . '/../../../tests/target/drupal/themes/contrib/bootstrap');
+        return realpath(dirname(__FILE__) . '/../../../tests/drupal/themes/contrib/bootstrap');
 
       default:
-        return realpath(dirname(__FILE__) . '/../../../tests/target/custom/' . $name . '/');
+        return realpath(dirname(__FILE__) . '/../../../tests/' . $name . '/');
     }
   }
 

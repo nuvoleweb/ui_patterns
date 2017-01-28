@@ -22,7 +22,7 @@ before_script:
   # Create database.
   - mysql -e 'create database drupal'
   # Install Drupal 8 target site.
-  - cd tests/target
+  - cd tests
   - composer install --prefer-dist
   - cd drupal
   - ../vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
@@ -35,7 +35,7 @@ before_script:
 
 script:
   - composer phpcs
-  - ./vendor/bin/phpunit --bootstrap ./tests/target/vendor/autoload.php tests/src/PhpUnit
+  - ./vendor/bin/phpunit --bootstrap ./tests/vendor/autoload.php tests/src/PhpUnit
   - ./vendor/bin/behat
 
 notifications:
