@@ -27,6 +27,7 @@
         {# Content #}
         {% block content %}
           <a id="main-content"></a>
+          <h1 class="page-header">{{ page['#title'] }}</h1>
           {{ page.highlighted }}
           {{ page.content }}
         {% endblock %}

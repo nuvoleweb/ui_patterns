@@ -7,7 +7,7 @@ ui_patterns_test.pattern_display_form:
     _permission: 'administer modules'
 
 ui_patterns_test.test_controller_test:
-  path: 'patterns-test'
+  path: '/patterns-test'
   defaults:
     _controller: '\Drupal\ui_patterns_test\Controller\TestController::test'
     _title: 'UI Patterns test'

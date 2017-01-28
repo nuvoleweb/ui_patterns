@@ -1,5 +1,6 @@
 name: UI Patterns Test Theme
 type: theme
+hidden: true
 base theme: bootstrap
 description: Test theme for UI Patterns module.
 package: Core

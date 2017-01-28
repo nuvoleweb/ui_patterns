@@ -1,0 +1,50 @@
+{
+  "name": "nuvoleweb/test",
+  "description": "Drupal site to run UI Patterns module Behat tests on TravisCI.",
+  "type": "project",
+  "require": {
+    "composer/installers": "^1.2",
+    "drupal-composer/drupal-scaffold": "^2.2",
+    "drupal/core": "~8",
+    "drupal/console": "0.11.3",
+    "drush/drush": "~8.0",
+    "drupal/layout_plugin": "~1",
+    "drupal/ds": "~2",
+    "drupal/field_group": "~1",
+    "drupal/coffee": "~1",
+    "drupal/panels": "~3",
+    "drupal/features": "3.2",
+    "drupal/page_manager": "~1",
+    "drupal/paragraphs": "~1",
+    "drupal/token": "~1",
+    "drupal/bootstrap": "3.1",
+    "drupal/ui_patterns_test": "1.0.0",
+    "drupal/ui_patterns_test_theme": "1.0.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "post-install-cmd": [
+      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+      "ln -sf ../../../.. drupal/modules/contrib/ui_patterns"
+    ],
+    "post-update-cmd": [
+      "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+      "ln -sf ../../../.. drupal/modules/contrib/ui_patterns"
+    ]
+  },
+  "repositories": [
+    {"type": "composer", "url": "https://packages.drupal.org/8"},
+    {"type": "path", "url": "./*"}
+  ],
+  "extra": {
+    "installer-paths": {
+      "drupal/core": ["type:drupal-core"],
+      "drupal/modules/contrib/{$name}": ["type:drupal-module"],
+      "drupal/themes/contrib/{$name}": ["type:drupal-theme"]
+    }
+  },
+  "conflict": {
+    "drupal/drupal": "*"
+  }
+}
