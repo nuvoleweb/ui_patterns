@@ -1,17 +1,18 @@
 # Change Log
 
-## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
-
-[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta3...HEAD)
+## [8.x-1.0-beta4](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta4) (2017-01-28)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta3...8.x-1.0-beta4)
 
 **Closed issues:**
 
 - Allow preview values to be empty [\#43](https://github.com/nuvoleweb/ui_patterns/issues/43)
 - Allow use of nested render arrays in preview content [\#39](https://github.com/nuvoleweb/ui_patterns/issues/39)
 - Add Twig function to render patterns in templates [\#38](https://github.com/nuvoleweb/ui_patterns/issues/38)
+- Add example theme [\#29](https://github.com/nuvoleweb/ui_patterns/issues/29)
 
 **Merged pull requests:**
 
+- Add example theme \#29 [\#46](https://github.com/nuvoleweb/ui_patterns/pull/46) ([ademarco](https://github.com/ademarco))
 - Allow preview values to be empty \#43 [\#45](https://github.com/nuvoleweb/ui_patterns/pull/45) ([ademarco](https://github.com/ademarco))
 - Add Twig function to render patterns in templates \#38 [\#41](https://github.com/nuvoleweb/ui_patterns/pull/41) ([ademarco](https://github.com/ademarco))
 - Add hashes to preview render arrays recursively \#39 [\#40](https://github.com/nuvoleweb/ui_patterns/pull/40) ([aleksip](https://github.com/aleksip))
