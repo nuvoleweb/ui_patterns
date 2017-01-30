@@ -1,0 +1,29 @@
+patter_module_one:
+  label: Pattern module one
+  description: Pattern module one description.
+  fields:
+    field_one:
+      type: text
+      label: Field one
+      description: Field one description.
+      preview: Field one preview.
+    field_two:
+      type: text
+      label: Field two
+      description: Field two description.
+      preview: Field two preview.
+
+patter_module_two:
+  label: Pattern module two
+  description: Pattern module two description.
+  fields:
+    field_one:
+      type: text
+      label: Field one
+      description: Field one description.
+      preview: Field one preview.
+    field_two:
+      type: text
+      label: Field two
+      description: Field two description.
+      preview: Field two preview.

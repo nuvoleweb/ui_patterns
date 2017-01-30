@@ -22,13 +22,7 @@ abstract class AbstractUiPatternsTest extends TestCase {
    *    Full test extension path.
    */
   protected function getExtensionsPath($name) {
-    switch ($name) {
-      case 'bootstrap':
-        return realpath(dirname(__FILE__) . '/../../../tests/drupal/themes/contrib/bootstrap');
-
-      default:
-        return realpath(dirname(__FILE__) . '/../../../tests/' . $name . '/');
-    }
+    return realpath(dirname(__FILE__) . '/fixtures/' . $name . '/');
   }
 
   /**
@@ -59,7 +53,7 @@ abstract class AbstractUiPatternsTest extends TestCase {
     $extension = $this->getMockBuilder('Drupal\Core\Extension\Extension')
       ->disableOriginalConstructor()
       ->getMock();
-    $extension->method('getPath')->willReturn($this->getExtensionsPath('ui_patterns_test'));
+    $extension->method('getPath')->willReturn($this->getExtensionsPath('module'));
 
     /** @var \Drupal\Core\Extension\Extension $extension */
     return $extension;
@@ -91,10 +85,10 @@ abstract class AbstractUiPatternsTest extends TestCase {
       ->getMock();
     $theme_handler->method('getThemeDirectories')->willReturn($this->getDefaultAndBaseThemesDirectoriesMock());
     $theme_handler->method('themeExists')->willReturn(TRUE);
-    $theme_handler->method('getDefault')->willReturn('ui_patterns_test_theme');
+    $theme_handler->method('getDefault')->willReturn('theme');
     $theme_handler->method('listInfo')->willReturn([]);
     $theme_handler->method('getBaseThemes')->willReturn([
-      'bootstrap' => new \stdClass(),
+      'base_theme' => new \stdClass(),
     ]);
 
     /** @var \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler */
@@ -130,7 +124,7 @@ abstract class AbstractUiPatternsTest extends TestCase {
    */
   protected function getModuleDirectoriesMock() {
     $directories = [
-      'ui_patterns_test' => $this->getExtensionsPath('ui_patterns_test'),
+      'module' => $this->getExtensionsPath('module'),
     ];
     return $directories;
   }
@@ -174,8 +168,8 @@ abstract class AbstractUiPatternsTest extends TestCase {
    */
   protected function getDefaultAndBaseThemesDirectoriesMock() {
     $directories = [
-      'ui_patterns_test_theme' => $this->getExtensionsPath('ui_patterns_test_theme'),
-      'bootstrap' => $this->getExtensionsPath('bootstrap'),
+      'theme' => $this->getExtensionsPath('theme'),
+      'base_theme' => $this->getExtensionsPath('base_theme'),
     ];
     return $directories;
   }
@@ -190,15 +184,15 @@ abstract class AbstractUiPatternsTest extends TestCase {
     $files = [];
 
     switch ($dir) {
-      case $this->getExtensionsPath('ui_patterns_test'):
+      case $this->getExtensionsPath('module'):
         $files = [
-          $this->getExtensionsPath('ui_patterns_test') . '/ui_patterns_test.ui_patterns.yml',
+          $this->getExtensionsPath('module') . '/module.ui_patterns.yml',
         ];
         break;
 
-      case $this->getExtensionsPath('ui_patterns_test_theme'):
+      case $this->getExtensionsPath('theme'):
         $files = [
-          $this->getExtensionsPath('ui_patterns_test_theme') . '/ui_patterns_test_theme.ui_patterns.yml',
+          $this->getExtensionsPath('theme') . '/theme.ui_patterns.yml',
         ];
         break;
     }

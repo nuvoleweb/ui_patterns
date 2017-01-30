@@ -1,0 +1,29 @@
+patter_base_theme_one:
+  label: Pattern base theme one
+  description: Pattern base theme one description.
+  fields:
+    field_one:
+      type: text
+      label: Field one
+      description: Field one description.
+      preview: Field one preview.
+    field_two:
+      type: text
+      label: Field two
+      description: Field two description.
+      preview: Field two preview.
+
+patter_base_theme_two:
+  label: Pattern base theme two
+  description: Pattern base theme two description.
+  fields:
+    field_one:
+      type: text
+      label: Field one
+      description: Field one description.
+      preview: Field one preview.
+    field_two:
+      type: text
+      label: Field two
+      description: Field two description.
+      preview: Field two preview.

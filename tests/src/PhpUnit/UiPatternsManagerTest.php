@@ -103,8 +103,8 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
   public function definitionsProvider() {
     $data = [];
     $files = [
-      $this->getExtensionsPath('ui_patterns_test') . '/ui_patterns_test.ui_patterns.yml',
-      $this->getExtensionsPath('ui_patterns_test_theme') . '/ui_patterns_test_theme.ui_patterns.yml',
+      $this->getExtensionsPath('theme') . '/theme.ui_patterns.yml',
+      $this->getExtensionsPath('module') . '/module.ui_patterns.yml',
     ];
 
     foreach ($files as $file) {
