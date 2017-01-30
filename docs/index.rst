@@ -15,7 +15,7 @@ Try it out!
 -----------
 
 Download and install the `Bootstrap Patterns <https://github.com/nuvoleweb/bootstrap_patterns>`_ theme on a vanilla
-Drupal 8 installation to quickly try out the UI Patterns module.to quickly try out the UI Patterns module.
+Drupal 8 installation to quickly try out the UI Patterns module.
 
 Project overview
 ----------------
