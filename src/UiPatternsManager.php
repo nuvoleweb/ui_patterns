@@ -22,7 +22,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * Twig template file extension.
    */
-  const TWIG_EXTENSION = '.html.twig';
+  const TWIG_EXTENSION = '.twig';
 
   /**
    * The app root.
