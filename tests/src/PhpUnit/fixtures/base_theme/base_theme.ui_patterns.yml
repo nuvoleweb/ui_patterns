@@ -1,4 +1,4 @@
-patter_base_theme_one:
+pattern_base_theme_one:
   label: Pattern base theme one
   description: Pattern base theme one description.
   fields:
@@ -13,7 +13,7 @@ patter_base_theme_one:
       description: Field two description.
       preview: Field two preview.
 
-patter_base_theme_two:
+pattern_base_theme_two:
   label: Pattern base theme two
   description: Pattern base theme two description.
   fields:

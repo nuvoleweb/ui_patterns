@@ -1,4 +1,4 @@
-patter_module_one:
+pattern_module_one:
   label: Pattern module one
   description: Pattern module one description.
   fields:
@@ -13,7 +13,7 @@ patter_module_one:
       description: Field two description.
       preview: Field two preview.
 
-patter_module_two:
+pattern_module_two:
   label: Pattern module two
   description: Pattern module two description.
   fields:
