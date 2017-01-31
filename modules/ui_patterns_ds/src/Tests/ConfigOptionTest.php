@@ -55,8 +55,7 @@ class ConfigOptionTest extends WebTestBase {
   }
 
   /**
-   * Tests that we can configure the ui_patterns field formatter as default
-   * for the DS field layout configuration.
+   * Tests that we can configure the ui_patterns field formatter as default.
    */
   public function testDsFieldDefault() {
     // Go to the ds field settings page.
