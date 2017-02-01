@@ -107,6 +107,16 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     $definition['theme variables'] = array_fill_keys(array_keys($definition['fields']), NULL);
     $definition['theme variables']['attributes'] = [];
     $definition['theme variables']['context'] = [];
+
+    // @todo: Move this into process class.
+    // @todo: Consider external libraries in processing base path.
+    $definition['libraries'] = array_map(function ($value) use ($definition) {
+      if (is_array($value)) {
+        $name = array_keys($value);
+        $value = $definition['provider'] . '/pattern_' . array_shift($name);
+      }
+      return $value;
+    }, $definition['libraries']);
   }
 
   /**

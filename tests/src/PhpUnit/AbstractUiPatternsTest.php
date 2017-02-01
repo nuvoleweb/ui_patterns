@@ -123,10 +123,22 @@ abstract class AbstractUiPatternsTest extends TestCase {
    *   Array with module names as keys and full paths as values.
    */
   protected function getModuleDirectoriesMock() {
-    $directories = [
+    return [
       'module' => $this->getExtensionsPath('module'),
     ];
-    return $directories;
+  }
+
+  /**
+   * UiPatternsDiscovery::getDefaultAndBaseThemesDirectories method mock.
+   *
+   * @return array
+   *   Array with theme names as keys and full paths as values.
+   */
+  protected function getDefaultAndBaseThemesDirectoriesMock() {
+    return [
+      'theme' => $this->getExtensionsPath('theme'),
+      'base_theme' => $this->getExtensionsPath('base_theme'),
+    ];
   }
 
   /**
@@ -161,20 +173,6 @@ abstract class AbstractUiPatternsTest extends TestCase {
   }
 
   /**
-   * UiPatternsDiscovery::getDefaultAndBaseThemesDirectories method mock.
-   *
-   * @return array
-   *   Array with theme names as keys and full paths as values.
-   */
-  protected function getDefaultAndBaseThemesDirectoriesMock() {
-    $directories = [
-      'theme' => $this->getExtensionsPath('theme'),
-      'base_theme' => $this->getExtensionsPath('base_theme'),
-    ];
-    return $directories;
-  }
-
-  /**
    * YamlDiscovery::fileScanDirectory method mock.
    *
    * @return array
@@ -185,19 +183,23 @@ abstract class AbstractUiPatternsTest extends TestCase {
 
     switch ($dir) {
       case $this->getExtensionsPath('module'):
-        $files = [
-          $this->getExtensionsPath('module') . '/module.ui_patterns.yml',
-        ];
+        $files[] = $this->getExtensionsPath('module') . '/module.ui_patterns.yml';
         break;
 
       case $this->getExtensionsPath('theme'):
         $files = [
           $this->getExtensionsPath('theme') . '/theme.ui_patterns.yml',
+          $this->getExtensionsPath('theme') . '/pattern/pattern.ui_patterns.yml',
         ];
         break;
     }
 
-    return array_flip($files);
+    $return = [];
+    foreach ($files as $file) {
+      $return[$file] = (object) ['uri' => $file];
+    }
+
+    return $return;
   }
 
 }

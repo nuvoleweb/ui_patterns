@@ -12,3 +12,19 @@ pattern_pattern_one:
       label: Field two
       description: Field two description.
       preview: Field two preview.
+  libraries:
+    - theme/library_one
+    - theme/library_two
+    - pattern_libraries:
+        library_one:
+          css:
+             component:
+               library_one.css: {}
+          js:
+           library_one.js: {}
+        library_two:
+          css:
+             component:
+               library_one.css: {}
+          js:
+           library_two.js: {}

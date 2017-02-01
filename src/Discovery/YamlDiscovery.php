@@ -45,20 +45,22 @@ class YamlDiscovery extends CoreYamlDiscovery {
    *    Files loaded from cache.
    */
   protected function loadFromCache(array $files) {
-    $process_files = array_keys($files);
     $file_cache = FileCacheFactory::get('yaml_discovery:' . $this->name);
 
     // Try to load from the file cache first.
-    foreach ($process_files as $file) {
-      $data = $file_cache->get($file);
+    foreach ($files as $file_name => $file) {
+      $data = $file_cache->get($file_name);
       if ($data) {
-        $files[$file]['data'] = $data;
+        $files[$file_name]['data'] = $data;
       }
       else {
         // If a file is empty or its contents are commented out, return an empty
         // array instead of NULL for type consistency.
-        $files[$file]['data'] = $this->decode($file);
-        $file_cache->set($file, $files[$file]['data']);
+        $files[$file_name]['data'] = array_map(function ($value) use ($file) {
+          $value['base path'] = $file['base path'];
+          return $value;
+        }, $this->decode($file_name));
+        $file_cache->set($file_name, $files[$file_name]['data']);
       }
     }
 
@@ -72,15 +74,14 @@ class YamlDiscovery extends CoreYamlDiscovery {
    *   An array with file paths as keys.
    */
   protected function findFiles() {
-    // Add options for file scan.
-    $options = ['nomask' => $this->getNomask()];
-
     // Recursively scan the directories for definition files.
     $files = [];
     foreach ($this->directories as $provider => $directory) {
-      $found = $this->fileScanDirectory($directory, '/\.' . $this->name . '\.yml$/', $options);
-      foreach (array_keys($found) as $file) {
-        $files[$file] = ['provider' => $provider];
+      foreach ($this->fileScanDirectory($directory) as $file) {
+        $files[$file->uri] = [
+          'provider' => $provider,
+          'base path' => dirname($file->uri),
+        ];
       }
     }
     return $files;
@@ -91,8 +92,10 @@ class YamlDiscovery extends CoreYamlDiscovery {
    *
    * @see file.inc
    */
-  public function fileScanDirectory($dir, $mask, $options = [], $depth = 0) {
-    return file_scan_directory($dir, $mask, $options, $depth);
+  public function fileScanDirectory($directory) {
+    $options = ['nomask' => $this->getNomask()];
+    $mask = '/\.' . $this->name . '\.yml$/';
+    return file_scan_directory($directory, $mask, $options, 0);
   }
 
   /**
