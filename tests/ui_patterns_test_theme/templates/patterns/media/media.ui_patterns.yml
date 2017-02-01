@@ -24,3 +24,15 @@ media:
       label: Body
       description: Media body.
       preview: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+  libraries:
+    - library_one:
+        css:
+          component:
+            css/media1.css: {}
+    - library_two:
+        css:
+          theme:
+            css/media2.css: {}
+        js:
+          js/media1.js: {}
+          js/media2.js: {}

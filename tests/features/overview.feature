@@ -59,3 +59,15 @@ Feature: Overview
 
     Then I should see the heading "Modal"
     And I should see "Here is your modal title"
+
+  Scenario: Libraries defined in the pattern definition should be loaded correctly.
+
+    Given I am logged in as a user with the "access patterns page" permission
+    And I am on "/patterns/media"
+
+    Then the response should contain "/ui_patterns_test_theme/templates/patterns/media/css/media1.css"
+    And the response should contain "/ui_patterns_test_theme/templates/patterns/media/css/media2.css"
+    And the response should contain "/ui_patterns_test_theme/templates/patterns/media/js/media1.js"
+    And the response should contain "/ui_patterns_test_theme/templates/patterns/media/js/media2.js"
+
+
