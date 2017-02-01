@@ -17,7 +17,7 @@ class Pattern extends RenderElement {
    *
    * @var array
    */
-  static protected $definition;
+  static public $definition;
 
   /**
    * {@inheritdoc}
@@ -29,6 +29,7 @@ class Pattern extends RenderElement {
       '#pre_render' => [
         [$class, 'setDefinition'],
         [$class, 'processRenderArray'],
+        [$class, 'processLibraries'],
         [$class, 'processFields'],
         [$class, 'processContext'],
       ],
@@ -68,11 +69,31 @@ class Pattern extends RenderElement {
       $element['#attributes'] = new Attribute();
     }
 
-    foreach (self::$definition['libraries'] as $library) {
-      $element['#attached']['library'][] = $library;
+    unset($element['#type'], $element['#id']);
+    return $element;
+  }
+
+  /**
+   * Process libraries.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public static function processLibraries(array $element) {
+    $id = self::$definition['id'];
+    $libraries = self::$definition['libraries'];
+    foreach ($libraries as $library) {
+      if (is_array($library)) {
+        $element['#attached']['library'][] = 'ui_patterns/' . $id . '.' . key($library);
+      }
+      else {
+        $element['#attached']['library'][] = $library;
+      }
     }
 
-    unset($element['#type'], $element['#id']);
     return $element;
   }
 
