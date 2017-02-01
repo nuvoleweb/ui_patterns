@@ -25,6 +25,11 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   const TWIG_EXTENSION = '.html.twig';
 
   /**
+   * Pattern prefix.
+   */
+  const PATTERN_PREFIX = 'pattern_';
+
+  /**
    * The app root.
    *
    * @var string
@@ -64,6 +69,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     'fields' => [],
     'libraries' => [],
     'extra' => [],
+    'base path' => '',
   ];
 
   /**
@@ -100,23 +106,13 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
     $definition['custom theme hook'] = TRUE;
     if (empty($definition['theme hook'])) {
-      $definition['theme hook'] = "pattern_{$plugin_id}";
+      $definition['theme hook'] = self::PATTERN_PREFIX . $plugin_id;
       $definition['custom theme hook'] = FALSE;
     }
 
     $definition['theme variables'] = array_fill_keys(array_keys($definition['fields']), NULL);
     $definition['theme variables']['attributes'] = [];
     $definition['theme variables']['context'] = [];
-
-    // @todo: Move this into process class.
-    // @todo: Consider external libraries in processing base path.
-    $definition['libraries'] = array_map(function ($value) use ($definition) {
-      if (is_array($value)) {
-        $name = array_keys($value);
-        $value = $definition['provider'] . '/pattern_' . array_shift($name);
-      }
-      return $value;
-    }, $definition['libraries']);
   }
 
   /**
@@ -175,6 +171,49 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     }
 
     return $items;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hookLibraryInfoBuild() {
+    // @codingStandardsIgnoreStart
+    $libraries = [];
+    foreach ($this->getDefinitions() as $definition) {
+
+      // Get only locally defined libraries.
+      $items = array_filter($definition['libraries'], function ($library) {
+        return is_array($library);
+      });
+
+      // Attach pattern base path to assets.
+      if (!empty($definition['base path'])) {
+        $base_path = $definition['base path'];
+        $process = function (&$items) use (&$process, $base_path) {
+          foreach ($items as $name => $values) {
+            $is_asset = stristr($name, '.css') !== FALSE || stristr($name, '.js') !== FALSE;
+            $is_external = isset($values['type']) && $values['type'] == 'external';
+            if ($is_asset && !$is_external) {
+              $items[$base_path . DIRECTORY_SEPARATOR . $name] = $values;
+              unset($items[$name]);
+            }
+            elseif (!$is_asset) {
+              $process($items[$name]);
+            }
+          }
+        };
+        $process($items);
+      }
+
+      // Produce final libraries array.
+      $id = $definition['id'];
+      array_walk($items, function ($value) use (&$libraries, $id) {
+        $libraries[$id . '.' . key($value)] = reset($value);
+      });
+    }
+
+    // @codingStandardsIgnoreEnd
+    return $libraries;
   }
 
   /**

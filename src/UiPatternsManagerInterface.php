@@ -39,6 +39,17 @@ interface UiPatternsManagerInterface extends PluginManagerInterface {
   public function hookTheme();
 
   /**
+   * Get patterns library info.
+   *
+   * @return array
+   *   Array of libraries as expected by hook_library_info_build().
+   *
+   * @see hook_library_info_build()
+   * @see ui_patterns_library_info_build()
+   */
+  public function hookLibraryInfoBuild();
+
+  /**
    * Check whereas the given theme hook is an actual pattern hook.
    *
    * @param string $hook

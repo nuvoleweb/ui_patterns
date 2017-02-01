@@ -27,6 +27,14 @@ function ui_patterns_theme() {
  */
 function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
   if (\Drupal::service('plugin.manager.ui_patterns')->isPatternHook($hook) && !empty($variables['context'])) {
-    \Drupal::service('module_handler')->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
+    \Drupal::moduleHandler()->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
   }
 }
+
+/**
+ * Implements hook_library_info_build()
+ */
+function ui_patterns_library_info_build() {
+  return \Drupal::service('plugin.manager.ui_patterns')->hookLibraryInfoBuild();
+}
+
