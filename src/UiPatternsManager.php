@@ -188,7 +188,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
       // Attach pattern base path to assets.
       if (!empty($definition['base path'])) {
-        $base_path = $definition['base path'];
+        $base_path = str_replace($this->root, '', $definition['base path']);
         $process = function (&$items) use (&$process, $base_path) {
           foreach ($items as $name => $values) {
             $is_asset = stristr($name, '.css') !== FALSE || stristr($name, '.js') !== FALSE;
