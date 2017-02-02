@@ -25,8 +25,16 @@ and list them using the following format:
          description: Quote attribution.
          preview: Albert Einstein
      libraries:
-       - MY_MODULE/library-1
-       - MY_MODULE/library-2
+       - MY_MODULE/module_library_one
+       - MY_MODULE/module_library_two
+       - pattern_library_one:
+          css:
+            component:
+              css/my_component.css: {}
+              http://example.com/external.min.css: { type: external, minified: true }
+       - pattern_library_two:
+          js:
+            js/library_two.js: {}
 
 Let's break this down:
 
@@ -106,9 +114,41 @@ Luckily pattern definitions can be organised in sub-folders too, as shown below:
     ├── ui_patterns_test_theme.info.yml
     └── ui_patterns_test_theme.ui_patterns.yml
 
-
 **Note:** the example above is taken by the actual test target site that is used to test the module itself: have a look
 at ``./tests/README.md`` and at ``./tests/target/custom`` for working examples on how to use the UI Patterns module.
+
+Expose pattern assets as libraries
+----------------------------------
+
+In case you wish to bundle your assets within the pattern directory you can define libraries with the alternative syntax
+below:
+
+.. code-block:: yaml
+
+     blockquote:
+       label: Blockquote
+       ...
+       libraries:
+         ...
+         - pattern_library_one:
+            css:
+              component:
+                css/my_component.css: {}
+                http://example.com/external.min.css: { type: external, minified: true }
+         - pattern_library_two:
+            js:
+              js/library_two.js: {}
+
+Libraries defined as above will be automatically loaded when the pattern is rendered. They are also exposed as ordinary
+Drupal libraries as follows: ``ui_patterns/PATTERN_ID.LIBRARY_NAME``
+
+For example, the two local libraries above can be attached to your render arrays in the following way:
+
+.. code-block:: php
+
+   <?php
+   $build['#attached']['library'][] = 'ui_patterns/blockquote.pattern_library_one';
+   $build['#attached']['library'][] = 'ui_patterns/blockquote.pattern_library_two';
 
 Override patterns behavior
 --------------------------

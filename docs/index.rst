@@ -11,12 +11,6 @@ for business like the one shown below:
 .. image:: images/pattern-library.png
    :align: center
 
-Try it out!
------------
-
-Download and install the `Bootstrap Patterns <https://github.com/nuvoleweb/bootstrap_patterns>`_ theme on a vanilla
-Drupal 8 installation to quickly try out the UI Patterns module.
-
 Project overview
 ----------------
 
@@ -36,6 +30,12 @@ The UI Patterns project provides 5 modules:
 
 By the way plugin definitions are handled the UI Patterns module also integrated with with tools like `PatternLab <http://patternlab.io/>`_
 or modules like `Component Libraries <https://www.drupal.org/project/components>`_.
+
+Try it out
+^^^^^^^^^^
+
+Download and install the `Bootstrap Patterns <https://github.com/nuvoleweb/bootstrap_patterns>`_ theme on a vanilla
+Drupal 8 installation to quickly try out the UI Patterns module.
 
 .. toctree::
    :caption: Table of Contents
