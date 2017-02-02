@@ -60,6 +60,7 @@ Feature: Overview
     Then I should see the heading "Modal"
     And I should see "Here is your modal title"
 
+  @disableCompression
   Scenario: Libraries defined in the pattern definition should be loaded correctly.
 
     Given I am logged in as a user with the "access patterns page" permission

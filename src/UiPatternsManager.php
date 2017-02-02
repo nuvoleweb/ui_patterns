@@ -189,20 +189,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
       // Attach pattern base path to assets.
       if (!empty($definition['base path'])) {
         $base_path = str_replace($this->root, '', $definition['base path']);
-        $process = function (&$items) use (&$process, $base_path) {
-          foreach ($items as $name => $values) {
-            $is_asset = stristr($name, '.css') !== FALSE || stristr($name, '.js') !== FALSE;
-            $is_external = isset($values['type']) && $values['type'] == 'external';
-            if ($is_asset && !$is_external) {
-              $items[$base_path . DIRECTORY_SEPARATOR . $name] = $values;
-              unset($items[$name]);
-            }
-            elseif (!$is_asset) {
-              $process($items[$name]);
-            }
-          }
-        };
-        $process($items);
+        $this->processLibraries($items, $base_path);
       }
 
       // Produce final libraries array.
@@ -224,6 +211,29 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
       return $definition['theme hook'] == $hook;
     });
     return !empty($definitions);
+  }
+
+  /**
+   * Process libraries.
+   *
+   * @param array $libraries
+   *    Libraries array.
+   * @param string $base_path
+   *    Pattern base path.
+   */
+  protected function processLibraries(array &$libraries, $base_path) {
+
+    foreach ($libraries as $name => $values) {
+      $is_asset = stristr($name, '.css') !== FALSE || stristr($name, '.js') !== FALSE;
+      $is_external = isset($values['type']) && $values['type'] == 'external';
+      if ($is_asset && !$is_external) {
+        $libraries[$base_path . DIRECTORY_SEPARATOR . $name] = $values;
+        unset($libraries[$name]);
+      }
+      elseif (!$is_asset) {
+        $this->processLibraries($libraries[$name], $base_path);
+      }
+    }
   }
 
   /**
