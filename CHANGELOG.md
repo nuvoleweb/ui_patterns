@@ -1,5 +1,20 @@
 # Change Log
 
+## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
+
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta4...HEAD)
+
+**Closed issues:**
+
+- Paragraphs [\#51](https://github.com/nuvoleweb/ui_patterns/issues/51)
+- Use generic .twig extension for a better integration with tools like PatternLab [\#49](https://github.com/nuvoleweb/ui_patterns/issues/49)
+- Allow libraries to be defined on pattern definitions [\#34](https://github.com/nuvoleweb/ui_patterns/issues/34)
+
+**Merged pull requests:**
+
+- Allow libraries to be defined on pattern definitions \#34 [\#52](https://github.com/nuvoleweb/ui_patterns/pull/52) ([ademarco](https://github.com/ademarco))
+- fixed a broken sentence. [\#47](https://github.com/nuvoleweb/ui_patterns/pull/47) ([Grienauer](https://github.com/Grienauer))
+
 ## [8.x-1.0-beta4](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta4) (2017-01-28)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta3...8.x-1.0-beta4)
 
