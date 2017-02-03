@@ -173,6 +173,21 @@ abstract class AbstractUiPatternsTest extends TestCase {
   }
 
   /**
+   * Get UI Pattern discovery service mock.
+   *
+   * @return \Drupal\ui_patterns\Discovery\UiPatternsDiscovery
+   *    UI Pattern discovery service.
+   */
+  protected function getDiscoveryMock() {
+    $discovery = $this->getMockBuilder('Drupal\ui_patterns\Discovery\UiPatternsDiscovery')
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    /** @var \Drupal\ui_patterns\Discovery\UiPatternsDiscovery $discovery */
+    return $discovery;
+  }
+
+  /**
    * YamlDiscovery::fileScanDirectory method mock.
    *
    * @return array
