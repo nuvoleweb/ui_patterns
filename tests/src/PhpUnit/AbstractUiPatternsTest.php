@@ -173,6 +173,20 @@ abstract class AbstractUiPatternsTest extends TestCase {
   }
 
   /**
+   * Get UI Pattern plugins namespaces.
+   *
+   * @return \Traversable
+   *    UI Pattern plugins namespaces.
+   */
+  protected function getNamespacesMock() {
+    $namespaces = $this->getMockBuilder('\Traversable')
+      ->getMock();
+
+    /** @var \Traversable $namespaces */
+    return $namespaces;
+  }
+
+  /**
    * YamlDiscovery::fileScanDirectory method mock.
    *
    * @return array

@@ -1,0 +1,22 @@
+ui_patterns_config.ui_patterns_config.*:
+  type: config_entity
+  label: 'UI Patterns config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    definition:
+      type: text
+      label: 'Definition'
+    template:
+      type: text
+      label: 'Template'
+    stylesheet:
+      type: text
+      label: 'Stylesheet'
+    javascript:
+      type: text
+      label: 'Javascript'

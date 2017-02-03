@@ -1,0 +1,5 @@
+name: UI Patterns config
+description: 'Allows you to create inline patterns as config entities.'
+package: User interface
+type: module
+core: 8.x

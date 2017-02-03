@@ -3,14 +3,13 @@
 namespace Drupal\ui_patterns;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\ui_patterns\Exception\PatternDefinitionException;
+use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
-use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
 use Drupal\ui_patterns\Discovery\YamlDiscovery;
+use Drupal\ui_patterns\Exception\PatternDefinitionException;
 
 /**
  * Provides the default ui_patterns manager.
@@ -76,6 +75,9 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * UiPatternsManager constructor.
    *
+   * @param \Traversable $namespaces
+   *   An object that implements \Traversable which contains the root paths
+   *   keyed by the corresponding namespace to look for plugin implementations.
    * @param string $root
    *    Application root directory.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -89,7 +91,12 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *    Cache backend service.
    */
-  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
+  public function __construct(\Traversable $namespaces, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
+    parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\UiPatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
+
+    $discovery = $this->getDiscovery();
+    $this->discovery = new UiPatternsDiscovery($discovery, $module_handler, $theme_handler);
+
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
@@ -120,7 +127,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * {@inheritdoc}
    */
   protected function alterDefinitions(&$definitions) {
-
     foreach ($definitions as $id => $definition) {
       try {
         $this->validation->validate($definition);
@@ -325,18 +331,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   protected function providerExists($provider) {
     return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getDiscovery() {
-    if (!isset($this->discovery)) {
-      $this->discovery = new UiPatternsDiscovery($this->moduleHandler, $this->themeHandler);
-      $this->discovery->addTranslatableProperty('label', 'label_context');
-      $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
-    }
-    return $this->discovery;
   }
 
   /**
