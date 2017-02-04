@@ -36,8 +36,9 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     $theme_handler = $this->getThemeHandlerMock();
     $loader = $this->getLoaderMock();
     $validation = $this->getValidationMock();
+    $discovery = $this->getDiscoveryMock();
 
-    $plugin_manager = new UiPatternsManager('', $module_handler, $theme_handler, $loader, $validation, $cache_backend);
+    $plugin_manager = new UiPatternsManager('', $module_handler, $theme_handler, $loader, $validation, $cache_backend, $discovery);
     $plugin_manager->setYamlDiscovery($this->getYamlDiscoveryMock());
     $definitions = $plugin_manager->getDefinitions();
 

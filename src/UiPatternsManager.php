@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns;
 
+use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ui_patterns\Exception\PatternDefinitionException;
 use Drupal\Core\Cache\CacheBackendInterface;
@@ -9,7 +10,6 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
-use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
 use Drupal\ui_patterns\Discovery\YamlDiscovery;
 
 /**
@@ -88,8 +88,14 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    *    Pattern validation service.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *    Cache backend service.
+   * @param \Drupal\Component\Plugin\Discovery\DiscoveryInterface $discovery
+   *    The discovery service.
    */
-  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
+  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend, DiscoveryInterface $discovery) {
+    // When using another Discovery this method might not be available.
+    // How to deal with that ?
+    $discovery->addTranslatableProperty('label', 'label_context');
+    $this->discovery = new ContainerDerivativeDiscoveryDecorator($discovery);
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
@@ -325,18 +331,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   protected function providerExists($provider) {
     return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getDiscovery() {
-    if (!isset($this->discovery)) {
-      $this->discovery = new UiPatternsDiscovery($this->moduleHandler, $this->themeHandler);
-      $this->discovery->addTranslatableProperty('label', 'label_context');
-      $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
-    }
-    return $this->discovery;
   }
 
   /**

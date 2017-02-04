@@ -1,9 +1,12 @@
 services:
   ui_patterns.validation:
     class: Drupal\ui_patterns\UiPatternsValidation
+  ui_patterns.yml_discovery:
+    class: Drupal\ui_patterns\Discovery\UiPatternsDiscovery
+    arguments: ['@module_handler', '@theme_handler']
   plugin.manager.ui_patterns:
     class: Drupal\ui_patterns\UiPatternsManager
-    arguments: ['@app.root', '@module_handler', '@theme_handler', '@twig.loader', '@ui_patterns.validation', '@cache.discovery']
+    arguments: ['@app.root', '@module_handler', '@theme_handler', '@twig.loader', '@ui_patterns.validation', '@cache.discovery', '@ui_patterns.yml_discovery']
   plugin.manager.ui_patterns_source:
     class: Drupal\ui_patterns\Plugin\UiPatternsSourceManager
     parent: default_plugin_manager
