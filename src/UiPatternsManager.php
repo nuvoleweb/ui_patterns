@@ -70,6 +70,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     'libraries' => [],
     'extra' => [],
     'base path' => '',
+    'use' => '',
   ];
 
   /**
@@ -285,12 +286,23 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @return array
    *    Processed hook definition portion.
    *
+   * @throws \Twig_Error_Loader
+   *    Throws exception if template is not found.
+   *
    * @see UiPatternsManager::hookTheme()
    */
   protected function processUseProperty(array $definition) {
     /** @var \Drupal\Core\Extension\Extension $module */
+    static $processed = [];
+
+    if (isset($processed[$definition['id']])) {
+      throw new \Twig_Error_Loader("Template specified in 'use:'  for pattern {$definition['id']} cannot be found (recursion detected).");
+    }
+
     $return = [];
-    if (isset($definition['use']) && $this->loader->exists($definition['use'])) {
+    if (!empty($definition['use'])) {
+      $processed[$definition['id']] = TRUE;
+
       $template = $definition['use'];
       $parts = explode(DIRECTORY_SEPARATOR, $template);
       $name = array_pop($parts);
