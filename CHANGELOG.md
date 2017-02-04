@@ -6,12 +6,16 @@
 
 **Closed issues:**
 
+- Twig Error Loader: Unable to find template in ui\_patterns/template [\#58](https://github.com/nuvoleweb/ui_patterns/issues/58)
+- Support preview views UI  [\#54](https://github.com/nuvoleweb/ui_patterns/issues/54)
 - Paragraphs [\#51](https://github.com/nuvoleweb/ui_patterns/issues/51)
 - Use generic .twig extension for a better integration with tools like PatternLab [\#49](https://github.com/nuvoleweb/ui_patterns/issues/49)
 - Allow libraries to be defined on pattern definitions [\#34](https://github.com/nuvoleweb/ui_patterns/issues/34)
 
 **Merged pull requests:**
 
+- Support preview views UI \#54 [\#60](https://github.com/nuvoleweb/ui_patterns/pull/60) ([ademarco](https://github.com/ademarco))
+- Recursion \(max function nesting level\) \#53 [\#59](https://github.com/nuvoleweb/ui_patterns/pull/59) ([ademarco](https://github.com/ademarco))
 - Allow libraries to be defined on pattern definitions \#34 [\#52](https://github.com/nuvoleweb/ui_patterns/pull/52) ([ademarco](https://github.com/ademarco))
 - fixed a broken sentence. [\#47](https://github.com/nuvoleweb/ui_patterns/pull/47) ([Grienauer](https://github.com/Grienauer))
 
