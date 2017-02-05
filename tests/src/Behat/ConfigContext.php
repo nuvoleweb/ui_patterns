@@ -2,12 +2,18 @@
 
 namespace Drupal\ui_patterns\Tests\Behat;
 
+use NuvoleWeb\Drupal\DrupalExtension\Component\PyStringYamlParser;
 use NuvoleWeb\Drupal\DrupalExtension\Context\RawDrupalContext;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\Core\Config\StorageComparer;
+use Behat\Gherkin\Node\PyStringNode;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isNotNull;
+use Underscore\Types\Arrays;
 
 /**
  * Class ConfigContext.
@@ -31,6 +37,13 @@ class ConfigContext extends RawDrupalContext {
   protected $fs;
 
   /**
+   * Configuration storage directory.
+   *
+   * @var \NuvoleWeb\Drupal\DrupalExtension\Component\PyStringYamlParser
+   */
+  protected $yaml;
+
+  /**
    * ConfigContext constructor.
    *
    * @param string $directory
@@ -41,6 +54,22 @@ class ConfigContext extends RawDrupalContext {
     $this->directory = $directory;
     if (empty($this->directory)) {
       $this->directory = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'drupal-behat' . DIRECTORY_SEPARATOR . 'config';
+    }
+    $this->yaml = new PyStringYamlParser();
+  }
+
+  /**
+   * Assert partial configuration.
+   *
+   * @Then the configuration item :name should contain:
+   */
+  public function assertPartialConfiguration($name, PyStringNode $value) {
+    $partial = $this->yaml->parse($value);
+    $config = \Drupal::configFactory()->get($name)->getRawData();
+    foreach (Arrays::flatten($partial) as $dotted => $value) {
+      $expected = Arrays::get($config, $dotted);
+      assert($expected, isNotNull(), "Configuration '{$name}': '{$dotted}' property not found.");
+      assert($expected, equals($value), "Configuration '{$name}': '{$dotted}' property is '{$value}' but it should have been '{$expected}'.");
     }
   }
 

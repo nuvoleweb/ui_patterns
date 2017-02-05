@@ -16,6 +16,7 @@
     "phpunit/phpunit": "5.5.*",
     "bovigo/assert": "~1.7",
     "drupal/coder": "8.2.8",
+    "anahkiasen/underscore-php" : "dev-master",
     "nuvoleweb/drupal-behat": "1.0.2"
   },
   "autoload": {
