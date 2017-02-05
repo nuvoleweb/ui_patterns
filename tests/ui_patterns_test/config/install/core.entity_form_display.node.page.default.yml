@@ -2,54 +2,47 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.article.body
-    - field.field.node.article.comment
-    - field.field.node.article.field_image
-    - field.field.node.article.field_links
-    - field.field.node.article.field_paragraphs
-    - field.field.node.article.field_tags
-    - image.style.thumbnail
-    - node.type.article
+    - field.field.node.page.body
+    - field.field.node.page.field_links
+    - field.field.node.page.field_tags
+    - node.type.page
   module:
-    - comment
-    - image
+    - link
     - path
     - text
-id: node.article.default
+id: node.page.default
 targetEntityType: node
-bundle: article
+bundle: page
 mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 1
+    weight: 31
     settings:
       rows: 9
       summary_rows: 3
       placeholder: ''
-    third_party_settings: {  }
-  comment:
-    type: comment_default
-    weight: 20
-    settings: {  }
     third_party_settings: {  }
   created:
     type: datetime_timestamp
     weight: 10
     settings: {  }
     third_party_settings: {  }
-  field_image:
-    type: image_image
-    weight: 4
+  field_links:
+    weight: 33
     settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
+    type: link_default
   field_tags:
-    type: entity_reference_autocomplete_tags
-    weight: 3
-    settings: {  }
+    weight: 32
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
+    type: entity_reference_autocomplete
   path:
     type: path
     weight: 30
@@ -69,7 +62,7 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 0
+    weight: -5
     settings:
       size: 60
       placeholder: ''
@@ -82,6 +75,4 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden:
-  field_links: true
-  field_paragraphs: true
+hidden: {  }
