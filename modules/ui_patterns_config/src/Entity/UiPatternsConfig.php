@@ -7,6 +7,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\file\Entity\File;
+use Drupal\ui_patterns\UiPatternsManager;
 use Drupal\ui_patterns_config\UiPatternsConfigInterface;
 
 /**
@@ -134,7 +135,7 @@ class UiPatternsConfig extends ConfigEntityBase implements UiPatternsConfigInter
 
     $definition['libraries'] += [
       [
-        'pattern_' . $this->id() => [
+        UiPatternsManager::PATTERN_PREFIX . $this->id() => [
           'css' => [
             'component' => [
               $this->getStylesheetFilename() => [],
@@ -187,7 +188,7 @@ class UiPatternsConfig extends ConfigEntityBase implements UiPatternsConfigInter
    *   The pattern template filename.
    */
   public function getTemplateFilename() {
-    return $this->getTemplateName() . '.html.twig';
+    return $this->getTemplateName() . UiPatternsManager::TWIG_EXTENSION;
   }
 
   /**
@@ -217,7 +218,7 @@ class UiPatternsConfig extends ConfigEntityBase implements UiPatternsConfigInter
    *   The pattern template name.
    */
   public function getTemplateName() {
-    return str_replace('_', '-', 'pattern_' . $this->id());
+    return str_replace('_', '-', UiPatternsManager::PATTERN_PREFIX . $this->id());
   }
 
   /**

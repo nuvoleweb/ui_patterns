@@ -45,7 +45,7 @@ class UiPatternConfig extends DeriverBase implements ContainerDeriverInterface {
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
     foreach ($this->storage->loadMultiple() as $pattern_id => $pattern) {
-      $this->derivatives[$pattern_id] = $pattern->getProcessedDefinition();
+      $this->derivatives[$pattern_id] = $pattern->getProcessedDefinition() + $base_plugin_definition;
     }
     return $this->derivatives;
   }
