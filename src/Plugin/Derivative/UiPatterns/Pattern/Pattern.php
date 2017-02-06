@@ -3,10 +3,10 @@
 namespace Drupal\ui_patterns\Plugin\Derivative\UiPatterns\Pattern;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
-use Drupal\ui_patterns\Discovery\YamlDiscovery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,20 +17,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Pattern extends DeriverBase implements ContainerDeriverInterface {
 
   /**
-   * The entity storage.
+   * Pattern constructor.
    *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
+   * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
+   *   The theme handler service.
    */
-  protected $storage;
-
-  /**
-   * UiPatternConfig constructor.
-   *
-   * @param \Drupal\Core\Entity\EntityManagerInterface $entityManager
-   *   The entity manager.
-   */
-  public function __construct(EntityManagerInterface $entityManager) {
-    $this->storage = $entityManager->getStorage('ui_patterns_config');
+  public function __construct(ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
+    $this->moduleHandler = $module_handler;
+    $this->themeHandler = $theme_handler;
   }
 
   /**
@@ -38,7 +34,8 @@ class Pattern extends DeriverBase implements ContainerDeriverInterface {
    */
   public static function create(ContainerInterface $container, $base_plugin_id) {
     return new static(
-      $container->get('entity.manager')
+      $container->get('module_handler'),
+      $container->get('theme_handler')
     );
   }
 
@@ -46,13 +43,10 @@ class Pattern extends DeriverBase implements ContainerDeriverInterface {
    * {@inheritdoc}
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
-    $module = \Drupal::service('module_handler');
-    $theme = \Drupal::service('theme_handler');
-
-    $discovery = new UiPatternsDiscovery($module, $theme);
+    $discovery = new UiPatternsDiscovery($this->moduleHandler, $this->themeHandler);
 
     foreach ($discovery->getDefinitions() as $pattern_id => $pattern) {
-      $this->derivatives['pattern_' . $pattern['id']] = $pattern + $base_plugin_definition;
+      $this->derivatives[$pattern_id] = $pattern + $base_plugin_definition;
     }
 
     return $this->derivatives;

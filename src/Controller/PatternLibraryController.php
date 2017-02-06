@@ -53,9 +53,9 @@ class PatternLibraryController extends ControllerBase {
    */
   public function single($name) {
     $pattern = $this->patternsManager->createInstance($name, $this->patternsManager->getDefinition($name));
-    //$definition = $pattern->definition();
+    $definition['id'] = $pattern->getPluginId();
     $definition['rendered']['#type'] = 'pattern_preview';
-    $definition['rendered']['#id'] = $pattern->getPluginId();
+    $definition['rendered']['#definition'] = $pattern->definition();
     $definition['meta']['#theme'] = 'patterns_meta_information';
     $definition['meta']['#pattern'] = $pattern->definition();
 
@@ -75,10 +75,10 @@ class PatternLibraryController extends ControllerBase {
     $patterns = $this->patternsManager->getPatterns();
 
     foreach ($patterns as $pattern) {
-      // @todo: Fix this.
-      $definitions[$pattern->getPluginId()] = $pattern->definition();
+      $definitions[$pattern->getPluginId()]['id'] = $pattern->getPluginId();
+      $definitions[$pattern->getPluginId()]['label'] = $pattern->definition()['label'];
       $definitions[$pattern->getPluginId()]['rendered']['#type'] = 'pattern_preview';
-      $definitions[$pattern->getPluginId()]['rendered']['#id'] = $pattern->getPluginId();
+      $definitions[$pattern->getPluginId()]['rendered']['#definition'] = $pattern->definition();
       $definitions[$pattern->getPluginId()]['meta']['#theme'] = 'patterns_meta_information';
       $definitions[$pattern->getPluginId()]['meta']['#pattern'] = $pattern->definition();
     }

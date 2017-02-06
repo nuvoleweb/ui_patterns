@@ -3,12 +3,10 @@
 namespace Drupal\ui_patterns;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\ui_patterns\Discovery\YamlDiscovery;
 use Drupal\ui_patterns\Exception\PatternDefinitionException;
 
 /**
@@ -93,12 +91,13 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * Get the patterns.
    *
    * @return UiPatternInterface[]
+   *   The patterns plugins.
    */
   public function getPatterns() {
     $patterns = [];
 
-    foreach($this->getDefinitions() as $plugin_id => $definition) {
-      $patterns[$plugin_id] = $this->createInstance($plugin_id, $definition);
+    foreach ($this->getDefinitions() as $plugin_id => $definition) {
+      $patterns[$definition['id']] = $this->createInstance($plugin_id, $definition);
     }
 
     return $patterns;
@@ -149,8 +148,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
     foreach ($this->getPatterns() as $pattern) {
       $definition = $pattern->definition();
-      $hook = $definition['theme hook'];
-      $items[$hook] = $pattern->hookTheme();
+      $items[$definition['theme hook']] = $pattern->hookTheme();
     }
 
     return $items;
@@ -206,7 +204,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    *    Pattern base path.
    */
   protected function processLibraries(array &$libraries, $base_path) {
-
     foreach ($libraries as $name => $values) {
       $is_asset = stristr($name, '.css') !== FALSE || stristr($name, '.js') !== FALSE;
       $is_external = isset($values['type']) && $values['type'] == 'external';
@@ -225,16 +222,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   protected function providerExists($provider) {
     return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
-  }
-
-  /**
-   * Sets the YamlDiscovery.
-   *
-   * @param \Drupal\ui_patterns\Discovery\YamlDiscovery $yamlDiscovery
-   *   YamlDiscovery.
-   */
-  public function setYamlDiscovery(YamlDiscovery $yamlDiscovery) {
-    $this->getDiscovery()->setYamlDiscovery($yamlDiscovery);
   }
 
 }

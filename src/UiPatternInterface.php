@@ -33,7 +33,7 @@ interface UiPatternInterface {
    * Check if the pattern is a pattern hook.
    *
    * @param string $hook
-   *   The hook
+   *   The hook.
    *
    * @return bool
    *   True or False.
@@ -41,7 +41,10 @@ interface UiPatternInterface {
   public function isPatternHook($hook);
 
   /**
+   * Get the array that goes into hook_theme().
+   *
    * @return array
+   *   The hook_theme entry element.
    */
   public function hookTheme();
 

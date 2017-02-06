@@ -2,10 +2,10 @@
 
 namespace Drupal\ui_patterns;
 
+use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\PluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -45,7 +45,7 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    *   The module handler service.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *   The theme handler service.
-   * @param \Twig_LoaderInterface $twig_loader
+   * @param \Twig_Loader_Filesystem $twig_loader
    *   The twig loader service.
    * @param string $root
    *   The application root directory.
@@ -84,11 +84,11 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   public function definition() {
     $definition = $this->configuration;
 
-    $definition['id'] = $this->getDerivativeId();
+    $definition['id'] = $this->getPluginId();
 
     $definition['custom theme hook'] = TRUE;
     if (empty($definition['theme hook'])) {
-      $definition['theme hook'] = $this->getDerivativeId();
+      $definition['theme hook'] = 'pattern_' . $this->getDerivativeId();
       $definition['custom theme hook'] = FALSE;
     }
 
@@ -128,6 +128,9 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
 
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function hookTheme() {
     $definition = $this->definition();
     $item = [

@@ -17,8 +17,4 @@ use Drupal\ui_patterns\UiPatternInterface;
  */
 class Pattern extends UiPatternBase implements UiPatternInterface {
 
-  public function definition() {
-    return parent::definition();
-  }
-
 }
