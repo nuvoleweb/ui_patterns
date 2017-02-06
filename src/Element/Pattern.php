@@ -46,7 +46,9 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function setDefinition(array $element) {
-    self::$definition = \Drupal::service('plugin.manager.ui_patterns')->getDefinition($element['#id']);
+    // @todo: Find a better way to instantiate a pattern object.
+    $pattern = \Drupal::service('plugin.manager.ui_patterns')->createInstance($element['#id'], \Drupal::service('plugin.manager.ui_patterns')->getDefinition($element['#id']));
+    self::$definition = $pattern->definition();
     return $element;
   }
 

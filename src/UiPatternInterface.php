@@ -29,4 +29,20 @@ interface UiPatternInterface {
    */
   public function template();
 
+  /**
+   * Check if the pattern is a pattern hook.
+   *
+   * @param string $hook
+   *   The hook
+   *
+   * @return bool
+   *   True or False.
+   */
+  public function isPatternHook($hook);
+
+  /**
+   * @return array
+   */
+  public function hookTheme();
+
 }

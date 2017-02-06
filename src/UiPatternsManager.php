@@ -36,20 +36,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   protected $root;
 
   /**
-   * The theme handler.
-   *
-   * @var \Drupal\Core\Extension\ThemeHandlerInterface
-   */
-  protected $themeHandler;
-
-  /**
-   * Loader service.
-   *
-   * @var \Twig_Loader_Chain
-   */
-  protected $loader;
-
-  /**
    * Validation service.
    *
    * @var \Drupal\ui_patterns\UiPatternsValidation
@@ -70,6 +56,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     'extra' => [],
     'base path' => '',
     'use' => '',
+    'class' => 'Drupal\ui_patterns\Plugin\UiPatterns\Pattern\Pattern',
   ];
 
   /**
@@ -93,10 +80,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   public function __construct(\Traversable $namespaces, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
     parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\UiPatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
-
-    $discovery = $this->getDiscovery();
-    $this->discovery = new UiPatternsDiscovery($discovery, $module_handler, $theme_handler);
-
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
@@ -107,20 +90,18 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   }
 
   /**
-   * {@inheritdoc}
+   * Get the patterns.
+   *
+   * @return UiPatternInterface[]
    */
-  public function processDefinition(&$definition, $plugin_id) {
-    parent::processDefinition($definition, $plugin_id);
+  public function getPatterns() {
+    $patterns = [];
 
-    $definition['custom theme hook'] = TRUE;
-    if (empty($definition['theme hook'])) {
-      $definition['theme hook'] = self::PATTERN_PREFIX . $plugin_id;
-      $definition['custom theme hook'] = FALSE;
+    foreach($this->getDefinitions() as $plugin_id => $definition) {
+      $patterns[$plugin_id] = $this->createInstance($plugin_id, $definition);
     }
 
-    $definition['theme variables'] = array_fill_keys(array_keys($definition['fields']), NULL);
-    $definition['theme variables']['attributes'] = [];
-    $definition['theme variables']['context'] = [];
+    return $patterns;
   }
 
   /**
@@ -166,15 +147,10 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   public function hookTheme() {
     $items = [];
 
-    foreach ($this->getDefinitions() as $definition) {
+    foreach ($this->getPatterns() as $pattern) {
+      $definition = $pattern->definition();
       $hook = $definition['theme hook'];
-      $item = [
-        'variables' => $definition['theme variables'],
-      ];
-      $item += $this->processCustomThemeHookProperty($definition);
-      $item += $this->processTemplateProperty($definition);
-      $item += $this->processUseProperty($definition);
-      $items[$hook] = $item;
+      $items[$hook] = $pattern->hookTheme();
     }
 
     return $items;
@@ -186,7 +162,8 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   public function hookLibraryInfoBuild() {
     // @codingStandardsIgnoreStart
     $libraries = [];
-    foreach ($this->getDefinitions() as $definition) {
+    foreach ($this->getPatterns() as $pattern) {
+      $definition = $pattern->definition();
 
       // Get only locally defined libraries.
       $items = array_filter($definition['libraries'], function ($library) {
@@ -214,10 +191,10 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * {@inheritdoc}
    */
   public function isPatternHook($hook) {
-    $definitions = array_filter($this->getDefinitions(), function ($definition) use ($hook) {
-      return $definition['theme hook'] == $hook;
+    $patterns = array_filter($this->getPatterns(), function ($pattern) use ($hook) {
+      return $pattern->isPatternHook($hook);
     });
-    return !empty($definitions);
+    return !empty($patterns);
   }
 
   /**
@@ -241,89 +218,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
         $this->processLibraries($libraries[$name], $base_path);
       }
     }
-  }
-
-  /**
-   * Process 'custom hook theme' definition property.
-   *
-   * @param array $definition
-   *    Pattern definition array.
-   *
-   * @return array
-   *    Processed hook definition portion.
-   *
-   * @see UiPatternsManager::hookTheme()
-   */
-  protected function processCustomThemeHookProperty(array $definition) {
-    /** @var \Drupal\Core\Extension\Extension $module */
-    $return = [];
-    if (!$definition['custom theme hook'] && $this->moduleHandler->moduleExists($definition['provider'])) {
-      $module = $this->moduleHandler->getModule($definition['provider']);
-      $return['path'] = $module->getPath() . '/templates';
-    }
-    return $return;
-  }
-
-  /**
-   * Process 'template' definition property.
-   *
-   * @param array $definition
-   *    Pattern definition array.
-   *
-   * @return array
-   *    Processed hook definition portion.
-   *
-   * @see UiPatternsManager::hookTheme()
-   */
-  protected function processTemplateProperty(array $definition) {
-    $return = [];
-    if (isset($definition['template'])) {
-      $return = ['template' => $definition['template']];
-    }
-    return $return;
-  }
-
-  /**
-   * Process 'use' definition property.
-   *
-   * @param array $definition
-   *    Pattern definition array.
-   *
-   * @return array
-   *    Processed hook definition portion.
-   *
-   * @throws \Twig_Error_Loader
-   *    Throws exception if template is not found.
-   *
-   * @see UiPatternsManager::hookTheme()
-   */
-  protected function processUseProperty(array $definition) {
-    /** @var \Drupal\Core\Extension\Extension $module */
-    static $processed = [];
-
-    if (isset($processed[$definition['id']])) {
-      throw new \Twig_Error_Loader("Template specified in 'use:'  for pattern {$definition['id']} cannot be found (recursion detected).");
-    }
-
-    $return = [];
-    if (!empty($definition['use'])) {
-      $processed[$definition['id']] = TRUE;
-
-      $template = $definition['use'];
-      $parts = explode(DIRECTORY_SEPARATOR, $template);
-      $name = array_pop($parts);
-      $name = str_replace(self::TWIG_EXTENSION, '', $name);
-
-      $path = $this->loader->getSourceContext($template)->getPath();
-      $path = str_replace($this->root . DIRECTORY_SEPARATOR, '', $path);
-      $path = str_replace(DIRECTORY_SEPARATOR . $name . self::TWIG_EXTENSION, '', $path);
-
-      $return = [
-        'path' => $path,
-        'template' => $name,
-      ];
-    }
-    return $return;
   }
 
   /**
