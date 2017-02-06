@@ -46,7 +46,7 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function setDefinition(array $element) {
-    self::$definition = \Drupal::service('plugin.manager.ui_patterns')->getDefinition($element['#id']);
+    self::$definition = $element['#definition'];
     return $element;
   }
 
@@ -84,8 +84,7 @@ class Pattern extends RenderElement {
    */
   public static function processLibraries(array $element) {
     $id = self::$definition['id'];
-    $libraries = self::$definition['libraries'];
-    foreach ($libraries as $library) {
+    foreach ((array) self::$definition['libraries'] as $library) {
       if (is_array($library)) {
         $element['#attached']['library'][] = 'ui_patterns/' . $id . '.' . key($library);
       }
