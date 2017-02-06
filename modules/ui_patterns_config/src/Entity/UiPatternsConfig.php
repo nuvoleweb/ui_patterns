@@ -7,7 +7,6 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\file\Entity\File;
-use Drupal\ui_patterns\UiPatternsManager;
 use Drupal\ui_patterns_config\UiPatternsConfigInterface;
 
 /**
@@ -123,31 +122,8 @@ class UiPatternsConfig extends ConfigEntityBase implements UiPatternsConfigInter
    *   The definition processed.
    */
   public function getProcessedDefinition() {
-    $definition = (array) Yaml::decode($this->definition()) + $this->defaults();
-    $prefix = drupal_realpath('public://ui_patterns_config/' . $this->id());
-
-    $definition['base path'] = $prefix;
-    $definition['theme hook'] = $this->id();
-    $definition['id'] = $this->id();
+    $definition = (array) Yaml::decode($this->definition());
     $definition['label'] = $this->label();
-    $definition['provider'] = 'ui_patterns_config';
-    $definition['use'] = '@ui_patterns_config/' . $this->id() . '/' . $this->getTemplateFilename();
-
-    $definition['libraries'] += [
-      [
-        UiPatternsManager::PATTERN_PREFIX . $this->id() => [
-          'css' => [
-            'component' => [
-              $this->getStylesheetFilename() => [],
-            ],
-          ],
-          'js' => [
-            $this->getJavascriptFilename() => [],
-          ],
-        ],
-      ],
-    ];
-
     return $definition;
   }
 
@@ -179,46 +155,6 @@ class UiPatternsConfig extends ConfigEntityBase implements UiPatternsConfigInter
    */
   public function javascript() {
     return $this->javascript;
-  }
-
-  /**
-   * Get the pattern template filename.
-   *
-   * @return string
-   *   The pattern template filename.
-   */
-  public function getTemplateFilename() {
-    return $this->getTemplateName() . UiPatternsManager::TWIG_EXTENSION;
-  }
-
-  /**
-   * Get the pattern javascript filename.
-   *
-   * @return string
-   *   The pattern javascript filename.
-   */
-  public function getJavascriptFilename() {
-    return $this->getTemplateName() . '.js';
-  }
-
-  /**
-   * Get the pattern stylesheet filename.
-   *
-   * @return string
-   *   The pattern stylesheet filename.
-   */
-  public function getStylesheetFilename() {
-    return $this->getTemplateName() . '.css';
-  }
-
-  /**
-   * Get the pattern template name.
-   *
-   * @return string
-   *   The pattern template name.
-   */
-  public function getTemplateName() {
-    return str_replace('_', '-', UiPatternsManager::PATTERN_PREFIX . $this->id());
   }
 
   /**

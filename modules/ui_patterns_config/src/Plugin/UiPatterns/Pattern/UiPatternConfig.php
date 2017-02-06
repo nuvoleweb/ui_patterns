@@ -2,9 +2,12 @@
 
 namespace Drupal\ui_patterns_config\Plugin\UiPatterns\Pattern;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\ui_patterns\UiPatternBase;
 use Drupal\ui_patterns\UiPatternInterface;
 use Drupal\ui_patterns\UiPatternsManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * The UI Pattern Config plugin.
@@ -19,42 +22,124 @@ use Drupal\ui_patterns\UiPatternsManager;
 class UiPatternConfig extends UiPatternBase implements UiPatternInterface {
 
   /**
-   * Process 'use' definition property.
+   * Twig loader service.
    *
-   * @param array $definition
-   *    Pattern definition array.
-   *
-   * @return array
-   *    Processed hook definition portion.
-   *
-   * @throws \Twig_Error_Loader
-   *    Throws exception if template is not found.
-   *
-   * @see UiPatternsManager::hookTheme()
+   * @var \Twig_LoaderInterface
    */
-  protected function processUseProperty(array $definition) {
+  protected $twigLoader;
+
+  /**
+   * UiPatternConfig constructor.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler service.
+   * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
+   *   The theme handler service.
+   * @param \Twig_Loader_Filesystem $twig_loader
+   *   The twig loader filesystem service.
+   * @param string $root
+   *   The application root directory.
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param array $plugin_definition
+   *   The plugin implementation definition.
+   */
+  public function __construct(ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Filesystem $twig_loader, $root, array $configuration, $plugin_id, array $plugin_definition) {
+    parent::__construct($module_handler, $theme_handler, $root, $configuration, $plugin_id, $plugin_definition);
+    $this->twigLoader = $twig_loader;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $container->get('module_handler'),
+      $container->get('theme_handler'),
+      $container->get('twig.loader.filesystem'),
+      $container->get('app.root'),
+      $configuration,
+      $plugin_id,
+      $plugin_definition);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function definition() {
+    $definition = parent::definition();
+
+    // Add the path to Twig.
     $name = 'ui_patterns_config';
     $path = drupal_realpath('public://ui_patterns_config');
     $this->twigLoader->addPath($path, $name);
 
-    $return = [];
-    if (!empty($definition['use'])) {
-      $template = $definition['use'];
-      $parts = explode(DIRECTORY_SEPARATOR, $template);
-      $name = array_pop($parts);
-      $name = str_replace(UiPatternsManager::TWIG_EXTENSION, '', $name);
+    // Fiddle variables to get this pattern working properly.
+    $definition['theme hook'] = $this->getDerivativeId();
+    $definition['custom theme hook'] = TRUE;
+    $definition['base path'] = drupal_realpath('public://ui_patterns_config/' . $this->getDerivativeId());;
+    $definition['provider'] = 'ui_patterns_config';
+    $definition['use'] = '@ui_patterns_config/' . $this->getDerivativeId() . '/' . $this->getTemplateFilename();
 
-      $path = $this->twigLoader->getSourceContext($template)->getPath();
-      $path = str_replace($this->root . DIRECTORY_SEPARATOR, '', $path);
-      $path = str_replace(DIRECTORY_SEPARATOR . $name . UiPatternsManager::TWIG_EXTENSION, '', $path);
+    // Generate libraries.
+    $definition['libraries'] += [
+      [
+        UiPatternsManager::PATTERN_PREFIX . $this->getDerivativeId() => [
+          'css' => [
+            'component' => [
+              $this->getStylesheetFilename() => [],
+            ],
+          ],
+          'js' => [
+            $this->getJavascriptFilename() => [],
+          ],
+        ],
+      ],
+    ];
 
-      $return = [
-        'path' => $path,
-        'template' => $name,
-      ];
-    }
+    return $definition;
+  }
 
-    return $return;
+  /**
+   * Get the pattern template filename.
+   *
+   * @return string
+   *   The pattern template filename.
+   */
+  private function getTemplateFilename() {
+    return $this->getTemplateName() . UiPatternsManager::TWIG_EXTENSION;
+  }
+
+  /**
+   * Get the pattern javascript filename.
+   *
+   * @return string
+   *   The pattern javascript filename.
+   */
+  private function getJavascriptFilename() {
+    return $this->getTemplateName() . '.js';
+  }
+
+  /**
+   * Get the pattern stylesheet filename.
+   *
+   * @return string
+   *   The pattern stylesheet filename.
+   */
+  private function getStylesheetFilename() {
+    return $this->getTemplateName() . '.css';
+  }
+
+  /**
+   * Get the pattern template name.
+   *
+   * @return string
+   *   The pattern template name.
+   */
+  private function getTemplateName() {
+    return str_replace('_', '-', UiPatternsManager::PATTERN_PREFIX . $this->getDerivativeId());
   }
 
 }

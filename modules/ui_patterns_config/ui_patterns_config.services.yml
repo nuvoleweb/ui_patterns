@@ -1,5 +1,0 @@
-services:
-  twig_loader.twig.ui_patterns_config:
-    class: Drupal\ui_patterns_config\Loader\UiPatternsConfigLoader
-    tags:
-      - { name: twig.loader }

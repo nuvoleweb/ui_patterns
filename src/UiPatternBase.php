@@ -30,13 +30,6 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   protected $themeHandler;
 
   /**
-   * Twig loader service.
-   *
-   * @var \Twig_LoaderInterface
-   */
-  protected $twigLoader;
-
-  /**
    * The app root.
    *
    * @var string
@@ -67,8 +60,6 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    *   The module handler service.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *   The theme handler service.
-   * @param \Twig_Loader_Filesystem $twig_loader
-   *   The twig loader service.
    * @param string $root
    *   The application root directory.
    * @param array $configuration
@@ -78,11 +69,10 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    * @param array $plugin_definition
    *   The plugin implementation definition.
    */
-  public function __construct(ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Filesystem $twig_loader, $root, array $configuration, $plugin_id, array $plugin_definition) {
+  public function __construct(ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, $root, array $configuration, $plugin_id, array $plugin_definition) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
-    $this->twigLoader = $twig_loader;
     $this->root = $root;
   }
 
@@ -93,7 +83,6 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
     return new static(
       $container->get('module_handler'),
       $container->get('theme_handler'),
-      $container->get('twig.loader.filesystem'),
       $container->get('app.root'),
       $configuration,
       $plugin_id,
