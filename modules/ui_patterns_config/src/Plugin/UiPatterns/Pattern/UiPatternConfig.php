@@ -18,12 +18,6 @@ use Drupal\ui_patterns\UiPatternsManager;
  */
 class UiPatternConfig extends UiPatternBase implements UiPatternInterface {
 
-  public function definition() {
-    $definition = parent::definition();
-
-    return $definition;
-  }
-
   /**
    * Process 'use' definition property.
    *
