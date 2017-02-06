@@ -75,8 +75,8 @@ class PatternLibraryController extends ControllerBase {
     $patterns = $this->patternsManager->getPatterns();
 
     foreach ($patterns as $pattern) {
+      $definitions[$pattern->getPluginId()] = $pattern->definition();
       $definitions[$pattern->getPluginId()]['id'] = $pattern->getPluginId();
-      $definitions[$pattern->getPluginId()]['label'] = $pattern->definition()['label'];
       $definitions[$pattern->getPluginId()]['rendered']['#type'] = 'pattern_preview';
       $definitions[$pattern->getPluginId()]['rendered']['#definition'] = $pattern->definition();
       $definitions[$pattern->getPluginId()]['meta']['#theme'] = 'patterns_meta_information';

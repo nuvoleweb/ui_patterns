@@ -36,7 +36,29 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    */
   protected $twigLoader;
 
+  /**
+   * The app root.
+   *
+   * @var string
+   */
   protected $root;
+
+  /**
+   * Provides default values for all ui_patterns plugins.
+   *
+   * @var array
+   */
+  protected $defaults = [
+    'id' => '',
+    'label' => '',
+    'description' => '',
+    'fields' => [],
+    'libraries' => [],
+    'extra' => [],
+    'base path' => '',
+    'use' => '',
+    'class' => 'Drupal\ui_patterns\Plugin\UiPatterns\Pattern\Pattern',
+  ];
 
   /**
    * UiPatternBase constructor.
@@ -82,7 +104,7 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    * {@inheritdoc}
    */
   public function definition() {
-    $definition = $this->configuration;
+    $definition = $this->configuration + $this->defaults;
 
     $definition['id'] = $this->getPluginId();
 
@@ -141,6 +163,58 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
     $item += $this->processTemplateProperty($definition);
     $item += $this->processUseProperty($definition);
     return $item;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hookLibraryInfoBuild() {
+    // @codingStandardsIgnoreStart
+    $definition = $this->definition();
+    $libraries = [];
+
+    // Get only locally defined libraries.
+    $items = array_filter($definition['libraries'], function ($library) {
+      return is_array($library);
+    });
+
+    // Attach pattern base path to assets.
+    if (!empty($definition['base path'])) {
+      $base_path = str_replace($this->root, '', $definition['base path']);
+      $this->processLibraries($items, $base_path);
+    }
+
+    // Produce final libraries array.
+    $id = $definition['id'];
+    array_walk($items, function ($value) use (&$libraries, $id) {
+      $id = str_replace(':', '_', $id . '.' . key($value));
+      $libraries[$id] = reset($value);
+    });
+
+    return $libraries;
+    // @codingStandardsIgnoreEnd
+  }
+
+  /**
+   * Process libraries.
+   *
+   * @param array $libraries
+   *    Libraries array.
+   * @param string $base_path
+   *    Pattern base path.
+   */
+  private function processLibraries(array &$libraries, $base_path) {
+    foreach ($libraries as $name => $values) {
+      $is_asset = stristr($name, '.css') !== FALSE || stristr($name, '.js') !== FALSE;
+      $is_external = isset($values['type']) && $values['type'] == 'external';
+      if ($is_asset && !$is_external) {
+        $libraries[$base_path . DIRECTORY_SEPARATOR . $name] = $values;
+        unset($libraries[$name]);
+      }
+      elseif (!$is_asset) {
+        $this->processLibraries($libraries[$name], $base_path);
+      }
+    }
   }
 
   /**

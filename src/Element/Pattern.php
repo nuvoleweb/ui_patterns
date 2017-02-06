@@ -86,6 +86,7 @@ class Pattern extends RenderElement {
     $id = self::$definition['id'];
     foreach ((array) self::$definition['libraries'] as $library) {
       if (is_array($library)) {
+        $id = str_replace(':', '_', $id);
         $element['#attached']['library'][] = 'ui_patterns/' . $id . '.' . key($library);
       }
       else {

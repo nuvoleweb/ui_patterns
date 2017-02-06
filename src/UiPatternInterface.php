@@ -48,4 +48,12 @@ interface UiPatternInterface {
    */
   public function hookTheme();
 
+  /**
+   * TODO.
+   *
+   * @return mixed
+   *   The libraries.
+   */
+  public function hookLibraryInfoBuild();
+
 }
