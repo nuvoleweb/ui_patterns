@@ -41,23 +41,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   protected $validation;
 
   /**
-   * Provides default values for all ui_patterns plugins.
-   *
-   * @var array
-   */
-  protected $defaults = [
-    'id' => '',
-    'label' => '',
-    'description' => '',
-    'fields' => [],
-    'libraries' => [],
-    'extra' => [],
-    'base path' => '',
-    'use' => '',
-    'class' => 'Drupal\ui_patterns\Plugin\UiPatterns\Pattern\Pattern',
-  ];
-
-  /**
    * UiPatternsManager constructor.
    *
    * @param \Traversable $namespaces

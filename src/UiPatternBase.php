@@ -36,7 +36,29 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    */
   protected $twigLoader;
 
+  /**
+   * The app root.
+   *
+   * @var string
+   */
   protected $root;
+
+  /**
+   * Provides default values for all ui_patterns plugins.
+   *
+   * @var array
+   */
+  protected $defaults = [
+    'id' => '',
+    'label' => '',
+    'description' => '',
+    'fields' => [],
+    'libraries' => [],
+    'extra' => [],
+    'base path' => '',
+    'use' => '',
+    'class' => 'Drupal\ui_patterns\Plugin\UiPatterns\Pattern\Pattern',
+  ];
 
   /**
    * UiPatternBase constructor.
@@ -82,7 +104,7 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    * {@inheritdoc}
    */
   public function definition() {
-    $definition = $this->configuration;
+    $definition = $this->configuration + $this->defaults;
 
     $definition['id'] = $this->getPluginId();
 
