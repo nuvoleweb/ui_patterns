@@ -3,12 +3,10 @@
 namespace Drupal\ui_patterns\Plugin\Derivative\UiPatterns\Pattern;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
-use Drupal\ui_patterns\Discovery\YamlDiscovery;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

@@ -2,7 +2,6 @@
 
 namespace Drupal\ui_patterns\Discovery;
 
-use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\Discovery\YamlDiscovery as PluginYamlDiscovery;
