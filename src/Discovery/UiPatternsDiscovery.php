@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns\Discovery;
 
+use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\Discovery\YamlDiscovery as PluginYamlDiscovery;
@@ -20,13 +21,12 @@ class UiPatternsDiscovery extends PluginYamlDiscovery {
    *   Theme handler service.
    */
   public function __construct(ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
-    parent::__construct('ui_patterns', []);
-
     // Use our discovery instead of the one set in the parent class.
     // Create a list of all directories to scan. This includes all module
     // directories and directories of the default theme and all of its possible
     // base themes.
     $directories = $this->getDefaultAndBaseThemesDirectories($theme_handler) + $module_handler->getModuleDirectories();
+    parent::__construct('ui_patterns', $directories);
 
     $this->setYamlDiscovery(new YamlDiscovery('ui_patterns', $directories));
   }

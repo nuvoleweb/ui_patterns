@@ -35,7 +35,7 @@
 
     {# Link to standalone pattern preview page.#}
     <p>
-      <a href="{{ url('ui_patterns.patterns.single', {'name': pattern_name}) }}">
+      <a href="{{ url('ui_patterns.patterns.single', {'name': pattern.id}) }}">
         {% trans %}View {{ pattern.label }} as stand-alone{% endtrans %}
       </a>
     </p>
