@@ -7,6 +7,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\file\Entity\File;
+use Drupal\ui_patterns\UiPatternsManager;
 use Drupal\ui_patterns_config\UiPatternsConfigInterface;
 
 /**
@@ -220,6 +221,46 @@ class UiPatternsConfig extends ConfigEntityBase implements UiPatternsConfigInter
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     Cache::invalidateTags(['ui_patterns']);
     return parent::postSave($storage, $update);
+  }
+
+  /**
+   * Get the pattern template filename.
+   *
+   * @return string
+   *   The pattern template filename.
+   */
+  private function getTemplateFilename() {
+    return $this->getTemplateName() . UiPatternsManager::TWIG_EXTENSION;
+  }
+
+  /**
+   * Get the pattern javascript filename.
+   *
+   * @return string
+   *   The pattern javascript filename.
+   */
+  private function getJavascriptFilename() {
+    return $this->getTemplateName() . '.js';
+  }
+
+  /**
+   * Get the pattern stylesheet filename.
+   *
+   * @return string
+   *   The pattern stylesheet filename.
+   */
+  private function getStylesheetFilename() {
+    return $this->getTemplateName() . '.css';
+  }
+
+  /**
+   * Get the pattern template name.
+   *
+   * @return string
+   *   The pattern template name.
+   */
+  private function getTemplateName() {
+    return str_replace('_', '-', UiPatternsManager::PATTERN_PREFIX . $this->getDerivativeId());
   }
 
 }
