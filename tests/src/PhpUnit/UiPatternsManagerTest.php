@@ -39,7 +39,6 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     $namespaces = $this->getNamespacesMock();
 
     $plugin_manager = new UiPatternsManager($namespaces, '', $module_handler, $theme_handler, $loader, $validation, $cache_backend);
-    $plugin_manager->setYamlDiscovery($this->getYamlDiscoveryMock());
     $definitions = $plugin_manager->getDefinitions();
 
     assert($definitions, hasKey($id));
