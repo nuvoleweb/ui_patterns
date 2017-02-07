@@ -97,26 +97,6 @@ class UiPatternsConfig extends ConfigEntityBase implements UiPatternsConfigInter
   }
 
   /**
-   * Get defaults definition.
-   *
-   * @param string $key
-   *   Specify a default key to get from the default definition.
-   *
-   * @return array|null
-   *   The default definition or NULL if the provided argument doesn't exists.
-   */
-  private function defaults($key = NULL) {
-    // @todo: complete this.
-    $defaults = [
-      'libraries' => [],
-      'fields' => [],
-      'description' => 'Default plugin description.',
-    ];
-
-    return (is_null($key) ? $defaults : (isset($defaults[$key]) ? $defaults[$key] : NULL));
-  }
-
-  /**
    * Get the pattern definition processed.
    *
    * @return array
