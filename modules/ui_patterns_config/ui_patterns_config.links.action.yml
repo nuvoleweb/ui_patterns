@@ -1,0 +1,5 @@
+entity.ui_patterns_config.add_form:
+  route_name: 'entity.ui_patterns_config.add_form'
+  title: 'Add a new pattern'
+  appears_on:
+    - entity.ui_patterns_config.collection

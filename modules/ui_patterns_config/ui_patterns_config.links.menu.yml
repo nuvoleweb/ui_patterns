@@ -1,0 +1,5 @@
+entity.ui_patterns_config.collection:
+  title: 'UI Patterns'
+  route_name: entity.ui_patterns_config.collection
+  parent: system.admin_structure
+  description: 'Manage UI Patterns.'

@@ -1,0 +1,31 @@
+entity.ui_patterns_config.collection:
+  path: '/admin/config/system/ui_patterns_config'
+  defaults:
+    _entity_list: 'ui_patterns_config'
+    _title: 'UI patterns configuration'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.ui_patterns_config.add_form:
+  path: '/admin/config/system/ui_patterns_config/add'
+  defaults:
+    _entity_form: 'ui_patterns_config.add'
+    _title: 'Add a pattern configuration'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.ui_patterns_config.edit_form:
+  path: '/admin/config/system/ui_patterns_config/{ui_patterns_config}'
+  defaults:
+    _entity_form: 'ui_patterns_config.edit'
+    _title: 'Edit pattern configuration'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.ui_patterns_config.delete_form:
+  path: '/admin/config/system/ui_patterns_config/{ui_patterns_config}/delete'
+  defaults:
+    _entity_form: 'ui_patterns_config.delete'
+    _title: 'Delete pattern configuration'
+  requirements:
+    _permission: 'administer site configuration'
