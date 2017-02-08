@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
-
-[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta4...HEAD)
+## [8.x-1.0-beta5](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta5) (2017-02-08)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta4...8.x-1.0-beta5)
 
 **Closed issues:**
 
