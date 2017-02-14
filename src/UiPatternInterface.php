@@ -2,12 +2,14 @@
 
 namespace Drupal\ui_patterns;
 
+use Drupal\Component\Plugin\ConfigurablePluginInterface;
+
 /**
  * Interface UiPatternInterface.
  *
  * @package Drupal\ui_patterns
  */
-interface UiPatternInterface {
+interface UiPatternInterface extends ConfigurablePluginInterface {
 
   /**
    * Get the pattern definition.

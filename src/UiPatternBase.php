@@ -44,23 +44,6 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   protected $root;
 
   /**
-   * Provides default values for all ui_patterns plugins.
-   *
-   * @var array
-   */
-  protected $defaults = [
-    'id' => '',
-    'label' => '',
-    'description' => '',
-    'fields' => [],
-    'libraries' => [],
-    'extra' => [],
-    'base path' => '',
-    'use' => '',
-    'class' => 'Drupal\ui_patterns\Plugin\UiPatterns\Pattern\Pattern',
-  ];
-
-  /**
    * UiPatternBase constructor.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -104,8 +87,7 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    * {@inheritdoc}
    */
   public function definition() {
-    $definition = $this->configuration + $this->defaults;
-
+    $definition = $this->getConfiguration();
     $definition['id'] = $this->getPluginId();
 
     $definition['custom theme hook'] = TRUE;
@@ -298,6 +280,44 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
       ];
     }
     return $return;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getConfiguration() {
+    return $this->configuration;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setConfiguration(array $configuration) {
+    $this->configuration = $configuration;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+      'id' => '',
+      'label' => '',
+      'description' => '',
+      'fields' => [],
+      'libraries' => [],
+      'extra' => [],
+      'base path' => '',
+      'use' => '',
+      'class' => 'Drupal\ui_patterns\Plugin\UiPatterns\Pattern\Pattern',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function calculateDependencies() {
+    return [];
   }
 
 }
