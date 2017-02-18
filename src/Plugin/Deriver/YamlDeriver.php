@@ -74,7 +74,7 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
   public function getDerivativeDefinitions($base_plugin_definition) {
     foreach ($this->getDefinitionFiles() as $file) {
       foreach ($file['definitions'] as $id => $definition) {
-        $this->derivatives[$id] = $base_plugin_definition + $definition;
+        $this->derivatives[$id] = $definition + $base_plugin_definition;
         $this->derivatives[$id]['id'] = $id;
         $this->derivatives[$id]['provider'] = $file['provider'];
         $this->derivatives[$id]['base path'] = $file['base path'];
@@ -119,16 +119,15 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
    */
   protected function getDefinitionFiles() {
     // We add 'tests' directory to the ones found in settings.
-    $ignore = Settings::get('file_scan_ignore_directories', []) + ['tests'];
+    $ignore = Settings::get('file_scan_ignore_directories', []);
+    $ignore[] = 'tests';
 
     $files = [];
     foreach ($this->getDirectories() as $provider => $directory) {
       $finder = new Finder();
-      $iterator = $finder->name('/\.ui_patterns\.yml$/')
-        ->exclude($ignore)
-        ->in($directory)->getIterator();
+      $finder->name('/\.ui_patterns\.yml$/')->in($directory)->exclude($ignore);
 
-      foreach ($iterator as $file) {
+      foreach ($finder as $file) {
         $files[$file->getPathname()] = [
           'provider' => $provider,
           'base path' => dirname($file->getPathname()),

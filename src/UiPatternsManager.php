@@ -8,9 +8,6 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\Core\Plugin\Discovery\ContainerDerivativeDiscoveryDecorator;
-use Drupal\ui_patterns\Discovery\UiPatternsDiscovery;
-use Drupal\ui_patterns\Discovery\YamlDiscovery;
 
 /**
  * Provides the default ui_patterns manager.
@@ -77,6 +74,9 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * UiPatternsManager constructor.
    *
+   * @param \Traversable $namespaces
+   *   An object that implements \Traversable which contains the root paths
+   *   keyed by the corresponding namespace to look for plugin implementations.
    * @param string $root
    *    Application root directory.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -90,7 +90,8 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *    Cache backend service.
    */
-  public function __construct($root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
+  public function __construct(\Traversable $namespaces, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
+    parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\UiPatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
@@ -108,7 +109,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
     $definition['custom theme hook'] = TRUE;
     if (empty($definition['theme hook'])) {
-      $definition['theme hook'] = self::PATTERN_PREFIX . $plugin_id;
+      $definition['theme hook'] = self::PATTERN_PREFIX . $definition['id'];
       $definition['custom theme hook'] = FALSE;
     }
 
@@ -134,6 +135,24 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     }
 
     parent::alterDefinitions($definitions);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefinitions() {
+    $definitions = $this->getCachedDefinitions();
+    if (!isset($definitions)) {
+      // Remove derivative id from pattern definitions keys.
+      // @todo: make sure validation takes care of ensuring ids are unique.
+      $definitions = [];
+      foreach ($this->findDefinitions() as $id => $definition) {
+        $definitions[$definition['id']] = $definition;
+        unset($definitions[$id]);
+      }
+      $this->setCachedDefinitions($definitions);
+    }
+    return $definitions;
   }
 
   /**
@@ -225,7 +244,8 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   protected function processLibraries(array &$libraries, $base_path) {
 
-    foreach ($libraries as $name => $values) {
+    $_libraries = $libraries;
+    foreach ($_libraries as $name => $values) {
       $is_asset = stristr($name, '.css') !== FALSE || stristr($name, '.js') !== FALSE;
       $is_external = isset($values['type']) && $values['type'] == 'external';
       if ($is_asset && !$is_external) {
@@ -326,28 +346,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   protected function providerExists($provider) {
     return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getDiscovery() {
-    if (!isset($this->discovery)) {
-      $this->discovery = new UiPatternsDiscovery($this->moduleHandler, $this->themeHandler);
-      $this->discovery->addTranslatableProperty('label', 'label_context');
-      $this->discovery = new ContainerDerivativeDiscoveryDecorator($this->discovery);
-    }
-    return $this->discovery;
-  }
-
-  /**
-   * Sets the YamlDiscovery.
-   *
-   * @param \Drupal\ui_patterns\Discovery\YamlDiscovery $yamlDiscovery
-   *   YamlDiscovery.
-   */
-  public function setYamlDiscovery(YamlDiscovery $yamlDiscovery) {
-    $this->getDiscovery()->setYamlDiscovery($yamlDiscovery);
   }
 
 }

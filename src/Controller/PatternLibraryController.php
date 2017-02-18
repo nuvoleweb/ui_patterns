@@ -76,7 +76,7 @@ class PatternLibraryController extends ControllerBase {
     $definitions = $this->patternsManager->getDefinitions();
     foreach ($definitions as $name => $definition) {
       $definitions[$name]['rendered']['#type'] = 'pattern_preview';
-      $definitions[$name]['rendered']['#id'] = $name;
+      $definitions[$name]['rendered']['#id'] = $definition['id'];
       $definitions[$name]['meta']['#theme'] = 'patterns_meta_information';
       $definitions[$name]['meta']['#pattern'] = $definition;
     }
