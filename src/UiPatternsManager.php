@@ -71,6 +71,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     'extra' => [],
     'base path' => '',
     'use' => '',
+    'provider' => '',
   ];
 
   /**
