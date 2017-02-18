@@ -31,18 +31,14 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    * @dataProvider definitionsProvider
    */
   public function testProcessDefinition($id, array $expected) {
-    $cache_backend = $this->getCacheBackendMock();
-    $module_handler = $this->getModuleHandlerMock();
-    $theme_handler = $this->getThemeHandlerMock();
-    $loader = $this->getLoaderMock();
-    $validation = $this->getValidationMock();
+    $manager = $this->createPartialMock(UiPatternsManager::class, ['getDefinitions']);
+    $manager->method('getDefinitions')->willReturn([$id => $expected]);
 
-    $plugin_manager = new UiPatternsManager('', $module_handler, $theme_handler, $loader, $validation, $cache_backend);
-    $plugin_manager->setYamlDiscovery($this->getYamlDiscoveryMock());
-    $definitions = $plugin_manager->getDefinitions();
+    /** @var \Drupal\ui_patterns\UiPatternsManager $manager */
+    $actual = $expected;
+    $manager->processDefinition($actual, $id);
 
-    assert($definitions, hasKey($id));
-    assert($definitions[$id], hasKey('label')
+    assert($actual, hasKey('label')
       ->and(hasKey('description'))
       ->and(hasKey('fields'))
       ->and(hasKey('libraries'))
@@ -55,10 +51,10 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
       'fields',
     ];
     foreach ($properties as $property) {
-      if ($definitions[$id][$property] instanceof TranslatableMarkup) {
-        $definitions[$id][$property] = $definitions[$id][$property]->getUntranslatedString();
+      if ($actual[$property] instanceof TranslatableMarkup) {
+        $actual[$property] = $actual[$property]->getUntranslatedString();
       }
-      assert($definitions[$id][$property], equals($expected[$property]));
+      assert($actual[$property], equals($expected[$property]));
     }
 
     $properties = [
@@ -67,14 +63,14 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     ];
     foreach ($properties as $property) {
       if (isset($expected[$property])) {
-        assert($definitions[$id][$property], equals($expected[$property]));
+        assert($actual[$property], equals($expected[$property]));
       }
     }
 
-    $variables = array_keys($definitions[$id]['fields']);
+    $variables = array_keys($actual['fields']);
     $variables[] = 'attributes';
     foreach ($variables as $variable) {
-      assert($definitions[$id]['theme variables'], hasKey($variable));
+      assert($actual['theme variables'], hasKey($variable));
     }
   }
 
@@ -127,8 +123,9 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
 
     foreach ($files as $file) {
       $definitions = Yaml::decode(file_get_contents($file));
-      foreach ($definitions as $name => $definition) {
-        $data[] = [$name, $definition];
+      foreach ($definitions as $id => $definition) {
+        $definition['id'] = $id;
+        $data[] = [$id, $definition];
       }
     }
 

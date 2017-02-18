@@ -96,27 +96,6 @@ abstract class AbstractUiPatternsTest extends TestCase {
   }
 
   /**
-   * Get YamlDiscovery mock.
-   *
-   * @return \Drupal\ui_patterns\Discovery\YamlDiscovery
-   *   YamlDiscovery mock.
-   */
-  protected function getYamlDiscoveryMock() {
-    $discovery = $this->getMockBuilder('Drupal\ui_patterns\Discovery\YamlDiscovery')
-      ->setConstructorArgs([
-        'ui_patterns',
-        $this->getModuleDirectoriesMock() + $this->getDefaultAndBaseThemesDirectoriesMock(),
-      ])
-      ->setMethods(['fileScanDirectory'])
-      ->getMock();
-    $discovery->method('fileScanDirectory')
-      ->willReturnCallback([$this, 'fileScanDirectoryMock']);
-
-    /** @var \Drupal\ui_patterns\Discovery\YamlDiscovery $discovery */
-    return $discovery;
-  }
-
-  /**
    * ModuleHandlerInterface::getModuleDirectories method mock.
    *
    * @return array
@@ -170,36 +149,6 @@ abstract class AbstractUiPatternsTest extends TestCase {
 
     /** @var \Drupal\ui_patterns\UiPatternsValidation $validation */
     return $validation;
-  }
-
-  /**
-   * YamlDiscovery::fileScanDirectory method mock.
-   *
-   * @return array
-   *   Array keyed with full file paths of all definition files.
-   */
-  public function fileScanDirectoryMock($dir) {
-    $files = [];
-
-    switch ($dir) {
-      case $this->getExtensionsPath('module'):
-        $files[] = $this->getExtensionsPath('module') . '/module.ui_patterns.yml';
-        break;
-
-      case $this->getExtensionsPath('theme'):
-        $files = [
-          $this->getExtensionsPath('theme') . '/theme.ui_patterns.yml',
-          $this->getExtensionsPath('theme') . '/pattern/pattern.ui_patterns.yml',
-        ];
-        break;
-    }
-
-    $return = [];
-    foreach ($files as $file) {
-      $return[$file] = (object) ['uri' => $file];
-    }
-
-    return $return;
   }
 
 }
