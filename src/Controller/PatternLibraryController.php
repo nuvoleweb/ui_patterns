@@ -48,6 +48,9 @@ class PatternLibraryController extends ControllerBase {
   /**
    * Render pattern library page.
    *
+   * @param string $name
+   *    Plugin ID.
+   *
    * @return array
    *   Return render array.
    */
@@ -74,11 +77,12 @@ class PatternLibraryController extends ControllerBase {
   public function overview() {
 
     $definitions = $this->patternsManager->getDefinitions();
-    foreach ($definitions as $name => $definition) {
-      $definitions[$name]['rendered']['#type'] = 'pattern_preview';
-      $definitions[$name]['rendered']['#id'] = $definition['id'];
-      $definitions[$name]['meta']['#theme'] = 'patterns_meta_information';
-      $definitions[$name]['meta']['#pattern'] = $definition;
+    foreach ($definitions as $definition) {
+      $id = $definition['id'];
+      $definitions[$id]['rendered']['#type'] = 'pattern_preview';
+      $definitions[$id]['rendered']['#id'] = $id;
+      $definitions[$id]['meta']['#theme'] = 'patterns_meta_information';
+      $definitions[$id]['meta']['#pattern'] = $definition;
     }
 
     return [
