@@ -25,18 +25,20 @@ before_script:
   # Install Drupal 8 target site.
   - cd tests
   - composer install --prefer-dist
-  - cd drupal
-  - ../vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
-  - ../vendor/bin/drush en ui_patterns_test -y
+  - ./vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
+  # Test latest commit on current branch.
+  - git clone --branch=$TRAVIS_BRANCH https://github.com/$TRAVIS_REPO_SLUG.git modules/ui_patterns
+  - ./vendor/bin/drush en ui_patterns_test -y
   # Run Drush web server.
-  - ../vendor/bin/drush --debug runserver :8888 > ~/debug.txt 2>&1 &
+  - ./vendor/bin/drush --debug runserver :8888 > ~/debug.txt 2>&1 &
   - sleep 4s
   - chmod -R ug+w sites
-  - cd $TRAVIS_BUILD_DIR
 
 script:
+  - cd $TRAVIS_BUILD_DIR
   - composer phpcs
-  - ./vendor/bin/phpunit --bootstrap ./tests/vendor/autoload.php tests/src/PhpUnit
+  - cd tests
+  - ./vendor/bin/phpunit
   - ./vendor/bin/behat
 
 notifications:
