@@ -1,0 +1,60 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.page.body
+    - field.field.node.page.field_links
+    - field.field.node.page.field_tags
+    - node.type.page
+  module:
+    - field_group
+    - link
+    - text
+    - user
+third_party_settings:
+  field_group:
+    group_my_field_group:
+      children: {  }
+      parent_name: ''
+      weight: 20
+      format_type: pattern_formatter
+      format_settings:
+        pattern: none
+        pattern_mapping: {  }
+        classes: ''
+        id: ''
+      label: 'My field group'
+id: node.page.default
+targetEntityType: node
+bundle: page
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+  field_links:
+    weight: 103
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+  field_tags:
+    weight: 102
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+  links:
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

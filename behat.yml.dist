@@ -13,7 +13,10 @@ default:
         - NuvoleWeb\Drupal\DrupalExtension\Context\SelectFieldContext
         - NuvoleWeb\Drupal\DrupalExtension\Context\VisibilityContext
         - NuvoleWeb\Drupal\DrupalExtension\Context\ContentContext
+        - NuvoleWeb\Drupal\DrupalExtension\Context\ResponsiveContext
         - Drupal\ui_patterns\Tests\Behat\FeatureContext
+        - Drupal\ui_patterns\Tests\Behat\MinkContext
+        - Drupal\ui_patterns\Tests\Behat\ConfigContext
   extensions:
     Behat\MinkExtension:
       goutte: ~

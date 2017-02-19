@@ -1,5 +1,5 @@
 @api
-Feature: Content
+Feature: Integrations
   In order to display my content using patterns
   As a developer
   I want to be able to integrate patterns with other Drupal rendering systems.
