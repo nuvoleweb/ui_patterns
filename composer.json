@@ -15,12 +15,6 @@
   "require-dev": {
     "drupal/coder": "8.2.8"
   },
-  "autoload": {
-    "psr-4": {
-      "Drupal\\ui_patterns\\": "./src/",
-      "Drupal\\ui_patterns\\Tests\\": "./tests/src/"
-    }
-  },
   "scripts": {
     "post-install-cmd": [
       "./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer",

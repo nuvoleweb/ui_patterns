@@ -3,6 +3,7 @@
   <php>
     <ini name="error_reporting" value="32767"/>
     <ini name="memory_limit" value="-1"/>
+    <env name="SIMPLETEST_DB" value="mysql://travis:@127.0.0.1/drupal"/>
   </php>
   <testsuites>
     <testsuite name="unit">
