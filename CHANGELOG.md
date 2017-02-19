@@ -6,12 +6,14 @@
 
 **Closed issues:**
 
+- Refactor tests [\#69](https://github.com/nuvoleweb/ui_patterns/issues/69)
 - Refactor pattern plugins to use derivatives [\#66](https://github.com/nuvoleweb/ui_patterns/issues/66)
 - Add pattern layout hook suggestions [\#63](https://github.com/nuvoleweb/ui_patterns/issues/63)
 - Make the Pattern discovery available as a service. [\#56](https://github.com/nuvoleweb/ui_patterns/issues/56)
 
 **Merged pull requests:**
 
+- Refactor tests \#69 [\#70](https://github.com/nuvoleweb/ui_patterns/pull/70) ([ademarco](https://github.com/ademarco))
 - Refactor pattern plugins to use derivatives \#66 [\#68](https://github.com/nuvoleweb/ui_patterns/pull/68) ([ademarco](https://github.com/ademarco))
 - Add pattern layout hook suggestions \#63 [\#64](https://github.com/nuvoleweb/ui_patterns/pull/64) ([ademarco](https://github.com/ademarco))
 
