@@ -1,8 +1,10 @@
 default:
+  autoload:
+    - %paths.base%/modules/ui_patterns/tests/features/bootstrap
   suites:
     default:
       paths:
-        - %paths.base%/tests/features
+        - %paths.base%/modules/ui_patterns/tests/features
       contexts:
         - Drupal\DrupalExtension\Context\ConfigContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -13,7 +15,7 @@ default:
         - NuvoleWeb\Drupal\DrupalExtension\Context\SelectFieldContext
         - NuvoleWeb\Drupal\DrupalExtension\Context\VisibilityContext
         - NuvoleWeb\Drupal\DrupalExtension\Context\ContentContext
-        - Drupal\ui_patterns\Tests\Behat\FeatureContext
+        - FeatureContext
   extensions:
     Behat\MinkExtension:
       goutte: ~
@@ -24,7 +26,7 @@ default:
       api_driver: "drupal"
       drupal:
         # Change this to the absolute path to Drupal install.
-        drupal_root: "tests/drupal"
+        drupal_root: "."
       region_map:
         left sidebar: "#sidebar-first"
         content: "#content"

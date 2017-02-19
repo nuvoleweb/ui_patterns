@@ -1,7 +1,5 @@
 <?php
 
-namespace Drupal\ui_patterns\Tests\Behat;
-
 use Behat\Gherkin\Node\TableNode;
 use NuvoleWeb\Drupal\DrupalExtension\Context\RawDrupalContext;
 use function bovigo\assert\assert;
