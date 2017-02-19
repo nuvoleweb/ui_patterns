@@ -1,16 +1,16 @@
 <?php
 
-namespace Drupal\ui_patterns\Tests\Unit;
+namespace Drupal\Tests\ui_patterns\Unit;
 
 use Drupal\Component\FileCache\FileCacheFactory;
-use PHPUnit\Framework\TestCase;
+use Drupal\Tests\UnitTestCase;
 
 /**
  * Class AbstractUiPatternsTest.
  *
- * @package Drupal\ui_patterns\Tests\Unit
+ * @package Drupal\Tests\ui_patterns\Unit
  */
-abstract class AbstractUiPatternsTest extends TestCase {
+abstract class AbstractUiPatternsTest extends UnitTestCase {
 
   /**
    * Get full test extension path.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns\Tests\Unit;
+namespace Drupal\Tests\ui_patterns\Unit;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\hasKey;
