@@ -1,5 +1,20 @@
 # Change Log
 
+## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
+
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta5...HEAD)
+
+**Closed issues:**
+
+- Refactor pattern plugins to use derivatives [\#66](https://github.com/nuvoleweb/ui_patterns/issues/66)
+- Add pattern layout hook suggestions [\#63](https://github.com/nuvoleweb/ui_patterns/issues/63)
+- Make the Pattern discovery available as a service. [\#56](https://github.com/nuvoleweb/ui_patterns/issues/56)
+
+**Merged pull requests:**
+
+- Refactor pattern plugins to use derivatives \#66 [\#68](https://github.com/nuvoleweb/ui_patterns/pull/68) ([ademarco](https://github.com/ademarco))
+- Add pattern layout hook suggestions \#63 [\#64](https://github.com/nuvoleweb/ui_patterns/pull/64) ([ademarco](https://github.com/ademarco))
+
 ## [8.x-1.0-beta5](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta5) (2017-02-08)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta4...8.x-1.0-beta5)
 
