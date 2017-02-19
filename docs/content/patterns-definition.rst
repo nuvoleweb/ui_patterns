@@ -4,7 +4,6 @@ Define your patterns
 Patterns can be exposed by both modules and themes: all defined patterns are collected and managed by a centralized
 plugin manager, this means that pattern IDs must be unique in order to avoid conflicts.
 
-Pattern plugins are described using the `YAML discovery method <https://www.drupal.org/docs/8/api/plugin-api/d8-plugin-discovery>`_.
 To define your patterns simply create a YAML file named ``MY_MODULE.ui_patterns.yml`` or ``MY_THEME.ui_patterns.yml``
 and list them using the following format:
 

@@ -103,6 +103,15 @@ The following suggestions are automatically exposed by the project's sub-modules
 
    <?php
 
+   // Suggestions for patterns used as layouts.
+   // @see ui_patterns_layouts_ui_patterns_suggestions_alter()
+   $suggestions[] = $hook . '__layout';
+   $suggestions[] = $hook . '__layout__' . $entity_type;
+   $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle;
+   $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $view_mode;
+   $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode;
+   $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $entity_id;
+
    // Suggestions for patterns used as Display Suite field templates.
    // @see ui_patterns_ds_ui_patterns_suggestions_alter()
    $suggestions[] = $hook . '__ds_field_template__' . $field_name;
