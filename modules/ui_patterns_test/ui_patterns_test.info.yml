@@ -22,6 +22,7 @@ dependencies:
   - paragraphs
   - path
   - search
+  - simpletest
   - system
   - text
   - token
