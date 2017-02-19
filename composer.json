@@ -32,7 +32,7 @@
       "./vendor/bin/phpcs --config-set show_progress 1",
       "cp ./tests/scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
     ],
-    "phpcs": "./vendor/bin/phpcs --standard=Drupal,DrupalPractice ./src ./tests/src ./modules",
-    "phpcbf": "./vendor/bin/phpcbf --standard=Drupal,DrupalPractice ./src ./tests/src ./modules"
+    "phpcs": "./vendor/bin/phpcs --standard=Drupal,DrupalPractice ./src ./tests/src ./modules --ignore=./modules/ui_patterns_test",
+    "phpcbf": "./vendor/bin/phpcbf --standard=Drupal,DrupalPractice ./src ./tests/src ./modules --ignore=./modules/ui_patterns_test"
   }
 }
