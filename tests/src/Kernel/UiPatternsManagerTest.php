@@ -16,22 +16,12 @@ use function bovigo\assert\predicate\equals;
 class UiPatternsManagerTest extends AbstractUiPatternsTest {
 
   /**
-   * Modules to enable.
-   *
-   * @var array
-   */
-  public static $modules = [
-    'ui_patterns',
-    'ui_patterns_test',
-  ];
-
-  /**
    * Test UiPatternsManager::getDefinitions.
    *
    * @covers ::getDefinitions
    */
   public function testGetDefinitions() {
-    $manager = $this->getFixturePluginManager();
+    $manager = $this->getPluginManager($this->getFixtureDefinitions());
     $definitions = $manager->getDefinitions();
     assert($definitions, isNotEmpty());
 
@@ -47,12 +37,27 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    * @covers ::getPatternsOptions
    */
   public function testGetPatternsOptions() {
-    $manager = $this->getFixturePluginManager();
+    $manager = $this->getPluginManager($this->getFixtureDefinitions());
     $options = $manager->getPatternsOptions();
 
     foreach ($this->getFixtureDefinitions() as $fixture) {
       assert($options, hasKey($fixture['id']));
       assert($options[$fixture['id']], equals($fixture['label']));
+    }
+  }
+
+  /**
+   * Test UiPatternsManager::getPattern.
+   *
+   * @covers ::getPattern
+   */
+  public function testGetPattern() {
+    /* @var \Drupal\ui_patterns\UiPatternsManager $manager */
+    $manager = \Drupal::service('plugin.manager.ui_patterns');
+
+    foreach ($manager->getDefinitions() as $definition) {
+      $pattern = $manager->getPattern($definition['id']);
+      assert($pattern->getBaseId(), equals($definition['id']));
     }
   }
 

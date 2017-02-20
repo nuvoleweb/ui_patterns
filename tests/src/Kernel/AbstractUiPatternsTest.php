@@ -15,6 +15,16 @@ use Drupal\ui_patterns\UiPatternsManager;
 abstract class AbstractUiPatternsTest extends KernelTestBase {
 
   /**
+   * Modules to enable.
+   *
+   * @var array
+   */
+  public static $modules = [
+    'ui_patterns',
+    'ui_patterns_test',
+  ];
+
+  /**
    * Get fixture definitions.
    *
    * @return array
@@ -27,20 +37,24 @@ abstract class AbstractUiPatternsTest extends KernelTestBase {
     foreach ($finder as $file) {
       $content = Yaml::decode($file->getContents());
       foreach ($content as $id => $definition) {
-        $definitions["fixture:$id"] = $definition;
-        $definitions["fixture:$id"]['id'] = $id;
+        $definitions["yaml:$id"] = $definition;
+        $definitions["yaml:$id"]['id'] = $id;
+        $definitions["yaml:$id"]['class'] = '\Drupal\ui_patterns\Plugin\UiPatterns\Pattern\YamlPattern';
       }
     }
     return $definitions;
   }
 
   /**
-   * Return plugin manager using test fixture definitions.
+   * Return plugin manager using given definitions.
+   *
+   * @param array $definitions
+   *    Array of plugin definitions.
    *
    * @return \Drupal\ui_patterns\UiPatternsManager
    *    Plugin manager object.
    */
-  protected function getFixturePluginManager() {
+  protected function getPluginManager(array $definitions) {
     /** @var \Drupal\ui_patterns\UiPatternsManager $manager */
     $manager = \Drupal::service('plugin.manager.ui_patterns');
     $manager_mock = $this->getMockBuilder(UiPatternsManager::class)
@@ -48,7 +62,7 @@ abstract class AbstractUiPatternsTest extends KernelTestBase {
       ->setMethods(['findDefinitions'])
       ->setProxyTarget($manager)
       ->getMock();
-    $manager_mock->method('findDefinitions')->willReturn($this->getFixtureDefinitions());
+    $manager_mock->method('findDefinitions')->willReturn($definitions);
 
     /** @var \Drupal\ui_patterns\UiPatternsManager $manager_mock */
     return $manager_mock;

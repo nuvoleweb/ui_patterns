@@ -11,4 +11,17 @@ use Drupal\Component\Plugin\PluginBase;
  */
 abstract class UiPatternBase extends PluginBase implements UiPatternInterface {
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getFields() {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLibraries() {
+    return $this->getPluginDefinition()['libraries'];
+  }
+
 }

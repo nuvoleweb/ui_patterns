@@ -10,6 +10,17 @@ use Drupal\Component\Plugin\PluginManagerInterface;
 interface UiPatternsManagerInterface extends PluginManagerInterface {
 
   /**
+   * Get a fully instantiated pattern object.
+   *
+   * @param string $id
+   *    Pattern ID.
+   *
+   * @return \Drupal\ui_patterns\UiPatternBase
+   *    Pattern object instance.
+   */
+  public function getPattern($id);
+
+  /**
    * Return list of available patterns to be used as select options.
    *
    * @return array
