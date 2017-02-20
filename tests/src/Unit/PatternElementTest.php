@@ -20,7 +20,7 @@ class PatternElementTest extends AbstractUiPatternsTest {
    * @covers ::processLibraries
    */
   public function testProcessLibraries() {
-    $items = Yaml::decode(file_get_contents(dirname(__FILE__) . '/fixtures/pattern_element_libraries.yml'));
+    $items = Yaml::decode(file_get_contents(dirname(__FILE__) . '/../fixtures/pattern_element_libraries.yml'));
 
     foreach ($items as $item) {
       $element = [];

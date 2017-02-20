@@ -22,7 +22,7 @@ abstract class AbstractUiPatternsTest extends UnitTestCase {
    *    Full test extension path.
    */
   protected function getExtensionsPath($name) {
-    return realpath(dirname(__FILE__) . '/fixtures/' . $name . '/');
+    return realpath(dirname(__FILE__) . '/../fixtures/' . $name . '/');
   }
 
   /**

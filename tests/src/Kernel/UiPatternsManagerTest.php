@@ -2,16 +2,18 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel;
 
-use Drupal\Tests\token\Kernel\KernelTestBase;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\isNotEmpty;
+use function bovigo\assert\predicate\doesNotHaveKey;
+use function bovigo\assert\predicate\hasKey;
+use function bovigo\assert\predicate\equals;
 
 /**
  * @coversDefaultClass \Drupal\ui_patterns\UiPatternsManager
  *
  * @group ui_patterns
  */
-class UiPatternsManagerTest extends KernelTestBase {
+class UiPatternsManagerTest extends AbstractUiPatternsTest {
 
   /**
    * Modules to enable.
@@ -24,15 +26,34 @@ class UiPatternsManagerTest extends KernelTestBase {
   ];
 
   /**
-   * Test get definitions.
+   * Test UiPatternsManager::getDefinitions.
    *
    * @covers ::getDefinitions
    */
   public function testGetDefinitions() {
-    /** @var \Drupal\ui_patterns\UiPatternsManager $manager */
-    $manager = \Drupal::service('plugin.manager.ui_patterns');
+    $manager = $this->getFixturePluginManager();
     $definitions = $manager->getDefinitions();
     assert($definitions, isNotEmpty());
+
+    foreach ($this->getFixtureDefinitions() as $fixture_id => $fixture) {
+      assert($definitions, doesNotHaveKey($fixture_id));
+      assert($definitions, hasKey($fixture['id']));
+    }
+  }
+
+  /**
+   * Test UiPatternsManager::getPatternsOptions.
+   *
+   * @covers ::getPatternsOptions
+   */
+  public function testGetPatternsOptions() {
+    $manager = $this->getFixturePluginManager();
+    $options = $manager->getPatternsOptions();
+
+    foreach ($this->getFixtureDefinitions() as $fixture) {
+      assert($options, hasKey($fixture['id']));
+      assert($options[$fixture['id']], equals($fixture['label']));
+    }
   }
 
 }

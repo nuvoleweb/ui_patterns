@@ -79,7 +79,7 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    */
   public function testValidation() {
     $validation = new UiPatternsValidation();
-    $definitions = Yaml::decode(file_get_contents(dirname(__FILE__) . '/fixtures/validation.yml'));
+    $definitions = Yaml::decode(file_get_contents(dirname(__FILE__) . '/../fixtures/validation.yml'));
     foreach ($definitions as $definition) {
       try {
         $validation->validate($definition);
@@ -96,7 +96,7 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    * @covers ::hookLibraryInfoBuild
    */
   public function testHookLibraryInfoBuild() {
-    $items = Yaml::decode(file_get_contents(dirname(__FILE__) . '/fixtures/libraries.yml'));
+    $items = Yaml::decode(file_get_contents(dirname(__FILE__) . '/../fixtures/libraries.yml'));
 
     foreach ($items as $item) {
       $manager = $this->createPartialMock(UiPatternsManager::class, ['getDefinitions']);
