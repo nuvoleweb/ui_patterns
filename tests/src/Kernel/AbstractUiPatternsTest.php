@@ -3,6 +3,7 @@
 namespace Drupal\Tests\ui_patterns\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\ui_patterns\UiPatterns;
 use Symfony\Component\Finder\Finder;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\ui_patterns\UiPatternsManager;
@@ -55,8 +56,7 @@ abstract class AbstractUiPatternsTest extends KernelTestBase {
    *    Plugin manager object.
    */
   protected function getPluginManager(array $definitions) {
-    /** @var \Drupal\ui_patterns\UiPatternsManager $manager */
-    $manager = \Drupal::service('plugin.manager.ui_patterns');
+    $manager = UiPatterns::getManager();
     $manager_mock = $this->getMockBuilder(UiPatternsManager::class)
       ->disableOriginalConstructor()
       ->setMethods(['findDefinitions'])

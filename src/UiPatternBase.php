@@ -15,6 +15,7 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface {
    * {@inheritdoc}
    */
   public function getFields() {
+    return $this->getPluginDefinition()['fields'];
   }
 
   /**

@@ -7,6 +7,7 @@ use function bovigo\assert\predicate\isNotEmpty;
 use function bovigo\assert\predicate\doesNotHaveKey;
 use function bovigo\assert\predicate\hasKey;
 use function bovigo\assert\predicate\equals;
+use Drupal\ui_patterns\UiPatterns;
 
 /**
  * @coversDefaultClass \Drupal\ui_patterns\UiPatternsManager
@@ -52,8 +53,7 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    * @covers ::getPattern
    */
   public function testGetPattern() {
-    /* @var \Drupal\ui_patterns\UiPatternsManager $manager */
-    $manager = \Drupal::service('plugin.manager.ui_patterns');
+    $manager = UiPatterns::getManager();
 
     foreach ($manager->getDefinitions() as $definition) {
       $pattern = $manager->getPattern($definition['id']);

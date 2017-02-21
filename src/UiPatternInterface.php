@@ -25,4 +25,12 @@ interface UiPatternInterface {
    */
   public function getLibraries();
 
+  /**
+   * Get pattern variants, if any.
+   *
+   * @return array
+   *    Array of pattern variants.
+   */
+  public function getVariants();
+
 }

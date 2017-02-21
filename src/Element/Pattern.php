@@ -4,6 +4,7 @@ namespace Drupal\ui_patterns\Element;
 
 use Drupal\Core\Render\Element\RenderElement;
 use Drupal\Core\Template\Attribute;
+use Drupal\ui_patterns\UiPatterns;
 
 /**
  * Renders a pattern element.
@@ -46,7 +47,7 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function setDefinition(array $element) {
-    self::$definition = \Drupal::service('plugin.manager.ui_patterns')->getDefinition($element['#id']);
+    self::$definition = UiPatterns::getManager()->getDefinition($element['#id']);
     return $element;
   }
 
