@@ -52,33 +52,21 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface {
    * {@inheritdoc}
    */
   public function getFieldType($name) {
-    $type = [];
-    if ($this->hasField($name)) {
-      $type = $this->getFields()[$name]['type'];
-    }
-    return $type;
+    return $this->getFieldProperty($name, 'type');
   }
 
   /**
    * {@inheritdoc}
    */
   public function getFieldLabel($name) {
-    $label = [];
-    if ($this->hasField($name)) {
-      $label = $this->getFields()[$name]['label'];
-    }
-    return $label;
+    return $this->getFieldProperty($name, 'label');
   }
 
   /**
    * {@inheritdoc}
    */
   public function getFieldPreview($name) {
-    $preview = NULL;
-    if ($this->hasField($name) && isset($this->getFields()[$name]['preview'])) {
-      $preview = $this->getFields()[$name]['preview'];
-    }
-    return $preview;
+    return $this->getFieldProperty($name, 'preview');
   }
 
   /**
@@ -116,6 +104,27 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface {
       }
     }
     return $libraries;
+  }
+
+  /**
+   * Get field property.
+   *
+   * @param string $field
+   *    Field name.
+   * @param string $name
+   *    Field property name.
+   * @param mixed $default
+   *    Default value if field property not found.
+   *
+   * @return mixed
+   *    Field property value.
+   */
+  protected function getFieldProperty($field, $name, $default = NULL) {
+    $value = $default;
+    if ($this->hasField($field) && isset($this->getFields()[$field][$name])) {
+      $value = $this->getFields()[$field][$name];
+    }
+    return $value;
   }
 
 }
