@@ -15,7 +15,7 @@ class UiPatterns {
    * @return \Drupal\ui_patterns\UiPatternsManager
    *    UI Patterns manager instance.
    */
-  static public function getManager() {
+  public static function getManager() {
     return \Drupal::service('plugin.manager.ui_patterns');
   }
 
@@ -25,7 +25,7 @@ class UiPatterns {
    * @return \Drupal\ui_patterns\Plugin\UiPatternsSourceManager
    *    UI Patterns field sources manager instance.
    */
-  static public function getSourceManager() {
+  public static function getSourceManager() {
     return \Drupal::service('plugin.manager.ui_patterns_source');
   }
 
@@ -38,7 +38,7 @@ class UiPatterns {
    * @return \Drupal\ui_patterns\UiPatternBase
    *    Pattern object instance.
    */
-  static public function getPattern($id) {
+  public static function getPattern($id) {
     return \Drupal::service('plugin.manager.ui_patterns')->getPattern($id);
   }
 
