@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Site\Settings;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Class YamlDeriver.
@@ -120,25 +119,46 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
    *    List of definition files.
    */
   protected function getDefinitionFiles() {
-    // We add 'tests' directory to the ones found in settings.
-    $ignore = Settings::get('file_scan_ignore_directories', []);
-    $ignore[] = 'tests';
-
     $files = [];
     foreach ($this->getDirectories() as $provider => $directory) {
-      $finder = new Finder();
-      $finder->name('/\.ui_patterns\.yml$/')->in($directory)->exclude($ignore);
-
-      foreach ($finder as $file) {
-        $files[$file->getPathname()] = [
+      foreach ($this->fileScanDirectory($directory) as $pathname => $file) {
+        $content = file_get_contents($pathname);
+        $files[$pathname] = [
           'provider' => $provider,
-          'base path' => dirname($file->getPathname()),
-          'definitions' => Yaml::decode($file->getContents()),
+          'base path' => dirname($pathname),
+          'definitions' => Yaml::decode($content),
         ];
       }
     }
 
     return $files;
+  }
+
+  /**
+   * Wrapper method for global function call.
+   *
+   * @see file.inc
+   */
+  public function fileScanDirectory($directory) {
+    $options = ['nomask' => $this->getNoMask()];
+    $mask = '/\.ui_patterns\.yml$/';
+    return file_scan_directory($directory, $mask, $options, 0);
+  }
+
+  /**
+   * Returns a regular expression for directories to be excluded in a file scan.
+   *
+   * @return string
+   *   Regular expression.
+   */
+  protected function getNoMask() {
+    $ignore = Settings::get('file_scan_ignore_directories', []);
+    // We add 'tests' directory to the ones found in settings.
+    $ignore[] = 'tests';
+    array_walk($ignore, function (&$value) {
+      $value = preg_quote($value, '/');
+    });
+    return '/^' . implode('|', $ignore) . '$/';
   }
 
 }
