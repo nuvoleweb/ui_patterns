@@ -105,6 +105,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * {@inheritdoc}
    */
   public function getPattern($id) {
+    // @todo should we cache pattern object instances?
     return $this->getFactory()->createInstance($id);
   }
 

@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns\Element;
 
 use \Drupal\Core\Render\Markup;
+use Drupal\ui_patterns\UiPatterns;
 
 /**
  * Renders a pattern preview element.
@@ -21,8 +22,11 @@ class PatternPreview extends Pattern {
    *   Render array.
    */
   public static function processFields(array $element) {
+    $pattern = UiPatterns::getPattern($element['#id']);
+    $definition = $pattern->getPluginDefinition();
+
     $fields = [];
-    foreach (self::$definition['fields'] as $name => $field) {
+    foreach ($pattern->getFields() as $name => $field) {
       // Some fields are used as twig array keys and don't need escaping.
       if (!isset($field['escape']) || $field['escape'] != FALSE) {
         // The examples are not user submitted and are safe markup.
@@ -32,8 +36,8 @@ class PatternPreview extends Pattern {
       $fields[$name] = $field['preview'];
     }
 
-    if (isset(self::$definition['extra']['attributes'])) {
-      $fields['attributes'] = self::$definition['extra']['attributes'];
+    if (isset($definition['extra']['attributes'])) {
+      $fields['attributes'] = $definition['extra']['attributes'];
     }
     $element['#fields'] = $fields;
 

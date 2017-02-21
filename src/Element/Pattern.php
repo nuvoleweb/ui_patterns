@@ -14,13 +14,6 @@ use Drupal\ui_patterns\UiPatterns;
 class Pattern extends RenderElement {
 
   /**
-   * Current pattern definition.
-   *
-   * @var array
-   */
-  static public $definition;
-
-  /**
    * {@inheritdoc}
    */
   public function getInfo() {
@@ -28,27 +21,12 @@ class Pattern extends RenderElement {
     return [
       '#input' => FALSE,
       '#pre_render' => [
-        [$class, 'setDefinition'],
         [$class, 'processRenderArray'],
         [$class, 'processLibraries'],
         [$class, 'processFields'],
         [$class, 'processContext'],
       ],
     ];
-  }
-
-  /**
-   * Set pattern definition.
-   *
-   * @param array $element
-   *   Render array.
-   *
-   * @return array
-   *   Render array.
-   */
-  public static function setDefinition(array $element) {
-    self::$definition = UiPatterns::getManager()->getDefinition($element['#id']);
-    return $element;
   }
 
   /**
@@ -61,7 +39,7 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processRenderArray(array $element) {
-    $element['#theme'] = self::$definition['theme hook'];
+    $element['#theme'] = UiPatterns::getPattern($element['#id'])->getThemeHook();
 
     if (isset($element['#attributes']) && !empty($element['#attributes']) && is_array($element['#attributes'])) {
       $element['#attributes'] = new Attribute($element['#attributes']);
@@ -70,7 +48,7 @@ class Pattern extends RenderElement {
       $element['#attributes'] = new Attribute();
     }
 
-    unset($element['#type'], $element['#id']);
+    unset($element['#type']);
     return $element;
   }
 
@@ -84,15 +62,8 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processLibraries(array $element) {
-    $id = self::$definition['id'];
-    $libraries = self::$definition['libraries'];
-    foreach ($libraries as $library) {
-      if (is_array($library)) {
-        $element['#attached']['library'][] = 'ui_patterns/' . $id . '.' . key($library);
-      }
-      else {
-        $element['#attached']['library'][] = $library;
-      }
+    foreach (UiPatterns::getPattern($element['#id'])->getLibraries() as $library) {
+      $element['#attached']['library'][] = $library;
     }
 
     return $element;
