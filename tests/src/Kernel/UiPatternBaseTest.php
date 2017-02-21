@@ -19,11 +19,11 @@ class UiPatternBaseTest extends AbstractUiPatternsTest {
    *
    * @covers ::getId
    * @covers ::getLabel
-   * @covers ::hasField($nam
-   * @covers ::getField($nam
-   * @covers ::getFieldType($nam
-   * @covers ::getFieldLabel($nam
-   * @covers ::getFieldPreview($nam
+   * @covers ::hasField
+   * @covers ::getField
+   * @covers ::getFieldType
+   * @covers ::getFieldLabel
+   * @covers ::getFieldPreview
    * @covers ::hasCustomThemeHook
    * @covers ::getThemeHook
    * @covers ::getFields
