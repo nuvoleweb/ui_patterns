@@ -41,8 +41,7 @@ class PatternLibraryController extends ControllerBase {
    *   Pattern label.
    */
   public function title($name) {
-    $definition = $this->patternsManager->getDefinition($name);
-    return $definition['label'];
+    return $this->patternsManager->getPattern($name)->getLabel();
   }
 
   /**

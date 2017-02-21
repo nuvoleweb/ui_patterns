@@ -29,17 +29,6 @@ interface UiPatternsManagerInterface extends PluginManagerInterface {
   public function getPatternsOptions();
 
   /**
-   * Return list of given pattern fields to be used as select options.
-   *
-   * @param string $id
-   *    Patterns ID.
-   *
-   * @return array
-   *    List of pattern fields.
-   */
-  public function getPatternFieldsOptions($id);
-
-  /**
    * Build and return pattern theme definitions.
    *
    * @return array

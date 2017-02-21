@@ -175,16 +175,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * {@inheritdoc}
    */
-  public function getPatternFieldsOptions($id) {
-    $definition = $this->getDefinition($id);
-    return array_map(function ($option) {
-      return $option['label'];
-    }, $definition['fields']);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function hookTheme() {
     $items = [];
 

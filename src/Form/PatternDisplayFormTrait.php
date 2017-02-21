@@ -69,6 +69,7 @@ trait PatternDisplayFormTrait {
    *    Mapping form.
    */
   public function getMappingForm($pattern_id, $tag, array $context, array $configuration) {
+    $pattern = $this->patternsManager->getPattern($pattern_id);
 
     $elements = [
       '#type' => 'table',
@@ -85,7 +86,7 @@ trait PatternDisplayFormTrait {
       'group' => 'field-weight',
     ];
 
-    $destinations = ['_hidden' => $this->t('- Hidden -')] + $this->patternsManager->getPatternFieldsOptions($pattern_id);
+    $destinations = ['_hidden' => $this->t('- Hidden -')] + $pattern->getFieldsAsOptions();
 
     foreach ($this->sourceManager->getFieldsByTag($tag, $context) as $field_name => $field) {
       $elements[$field_name] = [

@@ -105,6 +105,14 @@ interface UiPatternInterface {
   public function getFields();
 
   /**
+   * Return list of given pattern fields to be used as select options.
+   *
+   * @return array
+   *    List of pattern fields.
+   */
+  public function getFieldsAsOptions();
+
+  /**
    * Get list of pattern libraries, be them locally or globally declared.
    *
    * @return array
