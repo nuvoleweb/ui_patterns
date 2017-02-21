@@ -183,9 +183,9 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
       $item = [
         'variables' => $definition['theme variables'],
       ];
+      $item += $this->processUseProperty($definition);
       $item += $this->processCustomThemeHookProperty($definition);
       $item += $this->processTemplateProperty($definition);
-      $item += $this->processUseProperty($definition);
       $items[$hook] = $item;
     }
 
