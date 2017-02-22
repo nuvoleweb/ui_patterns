@@ -41,13 +41,12 @@ function ui_patterns_layouts_preprocess_ds_entity_view(&$variables) {
     /** @var \Drupal\Core\Entity\EntityInterface $entity */
     $entity = $variables['content']['#entity'];
 
-    $variables['content']['#context'] = [
-      'type' => 'layout',
-      'entity_type' => $variables['content']['#entity_type'],
-      'bundle' => $variables['content']['#bundle'],
-      'view_mode' => $variables['content']['#view_mode'],
-      'entity_id' => $entity->id(),
-    ];
+    // Allow default context values to not override those exposed elsewhere.
+    $variables['content']['#context']['type'] = 'layout';
+    $variables['content']['#context']['entity_type'] = $variables['content']['#entity_type'];
+    $variables['content']['#context']['bundle'] = $variables['content']['#bundle'];
+    $variables['content']['#context']['view_mode'] = $variables['content']['#view_mode'];
+    $variables['content']['#context']['entity_id'] = $entity->id();
   }
 }
 
