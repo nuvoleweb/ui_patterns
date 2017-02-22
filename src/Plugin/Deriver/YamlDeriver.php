@@ -4,6 +4,7 @@ namespace Drupal\ui_patterns\Plugin\Deriver;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Core\Extension\ExtensionDiscovery;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -27,6 +28,13 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
   protected $basePluginId;
 
   /**
+   * The app root.
+   *
+   * @var string
+   */
+  protected $root;
+
+  /**
    * The theme handler.
    *
    * @var \Drupal\Core\Extension\ThemeHandlerInterface
@@ -41,19 +49,37 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
   protected $moduleHandler;
 
   /**
+   * Extension discovery class.
+   *
+   * @var \Drupal\Core\Extension\ExtensionDiscovery
+   */
+  protected $extensionDiscovery;
+
+  /**
+   * List of extension locations.
+   *
+   * @var array
+   */
+  protected $extensions = [];
+
+  /**
    * Constructs an EntityDeriver object.
    *
    * @param string $base_plugin_id
    *   The base plugin ID.
+   * @param string $root
+   *    Application root directory.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   Module handler service.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *   Theme handler service.
    */
-  public function __construct($base_plugin_id, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
+  public function __construct($base_plugin_id, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
     $this->basePluginId = $base_plugin_id;
+    $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
+    $this->extensionDiscovery = new ExtensionDiscovery($root);
   }
 
   /**
@@ -62,6 +88,7 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
   public static function create(ContainerInterface $container, $base_plugin_id) {
     return new static(
       $base_plugin_id,
+      $container->get('app.root'),
       $container->get('module_handler'),
       $container->get('theme_handler')
     );
@@ -122,16 +149,58 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
     $files = [];
     foreach ($this->getDirectories() as $provider => $directory) {
       foreach ($this->fileScanDirectory($directory) as $pathname => $file) {
-        $content = file_get_contents($pathname);
-        $files[$pathname] = [
-          'provider' => $provider,
-          'base path' => dirname($pathname),
-          'definitions' => Yaml::decode($content),
-        ];
+        $host_extension = $this->getHostExtension($pathname);
+        if ($host_extension == FALSE || $host_extension == $provider) {
+          $content = file_get_contents($pathname);
+          $files[$pathname] = [
+            'provider' => $provider,
+            'base path' => dirname($pathname),
+            'definitions' => Yaml::decode($content),
+          ];
+        }
       }
     }
 
     return $files;
+  }
+
+  /**
+   * Get extension name that hosts the given YAML definition file.
+   *
+   * @param string $pathname
+   *    YAML definition file full path.
+   *
+   * @return bool|string
+   *    Either extension machine name or FALSE if not found.
+   */
+  protected function getHostExtension($pathname) {
+    $extensions = $this->getExtensionLocations();
+    $parts = explode(DIRECTORY_SEPARATOR, $pathname);
+    while (!empty($parts)) {
+      $path = implode(DIRECTORY_SEPARATOR, $parts);
+      if (isset($extensions[$path])) {
+        return $extensions[$path];
+      }
+      array_pop($parts);
+    }
+    return FALSE;
+  }
+
+  /**
+   * Get extension locations.
+   *
+   * @return array
+   *    Array of extensions keyed by their path location.
+   */
+  protected function getExtensionLocations() {
+    /** @var \Drupal\Core\Extension\Extension[] $extensions */
+    if (empty($this->extensions)) {
+      $extensions = $this->extensionDiscovery->scan('theme') + $this->extensionDiscovery->scan('module');
+      foreach ($extensions as $name => $extension) {
+        $this->extensions[$this->root . DIRECTORY_SEPARATOR . $extension->getPath()] = $name;
+      }
+    }
+    return $this->extensions;
   }
 
   /**
