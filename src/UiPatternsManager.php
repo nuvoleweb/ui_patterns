@@ -239,19 +239,21 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    *    Libraries array.
    * @param string $base_path
    *    Pattern base path.
+   * @param string $parent
+   *    Item parent set in previous recursive iteration, if any.
    */
-  protected function processLibraries(array &$libraries, $base_path) {
-
+  protected function processLibraries(array &$libraries, $base_path, $parent = '') {
+    $parents = ['js', 'base', 'layout', 'component', 'state', 'theme'];
     $_libraries = $libraries;
     foreach ($_libraries as $name => $values) {
-      $is_asset = stristr($name, '.css') !== FALSE || stristr($name, '.js') !== FALSE;
+      $is_asset = in_array($parent, $parents, TRUE);
       $is_external = isset($values['type']) && $values['type'] == 'external';
       if ($is_asset && !$is_external) {
         $libraries[$base_path . DIRECTORY_SEPARATOR . $name] = $values;
         unset($libraries[$name]);
       }
       elseif (!$is_asset) {
-        $this->processLibraries($libraries[$name], $base_path);
+        $this->processLibraries($libraries[$name], $base_path, $name);
       }
     }
   }

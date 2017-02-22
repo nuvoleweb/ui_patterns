@@ -100,4 +100,7 @@ image:
       preview:
         theme: image
         uri: http://lorempixel.com/350/250/nature/1
-
+  libraries:
+    - image_library:
+        js:
+          //fonts.googleapis.com/css?family=Radley:400,400italic: { type: external }
