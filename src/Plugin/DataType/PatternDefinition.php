@@ -16,7 +16,7 @@ class PatternDefinition extends MapDataDefinition {
   /**
    * Valid machine name string.
    */
-  const MACHINE_NAME = '/[a-z0-9_]+/';
+  const MACHINE_NAME = '/^[a-z0-9_]+$/';
 
   /**
    * {@inheritdoc}

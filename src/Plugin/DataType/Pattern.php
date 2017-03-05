@@ -40,4 +40,34 @@ class Pattern extends Map {
     }
   }
 
+  /**
+   * Check whereas the pattern definition is valid or not.
+   *
+   * @return bool
+   *    Whereas the pattern definition is valid or not.
+   */
+  public function isValid() {
+    return $this->validate()->count() == 0;
+  }
+
+  /**
+   * Get validation error messages.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup[]
+   *    List of validation error messages.
+   */
+  public function getErrorMessages() {
+    $messages = [];
+    /** @var \Symfony\Component\Validator\ConstraintViolationList $violations */
+    $violations = $this->validate();
+    foreach ($violations as $violation) {
+      $messages[] = $this->t('Validation error on ":id.:property": :message', [
+        ':id' => $this->get('id')->getValue(),
+        ':property' => $violation->getPropertyPath(),
+        ':message' => $violation->getMessage(),
+      ]);
+    }
+    return $messages;
+  }
+
 }

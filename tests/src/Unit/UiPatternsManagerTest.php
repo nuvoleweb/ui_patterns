@@ -7,9 +7,7 @@ use function bovigo\assert\predicate\hasKey;
 use function bovigo\assert\predicate\equals;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\ui_patterns\Exception\PatternDefinitionException;
 use Drupal\ui_patterns\UiPatternsManager;
-use Drupal\ui_patterns\UiPatternsValidation;
 
 /**
  * @coversDefaultClass \Drupal\ui_patterns\UiPatternsManager
@@ -71,22 +69,6 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     $variables[] = 'attributes';
     foreach ($variables as $variable) {
       assert($actual['theme variables'], hasKey($variable));
-    }
-  }
-
-  /**
-   * Test plugin validation.
-   */
-  public function testValidation() {
-    $validation = new UiPatternsValidation();
-    $definitions = Yaml::decode(file_get_contents(dirname(__FILE__) . '/../fixtures/validation.yml'));
-    foreach ($definitions as $definition) {
-      try {
-        $validation->validate($definition);
-      }
-      catch (PatternDefinitionException $e) {
-        assert($e->getMessage(), equals($definition['throws']));
-      }
     }
   }
 

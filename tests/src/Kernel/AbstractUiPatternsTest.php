@@ -68,4 +68,14 @@ abstract class AbstractUiPatternsTest extends KernelTestBase {
     return $manager_mock;
   }
 
+  /**
+   * Get fixtures base path.
+   *
+   * @return string
+   *    Fixtures base path.
+   */
+  protected function getFixturePath() {
+    return realpath(dirname(__FILE__) . '/../fixtures');
+  }
+
 }
