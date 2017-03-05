@@ -21,6 +21,17 @@ interface UiPatternsManagerInterface extends PluginManagerInterface {
   public function getPattern($id);
 
   /**
+   * Get pattern definition object.
+   *
+   * @param array $definition
+   *    Pattern definition array.
+   *
+   * @return \Drupal\ui_patterns\Plugin\DataType\Pattern
+   *    Pattern definition object.
+   */
+  public function getPatternDefinition(array $definition);
+
+  /**
    * Return list of available patterns to be used as select options.
    *
    * @return array

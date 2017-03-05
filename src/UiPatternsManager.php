@@ -3,11 +3,11 @@
 namespace Drupal\ui_patterns;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\ui_patterns\Exception\PatternDefinitionException;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\Core\TypedData\TypedDataManager;
 
 /**
  * Provides the default ui_patterns manager.
@@ -47,12 +47,13 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    */
   protected $loader;
 
+
   /**
-   * Validation service.
+   * Loader service.
    *
-   * @var \Drupal\ui_patterns\UiPatternsValidation
+   * @var \Twig_Loader_Chain
    */
-  protected $validation;
+  protected $typedDataManager;
 
   /**
    * Provides default values for all ui_patterns plugins.
@@ -85,18 +86,18 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    *    Theme handler service.
    * @param \Twig_Loader_Chain $loader
    *    Twig loader service.
-   * @param \Drupal\ui_patterns\UiPatternsValidation $validation
-   *    Pattern validation service.
+   * @param \Drupal\Core\TypedData\TypedDataManager $typed_data_manager
+   *    Typed data manager service.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *    Cache backend service.
    */
-  public function __construct(\Traversable $namespaces, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, UiPatternsValidation $validation, CacheBackendInterface $cache_backend) {
+  public function __construct(\Traversable $namespaces, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, TypedDataManager $typed_data_manager, CacheBackendInterface $cache_backend) {
     parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\UiPatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
     $this->loader = $loader;
-    $this->validation = $validation;
+    $this->typedDataManager = $typed_data_manager;
     $this->alterInfo('ui_patterns_info');
     $this->setCacheBackend($cache_backend, 'ui_patterns', ['ui_patterns']);
   }
@@ -107,6 +108,14 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   public function getPattern($id) {
     // @todo should we cache pattern object instances?
     return $this->getFactory()->createInstance($id);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getPatternDefinition(array $definition) {
+    $data_definition = $this->typedDataManager->createDataDefinition('ui_patterns_pattern');
+    return $this->typedDataManager->create($data_definition, $definition);
   }
 
   /**
@@ -132,12 +141,14 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   protected function alterDefinitions(&$definitions) {
 
     foreach ($definitions as $id => $definition) {
-      try {
-        $this->validation->validate($definition);
-      }
-      catch (PatternDefinitionException $e) {
+      $pattern_definition = $this->getPatternDefinition($definition);
+      if (!$pattern_definition->isValid()) {
         unset($definitions[$id]);
-        $message = $this->t("Pattern '@id' is skipped because of the following validation error: @message", ['@id' => $id, '@message' => $e->getMessage()]);
+        $errors = implode('<br/>', $pattern_definition->getErrorMessages());
+        $message = $this->t("Pattern ':id' is skipped because of the following validation error: <br/>:messages", [
+          ':id' => $id,
+          ':messages' => $errors,
+        ]);
         drupal_set_message($message, 'error');
       }
     }

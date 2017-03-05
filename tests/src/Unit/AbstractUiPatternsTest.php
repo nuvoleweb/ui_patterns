@@ -135,20 +135,4 @@ abstract class AbstractUiPatternsTest extends UnitTestCase {
     return $loader;
   }
 
-  /**
-   * Get UI Pattern validation service mock.
-   *
-   * @return \Drupal\ui_patterns\UiPatternsValidation
-   *    UI Pattern validation service.
-   */
-  protected function getValidationMock() {
-    $validation = $this->getMockBuilder('Drupal\ui_patterns\UiPatternsValidation')
-      ->disableOriginalConstructor()
-      ->setMethods(['validate'])
-      ->getMock();
-
-    /** @var \Drupal\ui_patterns\UiPatternsValidation $validation */
-    return $validation;
-  }
-
 }
