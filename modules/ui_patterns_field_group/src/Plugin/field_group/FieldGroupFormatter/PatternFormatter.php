@@ -81,7 +81,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $fields = [];
     $mapping = $this->getSetting('pattern_mapping');
     foreach ($mapping as $field) {
-      $fields[$field['destination']] = $element[$field['source']];
+      $fields[$field['destination']][$field['source']] = $element[$field['source']];
     }
 
     $element['#type'] = 'pattern';
@@ -98,7 +98,9 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     // Pass current entity to pattern context, if any.
     if (!empty($element['#fields'])) {
       $field = reset($element['#fields']);
-      $element['#context']['entity'] = $field['#object'];
+      if (isset($field['#object'])) {
+        $element['#context']['entity'] = $field['#object'];
+      }
     }
   }
 

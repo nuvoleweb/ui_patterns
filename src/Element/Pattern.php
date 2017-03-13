@@ -83,19 +83,28 @@ class Pattern extends RenderElement {
     if (isset($element['#fields']) && !empty($element['#fields'])) {
       $fields = $element['#fields'];
       unset($element['#fields']);
+
       foreach ($fields as $name => $field) {
         $key = '#' . $name;
+        $element[$key] = $field;
 
-        // This guarantees backward compatibility: single sources be single.
-        if (count($field) == 1) {
-          $element[$key] = reset($field);
-        }
-        else {
-          // Render multiple sources with "patterns_destination" template.
-          $element[$key]['#sources'] = $field;
-          $element[$key]['#context']['pattern'] = $element['#id'];
-          $element[$key]['#context']['field'] = $name;
-          $element[$key]['#theme'] = 'patterns_destination';
+        // @todo: port this to a separate render element that extends "Pattern".
+        if (is_array($field)) {
+          // This guarantees backward compatibility: single sources be single.
+          if (count($field) == 1) {
+            $element[$key] = reset($field);
+          }
+          else {
+            // Render multiple sources with "patterns_destination" template.
+            $element[$key] = [
+              '#sources' => $field,
+              '#context' => [
+                'pattern' => $element['#id'],
+                'field' => $name,
+              ],
+              '#theme' => 'patterns_destination',
+            ];
+          }
         }
       }
     }

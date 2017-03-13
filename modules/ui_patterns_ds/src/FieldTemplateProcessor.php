@@ -26,7 +26,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
     foreach ($variables['items'] as $delta => $item) {
       $fields = [];
       foreach ($this->getMapping() as $mapping) {
-        $fields[$mapping['destination']] = $this->getSourceValue($mapping, $delta);
+        $fields[$mapping['destination']][$mapping['source']] = $this->getSourceValue($mapping, $delta);
       }
 
       $content['pattern_' . $delta] = [
