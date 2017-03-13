@@ -135,4 +135,14 @@ abstract class AbstractUiPatternsTest extends UnitTestCase {
     return $loader;
   }
 
+  /**
+   * Get fixtures base path.
+   *
+   * @return string
+   *    Fixtures base path.
+   */
+  protected function getFixturePath() {
+    return realpath(dirname(__FILE__) . '/../fixtures');
+  }
+
 }

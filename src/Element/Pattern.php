@@ -84,7 +84,19 @@ class Pattern extends RenderElement {
       $fields = $element['#fields'];
       unset($element['#fields']);
       foreach ($fields as $name => $field) {
-        $element["#{$name}"] = $field;
+        $key = '#' . $name;
+
+        // This guarantees backward compatibility: single sources be single.
+        if (count($field) == 1) {
+          $element[$key] = reset($field);
+        }
+        else {
+          // Render multiple sources with "patterns_destination" template.
+          $element[$key]['#sources'] = $field;
+          $element[$key]['#context']['pattern'] = $element['#id'];
+          $element[$key]['#context']['field'] = $name;
+          $element[$key]['#theme'] = 'patterns_destination';
+        }
       }
     }
     else {

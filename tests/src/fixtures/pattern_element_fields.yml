@@ -1,0 +1,30 @@
+-
+  actual:
+    '#fields':
+      pattern_field:
+        source:
+          '#markup': 'My markup.'
+  expected:
+    '#pattern_field':
+      '#markup': 'My markup.'
+-
+  actual:
+    '#id': pattern_id
+    '#fields':
+      pattern_field:
+        source1:
+          '#markup': 'My markup 1.'
+        source2:
+          '#markup': 'My markup 2.'
+  expected:
+    '#id': pattern_id
+    '#pattern_field':
+      '#sources':
+        source1:
+          '#markup': 'My markup 1.'
+        source2:
+          '#markup': 'My markup 2.'
+      '#context':
+          pattern: pattern_id
+          field: pattern_field
+      '#theme': patterns_destination
