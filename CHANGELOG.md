@@ -6,14 +6,21 @@
 
 **Closed issues:**
 
+- Use TypedData API to define and validate pattern definitions [\#78](https://github.com/nuvoleweb/ui_patterns/issues/78)
+- Support mapping multiple values to a pattern field [\#74](https://github.com/nuvoleweb/ui_patterns/issues/74)
+- Support for Multi-value fields [\#73](https://github.com/nuvoleweb/ui_patterns/issues/73)
 - Make patterns actual objects [\#71](https://github.com/nuvoleweb/ui_patterns/issues/71)
 - Refactor tests [\#69](https://github.com/nuvoleweb/ui_patterns/issues/69)
+- Fatal Error When Defining Library For Pattern [\#67](https://github.com/nuvoleweb/ui_patterns/issues/67)
 - Refactor pattern plugins to use derivatives [\#66](https://github.com/nuvoleweb/ui_patterns/issues/66)
+- Collections [\#65](https://github.com/nuvoleweb/ui_patterns/issues/65)
 - Add pattern layout hook suggestions [\#63](https://github.com/nuvoleweb/ui_patterns/issues/63)
 - Make the Pattern discovery available as a service. [\#56](https://github.com/nuvoleweb/ui_patterns/issues/56)
+- Recursion \(max function nesting level\) [\#53](https://github.com/nuvoleweb/ui_patterns/issues/53)
 
 **Merged pull requests:**
 
+- Use TypedData API to define and validate pattern definitions \#78 [\#79](https://github.com/nuvoleweb/ui_patterns/pull/79) ([ademarco](https://github.com/ademarco))
 - Make patterns actual objects \#71 [\#72](https://github.com/nuvoleweb/ui_patterns/pull/72) ([ademarco](https://github.com/ademarco))
 - Refactor tests \#69 [\#70](https://github.com/nuvoleweb/ui_patterns/pull/70) ([ademarco](https://github.com/ademarco))
 - Refactor pattern plugins to use derivatives \#66 [\#68](https://github.com/nuvoleweb/ui_patterns/pull/68) ([ademarco](https://github.com/ademarco))
