@@ -94,6 +94,12 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#context']['entity_type'] = $this->configuration['group']->entity_type;
     $element['#context']['bundle'] = $this->configuration['group']->bundle;
     $element['#context']['view_mode'] = $this->configuration['group']->mode;
+
+    // Pass current entity to pattern context, if any.
+    if (!empty($element['#fields'])) {
+      $field = reset($element['#fields']);
+      $element['#context']['entity'] = $field['#object'];
+    }
   }
 
   /**
@@ -151,7 +157,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    */
   public static function defaultContextSettings($context) {
     return [
-      'pattern' => 'none',
+      'pattern' => '',
       'pattern_mapping' => [],
     ] + parent::defaultContextSettings($context);
   }
