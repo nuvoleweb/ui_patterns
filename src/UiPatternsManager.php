@@ -49,9 +49,9 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
 
 
   /**
-   * Loader service.
+   * Typed data manager service.
    *
-   * @var \Twig_Loader_Chain
+   * @var \Drupal\Core\TypedData\TypedDataManager
    */
   protected $typedDataManager;
 
