@@ -71,4 +71,21 @@ Feature: Overview
     And the response should contain "/ui_patterns_test_theme/templates/patterns/media/js/media1.js"
     And the response should contain "/ui_patterns_test_theme/templates/patterns/media/js/media2.js"
 
+  Scenario: Patterns overview page will show validation errors after clearing the cache.
+    Given I am logged in as a user with the "access patterns page" permission
+    And the cache has been cleared
+
+    When I am on "/patterns"
+    Then I should see the following error messages:
+      | error messages                                                                   |
+      | Pattern 'bad_pattern' is skipped because of the following validation error(s):   |
+      | Validation error on "bad_pattern.fields.0.type": This value should not be null.  |
+      | Validation error on "bad_pattern.fields.1.label": This value should not be null. |
+
+    And I reload the page
+    Then I should not see the following error messages:
+      | error messages                                                                   |
+      | Pattern 'bad_pattern' is skipped because of the following validation error(s):   |
+      | Validation error on "bad_pattern.fields.0.type": This value should not be null.  |
+      | Validation error on "bad_pattern.fields.1.label": This value should not be null. |
 

@@ -36,7 +36,7 @@ default:
         quote: ".quote"
         modal: ".modal-dialog"
       selectors:
-        error_message_selector: '.messages--error'
+        error_message_selector: '.alert.alert-danger'
       text:
         node_submit_label: "Save and publish"
   formatters:

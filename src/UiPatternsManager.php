@@ -144,12 +144,10 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
       $pattern_definition = $this->getPatternDefinition($definition);
       if (!$pattern_definition->isValid()) {
         unset($definitions[$id]);
-        $errors = implode('<br/>', $pattern_definition->getErrorMessages());
-        $message = $this->t("Pattern ':id' is skipped because of the following validation error: <br/>:messages", [
-          ':id' => $id,
-          ':messages' => $errors,
-        ]);
-        drupal_set_message($message, 'error');
+        drupal_set_message($this->t("Pattern ':id' is skipped because of the following validation error(s):", [':id' => $id]), 'error');
+        foreach ($pattern_definition->getErrorMessages() as $message) {
+          drupal_set_message($message, 'error');
+        }
       }
     }
 
