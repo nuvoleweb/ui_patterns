@@ -22,11 +22,11 @@ class Pattern extends RenderElement {
       '#input' => FALSE,
       '#multiple_sources' => FALSE,
       '#pre_render' => [
+        [$class, 'processContext'],
         [$class, 'processRenderArray'],
         [$class, 'processLibraries'],
         [$class, 'processMultipleSources'],
         [$class, 'processFields'],
-        [$class, 'processContext'],
       ],
     ];
   }
@@ -97,7 +97,6 @@ class Pattern extends RenderElement {
     return $element;
   }
 
-
   /**
    * Process fields.
    *
@@ -111,18 +110,20 @@ class Pattern extends RenderElement {
     // Make sure we don't render anything in case fields are empty.
     if (self::hasFields($element) && self::hasMultipleSources($element)) {
       foreach ($element['#fields'] as $name => $field) {
-        // This guarantees backward compatibility: single sources be single.
+        // This guarantees backward compatibility: single sources be simple.
         if (count($field) == 1) {
           $element['#fields'][$name] = reset($field);
         }
         else {
+          /** @var \Drupal\ui_patterns\Element\PatternContext $context */
+          $context = $element['#context'];
+          $context->setProperty('pattern', $element['#id']);
+          $context->setProperty('field', $name);
+
           // Render multiple sources with "patterns_destination" template.
           $element['#fields'][$name] = [
             '#sources' => $field,
-            '#context' => [
-              'pattern' => $element['#id'],
-              'field' => $name,
-            ],
+            '#context' => $context,
             '#theme' => 'patterns_destination',
           ];
         }

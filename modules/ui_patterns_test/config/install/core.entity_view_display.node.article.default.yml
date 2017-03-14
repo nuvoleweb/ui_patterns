@@ -14,7 +14,6 @@ dependencies:
   module:
     - comment
     - image
-    - link
     - text
     - user
 id: node.article.default
@@ -44,17 +43,6 @@ content:
       image_link: ''
     third_party_settings: {  }
     label: hidden
-  field_links:
-    weight: 111
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    type: link
   field_tags:
     type: entity_reference_label
     weight: 10
@@ -66,5 +54,6 @@ content:
     weight: 100
 hidden:
   field_image: true
+  field_links: true
   field_paragraphs: true
   field_tags: true

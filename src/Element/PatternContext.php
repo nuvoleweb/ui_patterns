@@ -74,4 +74,14 @@ class PatternContext {
     return $this->type == $type;
   }
 
+  /**
+   * Get context type.
+   *
+   * @return string
+   *    Context type.
+   */
+  public function getType() {
+    return $this->type;
+  }
+
 }

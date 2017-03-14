@@ -22,7 +22,7 @@ function ui_patterns_theme() {
       'variables' => ['pattern' => NULL],
     ],
     'patterns_destination' => [
-      'variables' => ['sources' => NULL, 'context' => []],
+      'variables' => ['sources' => NULL, 'context' => NULL],
     ],
   ] + UiPatterns::getManager()->hookTheme();
 }
@@ -31,19 +31,14 @@ function ui_patterns_theme() {
  * Implements hook_theme_suggestions_HOOK_alter()
  */
 function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
+
   if (UiPatterns::getManager()->isPatternHook($hook) && !empty($variables['context'])) {
     \Drupal::moduleHandler()->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
   }
-}
 
-/**
- * Implements hook_theme_suggestions_HOOK()
- */
-function ui_patterns_theme_suggestions_patterns_destination(array $variables) {
-  $suggestions = [];
-  $suggestions[] = 'patterns_destination__' . $variables['context']['pattern'];
-  $suggestions[] = 'patterns_destination__' . $variables['context']['pattern'] . '__' . $variables['context']['field'];
-  return $suggestions;
+  if ($hook == 'patterns_destination' && !empty($variables['context'])) {
+    \Drupal::moduleHandler()->alter('ui_patterns_destination_suggestions', $suggestions, $variables, $variables['context']);
+  }
 }
 
 /**

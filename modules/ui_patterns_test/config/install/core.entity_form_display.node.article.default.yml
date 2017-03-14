@@ -13,8 +13,6 @@ dependencies:
   module:
     - comment
     - image
-    - link
-    - paragraphs
     - path
     - text
 id: node.article.default
@@ -32,62 +30,42 @@ content:
     third_party_settings: {  }
   comment:
     type: comment_default
-    weight: 8
+    weight: 20
     settings: {  }
     third_party_settings: {  }
   created:
     type: datetime_timestamp
-    weight: 5
+    weight: 10
     settings: {  }
     third_party_settings: {  }
   field_image:
     type: image_image
-    weight: 3
+    weight: 4
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-  field_links:
-    weight: 10
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-    type: link_default
-  field_paragraphs:
-    type: entity_reference_paragraphs
-    weight: 11
-    settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-    third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete_tags
-    weight: 2
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+    weight: 3
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path
-    weight: 9
+    weight: 30
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 6
+    weight: 15
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 16
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -98,10 +76,12 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 4
+    weight: 5
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_links: true
+  field_paragraphs: true

@@ -23,7 +23,7 @@ third_party_settings:
   ds:
     layout:
       id: ds_1col
-      path: modules/contrib/ds
+      path: modules/ds
       library: ''
       disable_css: false
       entity_classes: all_classes
@@ -46,12 +46,18 @@ third_party_settings:
         - node_author
         - node_post_date
         - field_tags
+        - node_changed_date
     fields:
       node_author:
         plugin_id: node_author
         weight: 7
         label: hidden
         formatter: author
+      node_changed_date:
+        plugin_id: node_changed_date
+        weight: 10
+        label: inline
+        formatter: ds_post_date_long
       node_post_date:
         plugin_id: node_post_date
         weight: 8
@@ -63,6 +69,7 @@ third_party_settings:
         - node_author
         - node_post_date
         - field_tags
+        - node_changed_date
       parent_name: ''
       weight: 0
       format_type: pattern_formatter
@@ -70,19 +77,24 @@ third_party_settings:
         label: Metadata
         pattern: metadata
         pattern_mapping:
+          'ds_field:node_changed_date':
+            destination: date
+            weight: 0
+            plugin: ds_field
+            source: node_changed_date
           'fields:field_tags':
             destination: categories
-            weight: 0
+            weight: 1
             plugin: fields
             source: field_tags
           'ds_field:node_author':
             destination: author
-            weight: 1
+            weight: 2
             plugin: ds_field
             source: node_author
           'ds_field:node_post_date':
             destination: date
-            weight: 2
+            weight: 3
             plugin: ds_field
             source: node_post_date
       label: Metadata

@@ -69,6 +69,7 @@ Feature: Content
     And I should see "Running: ui_patterns_test_theme_preprocess_pattern_button__ds_field_template__field_links__node__article"
     And I should see "Running: ui_patterns_test_theme_preprocess_pattern_button__ds_field_template__field_links__node"
     And I should see "Running: ui_patterns_test_theme_preprocess_pattern_button__ds_field_template__field_links"
+    And I should see "Running: ui_patterns_test_theme_preprocess_patterns_destination__field_group__group_metadata__node__article__full__metadata__date"
 
     Given I am on "/articles"
     Then I should see "Running: ui_patterns_test_theme_preprocess_pattern_media__views_row__articles__page_1"

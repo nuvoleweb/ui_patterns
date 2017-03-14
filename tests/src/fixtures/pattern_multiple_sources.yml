@@ -34,6 +34,7 @@
       '#context':
           pattern: pattern_id
           field: pattern_field
+          type: empty
       '#theme': patterns_destination
 
 -

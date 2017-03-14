@@ -76,3 +76,19 @@ function ui_patterns_views_ui_patterns_suggestions_alter(array &$suggestions, ar
     $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display;
   }
 }
+
+/**
+ * Implements hook_ui_patterns_destination_suggestions_alter().
+ */
+function ui_patterns_views_ui_patterns_destination_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
+  if ($context->isOfType('views_row')) {
+    $hook = $variables['theme_hook_original'];
+    $view_name = $context->getProperty('view_name');
+    $display = $context->getProperty('display');
+    $pattern = $context->getProperty('pattern');
+    $field = $context->getProperty('field');
+
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $pattern  . '__' . $field;
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern  . '__' . $field;
+  }
+}
