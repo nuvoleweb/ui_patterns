@@ -81,12 +81,13 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $fields = [];
     $mapping = $this->getSetting('pattern_mapping');
     foreach ($mapping as $field) {
-      $fields[$field['destination']][$field['source']] = $element[$field['source']];
+      $fields[$field['destination']][] = $element[$field['source']];
     }
 
     $element['#type'] = 'pattern';
     $element['#id'] = $this->getSetting('pattern');
     $element['#fields'] = $fields;
+    $element['#multiple_sources'] = TRUE;
 
     // Allow default context values to not override those exposed elsewhere.
     $element['#context']['type'] = 'field_group';

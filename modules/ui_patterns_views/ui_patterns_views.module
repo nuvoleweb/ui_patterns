@@ -39,7 +39,7 @@ function template_preprocess_pattern_views_row(&$variables) {
     $field_output = $view->style_plugin->getField($row->index, $id);
     if ($row_plugin->isFieldVisible($field, $field_output)) {
       $destination = $row_plugin->getMappingDestination('views_row', $id, $options);
-      $fields[$destination][$id] = $field_output;
+      $fields[$destination][] = $field_output;
     }
   }
 
@@ -53,6 +53,7 @@ function template_preprocess_pattern_views_row(&$variables) {
       '#type' => 'pattern',
       '#id' => $options['pattern'],
       '#fields' => $fields,
+      '#multiple_sources' => TRUE,
     ];
 
     // Allow default context values to not override those exposed elsewhere.

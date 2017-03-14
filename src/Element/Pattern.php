@@ -20,9 +20,11 @@ class Pattern extends RenderElement {
     $class = get_class($this);
     return [
       '#input' => FALSE,
+      '#multiple_sources' => FALSE,
       '#pre_render' => [
         [$class, 'processRenderArray'],
         [$class, 'processLibraries'],
+        [$class, 'processMultipleSources'],
         [$class, 'processFields'],
         [$class, 'processContext'],
       ],
@@ -80,36 +82,51 @@ class Pattern extends RenderElement {
    */
   public static function processFields(array $element) {
     // Make sure we don't render anything in case fields are empty.
-    if (isset($element['#fields']) && !empty($element['#fields'])) {
+    if (self::hasFields($element)) {
       $fields = $element['#fields'];
       unset($element['#fields']);
 
       foreach ($fields as $name => $field) {
         $key = '#' . $name;
         $element[$key] = $field;
-
-        // @todo: port this to a separate render element that extends "Pattern".
-        if (is_array($field)) {
-          // This guarantees backward compatibility: single sources be single.
-          if (count($field) == 1) {
-            $element[$key] = reset($field);
-          }
-          else {
-            // Render multiple sources with "patterns_destination" template.
-            $element[$key] = [
-              '#sources' => $field,
-              '#context' => [
-                'pattern' => $element['#id'],
-                'field' => $name,
-              ],
-              '#theme' => 'patterns_destination',
-            ];
-          }
-        }
       }
     }
     else {
       $element['#markup'] = '';
+    }
+    return $element;
+  }
+
+
+  /**
+   * Process fields.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public static function processMultipleSources(array $element) {
+    // Make sure we don't render anything in case fields are empty.
+    if (self::hasFields($element) && self::hasMultipleSources($element)) {
+      foreach ($element['#fields'] as $name => $field) {
+        // This guarantees backward compatibility: single sources be single.
+        if (count($field) == 1) {
+          $element['#fields'][$name] = reset($field);
+        }
+        else {
+          // Render multiple sources with "patterns_destination" template.
+          $element['#fields'][$name] = [
+            '#sources' => $field,
+            '#context' => [
+              'pattern' => $element['#id'],
+              'field' => $name,
+            ],
+            '#theme' => 'patterns_destination',
+          ];
+        }
+      }
     }
     return $element;
   }
@@ -128,7 +145,7 @@ class Pattern extends RenderElement {
    */
   public static function processContext(array $element) {
 
-    if (isset($element['#context']) && !empty($element['#context']) && is_array($element['#context']) && isset($element['#context']['type']) && !empty($element['#context']['type'])) {
+    if (self::hasValidContext($element)) {
       $context = $element['#context'];
       $element['#context'] = new PatternContext($context['type'], $element['#context']);
     }
@@ -137,6 +154,45 @@ class Pattern extends RenderElement {
     }
 
     return $element;
+  }
+
+  /**
+   * Whereas pattern has field or not.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return bool
+   *    TRUE or FALSE.
+   */
+  public static function hasFields($element) {
+    return isset($element['#fields']) && !empty($element['#fields']) && is_array($element['#fields']);
+  }
+
+  /**
+   * Whereas pattern fields can accept multiple sources.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return bool
+   *    TRUE or FALSE.
+   */
+  public static function hasMultipleSources($element) {
+    return isset($element['#multiple_sources']) && is_bool($element['#multiple_sources']) && $element['#multiple_sources'] == TRUE;
+  }
+
+  /**
+   * Whereas pattern has a valid context, i.e. context "type" is set.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return bool
+   *    TRUE or FALSE.
+   */
+  public static function hasValidContext($element) {
+    return isset($element['#context']) && !empty($element['#context']) && is_array($element['#context']) && isset($element['#context']['type']) && !empty($element['#context']['type']);
   }
 
 }

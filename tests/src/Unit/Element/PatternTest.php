@@ -19,10 +19,12 @@ class PatternTest extends AbstractUiPatternsTest {
    * Test getPreviewMarkup.
    *
    * @covers ::processFields
+   * @covers ::processMultipleSources
    *
    * @dataProvider fieldsProvider
    */
-  public function testProcessFields($actual, $expected) {
+  public function testMultipleSources($actual, $expected) {
+    $actual = Pattern::processMultipleSources($actual);
     $result = Pattern::processFields($actual);
     assert($result, equals($expected));
   }
@@ -31,7 +33,7 @@ class PatternTest extends AbstractUiPatternsTest {
    * Data provider.
    */
   public function fieldsProvider() {
-    return Yaml::decode(file_get_contents($this->getFixturePath() . '/pattern_element_fields.yml'));
+    return Yaml::decode(file_get_contents($this->getFixturePath() . '/pattern_multiple_sources.yml'));
   }
 
 }
