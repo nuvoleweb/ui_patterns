@@ -32,11 +32,11 @@ function ui_patterns_theme() {
  */
 function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
 
-  if (UiPatterns::getManager()->isPatternHook($hook) && !empty($variables['context'])) {
+  if (UiPatterns::getManager()->isPatternHook($hook)) {
     \Drupal::moduleHandler()->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
   }
 
-  if ($hook == 'patterns_destination' && !empty($variables['context'])) {
+  if ($hook == 'patterns_destination') {
     \Drupal::moduleHandler()->alter('ui_patterns_destination_suggestions', $suggestions, $variables, $variables['context']);
   }
 }

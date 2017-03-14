@@ -111,10 +111,8 @@ class Pattern extends RenderElement {
     if (self::hasFields($element) && self::hasMultipleSources($element)) {
       foreach ($element['#fields'] as $name => $field) {
         // This guarantees backward compatibility: single sources be simple.
-        if (count($field) == 1) {
-          $element['#fields'][$name] = reset($field);
-        }
-        else {
+        $element['#fields'][$name] = reset($field);
+        if (count($field) > 1) {
           /** @var \Drupal\ui_patterns\Element\PatternContext $context */
           $context = $element['#context'];
           $context->setProperty('pattern', $element['#id']);
@@ -180,7 +178,7 @@ class Pattern extends RenderElement {
    *    TRUE or FALSE.
    */
   public static function hasMultipleSources($element) {
-    return isset($element['#multiple_sources']) && is_bool($element['#multiple_sources']) && $element['#multiple_sources'] == TRUE;
+    return isset($element['#multiple_sources']) && $element['#multiple_sources'] === TRUE;
   }
 
   /**
@@ -193,7 +191,7 @@ class Pattern extends RenderElement {
    *    TRUE or FALSE.
    */
   public static function hasValidContext($element) {
-    return isset($element['#context']) && !empty($element['#context']) && is_array($element['#context']) && isset($element['#context']['type']) && !empty($element['#context']['type']);
+    return isset($element['#context']) && is_array($element['#context']) && !empty($element['#context']['type']);
   }
 
 }
