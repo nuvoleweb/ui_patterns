@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Allow multiple sources to be mapped to the same destination [\#81](https://github.com/nuvoleweb/ui_patterns/issues/81)
 - Use TypedData API to define and validate pattern definitions [\#78](https://github.com/nuvoleweb/ui_patterns/issues/78)
 - Support mapping multiple values to a pattern field [\#74](https://github.com/nuvoleweb/ui_patterns/issues/74)
 - Support for Multi-value fields [\#73](https://github.com/nuvoleweb/ui_patterns/issues/73)
@@ -20,6 +21,7 @@
 
 **Merged pull requests:**
 
+- Allow multiple sources to be mapped to the same destination \#81 [\#82](https://github.com/nuvoleweb/ui_patterns/pull/82) ([ademarco](https://github.com/ademarco))
 - Use TypedData API to define and validate pattern definitions \#78 [\#79](https://github.com/nuvoleweb/ui_patterns/pull/79) ([ademarco](https://github.com/ademarco))
 - Make patterns actual objects \#71 [\#72](https://github.com/nuvoleweb/ui_patterns/pull/72) ([ademarco](https://github.com/ademarco))
 - Refactor tests \#69 [\#70](https://github.com/nuvoleweb/ui_patterns/pull/70) ([ademarco](https://github.com/ademarco))
