@@ -88,8 +88,10 @@ trait PatternDisplayFormTrait {
 
     $destinations = ['_hidden' => $this->t('- Hidden -')] + $pattern->getFieldsAsOptions();
 
+    $fields = [];
     foreach ($this->sourceManager->getFieldsByTag($tag, $context) as $field_name => $field) {
-      $elements[$field_name] = [
+      $weight = (int) $this->getDefaultValue($configuration, $field_name, 'weight');
+      $fields[$field_name] = [
         'info' => [
           '#plain_text' => $field->getFieldLabel(),
         ],
@@ -105,7 +107,7 @@ trait PatternDisplayFormTrait {
         ],
         'weight' => [
           '#type' => 'weight',
-          '#default_value' => $this->getDefaultValue($configuration, $field_name, 'weight'),
+          '#default_value' => $weight,
           '#delta' => 20,
           '#title' => $this->t('Weight for @field field', ['@field' => $field->getFieldLabel()]),
           '#title_display' => 'invisible',
@@ -116,10 +118,12 @@ trait PatternDisplayFormTrait {
         '#attributes' => [
           'class' => ['draggable'],
         ],
+        '#weight' => $weight,
       ];
     }
 
-    return $elements;
+    uasort($fields, [SortArray::class, 'sortByWeightProperty']);
+    return array_merge($elements, $fields);
   }
 
   /**
