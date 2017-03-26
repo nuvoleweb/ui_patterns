@@ -121,21 +121,6 @@ abstract class AbstractUiPatternsTest extends UnitTestCase {
   }
 
   /**
-   * Get Loader mock.
-   *
-   * @return \Twig_Loader_Chain
-   *    Loader mock.
-   */
-  protected function getLoaderMock() {
-    $loader = $this->getMockBuilder('Twig_Loader_Chain')
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    /** @var \Twig_Loader_Chain $loader */
-    return $loader;
-  }
-
-  /**
    * Get fixtures base path.
    *
    * @return string
