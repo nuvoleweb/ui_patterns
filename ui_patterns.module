@@ -24,6 +24,9 @@ function ui_patterns_theme() {
     'patterns_destination' => [
       'variables' => ['sources' => NULL, 'context' => NULL],
     ],
+    'patterns_use_wrapper' => [
+      'variables' => ['use' => NULL],
+    ],
   ] + UiPatterns::getManager()->hookTheme();
 }
 
@@ -47,4 +50,3 @@ function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variabl
 function ui_patterns_library_info_build() {
   return UiPatterns::getManager()->hookLibraryInfoBuild();
 }
-

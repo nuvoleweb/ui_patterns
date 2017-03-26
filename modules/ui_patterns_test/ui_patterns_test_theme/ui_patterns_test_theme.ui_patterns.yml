@@ -50,7 +50,7 @@ modal:
   label: Modal
   description: Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart defaults.
   # Remember to use quotes or PatternLab will complain.
-  use: "@ui_patterns_test_theme/patterns/modal/modal-template.html.twig"
+  use: "@ui_patterns_test_theme/patterns/modal/modal-template.twig"
   fields:
     title:
       type: text

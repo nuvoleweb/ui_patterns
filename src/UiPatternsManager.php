@@ -41,14 +41,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   protected $themeHandler;
 
   /**
-   * Loader service.
-   *
-   * @var \Twig_Loader_Chain
-   */
-  protected $loader;
-
-
-  /**
    * Typed data manager service.
    *
    * @var \Drupal\Core\TypedData\TypedDataManager
@@ -84,19 +76,16 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    *    Module handler service.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *    Theme handler service.
-   * @param \Twig_Loader_Chain $loader
-   *    Twig loader service.
    * @param \Drupal\Core\TypedData\TypedDataManager $typed_data_manager
    *    Typed data manager service.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *    Cache backend service.
    */
-  public function __construct(\Traversable $namespaces, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, \Twig_Loader_Chain $loader, TypedDataManager $typed_data_manager, CacheBackendInterface $cache_backend) {
+  public function __construct(\Traversable $namespaces, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, TypedDataManager $typed_data_manager, CacheBackendInterface $cache_backend) {
     parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\UiPatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
     $this->root = $root;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
-    $this->loader = $loader;
     $this->typedDataManager = $typed_data_manager;
     $this->alterInfo('ui_patterns_info');
     $this->setCacheBackend($cache_backend, 'ui_patterns', ['ui_patterns']);
@@ -133,6 +122,7 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     $definition['theme variables'] = array_fill_keys(array_keys($definition['fields']), NULL);
     $definition['theme variables']['attributes'] = [];
     $definition['theme variables']['context'] = [];
+    $definition['theme variables']['use'] = '';
   }
 
   /**
@@ -316,35 +306,14 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @return array
    *    Processed hook definition portion.
    *
-   * @throws \Twig_Error_Loader
-   *    Throws exception if template is not found.
-   *
    * @see UiPatternsManager::hookTheme()
    */
   protected function processUseProperty(array $definition) {
-    /** @var \Drupal\Core\Extension\Extension $module */
-    static $processed = [];
-
-    if (isset($processed[$definition['id']])) {
-      throw new \Twig_Error_Loader("Template specified in 'use:'  for pattern {$definition['id']} cannot be found (recursion detected).");
-    }
-
     $return = [];
     if (!empty($definition['use'])) {
-      $processed[$definition['id']] = TRUE;
-
-      $template = $definition['use'];
-      $parts = explode(DIRECTORY_SEPARATOR, $template);
-      $name = array_pop($parts);
-      $name = str_replace(self::TWIG_EXTENSION, '', $name);
-
-      $path = $this->loader->getSourceContext($template)->getPath();
-      $path = str_replace($this->root . DIRECTORY_SEPARATOR, '', $path);
-      $path = str_replace(DIRECTORY_SEPARATOR . $name . self::TWIG_EXTENSION, '', $path);
-
       $return = [
-        'path' => $path,
-        'template' => $name,
+        'path' => $this->moduleHandler->getModule('ui_patterns')->getPath() . '/templates',
+        'template' => 'patterns-use-wrapper',
       ];
     }
     return $return;

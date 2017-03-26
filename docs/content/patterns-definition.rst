@@ -170,7 +170,7 @@ The default behavior can be changed by using the following properties in you pat
 
 .. code-block:: yaml
 
-   use: "@molecules/media/media-block.html.twig"
+   use: "@molecules/media/media-block.twig"
 
 The possibility of using stand-alone Twig templates allows for a swift integration with tools like
 `PatternLab <http://patternlab.io/>`_ or modules like `Component Libraries <https://www.drupal.org/project/components>`_.

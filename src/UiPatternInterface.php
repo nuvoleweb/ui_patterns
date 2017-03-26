@@ -120,4 +120,20 @@ interface UiPatternInterface {
    */
   public function getLibraries();
 
+  /**
+   * Check if pattern has the 'use' property defined.
+   *
+   * @return bool
+   *    Whereas pattern has the 'use' property defined.
+   */
+  public function hasUse();
+
+  /**
+   * Return 'use' property value.
+   *
+   * @return string
+   *    The 'use' property value.
+   */
+  public function getUse();
+
 }

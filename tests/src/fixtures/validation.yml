@@ -57,4 +57,4 @@
         description: description
         preview: preview
   messages:
-    - 'Validation error on "pattern_id.fields.0.name":  id, type, theme, context.'
+    - 'Validation error on "pattern_id.fields.0.name":  id, type, theme, context, use, attributes.'

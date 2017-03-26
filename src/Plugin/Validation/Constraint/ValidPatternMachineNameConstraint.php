@@ -30,7 +30,7 @@ class ValidPatternMachineNameConstraint extends Constraint implements Constraint
    *
    * @var array
    */
-  protected $reserved = ['id', 'type', 'theme', 'context'];
+  protected $reserved = ['id', 'type', 'theme', 'context', 'use', 'attributes'];
 
   /**
    * {@inheritdoc}

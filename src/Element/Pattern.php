@@ -27,6 +27,7 @@ class Pattern extends RenderElement {
         [$class, 'processLibraries'],
         [$class, 'processMultipleSources'],
         [$class, 'processFields'],
+        [$class, 'processUse'],
       ],
     ];
   }
@@ -94,6 +95,24 @@ class Pattern extends RenderElement {
     else {
       $element['#markup'] = '';
     }
+    return $element;
+  }
+
+  /**
+   * Process use property.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public static function processUse(array $element) {
+    $pattern = UiPatterns::getPattern($element['#id']);
+    if ($pattern->hasUse()) {
+      $element['#use'] = $pattern->getUse();
+    }
+
     return $element;
   }
 
