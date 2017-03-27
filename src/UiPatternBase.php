@@ -111,7 +111,7 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface {
    */
   public function hasUse() {
     $definition = $this->getPluginDefinition();
-    return isset($definition['use']) && !empty($definition['use']);
+    return !empty($definition['use']);
   }
 
   /**
