@@ -99,6 +99,9 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     // Pass current entity to pattern context, if any.
     if (!empty($element['#fields'])) {
       $field = reset($element['#fields']);
+      if (!empty($field)) {
+        $field = reset($field);
+      }
       if (isset($field['#object'])) {
         $element['#context']['entity'] = $field['#object'];
       }
