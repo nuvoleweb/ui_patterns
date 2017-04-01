@@ -1,0 +1,14 @@
+ui_patterns.patterns.overview:
+  path: '/patterns'
+  defaults:
+    _controller: '\Drupal\ui_patterns_library\Controller\PatternsLibraryController::overview'
+    _title: 'Pattern library'
+  requirements:
+    _permission: 'access patterns page'
+ui_patterns.patterns.single:
+  path: '/patterns/{name}'
+  defaults:
+    _controller: '\Drupal\ui_patterns_library\Controller\PatternsLibraryController::single'
+    _title_callback: '\Drupal\ui_patterns_library\Controller\PatternsLibraryController::title'
+  requirements:
+    _permission: 'access patterns page'

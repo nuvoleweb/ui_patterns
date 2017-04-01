@@ -12,15 +12,6 @@ use Drupal\ui_patterns\UiPatterns;
  */
 function ui_patterns_theme() {
   return [
-    'patterns_overview_page' => [
-      'variables' => ['patterns' => NULL],
-    ],
-    'patterns_single_page' => [
-      'variables' => ['pattern' => NULL],
-    ],
-    'patterns_meta_information' => [
-      'variables' => ['pattern' => NULL],
-    ],
     'patterns_destination' => [
       'variables' => ['sources' => NULL, 'context' => NULL],
     ],

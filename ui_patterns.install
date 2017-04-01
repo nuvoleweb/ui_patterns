@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Contains ui_patterns.install.
+ */
+
+/**
+ * Enable ui_patterns_library module.
+ */
+function ui_patterns_update_8101() {
+  \Drupal::service('module_installer')->install(['ui_patterns_library']);
+}
