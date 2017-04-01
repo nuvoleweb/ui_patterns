@@ -15,35 +15,7 @@
       not valid name:
   messages:
     - 'Validation error on "pattern_id.fields.0.name": This value is not valid.'
-    - 'Validation error on "pattern_id.fields.0.type": This value should not be null.'
     - 'Validation error on "pattern_id.fields.0.label": This value should not be null.'
-
--
-  pattern:
-    id: pattern_id
-    label: label
-    description: description
-    fields:
-      field1:
-        label: label
-        description: description
-        preview: preview
-  messages:
-    - 'Validation error on "pattern_id.fields.0.type": This value should not be null.'
-
--
-  pattern:
-    id: pattern_id
-    label: label
-    description: description
-    fields:
-      field1:
-        type:
-        label: label
-        description: description
-        preview: preview
-  messages:
-    - 'Validation error on "pattern_id.fields.0.type": This value should not be null.'
 
 -
   pattern:

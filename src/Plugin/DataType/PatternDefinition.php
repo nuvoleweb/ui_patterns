@@ -66,8 +66,8 @@ class PatternDefinition extends MapDataDefinition {
   protected function getFieldsDefinition() {
     return new ListDataDefinition([], MapDataDefinition::create()
       ->setPropertyDefinition('name', $this->getMachineNameDefinition()->setRequired(TRUE))
-      ->setPropertyDefinition('type', $this->getMachineNameDefinition()->setRequired(TRUE))
       ->setPropertyDefinition('label', DataDefinition::create('string')->setRequired(TRUE))
+      ->setPropertyDefinition('type', $this->getMachineNameDefinition())
       ->setPropertyDefinition('description', DataDefinition::create('string'))
       ->setPropertyDefinition('preview', DataDefinition::create('any')));
   }
