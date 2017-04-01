@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns\Plugin\Deriver;
+namespace Drupal\ui_patterns_library\Plugin\Deriver;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Component\Serialization\Yaml;
@@ -16,7 +16,7 @@ use Drupal\Core\Site\Settings;
  *
  * Derive pattern plugin definitions stored in YAML files.
  *
- * @package Drupal\ui_patterns\Deriver
+ * @package Drupal\ui_patterns_library\Deriver
  */
 class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
 
