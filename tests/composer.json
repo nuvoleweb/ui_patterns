@@ -22,8 +22,10 @@
     "phpunit/phpunit": "5.5.*",
     "bovigo/assert": "~1.7",
     "nuvoleweb/drupal-behat": "1.0.2",
+    "mikey179/vfsStream": "*",
+    "bex/behat-screenshot": "^1.2",
     "bex/behat-screenshot-image-driver-img42": "^1.0",
-    "mikey179/vfsStream": "*"
+    "bex/behat-extension-driver-locator": "^1.0"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
