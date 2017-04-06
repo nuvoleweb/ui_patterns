@@ -8,13 +8,15 @@ use Drupal\ui_patterns\UiPatternInterface;
 /**
  * The UI Pattern plugin.
  *
+ * ID is set to "yaml" for backward compatibility reasons.
+ *
  * @UiPattern(
  *   id = "yaml",
- *   label = @Translation("YAML Pattern"),
+ *   label = @Translation("Library Pattern"),
  *   description = @Translation("Pattern defined using a YAML file."),
- *   deriver = "\Drupal\ui_patterns_library\Plugin\Deriver\YamlDeriver"
+ *   deriver = "\Drupal\ui_patterns_library\Plugin\Deriver\LibraryDeriver"
  * )
  */
-class YamlPattern extends UiPatternBase implements UiPatternInterface {
+class LibraryDeriver extends UiPatternBase implements UiPatternInterface {
 
 }

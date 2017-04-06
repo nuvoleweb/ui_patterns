@@ -1,0 +1,5 @@
+parameters:
+  ui_patterns_library.file_extensions:
+    - ".ui_patterns.yml"
+    - ".patterns.yml"
+    - ".pattern.yml"

@@ -2,23 +2,19 @@
 
 namespace Drupal\ui_patterns_library\Plugin\Deriver;
 
-use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Extension\ExtensionDiscovery;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
+use Drupal\ui_patterns\Plugin\Deriver\AbstractYamlDeriver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
-use Drupal\Core\Site\Settings;
 
 /**
- * Class YamlDeriver.
- *
- * Derive pattern plugin definitions stored in YAML files.
+ * Class LibraryDeriver.
  *
  * @package Drupal\ui_patterns_library\Deriver
  */
-class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
+class LibraryDeriver extends AbstractYamlDeriver implements ContainerDeriverInterface {
 
   /**
    * The base plugin ID.
@@ -26,6 +22,13 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
    * @var string
    */
   protected $basePluginId;
+
+  /**
+   * The app root.
+   *
+   * @var string
+   */
+  protected $suffixes;
 
   /**
    * The app root.
@@ -63,20 +66,23 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
   protected $extensions = [];
 
   /**
-   * Constructs an EntityDeriver object.
+   * Constructor.
    *
    * @param string $base_plugin_id
    *   The base plugin ID.
    * @param string $root
    *    Application root directory.
+   * @param array $extensions
+   *    File extensions.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   Module handler service.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *   Theme handler service.
    */
-  public function __construct($base_plugin_id, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
+  public function __construct($base_plugin_id, $root, array $extensions, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
     $this->basePluginId = $base_plugin_id;
     $this->root = $root;
+    $this->extensions = $extensions;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
     $this->extensionDiscovery = new ExtensionDiscovery($root);
@@ -89,9 +95,17 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
     return new static(
       $base_plugin_id,
       $container->get('app.root'),
+      $container->getParameter('ui_patterns_library.file_extensions'),
       $container->get('module_handler'),
       $container->get('theme_handler')
     );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFileExtensions() {
+    return $this->extensions;
   }
 
   /**
@@ -151,12 +165,7 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
       foreach ($this->fileScanDirectory($directory) as $pathname => $file) {
         $host_extension = $this->getHostExtension($pathname);
         if ($host_extension == FALSE || $host_extension == $provider) {
-          $content = file_get_contents($pathname);
-          $files[$pathname] = [
-            'provider' => $provider,
-            'base path' => dirname($pathname),
-            'definitions' => Yaml::decode($content),
-          ];
+          $files[$pathname] = $this->getFileDefinitions($pathname, $provider);
         }
       }
     }
@@ -201,33 +210,6 @@ class YamlDeriver extends DeriverBase implements ContainerDeriverInterface {
       }
     }
     return $this->extensions;
-  }
-
-  /**
-   * Wrapper method for global function call.
-   *
-   * @see file.inc
-   */
-  public function fileScanDirectory($directory) {
-    $options = ['nomask' => $this->getNoMask()];
-    $mask = '/\.ui_patterns\.yml$/';
-    return file_scan_directory($directory, $mask, $options, 0);
-  }
-
-  /**
-   * Returns a regular expression for directories to be excluded in a file scan.
-   *
-   * @return string
-   *   Regular expression.
-   */
-  protected function getNoMask() {
-    $ignore = Settings::get('file_scan_ignore_directories', []);
-    // We add 'tests' directory to the ones found in settings.
-    $ignore[] = 'tests';
-    array_walk($ignore, function (&$value) {
-      $value = preg_quote($value, '/');
-    });
-    return '/^' . implode('|', $ignore) . '$/';
   }
 
 }
