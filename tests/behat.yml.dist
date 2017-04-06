@@ -39,5 +39,8 @@ default:
         error_message_selector: '.alert.alert-danger'
       text:
         node_submit_label: "Save and publish"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      active_image_drivers: img42
   formatters:
     progress: ~
