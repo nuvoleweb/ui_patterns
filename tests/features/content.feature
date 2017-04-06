@@ -1,5 +1,4 @@
 @api
-  @javascript
 Feature: Content
   In order to display my content using patterns
   As a developer
