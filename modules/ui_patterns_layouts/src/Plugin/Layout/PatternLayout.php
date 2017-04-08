@@ -55,19 +55,18 @@ class PatternLayout extends LayoutBase implements ContainerFactoryPluginInterfac
    * {@inheritdoc}
    */
   public function build(array $regions) {
-    $build = parent::build($regions);
     $configuration = $this->getConfiguration();
     $definition = $this->getPluginDefinition();
 
     // Remove default field template if "Only content" option has been selected.
     if ($configuration['pattern']['field_templates'] == 'only_content') {
-      $this->processOnlyContentFields($build, $regions);
+      $this->processOnlyContentFields($regions);
     }
 
     // Patterns expect regions to be passed along in a render array fashion.
     $fields = [];
     foreach ($regions as $region_name => $region) {
-      $fields[$region_name] = $build[$region_name];
+      $fields[$region_name] = $regions[$region_name];
     }
 
     return [
@@ -121,17 +120,15 @@ class PatternLayout extends LayoutBase implements ContainerFactoryPluginInterfac
   /**
    * Remove default field template if "Only content" option has been selected.
    *
-   * @param array $build
-   *    Build array.
    * @param array $regions
    *    Layout regions.
    */
-  protected function processOnlyContentFields(array &$build, array $regions) {
+  protected function processOnlyContentFields(array &$regions) {
     foreach ($regions as $region_name => $region) {
-      if (isset($build[$region_name]) && is_array($build[$region_name])) {
-        foreach ($build[$region_name] as $field_name => $field) {
+      if (is_array($region)) {
+        foreach ($regions[$region_name] as $field_name => $field) {
           if (is_array($field) && isset($field['#theme']) && $field['#theme'] == 'field') {
-            $build[$region_name][$field_name]['#theme'] = NULL;
+            $regions[$region_name][$field_name]['#theme'] = NULL;
           }
         }
       }

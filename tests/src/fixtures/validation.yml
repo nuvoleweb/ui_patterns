@@ -4,8 +4,10 @@
   messages:
     - 'Validation error on "not valid Name.id": This value is not valid.'
     - 'Validation error on "not valid Name.label": This value should not be null.'
+    - 'Validation error on "not valid Name.base path": This value should not be null.'
+    - 'Validation error on "not valid Name.file name": This value should not be null.'
+    - 'Validation error on "not valid Name.provider": This value should not be null.'
     - 'Validation error on "not valid Name.fields": This value should not be null.'
-
 -
   pattern:
     id: pattern_id
@@ -14,6 +16,9 @@
     fields:
       not valid name:
   messages:
+    - 'Validation error on "pattern_id.base path": This value should not be null.'
+    - 'Validation error on "pattern_id.file name": This value should not be null.'
+    - 'Validation error on "pattern_id.provider": This value should not be null.'
     - 'Validation error on "pattern_id.fields.0.name": This value is not valid.'
     - 'Validation error on "pattern_id.fields.0.label": This value should not be null.'
 
@@ -29,4 +34,7 @@
         description: description
         preview: preview
   messages:
+    - 'Validation error on "pattern_id.base path": This value should not be null.'
+    - 'Validation error on "pattern_id.file name": This value should not be null.'
+    - 'Validation error on "pattern_id.provider": This value should not be null.'
     - 'Validation error on "pattern_id.fields.0.name":  id, type, theme, context, use, attributes.'

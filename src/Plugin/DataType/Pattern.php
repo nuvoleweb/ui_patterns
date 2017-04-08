@@ -18,12 +18,32 @@ use Drupal\Core\TypedData\Plugin\DataType\Map;
 class Pattern extends Map {
 
   /**
+   * Pattern prefix.
+   */
+  const PATTERN_PREFIX = 'pattern_';
+
+  /**
    * {@inheritdoc}
    */
   public function setValue($values, $notify = TRUE) {
-    parent::setValue($values, $notify);
+    parent::setValue($values, FALSE);
     $this->setNameProperties('fields');
     $this->setNameProperties('variants');
+
+    $this->values['custom theme hook'] = TRUE;
+    if (!isset($values['theme hook'])) {
+      $this->values['theme hook'] = self::PATTERN_PREFIX . $this->values['id'];
+      $this->values['custom theme hook'] = FALSE;
+    }
+
+    if (empty($this->values['libraries'])) {
+      $this->values['libraries'] = [];
+    }
+
+    // Notify the parent of any changes.
+    if ($notify && isset($this->parent)) {
+      $this->parent->onChange($this->name);
+    }
   }
 
   /**

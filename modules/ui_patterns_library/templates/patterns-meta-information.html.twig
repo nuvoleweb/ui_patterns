@@ -22,9 +22,9 @@
     </tr>
     </thead>
     <tbody>
-    {% for name, field in pattern.fields %}
+    {% for field in pattern.fields %}
       <tr>
-        <td><code>{{ name }}</code></td>
+        <td><code>{{ field.name }}</code></td>
         <td>{{ field.label }}</td>
         <td><code>{{ field.type }}</code></td>
         <td>{{ field.description }}</td>

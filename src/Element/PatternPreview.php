@@ -26,14 +26,14 @@ class PatternPreview extends Pattern {
     $definition = $pattern->getPluginDefinition();
 
     $fields = [];
-    foreach ($pattern->getFields() as $name => $field) {
+    foreach ($pattern->getFields() as $field) {
       // Some fields are used as twig array keys and don't need escaping.
       if (!isset($field['escape']) || $field['escape'] != FALSE) {
         // The examples are not user submitted and are safe markup.
         $field['preview'] = self::getPreviewMarkup($field['preview']);
       }
 
-      $fields[$name] = $field['preview'];
+      $fields[$field['name']] = $field['preview'];
     }
 
     if (isset($definition['extra']['attributes'])) {

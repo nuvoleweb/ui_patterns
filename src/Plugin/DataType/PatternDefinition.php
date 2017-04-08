@@ -25,10 +25,17 @@ class PatternDefinition extends MapDataDefinition {
     $this->setMainPropertyName('id')
       ->setPropertyDefinition('id', $this->getMachineNameDefinition()->setRequired(TRUE))
       ->setPropertyDefinition('label', DataDefinition::create('string')->setRequired(TRUE))
+      ->setPropertyDefinition('base path', DataDefinition::create('string')->setRequired(TRUE))
+      ->setPropertyDefinition('file name', DataDefinition::create('string')->setRequired(TRUE))
+      ->setPropertyDefinition('provider', DataDefinition::create('string')->setRequired(TRUE))
+      ->setPropertyDefinition('fields', $this->getFieldsDefinition()->setRequired(TRUE))
+      ->setPropertyDefinition('theme hook', DataDefinition::create('string')->setRequired(TRUE))
       ->setPropertyDefinition('description', DataDefinition::create('string'))
+      ->setPropertyDefinition('use', DataDefinition::create('string'))
       ->setPropertyDefinition('tags', ListDataDefinition::create('string'))
-      ->setPropertyDefinition('variants', $this->getVariantDefinition())
-      ->setPropertyDefinition('fields', $this->getFieldsDefinition()->setRequired(TRUE));
+      ->setPropertyDefinition('custom theme hook', DataDefinition::create('boolean'))
+      ->setPropertyDefinition('template', DataDefinition::create('string'))
+      ->setPropertyDefinition('libraries', DataDefinition::create('any'));
     return $this->propertyDefinitions;
   }
 
@@ -42,19 +49,6 @@ class PatternDefinition extends MapDataDefinition {
     return DataDefinition::create('string')
       ->addConstraint('Regex', self::MACHINE_NAME)
       ->addConstraint('ValidPatternMachineName');
-  }
-
-  /**
-   * Get definition for 'variants' property.
-   *
-   * @return \Drupal\Core\TypedData\ListDataDefinition
-   *    Data definition instance.
-   */
-  protected function getVariantDefinition() {
-    return new ListDataDefinition([], MapDataDefinition::create()
-      ->setPropertyDefinition('name', $this->getMachineNameDefinition()->setRequired(TRUE))
-      ->setPropertyDefinition('label', DataDefinition::create('string')->setRequired(TRUE))
-      ->setPropertyDefinition('description', DataDefinition::create('string')));
   }
 
   /**

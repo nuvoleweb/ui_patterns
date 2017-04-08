@@ -2,8 +2,6 @@
 
 namespace Drupal\ui_patterns\Plugin\Deriver;
 
-use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Site\Settings;
 
 /**
@@ -13,7 +11,7 @@ use Drupal\Core\Site\Settings;
  *
  * @package Drupal\ui_patterns\Deriver
  */
-abstract class AbstractYamlDeriver extends DeriverBase implements YamlDeriverInterface {
+abstract class AbstractYamlDeriver extends AbstractDeriver implements YamlDeriverInterface, DeriverInterface {
 
   /**
    * {@inheritdoc}
@@ -24,19 +22,6 @@ abstract class AbstractYamlDeriver extends DeriverBase implements YamlDeriverInt
     $extensions = array_map('preg_quote', $extensions);
     $extensions = implode('|', $extensions);
     return file_scan_directory($directory, "/{$extensions}$/", $options, 0);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getFileDefinitions($file_path, $provider) {
-    $content = file_get_contents($file_path);
-    return [
-      'provider' => $provider,
-      'base path' => dirname($file_path),
-      'file name' => basename($file_path),
-      'definitions' => Yaml::decode($content),
-    ];
   }
 
   /**

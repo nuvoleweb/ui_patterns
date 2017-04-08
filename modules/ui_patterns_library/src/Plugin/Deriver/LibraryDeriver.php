@@ -2,8 +2,9 @@
 
 namespace Drupal\ui_patterns_library\Plugin\Deriver;
 
+use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Extension\ExtensionDiscovery;
-use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
+use Drupal\Core\TypedData\TypedDataManager;
 use Drupal\ui_patterns\Plugin\Deriver\AbstractYamlDeriver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -14,7 +15,7 @@ use Drupal\Core\Extension\ThemeHandlerInterface;
  *
  * @package Drupal\ui_patterns_library\Deriver
  */
-class LibraryDeriver extends AbstractYamlDeriver implements ContainerDeriverInterface {
+class LibraryDeriver extends AbstractYamlDeriver {
 
   /**
    * The base plugin ID.
@@ -70,6 +71,8 @@ class LibraryDeriver extends AbstractYamlDeriver implements ContainerDeriverInte
    *
    * @param string $base_plugin_id
    *   The base plugin ID.
+   * @param \Drupal\Core\TypedData\TypedDataManager $typed_data_manager
+   *   Typed data manager service.
    * @param string $root
    *    Application root directory.
    * @param array $extensions
@@ -79,8 +82,8 @@ class LibraryDeriver extends AbstractYamlDeriver implements ContainerDeriverInte
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *   Theme handler service.
    */
-  public function __construct($base_plugin_id, $root, array $extensions, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
-    $this->basePluginId = $base_plugin_id;
+  public function __construct($base_plugin_id, TypedDataManager $typed_data_manager, $root, array $extensions, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
+    parent::__construct($base_plugin_id, $typed_data_manager);
     $this->root = $root;
     $this->extensions = $extensions;
     $this->moduleHandler = $module_handler;
@@ -94,6 +97,7 @@ class LibraryDeriver extends AbstractYamlDeriver implements ContainerDeriverInte
   public static function create(ContainerInterface $container, $base_plugin_id) {
     return new static(
       $base_plugin_id,
+      $container->get('typed_data_manager'),
       $container->get('app.root'),
       $container->getParameter('ui_patterns_library.file_extensions'),
       $container->get('module_handler'),
@@ -111,16 +115,25 @@ class LibraryDeriver extends AbstractYamlDeriver implements ContainerDeriverInte
   /**
    * {@inheritdoc}
    */
-  public function getDerivativeDefinitions($base_plugin_definition) {
-    foreach ($this->getDefinitionFiles() as $file) {
-      foreach ($file['definitions'] as $id => $definition) {
-        $this->derivatives[$id] = $definition + $base_plugin_definition;
-        $this->derivatives[$id]['id'] = $id;
-        $this->derivatives[$id]['provider'] = $file['provider'];
-        $this->derivatives[$id]['base path'] = $file['base path'];
+  public function getPatterns() {
+    $patterns = [];
+    foreach ($this->getDirectories() as $provider => $directory) {
+      foreach ($this->fileScanDirectory($directory) as $file_path => $file) {
+        $host_extension = $this->getHostExtension($file_path);
+        if ($host_extension == FALSE || $host_extension == $provider) {
+          $content = file_get_contents($file_path);
+          foreach (Yaml::decode($content) as $id => $definition) {
+            $definition['id'] = $id;
+            $definition['base path'] = dirname($file_path);
+            $definition['file name'] = basename($file_path);
+            $definition['provider'] = $provider;
+            $patterns[] = $this->getPattern($definition);
+          }
+        }
       }
     }
-    return $this->derivatives;
+
+    return $patterns;
   }
 
   /**
@@ -146,31 +159,6 @@ class LibraryDeriver extends AbstractYamlDeriver implements ContainerDeriverInte
     }
 
     return $directories + $this->moduleHandler->getModuleDirectories();
-  }
-
-  /**
-   * Get list of definition files.
-   *
-   * Each entry contains:
-   *  - provider: extension machine name providing the definition.
-   *  - base path: base path of the definition file itself.
-   *  - definitions: list definitions contained in the definition file.
-   *
-   * @return array
-   *    List of definition files.
-   */
-  protected function getDefinitionFiles() {
-    $files = [];
-    foreach ($this->getDirectories() as $provider => $directory) {
-      foreach ($this->fileScanDirectory($directory) as $pathname => $file) {
-        $host_extension = $this->getHostExtension($pathname);
-        if ($host_extension == FALSE || $host_extension == $provider) {
-          $files[$pathname] = $this->getFileDefinitions($pathname, $provider);
-        }
-      }
-    }
-
-    return $files;
   }
 
   /**

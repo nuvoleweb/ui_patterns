@@ -21,7 +21,7 @@ class PatternTest extends AbstractUiPatternsTest {
    * @dataProvider validationProvider
    */
   public function testValidation($data, $expected) {
-    $pattern = UiPatterns::getManager()->getPatternDefinition($data);
+    $pattern = UiPatterns::getPatternFromDefinition($data);
     $actual = [];
     foreach ($pattern->getErrorMessages() as $message) {
       $actual[] = $message->render();

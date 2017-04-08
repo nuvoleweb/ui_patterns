@@ -17,6 +17,6 @@ use Drupal\ui_patterns\UiPatternInterface;
  *   deriver = "\Drupal\ui_patterns_library\Plugin\Deriver\LibraryDeriver"
  * )
  */
-class LibraryDeriver extends UiPatternBase implements UiPatternInterface {
+class LibraryPattern extends UiPatternBase implements UiPatternInterface {
 
 }

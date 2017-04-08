@@ -22,11 +22,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   const TWIG_EXTENSION = '.html.twig';
 
   /**
-   * Pattern prefix.
-   */
-  const PATTERN_PREFIX = 'pattern_';
-
-  /**
    * The app root.
    *
    * @var string
@@ -102,51 +97,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   /**
    * {@inheritdoc}
    */
-  public function getPatternDefinition(array $definition) {
-    $data_definition = $this->typedDataManager->createDataDefinition('ui_patterns_pattern');
-    return $this->typedDataManager->create($data_definition, $definition);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function processDefinition(&$definition, $plugin_id) {
-    parent::processDefinition($definition, $plugin_id);
-
-    $definition['custom theme hook'] = TRUE;
-    if (empty($definition['theme hook'])) {
-      $definition['theme hook'] = self::PATTERN_PREFIX . $definition['id'];
-      $definition['custom theme hook'] = FALSE;
-    }
-
-    $definition['theme variables'] = array_fill_keys(array_keys($definition['fields']), NULL);
-    $definition['theme variables']['attributes'] = [];
-    $definition['theme variables']['context'] = [];
-    $definition['theme variables']['use'] = '';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function alterDefinitions(&$definitions) {
-
-    foreach ($definitions as $id => $definition) {
-      $pattern_definition = $this->getPatternDefinition($definition);
-      if (!$pattern_definition->isValid()) {
-        unset($definitions[$id]);
-        drupal_set_message($this->t("Pattern ':id' is skipped because of the following validation error(s):", [':id' => $id]), 'error');
-        foreach ($pattern_definition->getErrorMessages() as $message) {
-          drupal_set_message($message, 'error');
-        }
-      }
-    }
-
-    parent::alterDefinitions($definitions);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getDefinitions() {
     $definitions = $this->getCachedDefinitions();
     if (!isset($definitions)) {
@@ -178,10 +128,16 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
     $items = [];
 
     foreach ($this->getDefinitions() as $definition) {
+      $item = [];
       $hook = $definition['theme hook'];
-      $item = [
-        'variables' => $definition['theme variables'],
-      ];
+
+      foreach ($definition['fields'] as $field) {
+        $item['variables'][$field['name']] = NULL;
+      }
+      $item['variables']['attributes'] = [];
+      $item['variables']['context'] = [];
+      $item['variables']['use'] = '';
+
       $item += $this->processUseProperty($definition);
       $item += $this->processCustomThemeHookProperty($definition);
       $item += $this->processTemplateProperty($definition);
