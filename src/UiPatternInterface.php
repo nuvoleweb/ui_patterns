@@ -136,4 +136,25 @@ interface UiPatternInterface {
    */
   public function getUse();
 
+  /**
+   * Build and return Drupal theme implementation for current pattern.
+   *
+   * @return array
+   *    Theme implementation.
+   *
+   * @see ui_patterns_theme()
+   */
+  public function getThemeImplementation();
+
+  /**
+   * Get library definitions for current pattern.
+   *
+   * @return array
+   *   List of library definitions.
+   *
+   * @see hook_library_info_build()
+   * @see ui_patterns_library_info_build()
+   */
+  public function getLibraryDefinitions();
+
 }

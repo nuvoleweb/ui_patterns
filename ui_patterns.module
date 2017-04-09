@@ -11,14 +11,33 @@ use Drupal\ui_patterns\UiPatterns;
  * Implements hook_theme().
  */
 function ui_patterns_theme() {
-  return [
+  /** @var \Drupal\ui_patterns\UiPatternInterface $pattern */
+  $items = [
     'patterns_destination' => [
       'variables' => ['sources' => NULL, 'context' => NULL],
     ],
     'patterns_use_wrapper' => [
       'variables' => ['use' => NULL],
     ],
-  ] + UiPatterns::getManager()->hookTheme();
+  ];
+
+  foreach (UiPatterns::getManager()->getPatterns() as $pattern) {
+    $items += $pattern->getThemeImplementation();
+  }
+  return $items;
+}
+
+/**
+ * Implements hook_library_info_build()
+ */
+function ui_patterns_library_info_build() {
+  /** @var \Drupal\ui_patterns\UiPatternInterface $pattern */
+
+  $definitions = [];
+  foreach (UiPatterns::getManager()->getPatterns() as $pattern) {
+    $definitions += $pattern->getLibraryDefinitions();
+  }
+  return $definitions;
 }
 
 /**
@@ -33,11 +52,4 @@ function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variabl
   if ($hook == 'patterns_destination') {
     \Drupal::moduleHandler()->alter('ui_patterns_destination_suggestions', $suggestions, $variables, $variables['context']);
   }
-}
-
-/**
- * Implements hook_library_info_build()
- */
-function ui_patterns_library_info_build() {
-  return UiPatterns::getManager()->hookLibraryInfoBuild();
 }
