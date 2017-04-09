@@ -21,33 +21,20 @@ interface UiPatternsManagerInterface extends PluginManagerInterface {
   public function getPattern($id);
 
   /**
+   * Get a fully instantiated list of pattern objects.
+   *
+   * @return \Drupal\ui_patterns\UiPatternInterface[]
+   *    List of pattern object instances.
+   */
+  public function getPatterns();
+
+  /**
    * Return list of available patterns to be used as select options.
    *
    * @return array
    *    List of available patterns.
    */
   public function getPatternsOptions();
-
-  /**
-   * Build and return pattern theme definitions.
-   *
-   * @return array
-   *    Theme definitions.
-   *
-   * @see ui_patterns_theme()
-   */
-  public function hookTheme();
-
-  /**
-   * Get patterns library info.
-   *
-   * @return array
-   *   Array of libraries as expected by hook_library_info_build().
-   *
-   * @see hook_library_info_build()
-   * @see ui_patterns_library_info_build()
-   */
-  public function hookLibraryInfoBuild();
 
   /**
    * Check whereas the given theme hook is an actual pattern hook.
