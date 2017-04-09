@@ -73,13 +73,13 @@ abstract class AbstractDeriver extends DeriverBase implements DeriverInterface, 
   /**
    * Get pattern data object.
    *
-   * @param array $definition
+   * @param mixed $definition
    *    Pattern definition array.
    *
    * @return \Drupal\ui_patterns\Plugin\DataType\Pattern
    *    Pattern definition object.
    */
-  protected function getPattern(array $definition) {
+  protected function getPattern($definition = NULL) {
     $data_definition = $this->typedDataManager->createDataDefinition($this->dataType);
     return $this->typedDataManager->create($data_definition, $definition);
   }

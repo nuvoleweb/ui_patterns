@@ -17,11 +17,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
   use StringTranslationTrait;
 
   /**
-   * Twig template file extension.
-   */
-  const TWIG_EXTENSION = '.html.twig';
-
-  /**
    * The app root.
    *
    * @var string
@@ -41,23 +36,6 @@ class UiPatternsManager extends DefaultPluginManager implements UiPatternsManage
    * @var \Drupal\Core\TypedData\TypedDataManager
    */
   protected $typedDataManager;
-
-  /**
-   * Provides default values for all ui_patterns plugins.
-   *
-   * @var array
-   */
-  protected $defaults = [
-    'id' => '',
-    'label' => '',
-    'description' => '',
-    'fields' => [],
-    'libraries' => [],
-    'extra' => [],
-    'base path' => '',
-    'use' => '',
-    'provider' => '',
-  ];
 
   /**
    * UiPatternsManager constructor.

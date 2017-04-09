@@ -15,7 +15,7 @@ use Drupal\Core\TypedData\Plugin\DataType\Map;
  *   definition_class = "\Drupal\ui_patterns\Plugin\DataType\PatternDefinition"
  * )
  */
-class Pattern extends Map {
+class Pattern extends Map implements PatternInterface {
 
   /**
    * Pattern prefix.
@@ -26,19 +26,18 @@ class Pattern extends Map {
    * {@inheritdoc}
    */
   public function setValue($values, $notify = TRUE) {
+
+    // Set default values.
+    $values = $values + [
+      'libraries' => [],
+      'fields' => [],
+      'custom theme hook' => TRUE,
+    ];
     parent::setValue($values, FALSE);
-    $this->setNameProperties('fields');
-    $this->setNameProperties('variants');
 
-    $this->values['custom theme hook'] = TRUE;
-    if (!isset($values['theme hook'])) {
-      $this->values['theme hook'] = self::PATTERN_PREFIX . $this->values['id'];
-      $this->values['custom theme hook'] = FALSE;
-    }
-
-    if (empty($this->values['libraries'])) {
-      $this->values['libraries'] = [];
-    }
+    // Process values array.
+    $this->processFieldNames();
+    $this->processThemeProperties($values);
 
     // Notify the parent of any changes.
     if ($notify && isset($this->parent)) {
@@ -47,34 +46,14 @@ class Pattern extends Map {
   }
 
   /**
-   * Set name property to array item key.
-   *
-   * @param string $parent
-   *    Parent key to be processed.
-   */
-  private function setNameProperties($parent) {
-    if (isset($this->values[$parent]) && is_array($this->values[$parent])) {
-      foreach ($this->values[$parent] as $name => $value) {
-        $this->values[$parent][$name]['name'] = $name;
-      }
-    }
-  }
-
-  /**
-   * Check whereas the pattern definition is valid or not.
-   *
-   * @return bool
-   *    Whereas the pattern definition is valid or not.
+   * {@inheritdoc}
    */
   public function isValid() {
     return $this->validate()->count() == 0;
   }
 
   /**
-   * Get validation error messages.
-   *
-   * @return \Drupal\Core\StringTranslation\TranslatableMarkup[]
-   *    List of validation error messages.
+   * {@inheritdoc}
    */
   public function getErrorMessages() {
     $messages = [];
@@ -88,6 +67,28 @@ class Pattern extends Map {
       ]);
     }
     return $messages;
+  }
+
+  /**
+   * Process theme-related properties.
+   *
+   * @param array $values
+   *    Current values.
+   */
+  private function processThemeProperties(array $values) {
+    if (!isset($values['theme hook'])) {
+      $this->values['theme hook'] = self::PATTERN_PREFIX . $this->values['id'];
+      $this->values['custom theme hook'] = FALSE;
+    }
+  }
+
+  /**
+   * Explicitly Set field 'name' property.
+   */
+  private function processFieldNames() {
+    foreach ($this->values['fields'] as $name => $value) {
+      $this->values['fields'][$name]['name'] = $name;
+    }
   }
 
 }
