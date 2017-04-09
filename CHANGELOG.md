@@ -6,6 +6,7 @@
 
 
 
+- Move preview and YAML definition to a separate module \#86 [\#88](https://github.com/nuvoleweb/ui_patterns/pull/88) ([ademarco](https://github.com/ademarco))
 - Improve "use:" property processing \#83 [\#84](https://github.com/nuvoleweb/ui_patterns/pull/84) ([ademarco](https://github.com/ademarco))
 
 ## [8.x-1.0-beta6](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta6) (2017-03-19)
