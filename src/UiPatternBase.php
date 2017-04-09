@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns;
 
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\TypedData\TypedDataManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,12 +35,20 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   protected $typedDataManager;
 
   /**
+   * Module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * UiPatternsManager constructor.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, $root, TypedDataManager $typed_data_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, $root, TypedDataManager $typed_data_manager, ModuleHandlerInterface $module_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->root = $root;
     $this->typedDataManager = $typed_data_manager;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -51,7 +60,8 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
       $plugin_id,
       $plugin_definition,
       $container->get('app.root'),
-      $container->get('typed_data_manager')
+      $container->get('typed_data_manager'),
+      $container->get('module_handler')
     );
   }
 
@@ -193,6 +203,19 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   /**
    * {@inheritdoc}
    */
+  public function getThemeImplementation() {
+    $definition = $this->getPluginDefinition();
+    $item = [];
+    $item += $this->processVariables($definition);
+    $item += $this->processUseProperty($definition);
+    return [
+      $definition['theme hook'] => $item,
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getLibraryDefinitions() {
     // @codingStandardsIgnoreStart
     $libraries = [];
@@ -243,6 +266,46 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
         $this->processLibraries($libraries[$name], $base_path, $name);
       }
     }
+  }
+
+  /**
+   * Process 'use' definition property.
+   *
+   * @param array $definition
+   *    Pattern definition array.
+   *
+   * @return array
+   *    Processed hook definition portion.
+   */
+  protected function processUseProperty(array $definition) {
+    $return = [];
+    if (!empty($definition['use'])) {
+      $return = [
+        'path' => $this->moduleHandler->getModule('ui_patterns')->getPath() . '/templates',
+        'template' => 'patterns-use-wrapper',
+      ];
+    }
+    return $return;
+  }
+
+  /**
+   * Process theme variables.
+   *
+   * @param array $definition
+   *    Pattern definition array.
+   *
+   * @return array
+   *    Processed hook definition portion.
+   */
+  protected function processVariables(array $definition) {
+    $return = [];
+    foreach ($definition['fields'] as $field) {
+      $return['variables'][$field['name']] = NULL;
+    }
+    $return['variables']['attributes'] = [];
+    $return['variables']['context'] = [];
+    $return['variables']['use'] = '';
+    return $return;
   }
 
 }
