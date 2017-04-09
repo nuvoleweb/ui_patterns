@@ -23,25 +23,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class LibraryPattern extends UiPatternBase {
 
   /**
-   * The theme handler.
+   * Theme handler.
    *
    * @var \Drupal\Core\Extension\ThemeHandlerInterface
    */
   protected $themeHandler;
 
   /**
-   * The theme handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $moduleHandler;
-
-  /**
    * UiPatternsManager constructor.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, $root, TypedDataManager $typed_data_manager, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $root, $typed_data_manager);
-    $this->moduleHandler = $module_handler;
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $root, $typed_data_manager, $module_handler);
     $this->themeHandler = $theme_handler;
   }
 
@@ -64,23 +56,11 @@ class LibraryPattern extends UiPatternBase {
    * {@inheritdoc}
    */
   public function getThemeImplementation() {
-    $item = [];
+    $item = parent::getThemeImplementation();
     $definition = $this->getPluginDefinition();
-
-    foreach ($definition['fields'] as $field) {
-      $item['variables'][$field['name']] = NULL;
-    }
-    $item['variables']['attributes'] = [];
-    $item['variables']['context'] = [];
-    $item['variables']['use'] = '';
-
-    $item += $this->processUseProperty($definition);
-    $item += $this->processCustomThemeHookProperty($definition);
-    $item += $this->processTemplateProperty($definition);
-
-    return [
-      $definition['theme hook'] => $item,
-    ];
+    $item[$definition['theme hook']] += $this->processCustomThemeHookProperty($definition);
+    $item[$definition['theme hook']] += $this->processTemplateProperty($definition);
+    return $item;
   }
 
   /**
@@ -115,26 +95,6 @@ class LibraryPattern extends UiPatternBase {
     $return = [];
     if (isset($definition['template'])) {
       $return = ['template' => $definition['template']];
-    }
-    return $return;
-  }
-
-  /**
-   * Process 'use' definition property.
-   *
-   * @param array $definition
-   *    Pattern definition array.
-   *
-   * @return array
-   *    Processed hook definition portion.
-   */
-  protected function processUseProperty(array $definition) {
-    $return = [];
-    if (!empty($definition['use'])) {
-      $return = [
-        'path' => $this->moduleHandler->getModule('ui_patterns')->getPath() . '/templates',
-        'template' => 'patterns-use-wrapper',
-      ];
     }
     return $return;
   }

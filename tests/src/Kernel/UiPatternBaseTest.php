@@ -75,19 +75,23 @@ class UiPatternBaseTest extends AbstractUiPatternsTest {
   /**
    * Get UiPatternBase mock.
    *
-   * @param array $configuration
-   *    Plugin configuration.
+   * @param array $plugin_definition
+   *    Plugin definition.
    * @param array $methods
    *    List of methods to mock.
    *
    * @return \PHPUnit_Framework_MockObject_MockObject
    *    Mock object.
    */
-  protected function getUiPatternBaseMock(array $configuration = [], array $methods = []) {
-    $root = \Drupal::service('app.root');
-    $typed_data_manager = \Drupal::service('typed_data_manager');
-    $arguments = [[], 'plugin_id', $configuration, $root, $typed_data_manager];
-    return $this->getMockForAbstractClass(UiPatternBase::class, $arguments, '', TRUE, TRUE, TRUE, $methods);
+  protected function getUiPatternBaseMock(array $plugin_definition = [], array $methods = []) {
+    return $this->getMockForAbstractClass(UiPatternBase::class, [
+      [],
+      'plugin_id',
+      $plugin_definition,
+      \Drupal::service('app.root'),
+      \Drupal::service('typed_data_manager'),
+      \Drupal::service('module_handler'),
+    ], '', TRUE, TRUE, TRUE, $methods);
   }
 
 }
