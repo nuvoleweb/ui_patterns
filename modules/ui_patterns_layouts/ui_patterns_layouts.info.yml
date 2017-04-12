@@ -4,5 +4,5 @@ description: Use patterns as layout plugins.
 core: 8.x
 package: User interface
 dependencies:
-  - layout_plugin
+  - layout_discovery
   - ui_patterns

@@ -6,6 +6,7 @@
  */
 
 use Drupal\ui_patterns\Element\PatternContext;
+use Drupal\Core\Layout\LayoutDefinition;
 
 /**
  * Implements hook_layout_alter().
@@ -21,14 +22,12 @@ function ui_patterns_layouts_layout_alter(&$definitions) {
       'category' => 'Patterns',
       'class' => '\Drupal\ui_patterns_layouts\Plugin\Layout\PatternLayout',
       'pattern' => $pattern_definition['id'],
-      'path' => '',
-      'template_path' => NULL,
+      'template' => 'pattern-' . $pattern_definition['id'],
     ];
     foreach ($pattern_definition['fields'] as $field_name => $field) {
       $definition['regions'][$field_name]['label'] = $field['label'];
-      $definition['region_names'][$field_name] = $field['label'];
     }
-    $definitions['pattern_' . $pattern_definition['id']] = $definition;
+    $definitions['pattern_' . $pattern_definition['id']] = new LayoutDefinition($definition);
   }
 }
 

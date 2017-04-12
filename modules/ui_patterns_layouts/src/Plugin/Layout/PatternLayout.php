@@ -3,17 +3,18 @@
 namespace Drupal\ui_patterns_layouts\Plugin\Layout;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Layout\LayoutDefault;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\layout_plugin\Plugin\Layout\LayoutBase;
+use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class LayoutDefault.
  *
- * @package Drupal\layout_plugin\Plugin\Layout
+ * @package Drupal\ui_patterns_layouts\Plugin\Layout
  */
-class PatternLayout extends LayoutBase implements ContainerFactoryPluginInterface {
+class PatternLayout extends LayoutDefault implements PluginFormInterface, ContainerFactoryPluginInterface {
 
   /**
    * Pattern manager service.
@@ -91,8 +92,8 @@ class PatternLayout extends LayoutBase implements ContainerFactoryPluginInterfac
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildConfigurationForm($form, $form_state);
     $configuration = $this->getConfiguration();
+    $form = [];
 
     $form['pattern'] = [
       '#group' => 'additional_settings',
@@ -115,6 +116,19 @@ class PatternLayout extends LayoutBase implements ContainerFactoryPluginInterfac
     ];
 
     return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+    $this->configuration = $form_state->getValues();
   }
 
   /**
