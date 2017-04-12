@@ -12,7 +12,7 @@ use Drupal\Core\Layout\LayoutDefinition;
  * Implements hook_layout_alter().
  */
 function ui_patterns_layouts_layout_alter(&$definitions) {
-
+  // @todo: Use layout deriver instead.
   $pattern_definitions = \Drupal::service('plugin.manager.ui_patterns')->getDefinitions();
   foreach ($pattern_definitions as $pattern_definition) {
     $definition = [
@@ -24,8 +24,8 @@ function ui_patterns_layouts_layout_alter(&$definitions) {
       'pattern' => $pattern_definition['id'],
       'template' => 'pattern-' . $pattern_definition['id'],
     ];
-    foreach ($pattern_definition['fields'] as $field_name => $field) {
-      $definition['regions'][$field_name]['label'] = $field['label'];
+    foreach ($pattern_definition['fields'] as $field) {
+      $definition['regions'][$field['name']]['label'] = $field['label'];
     }
     $definitions['pattern_' . $pattern_definition['id']] = new LayoutDefinition($definition);
   }
