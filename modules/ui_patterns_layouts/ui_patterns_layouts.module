@@ -13,6 +13,7 @@ use Drupal\Core\Layout\LayoutDefinition;
  */
 function ui_patterns_layouts_layout_alter(&$definitions) {
   // @todo: Use layout deriver instead.
+  // @link https://github.com/nuvoleweb/ui_patterns/issues/94
   $pattern_definitions = \Drupal::service('plugin.manager.ui_patterns')->getDefinitions();
   foreach ($pattern_definitions as $pattern_definition) {
     $definition = [

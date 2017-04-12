@@ -9,7 +9,6 @@
     "drupal/core": "~8",
     "drupal/console": "0.11.3",
     "drush/drush": "~8.0",
-    "drupal/layout_plugin": "~1",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",

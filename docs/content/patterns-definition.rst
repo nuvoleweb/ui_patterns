@@ -1,8 +1,17 @@
 Define your patterns
 ====================
 
-Patterns can be exposed by both modules and themes: all defined patterns are collected and managed by a centralized
-plugin manager, this means that pattern IDs must be unique in order to avoid conflicts.
+Patterns can be exposed by both modules and themes by enabling the ``ui_patterns_library`` module.
+
+Defined patterns will be available at ``/patterns``, only accessible by roles having the ``access patterns page``
+permission. Below an example of a pattern library page styled using the `Bootstrap Patterns <https://github.com/nuvoleweb/bootstrap_patterns>`_
+theme:
+
+.. image:: ../images/pattern-library.png
+   :align: center
+
+Pattern definitions
+-------------------
 
 To define your patterns simply create a YAML file named ``MY_MODULE.ui_patterns.yml`` or ``MY_THEME.ui_patterns.yml``
 and list them using the following format:

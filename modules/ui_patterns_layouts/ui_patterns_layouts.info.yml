@@ -1,6 +1,6 @@
 name: UI Patterns Layouts
 type: module
-description: Use patterns as layout plugins.
+description: Use patterns as layouts via the Layout Discovery module.
 core: 8.x
 package: User interface
 dependencies:
