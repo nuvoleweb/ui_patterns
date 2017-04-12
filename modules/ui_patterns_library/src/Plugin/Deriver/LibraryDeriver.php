@@ -64,7 +64,7 @@ class LibraryDeriver extends AbstractYamlDeriver {
    *
    * @var array
    */
-  protected $extensions = [];
+  protected $extensionLocations = [];
 
   /**
    * Constructor.
@@ -191,13 +191,13 @@ class LibraryDeriver extends AbstractYamlDeriver {
    */
   protected function getExtensionLocations() {
     /** @var \Drupal\Core\Extension\Extension[] $extensions */
-    if (empty($this->extensions)) {
+    if (empty($this->extensionLocations)) {
       $extensions = $this->extensionDiscovery->scan('theme') + $this->extensionDiscovery->scan('module');
       foreach ($extensions as $name => $extension) {
-        $this->extensions[$this->root . DIRECTORY_SEPARATOR . $extension->getPath()] = $name;
+        $this->extensionLocations[$this->root . DIRECTORY_SEPARATOR . $extension->getPath()] = $name;
       }
     }
-    return $this->extensions;
+    return $this->extensionLocations;
   }
 
 }
