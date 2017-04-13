@@ -3,3 +3,5 @@ type: module
 description: UI patterns
 core: 8.x
 package: User interface
+dependencies:
+  - system (>=8.3.0)

@@ -9,24 +9,31 @@ Define and expose self-contained UI patterns as Drupal plugins and use them seam
 [panels](https://www.drupal.org/project/panels), [field groups](https://www.drupal.org/project/field_group), views,
 [Display Suite](https://www.drupal.org/project/ds) view modes and field templates. 
 
-The module generates a pattern library page to be used as documentation for content editors or as a showcase for 
-business and clients.
-
 The UI Patterns module also integrates with with tools like [PatternLab](http://patternlab.io/) or modules like 
 [Component Libraries](https://www.drupal.org/project/components) thanks to 
 [definition overrides](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/patterns-definition.html#override-patterns-behavior).
 
-![Showcase page example](https://raw.githubusercontent.com/nuvoleweb/ui_patterns/8.x-1.x/docs/images/pattern-library.png)
+![Overview](https://raw.githubusercontent.com/nuvoleweb/ui_patterns/8.x-1.x/docs/images/patterns-overview.png)
 
 ## Project overview
 
-The UI Patterns project provides 5 modules:
+The UI Patterns project provides 6 modules:
 
-- **UI Patterns**: the main module, its purpose is to expose patterns to the Drupal rendering system and provide a pattern library overview page, available at `/patterns`. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/patterns-definition.html)
-- **UI Patterns Field Group**: allows to use patterns to format field groups provided by the [Field group](https://www.drupal.org/project/field_group) module. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/field-group.html)
-- **UI Patterns Layouts**: allows to use patterns as layouts provided by the [Layout plugin](https://www.drupal.org/project/layout_plugin) module. This allows patterns to be used on [Display Suite](https://www.drupal.org/project/ds) view modes or on [panels](https://www.drupal.org/project/panels) out of the box. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/layout-plugin.html)
-- **UI Patterns Display Suite**: allows to use patterns to format [Display Suite](https://www.drupal.org/project/ds) field templates. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/field-templates.html)
-- **UI Patterns Views**: allows to use patterns as Views row templates. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/views.html)
+- **UI Patterns**: the main module, it exposes the UI Patterns system APIs and it does not do much more than that.
+- **UI Patterns Library**: allows to define patterns via YAML and generates a pattern library page available at `/patterns`
+  to be used as documentation for content editors or as a showcase for business. Use this module if you don't plan to
+  use more advanced component library systems such as PatternLab or Fractal.  
+  [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/patterns-definition.html)
+- **UI Patterns Field Group**: allows to use patterns to format field groups provided by the
+  [Field group](https://www.drupal.org/project/field_group) module.
+  [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/field-group.html)
+- **UI Patterns Layouts**: allows to use patterns as layouts. This allows patterns to be used on
+  [Display Suite](https://www.drupal.org/project/ds) view modes or on [panels](https://www.drupal.org/project/panels) 
+  out of the box. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/layout-plugin.html)
+- **UI Patterns Display Suite**: allows to use patterns to format [Display Suite](https://www.drupal.org/project/ds)
+  field templates. [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/field-templates.html)
+- **UI Patterns Views**: allows to use patterns as Views row templates.
+  [Learn more](http://ui-patterns.readthedocs.io/en/8.x-1.x/content/views.html)
 
 ## Try it out!
 

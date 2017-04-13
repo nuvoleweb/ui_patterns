@@ -11,8 +11,7 @@ third_party_settings:
   ds:
     layout:
       id: pattern_jumbotron
-      path: null
-      library: ''
+      library: null
       disable_css: false
       entity_classes: all_classes
       settings:
@@ -29,18 +28,20 @@ bundle: jumbotron
 mode: default
 content:
   field_subtitle:
+    type: basic_string
     weight: 1
-    label: above
+    region: subtitle
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: basic_string
   field_title:
+    type: string
     weight: 0
-    label: above
+    region: title
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    type: string
 hidden:
   created: true
   uid: true

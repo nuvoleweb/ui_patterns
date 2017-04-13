@@ -120,6 +120,7 @@ content:
                 plugin: ds_field_template
                 source: body
     label: hidden
+    region: content
   field_image:
     type: image
     weight: 1
@@ -135,6 +136,7 @@ content:
             lb-col: false
             classes: {  }
     label: hidden
+    region: content
   field_links:
     type: link
     weight: 4
@@ -163,6 +165,7 @@ content:
                 weight: 1
                 plugin: ds_field_template
                 source: field_links__title
+    region: content
   field_paragraphs:
     type: entity_reference_revisions_entity_view
     weight: 3
@@ -171,6 +174,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    region: content
   field_tags:
     type: entity_reference_label
     weight: 9
@@ -180,6 +184,7 @@ content:
     third_party_settings:
       ds:
         ds_limit: ''
+    region: content
 hidden:
   comment: true
   links: true

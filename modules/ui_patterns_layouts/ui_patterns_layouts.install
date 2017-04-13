@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains install file.
+ */
+
+/**
+ * Uninstall layout_plugin and install layout_discovery.
+ */
+function ui_patterns_layouts_update_8101() {
+  /** @var \Drupal\Core\Extension\ModuleInstaller $installer */
+  $installer = \Drupal::service('module_installer');
+
+  if (\Drupal::moduleHandler()->moduleExists('layout_plugin')) {
+    $installer->uninstall(['layout_plugin']);
+  }
+
+  if (!\Drupal::moduleHandler()->moduleExists('layout_discovery')) {
+    $installer->install(['layout_discovery']);
+  }
+}
+
+
