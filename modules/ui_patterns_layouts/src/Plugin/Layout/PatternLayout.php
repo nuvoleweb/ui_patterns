@@ -2,8 +2,6 @@
 
 namespace Drupal\ui_patterns_layouts\Plugin\Layout;
 
-use Drupal\Component\Plugin\DerivativeInspectionInterface;
-use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Layout\LayoutDefault;
 use Drupal\Core\Layout\LayoutDefinition;

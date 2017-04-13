@@ -5,7 +5,6 @@ namespace Drupal\ui_patterns_layouts\Plugin\Layout;
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\ui_patterns\UiPatternsManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -13,23 +12,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package Drupal\ui_patterns_layouts\Plugin\Layout
  */
-class PatternLayoutDeriver  extends DeriverBase implements ContainerDeriverInterface {
+class PatternLayoutDeriver extends DeriverBase implements ContainerDeriverInterface {
 
   /**
+   * Patterns manager.
+   *
    * @var \Drupal\ui_patterns\UiPatternsManagerInterface
    */
   protected $manager;
 
   /**
-   * PatternLayoutDeriver constructor.
-   *
-   * @param \Drupal\ui_patterns\UiPatternsManagerInterface $manager
-   *   The patterns plugin manager.
+   * {@inheritdoc}
    */
   public function __construct() {
-    // @TODO: https://www.drupal.org/node/2868949
-    // public function __construct(UiPatternsManagerInterface $manager) {
-    // $this->manager = $manager;
+    // @todo: use DI after following issue gets in.
+    // @link https://www.drupal.org/node/2868949
     $this->manager = \Drupal::service('plugin.manager.ui_patterns');
   }
 
@@ -45,8 +42,9 @@ class PatternLayoutDeriver  extends DeriverBase implements ContainerDeriverInter
   /**
    * Gets the definition of all derivatives of a base plugin.
    *
-   * @param \Drupal\Core\Layout\LayoutDefinition $base_plugin_definition
+   * @param \Drupal\Core\Layout\LayoutDefinition|array $base_plugin_definition
    *   The definition array of the base plugin.
+   *
    * @return \Drupal\Core\Layout\LayoutDefinition[]
    *   An array of full derivative definitions keyed on derivative id.
    */
@@ -54,6 +52,7 @@ class PatternLayoutDeriver  extends DeriverBase implements ContainerDeriverInter
     foreach ($this->manager->getDefinitions() as $pattern_definition) {
       $definition = clone $base_plugin_definition;
 
+      // @codingStandardsIgnoreStart
       $definition->setLabel(new TranslatableMarkup($pattern_definition['label']));
       $definition->setThemeHook($pattern_definition['theme hook']);
       $definition->set('pattern', $pattern_definition['id']);
@@ -69,8 +68,10 @@ class PatternLayoutDeriver  extends DeriverBase implements ContainerDeriverInter
       }
 
       $this->derivatives[$pattern_definition['id']] = $definition;
+      // @codingStandardsIgnoreEnd
     }
 
     return $this->derivatives;
   }
+
 }
