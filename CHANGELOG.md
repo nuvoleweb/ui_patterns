@@ -1,11 +1,11 @@
 # Change Log
 
-## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
-
-[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta6...HEAD)
-
+## [8.x-1.0-beta7](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta7) (2017-04-12)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta6...8.x-1.0-beta7)
 
 
+
+- Support new Drupal 8.3 layout\_discovery core module and decommission layout\_plugin \#80 [\#93](https://github.com/nuvoleweb/ui_patterns/pull/93) ([ademarco](https://github.com/ademarco))
 - Move preview and YAML definition to a separate module \#86 [\#88](https://github.com/nuvoleweb/ui_patterns/pull/88) ([ademarco](https://github.com/ademarco))
 - Improve "use:" property processing \#83 [\#84](https://github.com/nuvoleweb/ui_patterns/pull/84) ([ademarco](https://github.com/ademarco))
 
