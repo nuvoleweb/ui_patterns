@@ -2,6 +2,8 @@
 
 namespace Drupal\ui_patterns_layouts\Plugin\Layout;
 
+use Drupal\Component\Plugin\DerivativeInspectionInterface;
+use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Layout\LayoutDefault;
 use Drupal\Core\Layout\LayoutDefinition;
@@ -13,7 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class LayoutDefault.
  *
- * @package Drupal\ui_patterns_layouts\Plugin\Layout
+ * @Layout(
+ *   id = "pattern_layout",
+ *   label = @Translation("Pattern Layout"),
+ *   category = @Translation("Patterns"),
+ *   description = @Translation("UI Patterns Layout"),
+ *   deriver = "\Drupal\ui_patterns_layouts\Plugin\Layout\PatternLayoutDeriver"
+ * )
  */
 class PatternLayout extends LayoutDefault implements PluginFormInterface, ContainerFactoryPluginInterface {
 
