@@ -125,9 +125,11 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface {
    * {@inheritdoc}
    */
   public function getFieldsAsOptions() {
-    return array_map(function ($field) {
-      return $field['label'];
-    }, $this->getFields());
+    $options = [];
+    foreach ($this->getFields() as $field) {
+      $options[$field['name']] = $field['label'];
+    }
+    return $options;
   }
 
   /**
