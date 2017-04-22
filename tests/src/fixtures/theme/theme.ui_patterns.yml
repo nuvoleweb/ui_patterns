@@ -3,11 +3,13 @@ pattern_theme_one:
   description: Pattern theme one description.
   fields:
     field_one:
+      name: field_one
       type: text
       label: Field one
       description: Field one description.
       preview: Field one preview.
     field_two:
+      name: field_two
       type: text
       label: Field two
       description: Field two description.

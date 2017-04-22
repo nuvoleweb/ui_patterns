@@ -3,11 +3,13 @@ pattern_module_one:
   description: Pattern module one description.
   fields:
     field_one:
+      name: field_one
       type: text
       label: Field one
       description: Field one description.
       preview: Field one preview.
     field_two:
+      name: field_two
       type: text
       label: Field two
       description: Field two description.
@@ -18,11 +20,13 @@ pattern_module_two:
   description: Pattern module two description.
   fields:
     field_one:
+      name: field_one
       type: text
       label: Field one
       description: Field one description.
       preview: Field one preview.
     field_two:
+      name: field_two
       type: text
       label: Field two
       description: Field two description.
