@@ -4,5 +4,4 @@ description: Use patterns as layouts via the Layout Discovery module.
 core: 8.x
 package: User interface
 dependencies:
-  - layout_discovery
   - ui_patterns

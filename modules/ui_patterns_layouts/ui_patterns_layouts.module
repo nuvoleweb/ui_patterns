@@ -6,31 +6,6 @@
  */
 
 use Drupal\ui_patterns\Element\PatternContext;
-use Drupal\Core\Layout\LayoutDefinition;
-
-/**
- * Implements hook_layout_alter().
- */
-function ui_patterns_layouts_layout_alter(&$definitions) {
-  // @todo: Use layout deriver instead.
-  // @link https://github.com/nuvoleweb/ui_patterns/issues/94
-  $pattern_definitions = \Drupal::service('plugin.manager.ui_patterns')->getDefinitions();
-  foreach ($pattern_definitions as $pattern_definition) {
-    $definition = [
-      'label' => $pattern_definition['label'],
-      'theme' => $pattern_definition['theme hook'],
-      'provider' => $pattern_definition['provider'],
-      'category' => 'Patterns',
-      'class' => '\Drupal\ui_patterns_layouts\Plugin\Layout\PatternLayout',
-      'pattern' => $pattern_definition['id'],
-      'template' => 'pattern-' . $pattern_definition['id'],
-    ];
-    foreach ($pattern_definition['fields'] as $field) {
-      $definition['regions'][$field['name']]['label'] = $field['label'];
-    }
-    $definitions['pattern_' . $pattern_definition['id']] = new LayoutDefinition($definition);
-  }
-}
 
 /**
  * Implements hook_preprocess_HOOK().

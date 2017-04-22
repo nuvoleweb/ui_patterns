@@ -53,6 +53,7 @@ Feature: Content
 
   Scenario: Developers can modify patterns output in specific context thanks to pattern suggestions.
 
+    Given the cache has been cleared
     Given I am visiting the "article" content "Article title"
     Then I should see "Running: ui_patterns_test_theme_preprocess_blockquote_custom__ds_field_template__body__node__article__full"
     And I should see "Running: ui_patterns_test_theme_preprocess_blockquote_custom__ds_field_template__body__node__article"

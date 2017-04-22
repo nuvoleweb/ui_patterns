@@ -10,7 +10,7 @@ dependencies:
 third_party_settings:
   ds:
     layout:
-      id: pattern_jumbotron
+      id: pattern_layout:jumbotron
       library: null
       disable_css: false
       entity_classes: all_classes
