@@ -6,7 +6,6 @@ use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
 use Drupal\ui_patterns\TypedData\PatternDataDefinition;
-use Drupal\ui_patterns\UiPatterns;
 use Drupal\Component\Serialization\Yaml;
 
 /**

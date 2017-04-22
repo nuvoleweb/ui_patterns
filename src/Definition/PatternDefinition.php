@@ -4,12 +4,15 @@ namespace Drupal\ui_patterns\Definition;
 
 use Drupal\Component\Plugin\Definition\PluginDefinition;
 
+/**
+ * Class PatternDefinition.
+ *
+ * @package Drupal\ui_patterns\Definition
+ */
 class PatternDefinition extends PluginDefinition {
 
-  private $id;
   private $label;
   private $description = '';
-  private $provider;
   private $basePath;
   private $fileName;
   private $fields = [];
@@ -21,7 +24,10 @@ class PatternDefinition extends PluginDefinition {
   private $tags;
   private $additional = [];
 
-  public function __construct(array $definition) {
+  /**
+   * PatternDefinition constructor.
+   */
+  public function __construct(array $definition = []) {
     foreach ($definition as $property => $value) {
       $this->set($property, $value);
     }
@@ -49,8 +55,12 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Setter.
+   *
    * @param mixed $id
-   * @return PatternDefinition
+   *    Property value.
+   *
+   * @return $this
    */
   public function setId($id) {
     $this->id = $id;
@@ -58,15 +68,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return mixed
+   *   Property value.
    */
   public function getLabel() {
     return $this->label;
   }
 
   /**
+   * Setter.
+   *
    * @param mixed $label
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setLabel($label) {
     $this->label = $label;
@@ -74,15 +91,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return mixed
+   *   Property value.
    */
   public function getBasePath() {
     return $this->basePath;
   }
 
   /**
+   * Setter.
+   *
    * @param mixed $basePath
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setBasePath($basePath) {
     $this->basePath = $basePath;
@@ -90,15 +114,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return mixed
+   *   Property value.
    */
   public function getFileName() {
     return $this->fileName;
   }
 
   /**
+   * Setter.
+   *
    * @param mixed $fileName
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setFileName($fileName) {
     $this->fileName = $fileName;
@@ -106,8 +137,12 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Setter.
+   *
    * @param mixed $provider
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setProvider($provider) {
     $this->provider = $provider;
@@ -115,31 +150,95 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
-   * @return mixed
+   * Getter.
+   *
+   * @return PatternDefinitionField[]
+   *   Property value.
    */
   public function getFields() {
     return $this->fields;
   }
 
   /**
+   * Setter.
+   *
    * @param array $fields
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setFields(array $fields) {
-    $this->fields = $fields;
+    foreach ($fields as $value) {
+      $field = new PatternDefinitionField($value['name'], $value['label']);
+      if (isset($value['type'])) {
+        $field->setType($value['type']);
+      }
+      if (isset($value['description'])) {
+        $field->setDescription($value['description']);
+      }
+      $this->fields[$value['name']] = $field;
+    }
     return $this;
   }
 
   /**
+   * Set field.
+   *
+   * @param string $name
+   *    Field name.
+   * @param string $label
+   *    Field label.
+   *
+   * @return $this
+   */
+  public function setField($name, $label) {
+    $this->fields[$name] = new PatternDefinitionField($name, $label);
+    return $this;
+  }
+
+  /**
+   * Check whereas field exists.
+   *
+   * @param string $name
+   *   Field name.
+   *
+   * @return bool
+   *   Whereas field exists
+   */
+  public function hasField($name) {
+    return isset($this->fields[$name]);
+  }
+
+  /**
+   * Get field.
+   *
+   * @param string $name
+   *    Field name.
+   *
+   * @return PatternDefinitionField|null
+   *    Definition field.
+   */
+  public function getField($name) {
+    return $this->hasField($name) ? $this->fields[$name] : NULL;
+  }
+
+  /**
+   * Getter.
+   *
    * @return string
+   *   Property value.
    */
   public function getThemeHook() {
     return $this->themeHook;
   }
 
   /**
+   * Setter,.
+   *
    * @param string $themeHook
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setThemeHook($themeHook) {
     $this->themeHook = $themeHook;
@@ -147,15 +246,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return string
+   *   Property value.
    */
   public function getDescription() {
     return $this->description;
   }
 
   /**
+   * Setter.
+   *
    * @param string $description
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setDescription($description) {
     $this->description = $description;
@@ -163,15 +269,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return string
+   *   Property value.
    */
   public function getUse() {
     return $this->use;
   }
 
   /**
+   * Setter.
+   *
    * @param string $use
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setUse($use) {
     $this->use = $use;
@@ -179,15 +292,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return array
+   *   Property value.
    */
   public function getTags() {
     return $this->tags;
   }
 
   /**
+   * Setter.
+   *
    * @param array $tags
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setTags($tags) {
     $this->tags = $tags;
@@ -195,15 +315,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return mixed
+   *   Property value.
    */
   public function getCustomThemeHook() {
     return $this->customThemeHook;
   }
 
   /**
+   * Setter.
+   *
    * @param mixed $customThemeHook
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setCustomThemeHook($customThemeHook) {
     $this->customThemeHook = $customThemeHook;
@@ -211,15 +338,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return mixed
+   *   Property value.
    */
   public function getTemplate() {
     return $this->template;
   }
 
   /**
+   * Setter.
+   *
    * @param mixed $template
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setTemplate($template) {
     $this->template = $template;
@@ -227,15 +361,22 @@ class PatternDefinition extends PluginDefinition {
   }
 
   /**
+   * Getter.
+   *
    * @return mixed
+   *   Property value.
    */
   public function getLibraries() {
     return $this->libraries;
   }
 
   /**
+   * Setter.
+   *
    * @param mixed $libraries
-   * @return PatternDefinition
+   *   Property value.
+   *
+   * @return $this
    */
   public function setLibraries($libraries) {
     $this->libraries = $libraries;
