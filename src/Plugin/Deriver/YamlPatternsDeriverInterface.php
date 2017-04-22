@@ -3,11 +3,11 @@
 namespace Drupal\ui_patterns\Plugin\Deriver;
 
 /**
- * Interface YamlDeriverInterface.
+ * Interface YamlPatternsDeriverInterface.
  *
  * @package Drupal\ui_patterns\Plugin\Deriver
  */
-interface YamlDeriverInterface {
+interface YamlPatternsDeriverInterface extends PatternsDeriverInterface {
 
   /**
    * Get list of possible yaml definition file extensions.

@@ -5,13 +5,13 @@ namespace Drupal\ui_patterns\Plugin\Deriver;
 use Drupal\Core\Site\Settings;
 
 /**
- * Class AbstractPatternsDeriver.
+ * Class AbstractYamlPatternsDeriver.
  *
  * Derive pattern plugin definitions stored in YAML files.
  *
  * @package Drupal\ui_patterns\Deriver
  */
-abstract class AbstractYamlDeriver extends AbstractDeriver implements YamlDeriverInterface, DeriverInterface {
+abstract class AbstractYamlPatternsDeriver extends AbstractPatternsDeriver implements YamlPatternsDeriverInterface {
 
   /**
    * {@inheritdoc}

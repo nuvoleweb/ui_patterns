@@ -5,7 +5,7 @@ namespace Drupal\ui_patterns_library\Plugin\Deriver;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Extension\ExtensionDiscovery;
 use Drupal\Core\TypedData\TypedDataManager;
-use Drupal\ui_patterns\Plugin\Deriver\AbstractYamlDeriver;
+use Drupal\ui_patterns\Plugin\Deriver\AbstractYamlPatternsDeriver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
@@ -15,7 +15,7 @@ use Drupal\Core\Extension\ThemeHandlerInterface;
  *
  * @package Drupal\ui_patterns_library\Deriver
  */
-class LibraryDeriver extends AbstractYamlDeriver {
+class LibraryDeriver extends AbstractYamlPatternsDeriver {
 
   /**
    * The base plugin ID.

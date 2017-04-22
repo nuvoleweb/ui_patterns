@@ -3,11 +3,11 @@
 namespace Drupal\ui_patterns\Plugin\Deriver;
 
 /**
- * Interface DeriverInterface.
+ * Interface PatternsDeriverInterface.
  *
  * @package Drupal\ui_patterns\Plugin\Deriver
  */
-interface DeriverInterface {
+interface PatternsDeriverInterface {
 
   /**
    * Get pattern definition objects.

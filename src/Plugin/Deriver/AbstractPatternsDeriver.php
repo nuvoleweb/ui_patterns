@@ -8,11 +8,11 @@ use Drupal\Core\TypedData\TypedDataManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class AbstractDeriver.
+ * Class AbstractPatternsDeriver.
  *
  * @package Drupal\ui_patterns\Deriver
  */
-abstract class AbstractDeriver extends DeriverBase implements DeriverInterface, ContainerDeriverInterface {
+abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDeriverInterface, ContainerDeriverInterface {
 
   /**
    * Typed data manager service.
@@ -29,7 +29,7 @@ abstract class AbstractDeriver extends DeriverBase implements DeriverInterface, 
   protected $dataType = 'ui_patterns_pattern';
 
   /**
-   * AbstractDeriver constructor.
+   * AbstractPatternsDeriver constructor.
    *
    * @param string $base_plugin_id
    *   The base plugin ID.
