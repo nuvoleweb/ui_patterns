@@ -10,8 +10,7 @@ use Symfony\Component\Validator\Constraint;
  *
  * @Constraint(
  *   id = "ValidPatternMachineName",
- *   label = @Translation("Valid pattern field name", context = "Validation"),
- *   type = { "ui_patterns_pattern" }
+ *   label = @Translation("Valid pattern field name", context = "Validation")
  * )
  */
 class ValidPatternMachineNameConstraint extends Constraint implements ConstraintValidatorInterface {

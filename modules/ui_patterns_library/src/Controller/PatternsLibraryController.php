@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns_library\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\ui_patterns\UiPatterns;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -54,13 +55,11 @@ class PatternsLibraryController extends ControllerBase {
    *   Return render array.
    */
   public function single($name) {
-    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
-
-    $definition = $this->patternsManager->getDefinition($name);
+    $definition = [];
     $definition['rendered']['#type'] = 'pattern_preview';
     $definition['rendered']['#id'] = $name;
     $definition['meta']['#theme'] = 'patterns_meta_information';
-    $definition['meta']['#pattern'] = $definition->toArray();
+    $definition['meta']['#pattern'] = UiPatterns::getPatternDefinition($name)->toArray();
 
     return [
       '#theme' => 'patterns_single_page',

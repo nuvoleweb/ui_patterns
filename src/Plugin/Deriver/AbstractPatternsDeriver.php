@@ -24,13 +24,6 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
   protected $typedDataManager;
 
   /**
-   * Default pattern data definition type.
-   *
-   * @var string
-   */
-  protected $dataType = 'ui_patterns_pattern';
-
-  /**
    * AbstractPatternsDeriver constructor.
    */
   public function __construct($base_plugin_id, TypedDataManager $typed_data_manager) {
