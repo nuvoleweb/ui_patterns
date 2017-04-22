@@ -1,19 +1,20 @@
 <?php
 
-namespace Drupal\Tests\ui_patterns\Kernel\Plugin\DataType;
+namespace Drupal\Tests\ui_patterns\Kernel\TypedData;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
+use Drupal\ui_patterns\TypedData\PatternDataDefinition;
 use Drupal\ui_patterns\UiPatterns;
 use Drupal\Component\Serialization\Yaml;
 
 /**
- * @coversDefaultClass \Drupal\ui_patterns\Plugin\DataType\Pattern
+ * @coversDefaultClass \Drupal\ui_patterns\TypedData\PatternDataDefinition
  *
  * @group ui_patterns
  */
-class PatternTest extends AbstractUiPatternsTest {
+class PatternDataDefinitionTest extends AbstractUiPatternsTest {
 
   /**
    * Test plugin validation.
@@ -21,10 +22,12 @@ class PatternTest extends AbstractUiPatternsTest {
    * @dataProvider validationProvider
    */
   public function testValidation($data, $expected) {
-    $pattern = UiPatterns::getPatternFromDefinition($data);
+    $definition = PatternDataDefinition::create();
+    $violations = \Drupal::typedDataManager()->create($definition, $data)->validate();
+
     $actual = [];
-    foreach ($pattern->getErrorMessages() as $message) {
-      $actual[] = $message->render();
+    foreach ($violations as $violation) {
+      $actual[] = $violation->getPropertyPath() . ': ' . $violation->getMessage();
     }
     assert($actual, equals($expected));
   }

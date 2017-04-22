@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns\Plugin\DataType;
+namespace Drupal\ui_patterns\TypedData;
 
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\ListDataDefinition;
@@ -10,15 +10,13 @@ use Drupal\Core\TypedData\MapDataDefinition;
  * Class PatternDefinition.
  *
  * @package Drupal\ui_patterns\Plugin\DataType
- *
- * @deprecated
  */
-class PatternDefinition extends MapDataDefinition {
+class PatternDataDefinition extends MapDataDefinition {
 
   /**
    * Valid machine name string.
    */
-  const MACHINE_NAME = '/^[a-z0-9_]+$/';
+  const MACHINE_NAME = '/^[A-Za-z0-9_]+$/';
 
   /**
    * {@inheritdoc}

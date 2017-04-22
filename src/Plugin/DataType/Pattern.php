@@ -9,6 +9,8 @@ use Drupal\Core\TypedData\Plugin\DataType\Map;
  *
  * @ingroup typed_data
  *
+ * @deprecated
+ *
  * @DataType(
  *   id = "ui_patterns_pattern",
  *   label = @Translation("UI Patterns: Pattern"),

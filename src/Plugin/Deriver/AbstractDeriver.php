@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package Drupal\ui_patterns\Deriver
  */
-abstract class AbstractDeriver extends DeriverBase implements ContainerDeriverInterface {
+abstract class AbstractDeriver extends DeriverBase implements DeriverInterface, ContainerDeriverInterface {
 
   /**
    * Typed data manager service.

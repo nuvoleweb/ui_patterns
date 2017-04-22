@@ -42,20 +42,4 @@ class UiPatterns {
     return \Drupal::service('plugin.manager.ui_patterns')->getPattern($id);
   }
 
-  /**
-   * Get pattern data object.
-   *
-   * @param array $definition
-   *    Pattern definition array.
-   * @param string $data_type
-   *    Pattern data type, defaults to 'ui_patterns_pattern'.
-   *
-   * @return \Drupal\ui_patterns\Plugin\DataType\Pattern
-   *    Pattern definition object.
-   */
-  public static function getPatternFromDefinition(array $definition, $data_type = 'ui_patterns_pattern') {
-    $data_definition = \Drupal::service('typed_data_manager')->createDataDefinition($data_type);
-    return \Drupal::service('typed_data_manager')->create($data_definition, $definition);
-  }
-
 }
