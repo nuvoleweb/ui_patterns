@@ -5,7 +5,7 @@ namespace Drupal\ui_patterns_ds\Plugin\DsFieldTemplate;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\ds\Plugin\DsFieldTemplate\DsFieldTemplateBase;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
-use Drupal\ui_patterns\Plugin\UiPatternsSourceManager;
+use Drupal\ui_patterns\UiPatternsSourceManager;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -34,7 +34,7 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
   /**
    * UI Patterns manager.
    *
-   * @var \Drupal\ui_patterns\Plugin\UiPatternsSourceManager
+   * @var \Drupal\ui_patterns\UiPatternsSourceManager
    */
   protected $sourceManager;
 
@@ -63,7 +63,7 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
    *   The plugin implementation definition.
    * @param \Drupal\ui_patterns\UiPatternsManager $patterns_manager
    *    UI Patterns manager.
-   * @param \Drupal\ui_patterns\Plugin\UiPatternsSourceManager $source_manager
+   * @param \Drupal\ui_patterns\UiPatternsSourceManager $source_manager
    *    UI Patterns source manager.
    * @param \Symfony\Component\HttpFoundation\RequestStack $parameters
    *    Current $_POST parameters.

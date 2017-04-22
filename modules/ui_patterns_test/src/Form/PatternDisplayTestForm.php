@@ -5,7 +5,7 @@ namespace Drupal\ui_patterns_test\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
-use Drupal\ui_patterns\Plugin\UiPatternsSourceManager;
+use Drupal\ui_patterns\UiPatternsSourceManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\ui_patterns\UiPatternsManager;
 
@@ -28,7 +28,7 @@ class PatternDisplayTestForm extends FormBase {
   /**
    * UI Patterns manager.
    *
-   * @var \Drupal\ui_patterns\Plugin\UiPatternsSourceManager
+   * @var \Drupal\ui_patterns\UiPatternsSourceManager
    */
   protected $patternsManager;
 

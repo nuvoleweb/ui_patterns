@@ -22,7 +22,7 @@ class UiPatterns {
   /**
    * Get pattern field sources manager instance.
    *
-   * @return \Drupal\ui_patterns\Plugin\UiPatternsSourceManager
+   * @return \Drupal\ui_patterns\UiPatternsSourceManager
    *    UI Patterns field sources manager instance.
    */
   public static function getSourceManager() {

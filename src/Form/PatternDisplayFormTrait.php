@@ -9,7 +9,7 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
  * Trait PatternDisplayFormTrait.
  *
  * @property \Drupal\ui_patterns\UiPatternsManager $patternsManager
- * @property \Drupal\ui_patterns\Plugin\UiPatternsSourceManager $sourceManager
+ * @property \Drupal\ui_patterns\UiPatternsSourceManager $sourceManager
  * @method \Drupal\Core\StringTranslation\TranslatableMarkup t($string, array $args = [], array $options = [])
  *
  * @package Drupal\ui_patterns\Form

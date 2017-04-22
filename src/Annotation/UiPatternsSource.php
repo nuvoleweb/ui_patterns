@@ -7,7 +7,7 @@ use Drupal\Component\Annotation\Plugin;
 /**
  * Defines a UI Patterns Source item annotation object.
  *
- * @see \Drupal\ui_patterns\Plugin\UiPatternsSourceManager
+ * @see \Drupal\ui_patterns\UiPatternsSourceManager
  * @see plugin_api
  *
  * @Annotation

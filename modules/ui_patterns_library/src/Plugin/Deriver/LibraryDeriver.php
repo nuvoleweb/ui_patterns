@@ -67,6 +67,13 @@ class LibraryDeriver extends AbstractYamlDeriver {
   protected $extensionLocations = [];
 
   /**
+   * List of valid definition file extensions.
+   *
+   * @var array
+   */
+  protected $fileExtensions = [];
+
+  /**
    * Constructor.
    *
    * @param string $base_plugin_id
@@ -85,7 +92,7 @@ class LibraryDeriver extends AbstractYamlDeriver {
   public function __construct($base_plugin_id, TypedDataManager $typed_data_manager, $root, array $extensions, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
     parent::__construct($base_plugin_id, $typed_data_manager);
     $this->root = $root;
-    $this->extensions = $extensions;
+    $this->fileExtensions = $extensions;
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
     $this->extensionDiscovery = new ExtensionDiscovery($root);
@@ -109,7 +116,7 @@ class LibraryDeriver extends AbstractYamlDeriver {
    * {@inheritdoc}
    */
   public function getFileExtensions() {
-    return $this->extensions;
+    return $this->fileExtensions;
   }
 
   /**
