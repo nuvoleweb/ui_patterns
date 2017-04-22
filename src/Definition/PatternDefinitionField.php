@@ -7,13 +7,14 @@ namespace Drupal\ui_patterns\Definition;
  *
  * @package Drupal\ui_patterns\Definition
  */
-class PatternDefinitionField {
+class PatternDefinitionField implements \ArrayAccess {
 
   private $name;
   private $label;
   private $description = NULL;
   private $type = NULL;
   private $preview = NULL;
+  private $escape = TRUE;
 
   /**
    * PatternDefinitionField constructor.
@@ -110,6 +111,73 @@ class PatternDefinitionField {
   public function setPreview($preview) {
     $this->preview = $preview;
     return $this;
+  }
+
+  /**
+   * Get Escape property.
+   *
+   * @return bool
+   *   Property value.
+   */
+  public function getEscape() {
+    return $this->escape;
+  }
+
+  /**
+   * Set Escape property.
+   *
+   * @param bool $escape
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setEscape($escape) {
+    $this->escape = $escape;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function offsetExists($offset) {
+    return property_exists($this, $offset);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function offsetGet($offset) {
+    return isset($this->{$offset}) ? $this->{$offset} : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function offsetSet($offset, $value) {
+    $this->{$offset} = $value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function offsetUnset($offset) {
+  }
+
+  /**
+   * Return array definition.
+   *
+   * @return array
+   *    Array definition.
+   */
+  public function toArray() {
+    return [
+      'name' => $this->getName(),
+      'label' => $this->getLabel(),
+      'description' => $this->getDescription(),
+      'type' => $this->getType(),
+      'preview' => $this->getPreview(),
+      'escape' => $this->getEscape(),
+    ];
   }
 
 }

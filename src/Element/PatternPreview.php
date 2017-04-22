@@ -22,18 +22,18 @@ class PatternPreview extends Pattern {
    *   Render array.
    */
   public static function processFields(array $element) {
-    $pattern = UiPatterns::getPattern($element['#id']);
-    $definition = $pattern->getPluginDefinition();
+    $definition = UiPatterns::getPatternDefinition($element['#id']);
 
     $fields = [];
-    foreach ($pattern->getFields() as $field) {
-      // Some fields are used as twig array keys and don't need escaping.
-      if (!isset($field['escape']) || $field['escape'] != FALSE) {
+    foreach ($definition->getFields() as $field) {
+      $preview = $field->getPreview();
+      // Some fields are used as Twig array keys and don't need escaping.
+      if ($field->getEscape()) {
         // The examples are not user submitted and are safe markup.
-        $field['preview'] = self::getPreviewMarkup($field['preview']);
+        $preview = self::getPreviewMarkup($preview);
       }
 
-      $fields[$field['name']] = $field['preview'];
+      $fields[$field->getName()] = $preview;
     }
 
     if (isset($definition['extra']['attributes'])) {

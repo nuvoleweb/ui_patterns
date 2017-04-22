@@ -5,6 +5,8 @@ namespace Drupal\ui_patterns\Plugin\Deriver;
 use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\TypedData\TypedDataManager;
+use Drupal\ui_patterns\Definition\PatternDefinition;
+use Drupal\ui_patterns\TypedData\PatternDataDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -30,11 +32,6 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
 
   /**
    * AbstractPatternsDeriver constructor.
-   *
-   * @param string $base_plugin_id
-   *   The base plugin ID.
-   * @param \Drupal\Core\TypedData\TypedDataManager $typed_data_manager
-   *   Typed data manager service.
    */
   public function __construct($base_plugin_id, TypedDataManager $typed_data_manager) {
     $this->basePluginId = $base_plugin_id;
@@ -56,15 +53,10 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
     foreach ($this->getPatterns() as $pattern) {
-      $id = $pattern->get('id')->getString();
-      if ($pattern->isValid()) {
-        $this->derivatives[$id] = $pattern->toArray() + $base_plugin_definition;
-      }
-      else {
-        drupal_set_message(t("Pattern ':id' is skipped because of the following validation error(s):", [':id' => $id]), 'error');
-        foreach ($pattern->getErrorMessages() as $message) {
-          drupal_set_message($message, 'error');
-        }
+      $pattern->setDeriver($base_plugin_definition['deriver']);
+      $pattern->setClass($base_plugin_definition['class']);
+      if ($this->isValidPatternDefinition($pattern)) {
+        $this->derivatives[$pattern->id()] = $pattern;
       }
     }
     return $this->derivatives;
@@ -73,15 +65,42 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
   /**
    * Get pattern data object.
    *
-   * @param mixed $definition
+   * @param array $definition
    *    Pattern definition array.
    *
-   * @return \Drupal\ui_patterns\Plugin\DataType\Pattern
+   * @return \Drupal\ui_patterns\Definition\PatternDefinition
    *    Pattern definition object.
    */
-  protected function getPattern($definition = NULL) {
-    $data_definition = $this->typedDataManager->createDataDefinition($this->dataType);
-    return $this->typedDataManager->create($data_definition, $definition);
+  protected function getPatternDefinition($definition = []) {
+    return new PatternDefinition($definition);
+  }
+
+  /**
+   * Validate pattern definition.
+   *
+   * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
+   *    Pattern definition.
+   *
+   * @return bool
+   *    Whereas current pattern definition is valid or not.
+   */
+  protected function isValidPatternDefinition(PatternDefinition $definition) {
+    $data_definition = PatternDataDefinition::create();
+    $violations = $this->typedDataManager->create($data_definition, $definition->toArray())->validate();
+    if ($violations->count()) {
+      /** @var \Symfony\Component\Validator\ConstraintViolation $violation */
+      drupal_set_message(t("Pattern ':id' is skipped because of the following validation error(s):", [':id' => $definition->id()]), 'error');
+      foreach ($violations as $violation) {
+        $message = t('Validation error on ":id.:property": :message', [
+          ':id' => $definition->id(),
+          ':property' => $violation->getPropertyPath(),
+          ':message' => $violation->getMessage(),
+        ]);
+        drupal_set_message($message, 'error');
+      }
+      return FALSE;
+    }
+    return TRUE;
   }
 
 }

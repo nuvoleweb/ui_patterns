@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns\Definition;
 
+use Drupal\Component\Plugin\Definition\DerivablePluginDefinitionInterface;
 use Drupal\Component\Plugin\Definition\PluginDefinition;
 
 /**
@@ -9,7 +10,17 @@ use Drupal\Component\Plugin\Definition\PluginDefinition;
  *
  * @package Drupal\ui_patterns\Definition
  */
-class PatternDefinition extends PluginDefinition {
+class PatternDefinition extends PluginDefinition implements DerivablePluginDefinitionInterface, \ArrayAccess {
+
+  /**
+   * Pattern prefix.
+   */
+  const PATTERN_PREFIX = 'pattern_';
+
+  /**
+   * Prefix for locally defined libraries.
+   */
+  const LIBRARY_PREFIX = 'ui_patterns';
 
   private $label;
   private $description = '';
@@ -31,6 +42,27 @@ class PatternDefinition extends PluginDefinition {
     foreach ($definition as $property => $value) {
       $this->set($property, $value);
     }
+
+    if (isset($definition['fields'])) {
+      $this->setFields($definition['fields']);
+    }
+
+    // Process theme hook.
+    if (!isset($definition['theme hook'])) {
+      $this->setThemeHook(self::PATTERN_PREFIX . $this->id());
+      $this->setCustomThemeHook(FALSE);
+    }
+
+    // Process libraries.
+    foreach ($this->getLibraries() as $library) {
+      if (is_array($library)) {
+        $libraries[] = self::LIBRARY_PREFIX . '/' . $this->id() . '.' . key($library);
+      }
+      else {
+        $libraries[] = $library;
+      }
+      $this->setLibraries($libraries);
+    }
   }
 
   /**
@@ -44,7 +76,7 @@ class PatternDefinition extends PluginDefinition {
    * @return $this
    */
   public function set($property, $value) {
-    $property = lcfirst(str_replace(' ', '', ucwords($property)));
+    $property = $this->getPropertyName($property);
     if (property_exists($this, $property)) {
       $this->{$property} = $value;
     }
@@ -168,13 +200,25 @@ class PatternDefinition extends PluginDefinition {
    * @return $this
    */
   public function setFields(array $fields) {
-    foreach ($fields as $value) {
+    foreach ($fields as $key => $value) {
+
+      if (!isset($value['name']) && is_string($key)) {
+        $value['name'] = $key;
+      }
+
+      if (empty($value['label'])) {
+        $value['label'] = $value['name'];
+      }
+
       $field = new PatternDefinitionField($value['name'], $value['label']);
       if (isset($value['type'])) {
         $field->setType($value['type']);
       }
       if (isset($value['description'])) {
         $field->setDescription($value['description']);
+      }
+      if (isset($value['preview'])) {
+        $field->setPreview($value['preview']);
       }
       $this->fields[$value['name']] = $field;
     }
@@ -266,6 +310,16 @@ class PatternDefinition extends PluginDefinition {
   public function setDescription($description) {
     $this->description = $description;
     return $this;
+  }
+
+  /**
+   * Getter.
+   *
+   * @return bool
+   *    Whereas definition uses the "use:" property.
+   */
+  public function hasUse() {
+    return !empty($this->use);
   }
 
   /**
@@ -363,6 +417,16 @@ class PatternDefinition extends PluginDefinition {
   /**
    * Getter.
    *
+   * @return bool
+   *   Whereas has template.
+   */
+  public function hasTemplate() {
+    return !empty($this->template);
+  }
+
+  /**
+   * Getter.
+   *
    * @return mixed
    *   Property value.
    */
@@ -381,6 +445,125 @@ class PatternDefinition extends PluginDefinition {
   public function setLibraries($libraries) {
     $this->libraries = $libraries;
     return $this;
+  }
+
+  /**
+   * Get Deriver property.
+   *
+   * @return mixed
+   *   Property value.
+   */
+  public function getDeriver() {
+    return $this->deriver;
+  }
+
+  /**
+   * Get Additional property.
+   *
+   * @return array
+   *   Property value.
+   */
+  public function getAdditional() {
+    return $this->additional;
+  }
+
+  /**
+   * Set Additional property.
+   *
+   * @param array $additional
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setAdditional($additional) {
+    $this->additional = $additional;
+    return $this;
+  }
+
+  /**
+   * Set Deriver property.
+   *
+   * @param mixed $deriver
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setDeriver($deriver) {
+    $this->deriver = $deriver;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function offsetExists($offset) {
+    $name = $this->getPropertyName($offset);
+    return property_exists($this, $name);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function offsetGet($offset) {
+    $name = $this->getPropertyName($offset);
+    return isset($this->{$name}) ? $this->{$name} : NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function offsetSet($offset, $value) {
+    $this->set($offset, $value);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function offsetUnset($offset) {
+  }
+
+  /**
+   * Return array definition.
+   *
+   * @return array
+   *    Array definition.
+   */
+  public function toArray() {
+    $definition = [
+      'id' => $this->id(),
+      'label' => $this->getLabel(),
+      'description' => $this->getDescription(),
+      'base path' => $this->getBasePath(),
+      'file name' => $this->getFileName(),
+      'use' => $this->getUse(),
+      'theme hook' => $this->getThemeHook(),
+      'custom theme hook' => $this->getCustomThemeHook(),
+      'template' => $this->getTemplate(),
+      'libraries' => $this->getLibraries(),
+      'tags' => $this->getTags(),
+      'additional' => $this->getAdditional(),
+      'deriver' => $this->getDeriver(),
+      'provider' => $this->getProvider(),
+      'class' => $this->getClass(),
+    ];
+
+    foreach ($this->getFields() as $field) {
+      $definition['fields'][$field->getName()] = $field->toArray();
+    }
+    return $definition;
+  }
+
+  /**
+   * Convert pattern definition property name into an object property name.
+   *
+   * @param string $property
+   *    Pattern definition property name.
+   *
+   * @return string
+   *    Object property name.
+   */
+  private function getPropertyName($property) {
+    return lcfirst(str_replace(' ', '', ucwords($property)));
   }
 
 }

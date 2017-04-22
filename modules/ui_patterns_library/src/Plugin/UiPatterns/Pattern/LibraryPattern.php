@@ -5,6 +5,7 @@ namespace Drupal\ui_patterns_library\Plugin\UiPatterns\Pattern;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\TypedData\TypedDataManager;
+use Drupal\ui_patterns\Definition\PatternDefinition;
 use Drupal\ui_patterns\UiPatternBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -66,17 +67,17 @@ class LibraryPattern extends UiPatternBase {
   /**
    * Process 'custom hook theme' definition property.
    *
-   * @param array $definition
+   * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
    *    Pattern definition array.
    *
    * @return array
    *    Processed hook definition portion.
    */
-  protected function processCustomThemeHookProperty(array $definition) {
+  protected function processCustomThemeHookProperty(PatternDefinition $definition) {
     /** @var \Drupal\Core\Extension\Extension $module */
     $return = [];
-    if (!$definition['custom theme hook'] && $this->moduleHandler->moduleExists($definition['provider'])) {
-      $module = $this->moduleHandler->getModule($definition['provider']);
+    if (!$definition->getCustomThemeHook() && $this->moduleHandler->moduleExists($definition->getProvider())) {
+      $module = $this->moduleHandler->getModule($definition->getProvider());
       $return['path'] = $module->getPath() . '/templates';
     }
     return $return;
@@ -85,16 +86,17 @@ class LibraryPattern extends UiPatternBase {
   /**
    * Process 'template' definition property.
    *
-   * @param array $definition
+   * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
    *    Pattern definition array.
    *
    * @return array
    *    Processed hook definition portion.
    */
-  protected function processTemplateProperty(array $definition) {
+  protected function processTemplateProperty(PatternDefinition $definition) {
     $return = [];
-    if (isset($definition['template'])) {
-      $return = ['template' => $definition['template']];
+
+    if ($definition->hasTemplate()) {
+      $return = ['template' => $definition->getTemplate()];
     }
     return $return;
   }

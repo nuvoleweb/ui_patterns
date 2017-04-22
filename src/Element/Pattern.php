@@ -42,7 +42,7 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processRenderArray(array $element) {
-    $element['#theme'] = UiPatterns::getPattern($element['#id'])->getThemeHook();
+    $element['#theme'] = UiPatterns::getPatternDefinition($element['#id'])->getThemeHook();
 
     if (isset($element['#attributes']) && !empty($element['#attributes']) && is_array($element['#attributes'])) {
       $element['#attributes'] = new Attribute($element['#attributes']);
@@ -65,7 +65,7 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processLibraries(array $element) {
-    foreach (UiPatterns::getPattern($element['#id'])->getLibraries() as $library) {
+    foreach (UiPatterns::getPatternDefinition($element['#id'])->getLibraries() as $library) {
       $element['#attached']['library'][] = $library;
     }
 
@@ -108,9 +108,9 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processUse(array $element) {
-    $pattern = UiPatterns::getPattern($element['#id']);
-    if ($pattern->hasUse()) {
-      $element['#use'] = $pattern->getUse();
+    $use = UiPatterns::getPattern($element['#id'])->getUse();
+    if (!empty($use)) {
+      $element['#use'] = $use;
     }
 
     return $element;

@@ -65,7 +65,7 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
       ['getLabel', 'label', 'Pattern label'],
       ['getDescription', 'description', 'Pattern description.'],
       ['getUse', 'use', 'template.twig'],
-      ['getCustomThemeHook', 'custom theme hook', 'my_theme_hook'],
+      ['getCustomThemeHook', 'custom theme hook', FALSE],
       ['getThemeHook', 'theme hook', 'eme hook: custom_my_theme_hook'],
       ['getTemplate', 'template', 'my-template.html.twig'],
       ['getFileName', 'file name', '/path/to/filename.ui_patterns.yml'],

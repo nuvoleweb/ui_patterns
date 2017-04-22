@@ -6,6 +6,7 @@ use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\TypedData\TypedDataManager;
+use Drupal\ui_patterns\Definition\PatternDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -273,15 +274,15 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   /**
    * Process 'use' definition property.
    *
-   * @param array $definition
+   * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
    *    Pattern definition array.
    *
    * @return array
    *    Processed hook definition portion.
    */
-  protected function processUseProperty(array $definition) {
+  protected function processUseProperty(PatternDefinition $definition) {
     $return = [];
-    if (!empty($definition['use'])) {
+    if ($definition->hasUse()) {
       $return = [
         'path' => $this->moduleHandler->getModule('ui_patterns')->getPath() . '/templates',
         'template' => 'patterns-use-wrapper',
@@ -293,16 +294,16 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   /**
    * Process theme variables.
    *
-   * @param array $definition
+   * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
    *    Pattern definition array.
    *
    * @return array
    *    Processed hook definition portion.
    */
-  protected function processVariables(array $definition) {
+  protected function processVariables(PatternDefinition $definition) {
     $return = [];
-    foreach ($definition['fields'] as $field) {
-      $return['variables'][$field['name']] = NULL;
+    foreach ($definition->getFields() as $field) {
+      $return['variables'][$field->getName()] = NULL;
     }
     $return['variables']['attributes'] = [];
     $return['variables']['context'] = [];

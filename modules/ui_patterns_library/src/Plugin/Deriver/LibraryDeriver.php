@@ -134,7 +134,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
             $definition['base path'] = dirname($file_path);
             $definition['file name'] = basename($file_path);
             $definition['provider'] = $provider;
-            $patterns[] = $this->getPattern($definition);
+            $patterns[] = $this->getPatternDefinition($definition);
           }
         }
       }

@@ -43,12 +43,4 @@ blockquote:
     - ui_patterns_test/library2
 
 bad_pattern:
-  label: Bad pattern
-  description: This pattern is for test purpouses only, it will print an error message on /patterns page.
-  fields:
-    field_with_no_type:
-      label: Bad field
-      description: No type, this pattern will be skipped.
-    field_with_no_label:
-      type: string
-      description: No type, this pattern will be skipped.
+  description: This pattern is for test purposes only, it will print an error message on /patterns page.

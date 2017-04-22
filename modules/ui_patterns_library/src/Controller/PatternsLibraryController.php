@@ -54,12 +54,13 @@ class PatternsLibraryController extends ControllerBase {
    *   Return render array.
    */
   public function single($name) {
+    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
 
     $definition = $this->patternsManager->getDefinition($name);
     $definition['rendered']['#type'] = 'pattern_preview';
     $definition['rendered']['#id'] = $name;
     $definition['meta']['#theme'] = 'patterns_meta_information';
-    $definition['meta']['#pattern'] = $definition;
+    $definition['meta']['#pattern'] = $definition->toArray();
 
     return [
       '#theme' => 'patterns_single_page',
@@ -74,14 +75,15 @@ class PatternsLibraryController extends ControllerBase {
    *   Patterns overview page render array.
    */
   public function overview() {
+    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
 
-    $definitions = $this->patternsManager->getDefinitions();
-    foreach ($definitions as $definition) {
-      $id = $definition['id'];
+    $definitions = [];
+    foreach ($this->patternsManager->getDefinitions() as $id => $definition) {
+      $definitions[$id] = $definition->toArray();
       $definitions[$id]['rendered']['#type'] = 'pattern_preview';
-      $definitions[$id]['rendered']['#id'] = $id;
+      $definitions[$id]['rendered']['#id'] = $definition->id();
       $definitions[$id]['meta']['#theme'] = 'patterns_meta_information';
-      $definitions[$id]['meta']['#pattern'] = $definition;
+      $definitions[$id]['meta']['#pattern'] = $definition->toArray();
     }
 
     return [

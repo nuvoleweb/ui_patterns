@@ -14,9 +14,9 @@ use Drupal\ui_patterns\UiPatterns;
 class UiPatternsManagerTest extends AbstractUiPatternsTest {
 
   /**
-   * Test UiPatternsManager::getPattern.
+   * Test UiPatternsManager::getPatternDefinition.
    *
-   * @covers ::getPattern
+   * @covers ::getPatternDefinition
    */
   public function testGetPattern() {
     $manager = UiPatterns::getManager();
