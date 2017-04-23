@@ -8,6 +8,7 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\ui_patterns\Definition\PatternDefinition;
 
 /**
  * Provides the default ui_patterns manager.
@@ -60,7 +61,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
     // @todo should we statically cache this?
     $patterns = [];
     foreach ($this->getDefinitions() as $definition) {
-      $patterns[] = $this->getPattern($definition['id']);
+      $patterns[] = $this->getPattern($definition->id());
     }
     return $patterns;
   }
@@ -99,8 +100,8 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * {@inheritdoc}
    */
   public function isPatternHook($hook) {
-    $definitions = array_filter($this->getDefinitions(), function ($definition) use ($hook) {
-      return $definition['theme hook'] == $hook;
+    $definitions = array_filter($this->getDefinitions(), function (PatternDefinition $definition) use ($hook) {
+      return $definition->getThemeHook() == $hook;
     });
     return !empty($definitions);
   }
