@@ -2,7 +2,7 @@
 
 namespace Drupal\ui_patterns_views\Plugin\UiPatterns\Source;
 
-use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
+use Drupal\ui_patterns\Plugin\PatternSourceBase;
 
 /**
  * Defines Views row pattern source plugin.
@@ -16,7 +16,7 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
  *   }
  * )
  */
-class ViewsRowSource extends UiPatternsSourceBase {
+class ViewsRowSource extends PatternSourceBase {
 
   /**
    * {@inheritdoc}

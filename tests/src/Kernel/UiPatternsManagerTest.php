@@ -19,11 +19,8 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    * @covers ::getPatternDefinition
    */
   public function testGetPattern() {
-    $manager = UiPatterns::getManager();
-
-    foreach ($manager->getDefinitions() as $definition) {
-      $pattern = $manager->getPattern($definition['id']);
-      assert($pattern->getBaseId(), equals($definition['id']));
+    foreach (UiPatterns::getPatternDefinitions() as $definition) {
+      assert($definition->id(), equals($definition['id']));
     }
   }
 

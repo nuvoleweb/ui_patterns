@@ -2,7 +2,7 @@
 
 namespace Drupal\ui_patterns_test\Plugin\UiPatterns\Source;
 
-use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
+use Drupal\ui_patterns\Plugin\PatternSourceBase;
 
 /**
  * Defines Fields API pattern source plugin.
@@ -16,7 +16,7 @@ use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
  *   }
  * )
  */
-class TestSource extends UiPatternsSourceBase {
+class TestSource extends PatternSourceBase {
 
   /**
    * @inheritDoc

@@ -3,9 +3,8 @@
 namespace Drupal\ui_patterns\Plugin\UiPatterns\Source;
 
 use Drupal\Core\Entity\EntityManager;
-use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
-use Drupal\ui_patterns\UiPatternsManager;
-use Drupal\Core\TypedData\TypedDataManager;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\ui_patterns\Plugin\PatternSourceBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   }
  * )
  */
-class FieldSource extends UiPatternsSourceBase {
+class FieldSource extends PatternSourceBase implements ContainerFactoryPluginInterface {
 
   /**
    * Entity manager service.
@@ -32,8 +31,8 @@ class FieldSource extends UiPatternsSourceBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $ui_patterns_manager, TypedDataManager $typed_data_manager, EntityManager $entity_manager) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $ui_patterns_manager, $typed_data_manager);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityManager $entity_manager) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityManager = $entity_manager;
   }
 
@@ -45,8 +44,6 @@ class FieldSource extends UiPatternsSourceBase {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('plugin.manager.ui_patterns'),
-      $container->get('typed_data_manager'),
       $container->get('entity.manager')
     );
   }

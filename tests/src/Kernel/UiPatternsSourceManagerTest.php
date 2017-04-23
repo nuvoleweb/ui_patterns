@@ -34,7 +34,7 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
       ['name' => 'field_5', 'label' => 'Field 5'],
     ];
 
-    /** @var \Drupal\ui_patterns\Plugin\UiPatternsSourceBase $plugin */
+    /** @var \Drupal\ui_patterns\Plugin\PatternSourceBase $plugin */
     $plugin = $plugin_manager->createInstance('test_source');
     foreach ($plugin->getSourceFields() as $key => $field) {
       assert($field->getFieldName(), equals($expected[$key]['name']));

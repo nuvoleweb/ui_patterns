@@ -12,16 +12,10 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 class UiPatternsSourceManager extends DefaultPluginManager {
 
   /**
-   * Separator used to namespace fields with their plugin type.
-   */
-  const FIELD_KEY_SEPARATOR = ':';
-
-  /**
    * Constructor for UiPatternsSourceManager objects.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/UiPatterns/Source', $namespaces, $module_handler, 'Drupal\ui_patterns\Plugin\UiPatternsSourceInterface', 'Drupal\ui_patterns\Annotation\UiPatternsSource');
-
+    parent::__construct('Plugin/UiPatterns/Source', $namespaces, $module_handler, 'Drupal\ui_patterns\Plugin\PatternSourceInterface', 'Drupal\ui_patterns\Annotation\UiPatternsSource');
     $this->alterInfo('ui_patterns_ui_patterns_source_info');
     $this->setCacheBackend($cache_backend, 'ui_patterns_ui_patterns_source_plugins');
   }
@@ -49,18 +43,16 @@ class UiPatternsSourceManager extends DefaultPluginManager {
    * @param array $context
    *    Plugin context.
    *
-   * @return \Drupal\ui_patterns\Plugin\DataType\SourceField[]
+   * @return \Drupal\ui_patterns\Definition\PatternSourceField[]
    *    List of source fields.
    */
   public function getFieldsByTag($tag, $context) {
-    /** @var \Drupal\ui_patterns\Plugin\UiPatternsSourceInterface $plugin */
-    /** @var \Drupal\ui_patterns\Plugin\DataType\SourceField $field */
+    /** @var \Drupal\ui_patterns\Plugin\PatternSourceInterface $plugin */
     $fields = [];
     foreach ($this->getDefinitionsByTag($tag) as $id => $definition) {
       $plugin = $this->createInstance($id, ['context' => $context]);
       foreach ($plugin->getSourceFields() as $field) {
-        $key = $field->getPluginId() . self::FIELD_KEY_SEPARATOR . $field->getFieldName();
-        $fields[$key] = $field;
+        $fields[$field->getFieldKey()] = $field;
       }
     }
 

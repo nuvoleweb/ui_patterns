@@ -154,7 +154,7 @@ In the example below we can see the actual implementation of such a system:
 
    namespace Drupal\ui_patterns_views\Plugin\UiPatterns\Source;
 
-   use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
+   use Drupal\ui_patterns\Plugin\PatternSourceBase;
 
    /**
     * Defines Views row pattern source plugin.
@@ -168,7 +168,7 @@ In the example below we can see the actual implementation of such a system:
     *   }
     * )
     */
-   class ViewsRowSource extends UiPatternsSourceBase {
+   class ViewsRowSource extends PatternSourceBase {
 
      /**
       * {@inheritdoc}

@@ -69,6 +69,17 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   /**
    * {@inheritdoc}
    */
+  public function getFieldsAsOptions() {
+    $options = [];
+    foreach ($this->getPluginDefinition()['fields'] as $field) {
+      $options[$field['name']] = $field['label'];
+    }
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getThemeImplementation() {
     $definition = $this->getPluginDefinition();
     $item = [];

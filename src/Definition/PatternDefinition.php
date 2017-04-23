@@ -181,6 +181,20 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
+   * Get field as options.
+   *
+   * @return array
+   *    Fields as select options.
+   */
+  public function getFieldsAsOptions() {
+    $options = [];
+    foreach ($this->getFields() as $field) {
+      $options[$field->getName()] = $field->getLabel();
+    }
+    return $options;
+  }
+
+  /**
    * Setter.
    *
    * @param array $fields

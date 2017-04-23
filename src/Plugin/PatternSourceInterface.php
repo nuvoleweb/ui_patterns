@@ -2,14 +2,10 @@
 
 namespace Drupal\ui_patterns\Plugin;
 
-use Drupal\Component\Plugin\ConfigurablePluginInterface;
-use Drupal\Component\Plugin\PluginInspectionInterface;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-
 /**
  * Defines an interface for UI Patterns Source plugins.
  */
-interface UiPatternsSourceInterface extends PluginInspectionInterface, ContainerFactoryPluginInterface, ConfigurablePluginInterface {
+interface PatternSourceInterface {
 
   /**
    * Source field factory method.
@@ -19,7 +15,7 @@ interface UiPatternsSourceInterface extends PluginInspectionInterface, Container
    * @param string $label
    *    Human readable label.
    *
-   * @return \Drupal\ui_patterns\Plugin\DataType\SourceField
+   * @return \Drupal\ui_patterns\Definition\PatternSourceField
    *    Source field instance.
    */
   public function getSourceField($name, $label);
@@ -27,7 +23,7 @@ interface UiPatternsSourceInterface extends PluginInspectionInterface, Container
   /**
    * Return list of source fields.
    *
-   * @return \Drupal\ui_patterns\Plugin\DataType\SourceField[]
+   * @return \Drupal\ui_patterns\Definition\PatternSourceField[]
    *    List of source fields.
    */
   public function getSourceFields();

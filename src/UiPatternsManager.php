@@ -45,7 +45,13 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   }
 
   /**
-   * {@inheritdoc}
+   * Get pattern object.
+   *
+   * @param string $id
+   *    Pattern ID.
+   *
+   * @return \Drupal\ui_patterns\UiPatternBase
+   *    Pattern object.
    */
   public function getPattern($id) {
     // @todo should we statically cache this?
@@ -53,7 +59,10 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   }
 
   /**
-   * {@inheritdoc}
+   * Get pattern objects.
+   *
+   * @return \Drupal\ui_patterns\UiPatternBase[]
+   *    Pattern objects.
    */
   public function getPatterns() {
     // @todo should we statically cache this?

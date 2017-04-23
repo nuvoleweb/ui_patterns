@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Form;
 
 use Drupal\Component\Utility\SortArray;
-use Drupal\ui_patterns\Plugin\UiPatternsSourceBase;
+use Drupal\ui_patterns\Plugin\PatternSourceBase;
 
 /**
  * Trait PatternDisplayFormTrait.
@@ -69,7 +69,8 @@ trait PatternDisplayFormTrait {
    *    Mapping form.
    */
   public function getMappingForm($pattern_id, $tag, array $context, array $configuration) {
-    $pattern = $this->patternsManager->getPattern($pattern_id);
+    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $pattern */
+    $pattern = $this->patternsManager->getDefinition($pattern_id);
 
     $elements = [
       '#type' => 'table',
@@ -143,7 +144,7 @@ trait PatternDisplayFormTrait {
           unset($settings['pattern_mapping'][$key]);
         }
         else {
-          list($plugin, $source) = explode(UiPatternsSourceBase::DERIVATIVE_SEPARATOR, $key);
+          list($plugin, $source) = explode(PatternSourceBase::DERIVATIVE_SEPARATOR, $key);
           $settings['pattern_mapping'][$key]['plugin'] = $plugin;
           $settings['pattern_mapping'][$key]['source'] = $source;
         }
@@ -172,7 +173,7 @@ trait PatternDisplayFormTrait {
    *    Destination field or NULL if none found.
    */
   public function getMappingDestination($plugin, $source, array $settings) {
-    $mapping_id = $plugin . UiPatternsSourceBase::DERIVATIVE_SEPARATOR . $source;
+    $mapping_id = $plugin . PatternSourceBase::DERIVATIVE_SEPARATOR . $source;
     if (isset($settings['pattern_mapping'][$mapping_id])) {
       return $settings['pattern_mapping'][$mapping_id]['destination'];
     }

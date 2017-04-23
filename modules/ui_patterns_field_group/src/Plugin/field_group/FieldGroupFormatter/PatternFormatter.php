@@ -147,7 +147,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   public function settingsSummary() {
     $label = $this->t('None');
     if (!empty($this->getSetting('pattern'))) {
-      $label = $this->patternsManager->getPattern($this->getSetting('pattern'))->getLabel();
+      $label = $this->patternsManager->getDefinition($this->getSetting('pattern'))->getLabel();
     }
 
     return [
