@@ -4,9 +4,8 @@ namespace Drupal\ui_patterns_library\Plugin\UiPatterns\Pattern;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
-use Drupal\Core\TypedData\TypedDataManager;
 use Drupal\ui_patterns\Definition\PatternDefinition;
-use Drupal\ui_patterns\UiPatternBase;
+use Drupal\ui_patterns\Plugin\PatternBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   deriver = "\Drupal\ui_patterns_library\Plugin\Deriver\LibraryDeriver"
  * )
  */
-class LibraryPattern extends UiPatternBase {
+class LibraryPattern extends PatternBase {
 
   /**
    * Theme handler.
@@ -33,8 +32,8 @@ class LibraryPattern extends UiPatternBase {
   /**
    * UiPatternsManager constructor.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, $root, TypedDataManager $typed_data_manager, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $root, $typed_data_manager, $module_handler);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, $root, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $root, $module_handler);
     $this->themeHandler = $theme_handler;
   }
 
@@ -47,7 +46,6 @@ class LibraryPattern extends UiPatternBase {
       $plugin_id,
       $plugin_definition,
       $container->get('app.root'),
-      $container->get('typed_data_manager'),
       $container->get('module_handler'),
       $container->get('theme_handler')
     );

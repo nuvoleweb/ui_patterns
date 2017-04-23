@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns;
+namespace Drupal\ui_patterns\Plugin;
 
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -10,16 +10,11 @@ use Drupal\ui_patterns\Definition\PatternDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class UiPatternBase.
+ * Class PatternBase.
  *
- * @package Drupal\ui_patterns
+ * @package Drupal\ui_patterns\Plugin
  */
-abstract class UiPatternBase extends PluginBase implements UiPatternInterface, ContainerFactoryPluginInterface {
-
-  /**
-   * Prefix for locally defined libraries.
-   */
-  const LIBRARY_PREFIX = 'ui_patterns';
+abstract class PatternBase extends PluginBase implements PatternInterface, ContainerFactoryPluginInterface {
 
   /**
    * The app root.
@@ -27,13 +22,6 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
    * @var string
    */
   protected $root;
-
-  /**
-   * Typed data manager service.
-   *
-   * @var \Drupal\Core\TypedData\TypedDataManager
-   */
-  protected $typedDataManager;
 
   /**
    * Module handler.
@@ -45,10 +33,9 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
   /**
    * UiPatternsManager constructor.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, $root, TypedDataManager $typed_data_manager, ModuleHandlerInterface $module_handler) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, $root, ModuleHandlerInterface $module_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->root = $root;
-    $this->typedDataManager = $typed_data_manager;
     $this->moduleHandler = $module_handler;
   }
 
@@ -61,20 +48,8 @@ abstract class UiPatternBase extends PluginBase implements UiPatternInterface, C
       $plugin_id,
       $plugin_definition,
       $container->get('app.root'),
-      $container->get('typed_data_manager'),
       $container->get('module_handler')
     );
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getFieldsAsOptions() {
-    $options = [];
-    foreach ($this->getPluginDefinition()['fields'] as $field) {
-      $options[$field['name']] = $field['label'];
-    }
-    return $options;
   }
 
   /**

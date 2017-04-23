@@ -1,18 +1,19 @@
 <?php
 
-namespace Drupal\Tests\ui_patterns\Kernel;
+namespace Drupal\Tests\ui_patterns\Kernel\Plugin;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use Drupal\Component\Serialization\Yaml;
-use Drupal\ui_patterns\UiPatternBase;
+use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
+use Drupal\ui_patterns\Plugin\PatternBase;
 
 /**
- * @coversDefaultClass \Drupal\ui_patterns\UiPatternBase
+ * @coversDefaultClass \Drupal\ui_patterns\Plugin\PatternBase
  *
  * @group ui_patterns
  */
-class UiPatternBaseTest extends AbstractUiPatternsTest {
+class PatternBaseTest extends AbstractUiPatternsTest {
 
   /**
    * Test hookLibraryInfoBuild.
@@ -20,19 +21,19 @@ class UiPatternBaseTest extends AbstractUiPatternsTest {
    * @covers ::hookLibraryInfoBuild
    */
   public function testHookLibraryInfoBuild() {
-    $items = Yaml::decode(file_get_contents(dirname(__FILE__) . '/../fixtures/libraries.yml'));
+    $items = Yaml::decode(file_get_contents($this->getFixturePath() . '/libraries.yml'));
 
     foreach ($items as $item) {
       $pattern = $this->getUiPatternBaseMock($item['actual']);
 
-      /** @var \Drupal\ui_patterns\UiPatternBase $pattern */
+      /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
       $libraries = $pattern->getLibraryDefinitions();
       assert($libraries, equals($item['expected']));
     }
   }
 
   /**
-   * Get UiPatternBase mock.
+   * Get PatternBase mock.
    *
    * @param array $plugin_definition
    *    Plugin definition.
@@ -43,12 +44,11 @@ class UiPatternBaseTest extends AbstractUiPatternsTest {
    *    Mock object.
    */
   protected function getUiPatternBaseMock(array $plugin_definition = [], array $methods = []) {
-    return $this->getMockForAbstractClass(UiPatternBase::class, [
+    return $this->getMockForAbstractClass(PatternBase::class, [
       [],
       'plugin_id',
       $plugin_definition,
       \Drupal::service('app.root'),
-      \Drupal::service('typed_data_manager'),
       \Drupal::service('module_handler'),
     ], '', TRUE, TRUE, TRUE, $methods);
   }

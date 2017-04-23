@@ -37,7 +37,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    *    Cache backend service.
    */
   public function __construct(\Traversable $namespaces, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, CacheBackendInterface $cache_backend) {
-    parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\UiPatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
+    parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\Plugin\PatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
     $this->moduleHandler = $module_handler;
     $this->themeHandler = $theme_handler;
     $this->alterInfo('ui_patterns_info');
@@ -50,7 +50,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * @param string $id
    *    Pattern ID.
    *
-   * @return \Drupal\ui_patterns\UiPatternBase
+   * @return \Drupal\ui_patterns\Plugin\PatternBase
    *    Pattern object.
    */
   public function getPattern($id) {
@@ -61,7 +61,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   /**
    * Get pattern objects.
    *
-   * @return \Drupal\ui_patterns\UiPatternBase[]
+   * @return \Drupal\ui_patterns\Plugin\PatternBase[]
    *    Pattern objects.
    */
   public function getPatterns() {
