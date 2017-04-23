@@ -65,7 +65,7 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processLibraries(array $element) {
-    foreach (UiPatterns::getPatternDefinition($element['#id'])->getLibraries() as $library) {
+    foreach (UiPatterns::getPatternDefinition($element['#id'])->getLibrariesNames() as $library) {
       $element['#attached']['library'][] = $library;
     }
 

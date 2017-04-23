@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns;
 
+use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -11,7 +12,7 @@ use Drupal\Core\Plugin\DefaultPluginManager;
 /**
  * Provides the default ui_patterns manager.
  */
-class UiPatternsManager extends DefaultPluginManager implements UiPatternsManagerInterface {
+class UiPatternsManager extends DefaultPluginManager implements PluginManagerInterface {
 
   use StringTranslationTrait;
 

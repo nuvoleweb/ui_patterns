@@ -52,17 +52,6 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
       $this->setThemeHook(self::PATTERN_PREFIX . $this->id());
       $this->setCustomThemeHook(FALSE);
     }
-
-    // Process libraries.
-    foreach ($this->getLibraries() as $library) {
-      if (is_array($library)) {
-        $libraries[] = self::LIBRARY_PREFIX . '/' . $this->id() . '.' . key($library);
-      }
-      else {
-        $libraries[] = $library;
-      }
-      $this->setLibraries($libraries);
-    }
   }
 
   /**
@@ -432,6 +421,25 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    */
   public function getLibraries() {
     return $this->libraries;
+  }
+
+  /**
+   * Getter.
+   *
+   * @return mixed
+   *   Property value.
+   */
+  public function getLibrariesNames() {
+    $libraries = [];
+    foreach ($this->getLibraries() as $library) {
+      if (is_array($library)) {
+        $libraries[] = self::LIBRARY_PREFIX . '/' . $this->id() . '.' . key($library);
+      }
+      else {
+        $libraries[] = $library;
+      }
+    }
+    return $libraries;
   }
 
   /**
