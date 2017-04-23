@@ -22,18 +22,20 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    */
   const LIBRARY_PREFIX = 'ui_patterns';
 
-  private $label;
-  private $description = '';
-  private $basePath;
-  private $fileName;
-  private $fields = [];
-  private $use;
-  private $themeHook;
-  private $customThemeHook;
-  private $template;
-  private $libraries = [];
-  private $tags;
-  private $additional = [];
+  protected $label;
+  protected $description = '';
+  protected $basePath;
+  protected $fileName;
+  protected $fields = [];
+  protected $use;
+  protected $themeHook;
+  protected $customThemeHook;
+  protected $template;
+  protected $libraries = [];
+  protected $tags;
+  protected $additional = [];
+  protected $deriver = '';
+  protected $provider = '';
 
   /**
    * PatternDefinition constructor.
@@ -203,27 +205,9 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setFields(array $fields) {
-    foreach ($fields as $key => $value) {
-
-      if (!isset($value['name']) && is_string($key)) {
-        $value['name'] = $key;
-      }
-
-      if (empty($value['label'])) {
-        $value['label'] = $value['name'];
-      }
-
-      $field = new PatternDefinitionField($value['name'], $value['label']);
-      if (isset($value['type'])) {
-        $field->setType($value['type']);
-      }
-      if (isset($value['description'])) {
-        $field->setDescription($value['description']);
-      }
-      if (isset($value['preview'])) {
-        $field->setPreview($value['preview']);
-      }
-      $this->fields[$value['name']] = $field;
+    foreach ($fields as $name => $value) {
+      $field = new PatternDefinitionField($name, $value);
+      $this->fields[$field->getName()] = $field;
     }
     return $this;
   }

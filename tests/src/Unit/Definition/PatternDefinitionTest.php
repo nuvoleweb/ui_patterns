@@ -4,6 +4,7 @@ namespace Drupal\Tests\ui_patterns\Unit\Definition;
 
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
+use Drupal\Component\Serialization\Yaml;
 use Drupal\Tests\ui_patterns\Unit\AbstractUiPatternsTest;
 use Drupal\ui_patterns\Definition\PatternDefinition;
 
@@ -53,10 +54,31 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
   }
 
   /**
-   * Return validation data.
+   * Test fields processing.
+   *
+   * @dataProvider fieldsProcessingProvider
+   */
+  public function testFieldsProcessing($actual, $expected) {
+    $pattern_definition = new PatternDefinition();
+    $data = $pattern_definition->setFields($actual)->toArray();
+    assert($data['fields'], equals($expected));
+  }
+
+  /**
+   * Provider.
    *
    * @return array
-   *    Pattern validation data.
+   *    Data.
+   */
+  public function fieldsProcessingProvider() {
+    return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/fields_processing.yml'));
+  }
+
+  /**
+   * Provider.
+   *
+   * @return array
+   *    Data.
    */
   public function definitionGettersProvider() {
     return [

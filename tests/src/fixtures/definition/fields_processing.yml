@@ -1,0 +1,63 @@
+-
+  actual:
+    - field1
+    - field2
+  expected:
+    field1:
+      name: field1
+      label: field1
+      description: ~
+      type: ~
+      preview: ~
+      escape: TRUE
+    field2:
+      name: field2
+      label: field2
+      description: ~
+      type: ~
+      preview: ~
+      escape: TRUE
+-
+  actual:
+    field1: Field 1
+    field2: Field 2
+  expected:
+    field1:
+      name: field1
+      label: Field 1
+      description: ~
+      type: ~
+      preview: ~
+      escape: TRUE
+    field2:
+      name: field2
+      label: Field 2
+      description: ~
+      type: ~
+      preview: ~
+      escape: TRUE
+-
+  actual:
+    field1:
+      label: field1
+  expected:
+    field1:
+      name: field1
+      label: field1
+      description: ~
+      type: ~
+      preview: ~
+      escape: TRUE
+-
+  actual:
+    -
+      name: field1
+      label: Field 1
+  expected:
+    field1:
+      name: field1
+      label: Field 1
+      description: ~
+      type: ~
+      preview: ~
+      escape: TRUE
