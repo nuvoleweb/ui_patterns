@@ -108,9 +108,9 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processUse(array $element) {
-    $use = UiPatterns::getPattern($element['#id'])->getUse();
-    if (!empty($use)) {
-      $element['#use'] = $use;
+    $definition = UiPatterns::getPatternDefinition($element['#id']);
+    if ($definition->hasUse()) {
+      $element['#use'] = $definition->getUse();
     }
 
     return $element;
