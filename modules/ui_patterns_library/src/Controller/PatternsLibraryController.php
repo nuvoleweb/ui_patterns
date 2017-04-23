@@ -3,7 +3,6 @@
 namespace Drupal\ui_patterns_library\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\ui_patterns\UiPatterns;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -59,7 +58,7 @@ class PatternsLibraryController extends ControllerBase {
     $definition['rendered']['#type'] = 'pattern_preview';
     $definition['rendered']['#id'] = $name;
     $definition['meta']['#theme'] = 'patterns_meta_information';
-    $definition['meta']['#pattern'] = UiPatterns::getPatternDefinition($name)->toArray();
+    $definition['meta']['#pattern'] = $this->patternsManager->getDefinition($name)->toArray();
 
     return [
       '#theme' => 'patterns_single_page',

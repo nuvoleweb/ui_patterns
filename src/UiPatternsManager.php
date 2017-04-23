@@ -11,6 +11,8 @@ use Drupal\Core\Plugin\DefaultPluginManager;
 
 /**
  * Provides the default ui_patterns manager.
+ *
+ * @method \Drupal\ui_patterns\Definition\PatternDefinition getDefinition($plugin_id, $exception_on_invalid = TRUE)
  */
 class UiPatternsManager extends DefaultPluginManager implements PluginManagerInterface {
 
@@ -25,16 +27,6 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
 
   /**
    * UiPatternsManager constructor.
-   *
-   * @param \Traversable $namespaces
-   *   An object that implements \Traversable which contains the root paths
-   *   keyed by the corresponding namespace to look for plugin implementations.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
-   *    Module handler service.
-   * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
-   *    Theme handler service.
-   * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
-   *    Cache backend service.
    */
   public function __construct(\Traversable $namespaces, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, CacheBackendInterface $cache_backend) {
     parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\Plugin\PatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
@@ -74,7 +66,10 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   }
 
   /**
-   * {@inheritdoc}
+   * Return pattern definitions.
+   *
+   * @return \Drupal\ui_patterns\Definition\PatternDefinition[]
+   *    Pattern definitions.
    */
   public function getDefinitions() {
     $definitions = $this->getCachedDefinitions();

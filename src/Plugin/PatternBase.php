@@ -5,7 +5,6 @@ namespace Drupal\ui_patterns\Plugin;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\TypedData\TypedDataManager;
 use Drupal\ui_patterns\Definition\PatternDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

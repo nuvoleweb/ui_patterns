@@ -5,10 +5,13 @@ use Drupal\ui_patterns\Element\PatternContext;
 /**
  * Alter UI Patterns definitions.
  *
+ * @param \Drupal\ui_patterns\Definition\PatternDefinition[] $definitions
+ *    Pattern definitions.
+ *
  * @see \Drupal\ui_patterns\UiPatternsManager
  */
 function hook_ui_patterns_info_alter(&$definitions) {
-  $definitions['my_pattern']['label'] = 'My new label';
+  $definitions['my_pattern']->setLabel('My new label');
 }
 
 /**
