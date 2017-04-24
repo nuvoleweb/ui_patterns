@@ -36,6 +36,7 @@ trait ArrayAccessDefinitionTrait {
    * {@inheritdoc}
    */
   public function offsetUnset($offset) {
+    unset($this->definition[$offset]);
   }
 
 }
