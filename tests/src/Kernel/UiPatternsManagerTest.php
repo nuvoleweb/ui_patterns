@@ -20,10 +20,10 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
    */
   public function testGetPattern() {
     $manager = UiPatterns::getManager();
+    $definitions = $manager->getDefinitions();
 
-    foreach ($manager->getDefinitions() as $definition) {
-      $pattern = $manager->getPattern($definition->id());
-      assert($pattern->getBaseId(), equals($definition->id()));
+    foreach ($manager->getPatterns() as $pattern) {
+      assert($pattern->getBaseId(), equals($definitions[$pattern->getPluginId()]->id()));
     }
   }
 

@@ -38,30 +38,15 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   }
 
   /**
-   * Get pattern object.
-   *
-   * @param string $id
-   *    Pattern ID.
-   *
-   * @return \Drupal\ui_patterns\Plugin\PatternBase
-   *    Pattern object.
-   */
-  public function getPattern($id) {
-    // @todo should we statically cache this?
-    return $this->getFactory()->createInstance($id);
-  }
-
-  /**
    * Get pattern objects.
    *
    * @return \Drupal\ui_patterns\Plugin\PatternBase[]
    *    Pattern objects.
    */
   public function getPatterns() {
-    // @todo should we statically cache this?
     $patterns = [];
     foreach ($this->getDefinitions() as $definition) {
-      $patterns[] = $this->getPattern($definition->id());
+      $patterns[] = $this->getFactory()->createInstance($definition->id());
     }
     return $patterns;
   }
