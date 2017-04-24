@@ -22,72 +22,65 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    */
   const LIBRARY_PREFIX = 'ui_patterns';
 
-  protected $label;
-  protected $description = '';
-  protected $basePath;
-  protected $fileName;
-  protected $fields = [];
-  protected $use;
-  protected $themeHook;
-  protected $customThemeHook;
-  protected $template;
-  protected $libraries = [];
-  protected $tags;
-  protected $additional = [];
-  protected $deriver = '';
-  protected $provider = '';
+  /**
+   * Pattern definition.
+   *
+   * @var array
+   */
+  protected $definition = [
+    'id' => NULL,
+    'label' => NULL,
+    'description' => NULL,
+    'base path' => NULL,
+    'file name' => NULL,
+    'use' => NULL,
+    'theme hook' => NULL,
+    'custom theme hook' => FALSE,
+    'template' => NULL,
+    'libraries' => [],
+    'fields' => [],
+    'tags' => [],
+    'additional' => [],
+    'deriver' => NULL,
+    'provider' => NULL,
+    'class' => NULL,
+  ];
 
   /**
    * PatternDefinition constructor.
    */
   public function __construct(array $definition = []) {
-    foreach ($definition as $property => $value) {
-      $this->set($property, $value);
+    foreach ($definition as $name => $value) {
+      if (array_key_exists($name, $this->definition)) {
+        $this->definition[$name] = $value;
+      }
+      else {
+        $this->definition['additional'][$name] = $value;
+      }
     }
 
-    if (isset($definition['fields'])) {
-      $this->setFields($definition['fields']);
-    }
+    $this->id = $this->definition['id'];
+    $this->setFields($this->definition['fields']);
+    $this->setThemeHook(self::PATTERN_PREFIX . $this->id());
 
-    // Process theme hook.
-    if (!isset($definition['theme hook'])) {
-      $this->setThemeHook(self::PATTERN_PREFIX . $this->id());
-      $this->setCustomThemeHook(FALSE);
+    if (!empty($definition['theme hook'])) {
+      $this->setThemeHook($definition['theme hook']);
+      $this->definition['custom theme hook'] = TRUE;
     }
   }
 
   /**
-   * Sets a value to an arbitrary property.
+   * Return array definition.
    *
-   * @param string $property
-   *   The property to use for the value.
-   * @param mixed $value
-   *   The value to set.
-   *
-   * @return $this
+   * @return array
+   *    Array definition.
    */
-  public function set($property, $value) {
-    $property = $this->getPropertyName($property);
-    if (property_exists($this, $property)) {
-      $this->{$property} = $value;
+  public function toArray() {
+    $definition = $this->definition;
+    foreach ($this->getFields() as $field) {
+      $definition['fields'][$field->getName()] = $field->toArray();
     }
-    else {
-      $this->additional[$property] = $value;
-    }
-    return $this;
-  }
-
-  /**
-   * Setter.
-   *
-   * @param mixed $id
-   *    Property value.
-   *
-   * @return $this
-   */
-  public function setId($id) {
-    $this->id = $id;
-    return $this;
+    return $definition;
   }
 
   /**
@@ -97,7 +90,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getLabel() {
-    return $this->label;
+    return $this->definition['label'];
   }
 
   /**
@@ -109,7 +102,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setLabel($label) {
-    $this->label = $label;
+    $this->definition['label'] = $label;
     return $this;
   }
 
@@ -120,7 +113,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getBasePath() {
-    return $this->basePath;
+    return $this->definition['base path'];
   }
 
   /**
@@ -132,7 +125,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setBasePath($basePath) {
-    $this->basePath = $basePath;
+    $this->definition['base path'] = $basePath;
     return $this;
   }
 
@@ -143,7 +136,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getFileName() {
-    return $this->fileName;
+    return $this->definition['file name'];
   }
 
   /**
@@ -155,8 +148,18 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setFileName($fileName) {
-    $this->fileName = $fileName;
+    $this->definition['file name'] = $fileName;
     return $this;
+  }
+
+  /**
+   * Get Provider property.
+   *
+   * @return string
+   *   Property value.
+   */
+  public function getProvider() {
+    return $this->definition['provider'];
   }
 
   /**
@@ -168,7 +171,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setProvider($provider) {
-    $this->provider = $provider;
+    $this->definition['provider'] = $provider;
     return $this;
   }
 
@@ -179,7 +182,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getFields() {
-    return $this->fields;
+    return $this->definition['fields'];
   }
 
   /**
@@ -207,9 +210,35 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   public function setFields(array $fields) {
     foreach ($fields as $name => $value) {
       $field = new PatternDefinitionField($name, $value);
-      $this->fields[$field->getName()] = $field;
+      $this->definition['fields'][$field->getName()] = $field;
     }
     return $this;
+  }
+
+  /**
+   * Get field.
+   *
+   * @param string $name
+   *    Field name.
+   *
+   * @return PatternDefinitionField|null
+   *    Definition field.
+   */
+  public function getField($name) {
+    return $this->hasField($name) ? $this->definition['fields'][$name] : NULL;
+  }
+
+  /**
+   * Check whereas field exists.
+   *
+   * @param string $name
+   *   Field name.
+   *
+   * @return bool
+   *   Whereas field exists
+   */
+  public function hasField($name) {
+    return isset($this->definition['fields'][$name]);
   }
 
   /**
@@ -223,34 +252,8 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setField($name, $label) {
-    $this->fields[$name] = new PatternDefinitionField($name, $label);
+    $this->definition['fields'][$name] = new PatternDefinitionField($name, $label);
     return $this;
-  }
-
-  /**
-   * Check whereas field exists.
-   *
-   * @param string $name
-   *   Field name.
-   *
-   * @return bool
-   *   Whereas field exists
-   */
-  public function hasField($name) {
-    return isset($this->fields[$name]);
-  }
-
-  /**
-   * Get field.
-   *
-   * @param string $name
-   *    Field name.
-   *
-   * @return PatternDefinitionField|null
-   *    Definition field.
-   */
-  public function getField($name) {
-    return $this->hasField($name) ? $this->fields[$name] : NULL;
   }
 
   /**
@@ -260,19 +263,19 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getThemeHook() {
-    return $this->themeHook;
+    return $this->definition['theme hook'];
   }
 
   /**
-   * Setter,.
+   * Setter.
    *
-   * @param string $themeHook
+   * @param string $theme_hook
    *   Property value.
    *
    * @return $this
    */
-  public function setThemeHook($themeHook) {
-    $this->themeHook = $themeHook;
+  public function setThemeHook($theme_hook) {
+    $this->definition['theme hook'] = $theme_hook;
     return $this;
   }
 
@@ -283,7 +286,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getDescription() {
-    return $this->description;
+    return $this->definition['description'];
   }
 
   /**
@@ -295,7 +298,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setDescription($description) {
-    $this->description = $description;
+    $this->definition['description'] = $description;
     return $this;
   }
 
@@ -306,7 +309,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *    Whereas definition uses the "use:" property.
    */
   public function hasUse() {
-    return !empty($this->use);
+    return !empty($this->definition['use']);
   }
 
   /**
@@ -316,7 +319,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getUse() {
-    return $this->use;
+    return $this->definition['use'];
   }
 
   /**
@@ -328,7 +331,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setUse($use) {
-    $this->use = $use;
+    $this->definition['use'] = $use;
     return $this;
   }
 
@@ -339,7 +342,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getTags() {
-    return $this->tags;
+    return $this->definition['tags'];
   }
 
   /**
@@ -351,7 +354,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setTags($tags) {
-    $this->tags = $tags;
+    $this->definition['tags'] = $tags;
     return $this;
   }
 
@@ -361,21 +364,8 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return mixed
    *   Property value.
    */
-  public function getCustomThemeHook() {
-    return $this->customThemeHook;
-  }
-
-  /**
-   * Setter.
-   *
-   * @param mixed $customThemeHook
-   *   Property value.
-   *
-   * @return $this
-   */
-  public function setCustomThemeHook($customThemeHook) {
-    $this->customThemeHook = $customThemeHook;
-    return $this;
+  public function hasCustomThemeHook() {
+    return $this->definition['custom theme hook'];
   }
 
   /**
@@ -385,7 +375,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getTemplate() {
-    return $this->template;
+    return $this->definition['template'];
   }
 
   /**
@@ -397,7 +387,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setTemplate($template) {
-    $this->template = $template;
+    $this->definition['template'] = $template;
     return $this;
   }
 
@@ -408,7 +398,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Whereas has template.
    */
   public function hasTemplate() {
-    return !empty($this->template);
+    return !empty($this->definition['template']);
   }
 
   /**
@@ -418,7 +408,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getLibraries() {
-    return $this->libraries;
+    return $this->definition['libraries'];
   }
 
   /**
@@ -449,7 +439,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setLibraries($libraries) {
-    $this->libraries = $libraries;
+    $this->definition['libraries'] = $libraries;
     return $this;
   }
 
@@ -460,7 +450,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getDeriver() {
-    return $this->deriver;
+    return $this->definition['deriver'];
   }
 
   /**
@@ -470,7 +460,31 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Property value.
    */
   public function getAdditional() {
-    return $this->additional;
+    return $this->definition['additional'];
+  }
+
+  /**
+   * Get Class property.
+   *
+   * @return string
+   *   Property value.
+   */
+  public function getClass() {
+    return $this->definition['class'];
+  }
+
+  /**
+   * Set Class property.
+   *
+   * @param string $class
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setClass($class) {
+    parent::setClass($class);
+    $this->definition['class'] = $class;
+    return $this;
   }
 
   /**
@@ -482,7 +496,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setAdditional($additional) {
-    $this->additional = $additional;
+    $this->definition['additional'] = $additional;
     return $this;
   }
 
@@ -495,7 +509,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return $this
    */
   public function setDeriver($deriver) {
-    $this->deriver = $deriver;
+    $this->definition['deriver'] = $deriver;
     return $this;
   }
 
@@ -503,73 +517,27 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * {@inheritdoc}
    */
   public function offsetExists($offset) {
-    $name = $this->getPropertyName($offset);
-    return property_exists($this, $name);
+    return array_key_exists($offset, $this->definition);
   }
 
   /**
    * {@inheritdoc}
    */
   public function offsetGet($offset) {
-    $name = $this->getPropertyName($offset);
-    return isset($this->{$name}) ? $this->{$name} : NULL;
+    return isset($this->definition[$offset]) ? $this->definition[$offset] : [];
   }
 
   /**
    * {@inheritdoc}
    */
   public function offsetSet($offset, $value) {
-    $this->set($offset, $value);
+    $this->definition[$offset] = $value;
   }
 
   /**
    * {@inheritdoc}
    */
   public function offsetUnset($offset) {
-  }
-
-  /**
-   * Return array definition.
-   *
-   * @return array
-   *    Array definition.
-   */
-  public function toArray() {
-    $definition = [
-      'id' => $this->id(),
-      'label' => $this->getLabel(),
-      'description' => $this->getDescription(),
-      'base path' => $this->getBasePath(),
-      'file name' => $this->getFileName(),
-      'use' => $this->getUse(),
-      'theme hook' => $this->getThemeHook(),
-      'custom theme hook' => $this->getCustomThemeHook(),
-      'template' => $this->getTemplate(),
-      'libraries' => $this->getLibraries(),
-      'tags' => $this->getTags(),
-      'additional' => $this->getAdditional(),
-      'deriver' => $this->getDeriver(),
-      'provider' => $this->getProvider(),
-      'class' => $this->getClass(),
-    ];
-
-    foreach ($this->getFields() as $field) {
-      $definition['fields'][$field->getName()] = $field->toArray();
-    }
-    return $definition;
-  }
-
-  /**
-   * Convert pattern definition property name into an object property name.
-   *
-   * @param string $property
-   *    Pattern definition property name.
-   *
-   * @return string
-   *    Object property name.
-   */
-  private function getPropertyName($property) {
-    return lcfirst(str_replace(' ', '', ucwords($property)));
   }
 
 }

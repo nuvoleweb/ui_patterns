@@ -74,7 +74,7 @@ class LibraryPattern extends PatternBase {
   protected function processCustomThemeHookProperty(PatternDefinition $definition) {
     /** @var \Drupal\Core\Extension\Extension $module */
     $return = [];
-    if (!$definition->getCustomThemeHook() && $this->moduleHandler->moduleExists($definition->getProvider())) {
+    if (!$definition->hasCustomThemeHook() && $this->moduleHandler->moduleExists($definition->getProvider())) {
       $module = $this->moduleHandler->getModule($definition->getProvider());
       $return['path'] = $module->getPath() . '/templates';
     }

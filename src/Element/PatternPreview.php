@@ -36,7 +36,7 @@ class PatternPreview extends Pattern {
       $fields[$field->getName()] = $preview;
     }
 
-    if (isset($definition['extra']['attributes'])) {
+    if (isset($definition['additional']['attributes'])) {
       $fields['attributes'] = $definition['extra']['attributes'];
     }
     $element['#fields'] = $fields;
