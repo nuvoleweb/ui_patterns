@@ -9,12 +9,14 @@ namespace Drupal\ui_patterns\Definition;
  */
 class PatternDefinitionField implements \ArrayAccess {
 
+  use ArrayAccessDefinitionTrait;
+
   /**
    * Default field values.
    *
    * @var array
    */
-  protected $values = [
+  protected $definition = [
     'name' => NULL,
     'label' => NULL,
     'description' => NULL,
@@ -28,14 +30,24 @@ class PatternDefinitionField implements \ArrayAccess {
    */
   public function __construct($name, $value) {
     if (is_scalar($value)) {
-      $this->values['name'] = is_numeric($name) ? $value : $name;
-      $this->values['label'] = $value;
+      $this->definition['name'] = is_numeric($name) ? $value : $name;
+      $this->definition['label'] = $value;
     }
     else {
-      $this->values['name'] = !isset($value['name']) ? $name : $value['name'];
-      $this->values['label'] = $value['label'];
-      $this->values = $value + $this->values;
+      $this->definition['name'] = !isset($value['name']) ? $name : $value['name'];
+      $this->definition['label'] = $value['label'];
+      $this->definition = $value + $this->definition;
     }
+  }
+
+  /**
+   * Return array definition.
+   *
+   * @return array
+   *    Array definition.
+   */
+  public function toArray() {
+    return $this->definition;
   }
 
   /**
@@ -45,7 +57,7 @@ class PatternDefinitionField implements \ArrayAccess {
    *   Property value.
    */
   public function getName() {
-    return $this->values['name'];
+    return $this->definition['name'];
   }
 
   /**
@@ -55,7 +67,7 @@ class PatternDefinitionField implements \ArrayAccess {
    *   Property value.
    */
   public function getLabel() {
-    return $this->values['label'];
+    return $this->definition['label'];
   }
 
   /**
@@ -65,7 +77,7 @@ class PatternDefinitionField implements \ArrayAccess {
    *   Property value.
    */
   public function getDescription() {
-    return $this->values['description'];
+    return $this->definition['description'];
   }
 
   /**
@@ -77,7 +89,7 @@ class PatternDefinitionField implements \ArrayAccess {
    * @return $this
    */
   public function setDescription($description) {
-    $this->values['description'] = $description;
+    $this->definition['description'] = $description;
     return $this;
   }
 
@@ -88,7 +100,7 @@ class PatternDefinitionField implements \ArrayAccess {
    *   Property value.
    */
   public function getType() {
-    return $this->values['type'];
+    return $this->definition['type'];
   }
 
   /**
@@ -100,7 +112,7 @@ class PatternDefinitionField implements \ArrayAccess {
    * @return $this
    */
   public function setType($type) {
-    $this->values['type'] = $type;
+    $this->definition['type'] = $type;
     return $this;
   }
 
@@ -111,7 +123,7 @@ class PatternDefinitionField implements \ArrayAccess {
    *   Property value.
    */
   public function getPreview() {
-    return $this->values['preview'];
+    return $this->definition['preview'];
   }
 
   /**
@@ -123,7 +135,7 @@ class PatternDefinitionField implements \ArrayAccess {
    * @return $this
    */
   public function setPreview($preview) {
-    $this->values['preview'] = $preview;
+    $this->definition['preview'] = $preview;
     return $this;
   }
 
@@ -134,7 +146,7 @@ class PatternDefinitionField implements \ArrayAccess {
    *   Property value.
    */
   public function getEscape() {
-    return $this->values['escape'];
+    return $this->definition['escape'];
   }
 
   /**
@@ -146,45 +158,8 @@ class PatternDefinitionField implements \ArrayAccess {
    * @return $this
    */
   public function setEscape($escape) {
-    $this->values['escape'] = $escape;
+    $this->definition['escape'] = $escape;
     return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function offsetExists($offset) {
-    return array_key_exists($offset, $this->values);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function offsetGet($offset) {
-    return isset($this->values[$offset]) ? $this->values[$offset] : NULL;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function offsetSet($offset, $value) {
-    $this->values[$offset] = $value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function offsetUnset($offset) {
-  }
-
-  /**
-   * Return array definition.
-   *
-   * @return array
-   *    Array definition.
-   */
-  public function toArray() {
-    return $this->values;
   }
 
 }

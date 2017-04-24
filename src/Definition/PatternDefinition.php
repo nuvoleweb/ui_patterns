@@ -12,6 +12,8 @@ use Drupal\Component\Plugin\Definition\PluginDefinition;
  */
 class PatternDefinition extends PluginDefinition implements DerivablePluginDefinitionInterface, \ArrayAccess {
 
+  use ArrayAccessDefinitionTrait;
+
   /**
    * Pattern prefix.
    */
@@ -511,33 +513,6 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   public function setDeriver($deriver) {
     $this->definition['deriver'] = $deriver;
     return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function offsetExists($offset) {
-    return array_key_exists($offset, $this->definition);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function offsetGet($offset) {
-    return isset($this->definition[$offset]) ? $this->definition[$offset] : [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function offsetSet($offset, $value) {
-    $this->definition[$offset] = $value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function offsetUnset($offset) {
   }
 
 }
