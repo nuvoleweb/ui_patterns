@@ -1,5 +1,14 @@
 # Change Log
 
+## [Unreleased](https://github.com/nuvoleweb/ui_patterns/tree/HEAD)
+
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta7...HEAD)
+
+
+
+- Fix field select option values [\#98](https://github.com/nuvoleweb/ui_patterns/pull/98) ([aleksip](https://github.com/aleksip))
+- Decentralise plugin manager responsibilities towards pattern plugin classes \#91 [\#92](https://github.com/nuvoleweb/ui_patterns/pull/92) ([ademarco](https://github.com/ademarco))
+
 ## [8.x-1.0-beta7](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-beta7) (2017-04-12)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta6...8.x-1.0-beta7)
 
