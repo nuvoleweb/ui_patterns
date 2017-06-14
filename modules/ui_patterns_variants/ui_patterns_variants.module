@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * ui_patterns_variants.module
+ */
+
+use Drupal\Core\Layout\LayoutDefinition;
+use Drupal\ui_patterns\UiPatterns;
+
+/**
+ * Implements hook_layout_alter().
+ */
+function ui_patterns_variants_layout_alter(&$definitions) {
+  /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
+  // Right now, this overrides the services provided in ui_patterns_library.
+  foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
+    $definition = [
+      'label' => $pattern_definition->getLabel(),
+      'theme' => $pattern_definition->getThemeHook(),
+      'provider' => $pattern_definition->getProvider(),
+      'category' => 'Patterns',
+      'class' => '\Drupal\ui_patterns_variants\Plugin\Layout\PatternVariants',
+      'pattern' => $pattern_definition->id(),
+      'template' => 'pattern-' . $pattern_definition->id(),
+    ];
+    foreach ($pattern_definition->getFields() as $field) {
+      $definition['regions'][$field->getName()]['label'] = $field->getLabel();
+    }
+    $definitions['pattern_' . $pattern_definition->id()] = new LayoutDefinition($definition);
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
+  $pattern_settings = $variables['content']['#ds_configuration']['layout']['settings']['pattern'];
+  if (isset($pattern_settings['variants'])) {
+    // Set some variables to be used in the preprocess for the pattern.
+    $variables['content']['#context']['variants'] = $pattern_settings['variants'];
+    $variables['content']['#context']['entity'] = $variables['content']['#entity'];
+  }
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function ui_patterns_variants_preprocess(&$variables, $hook) {
+  /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
+  foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
+    if ($hook != 'pattern_' . $pattern_definition->id()) {
+      continue;
+    }
+
+    /** @var \Drupal\ui_patterns\Element\PatternContext $context */
+    $context = $variables['context'];
+    // If the entity is not set then there are no variants.
+    if (!$entity = $context->getProperty('entity')) {
+      return;
+    }
+    $entity_fields = $entity->getFieldDefinitions();
+
+    $variants = $context->getProperty('variants');
+    foreach ($variants as $key => $variant) {
+
+      /** @var \Drupal\Core\Field\FieldItemList $field */
+      // If the variant is configured to get the field value, check to make sure
+      // the field exists in the entity and that there is a value.
+      if ($variant['variant_field'] &&
+        isset($entity_fields[$variant['variant_field']]) &&
+        $entity->get($variant['variant_field'])
+      ) {
+        $field = $entity->get($variant['variant_field']);
+        $field_values = $field->getValue();
+        foreach ($field_values as &$value) {
+          $value = implode(' ', $value);
+        }
+
+        // Implode the values of the field to get a simple string.
+        $variables['variants'][$key] = implode(' ', $field_values);
+      }
+      else {
+        // Set some default value.
+        $variables['variants'][$key] = isset($variant['default']) ? $variant['default'] : NULL;
+      }
+
+
+      // Limit to only the available options established in the yml file.
+      if (!empty($variant['options'])) {
+        $limited_values = [];
+        foreach (array_keys($variant['options']) as $value) {
+          if (strpos($variables['variants'][$key], $value) !== FALSE) {
+            $limited_values[] = $value;
+          }
+        }
+        $variables['variants'][$key] = implode(' ', $limited_values);
+      }
+
+    }
+  }
+}
