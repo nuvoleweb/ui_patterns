@@ -37,10 +37,57 @@ function ui_patterns_variants_layout_alter(&$definitions) {
 function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
   $pattern_settings = $variables['content']['#ds_configuration']['layout']['settings']['pattern'];
   if (isset($pattern_settings['variants'])) {
+    $variant_settings = [];
+    $entity = $variables['content']['#entity'];
+    $entity_fields = $entity->getFieldDefinitions();
+
+    foreach ($pattern_settings['variants'] as $key => $variant) {
+      $variant_settings[$key] = NULL;
+
+      if ($variant['variant_field'] &&
+        isset($entity_fields[$variant['variant_field']]) &&
+        $entity->get($variant['variant_field'])
+      ) {
+        $field_values = $entity->get($variant['variant_field'])->getValue();
+        foreach ($field_values as &$value) {
+          $value = implode(' ', $value);
+        }
+        $variant_settings[$key] = implode(' ', $field_values);
+      }
+      elseif (isset($variant['default'])) {
+        $variant_settings[$key] = $variant['default'];
+      }
+    }
+
+
+    foreach ($variant_settings as $key => &$value) {
+      if (isset($pattern_settings['variants'][$key]['options'])) {
+        $limited_value = [];
+
+        foreach (array_keys($pattern_settings['variants'][$key]['options']) as $option) {
+          if (strpos($value, $option) !== FALSE) {
+            $limited_value[] = $option;
+          }
+        }
+
+        $value = implode(' ', $limited_value);
+
+        if (!$value && $pattern_settings['variants'][$key]['default']) {
+          $value = $pattern_settings['variants'][$key]['default'];
+        }
+      }
+    }
+
     // Set some variables to be used in the preprocess for the pattern.
-    $variables['content']['#context']['variants'] = $pattern_settings['variants'];
-    $variables['content']['#context']['entity'] = $variables['content']['#entity'];
+    $variables['content']['#context']['variants'] = $variant_settings;
   }
+}
+
+/**
+ * Implements hook_preprocess_pattern_views_row().
+ */
+function ui_patterns_variants_preprocess_pattern_views_row(&$variables) {
+  $variables['pattern']['#context']['variants'] = ['image_style' => 'here'];
 }
 
 /**
@@ -55,48 +102,11 @@ function ui_patterns_variants_preprocess(&$variables, $hook) {
 
     /** @var \Drupal\ui_patterns\Element\PatternContext $context */
     $context = $variables['context'];
-    // If the entity is not set then there are no variants.
-    if (!$entity = $context->getProperty('entity')) {
-      return;
-    }
-    $entity_fields = $entity->getFieldDefinitions();
-
     $variants = $context->getProperty('variants');
-    foreach ($variants as $key => $variant) {
 
-      /** @var \Drupal\Core\Field\FieldItemList $field */
-      // If the variant is configured to get the field value, check to make sure
-      // the field exists in the entity and that there is a value.
-      if ($variant['variant_field'] &&
-        isset($entity_fields[$variant['variant_field']]) &&
-        $entity->get($variant['variant_field'])
-      ) {
-        $field = $entity->get($variant['variant_field']);
-        $field_values = $field->getValue();
-        foreach ($field_values as &$value) {
-          $value = implode(' ', $value);
-        }
-
-        // Implode the values of the field to get a simple string.
-        $variables['variants'][$key] = implode(' ', $field_values);
-      }
-      else {
-        // Set some default value.
-        $variables['variants'][$key] = isset($variant['default']) ? $variant['default'] : NULL;
-      }
-
-
-      // Limit to only the available options established in the yml file.
-      if (!empty($variant['options'])) {
-        $limited_values = [];
-        foreach (array_keys($variant['options']) as $value) {
-          if (strpos($variables['variants'][$key], $value) !== FALSE) {
-            $limited_values[] = $value;
-          }
-        }
-        $variables['variants'][$key] = implode(' ', $limited_values);
-      }
-
+    if ($variants) {
+      $variables['variants'] = $variants;
     }
+    break;
   }
 }
