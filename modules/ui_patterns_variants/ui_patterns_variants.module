@@ -179,7 +179,10 @@ function ui_patterns_variants_form_views_ui_edit_display_form_alter(&$form, Form
   $storage = $form_state->getStorage();
   $executable = $storage['view']->get('storage')->getExecutable();
 
-  if ($executable->rowPlugin->getPluginId() != 'ui_patterns' || empty($form['options']['row_options']['pattern_mapping'])) {
+  if (!$executable->rowPlugin ||
+    $executable->rowPlugin->getPluginId() != 'ui_patterns' ||
+    empty($form['options']['row_options']['pattern_mapping'])
+  ) {
     return;
   }
 
