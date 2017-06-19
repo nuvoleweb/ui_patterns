@@ -104,6 +104,34 @@ function ui_patterns_variants_preprocess_pattern_views_row(&$variables) {
 }
 
 /**
+ * Implements hook_field_group_build_pre_render_alter().
+ */
+function ui_patterns_variants_field_group_build_pre_render_alter(&$element) {
+  $entity = NULL;
+  foreach ($element as $item) {
+    if (is_object($item) && method_exists($item, 'getEntityTypeId') && $item->getEntityTypeId() == $element['#entity_type']) {
+      $entity = $item;
+      break;
+    }
+  }
+
+  foreach ($element['#fieldgroups'] as $group_name => $group) {
+    if (isset($group->format_settings['variants'])) {
+      foreach ($group->format_settings['variants'] as $key => $variant) {
+        $element[$group_name]['#context']['variants'][$key] = $variant['default'];
+        if ($variant['variant_field'] && $entity) {
+          $field_values = $entity->get($variant['variant_field'])->getValue();
+          foreach ($field_values as &$value) {
+            $value = implode(' ', $value);
+          }
+          $element[$group_name]['#context']['variants'][$key] = implode(' ', $field_values);
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess().
  */
 function ui_patterns_variants_preprocess(&$variables, $hook) {
@@ -141,10 +169,8 @@ function ui_patterns_variants_preprocess(&$variables, $hook) {
  *   The current variant settings.
  */
 function _ui_patterns_variants_validate_variants($pattern, array &$variants) {
-  $pattern_definition = UiPatterns::getPatternDefinition($pattern);
-  $additional = $pattern_definition->getAdditional();
 
-  foreach ($additional['variants'] as $key => $variant) {
+  foreach (_ui_patterns_variants_get_variants($pattern) as $key => $variant) {
     // Make sure all variants exist even if they are null.
     if (!isset($variants[$key])) {
       $variants[$key] = NULL;
@@ -197,39 +223,39 @@ function ui_patterns_variants_form_views_ui_edit_display_form_alter(&$form, Form
 
   $patterns = &$form['options']['row_options']['pattern_mapping'];
   foreach ($patterns as $pattern_id => &$settings) {
-    // Get the pattern definition and additional where the variants live.
-    $pattern_definition = UiPatterns::getPatternDefinition($pattern_id);
-    $additional = $pattern_definition->getAdditional();
 
-    if (isset($additional['variants'])) {
-      $settings['variants'] = [
-        '#type' => 'container',
-        '#title' => t('Variants'),
-      ];
-      foreach ($additional['variants'] as $key => $variant) {
-        $settings['variants'][$key] = [
-          '#type' => 'fieldset',
-          '#title' => $variant['label'],
-        ];
-        $settings['variants'][$key]['default'] = [
-          '#type' => 'select',
-          '#title' => t('Variant setting'),
-          '#options' => $variant['options'] + [0 => t('Field Value')],
-          '#default_value' => $options[$pattern_id][$key]['default'],
-        ];
-        $settings['variants'][$key]['field_mapping'] = [
-          '#type' => 'select',
-          '#title' => 'Field Mapping',
-          '#options' => $field_options,
-          '#default_value' => $options[$pattern_id][$key]['field_mapping'],
-          '#states' => [
-            'visible' => [
-              ':input[name="row_options[pattern_mapping][' . $pattern_id . '][variants][' . $key . '][default]"]' => ['value' => 0],
-            ],
-          ],
-        ];
-      }
+    if (!($variants = _ui_patterns_variants_get_variants($pattern_id))) {
+      continue;
     }
+
+    $settings['variants'] = [
+      '#type' => 'container',
+      '#title' => t('Variants'),
+    ];
+    foreach ($variants as $key => $variant) {
+      $settings['variants'][$key] = [
+        '#type' => 'fieldset',
+        '#title' => $variant['label'],
+      ];
+      $settings['variants'][$key]['default'] = [
+        '#type' => 'select',
+        '#title' => t('Variant setting'),
+        '#options' => $variant['options'] + [0 => t('Field Value')],
+        '#default_value' => $options[$pattern_id][$key]['default'],
+      ];
+      $settings['variants'][$key]['field_mapping'] = [
+        '#type' => 'select',
+        '#title' => 'Field Mapping',
+        '#options' => $field_options,
+        '#default_value' => $options[$pattern_id][$key]['field_mapping'],
+        '#states' => [
+          'visible' => [
+            ':input[name="row_options[pattern_mapping][' . $pattern_id . '][variants][' . $key . '][default]"]' => ['value' => 0],
+          ],
+        ],
+      ];
+    }
+
   }
 
   array_unshift($form['actions']['submit']['#submit'], 'ui_patterns_variants_views_save');
@@ -251,4 +277,119 @@ function ui_patterns_variants_views_save(array $form, FormStateInterface $form_s
     }
   }
   $form_state->setValues($values);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ui_patterns_variants_form_entity_view_display_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $storage = $form_state->getStorage();
+
+  $entity_fields = $form_state->getFormObject()
+    ->getEntity()
+    ->get('fieldDefinitions');
+
+  $fields = [];
+  foreach (array_keys($entity_fields) as $field) {
+    $fields[$field] = $field;
+  }
+
+  foreach ($form['#fieldgroups'] as $group) {
+    if (!isset($form['fields'][$group]['format']['format_settings'])) {
+      continue;
+    }
+
+
+    $format_settings = &$form['fields'][$group]['format']['format_settings'];
+    if (isset($format_settings['settings']['pattern_mapping'])) {
+
+      $config = $storage['field_group'][$group]->format_settings['variants'];
+      foreach ($format_settings['settings']['pattern_mapping'] as $pattern => &$pattern_settings) {
+        if (empty($variants = _ui_patterns_variants_get_variants($pattern))) {
+          continue;
+        }
+
+        $pattern_settings['variants'] = [
+          '#type' => 'container',
+          '#title' => t('Variants'),
+        ];
+
+        foreach ($variants as $key => $variant) {
+
+          $pattern_settings['variants'][$key] = [
+            '#type' => 'fieldset',
+            '#title' => $variant['label'],
+            '#description' => $variant['description'],
+          ];
+
+          // If no variant options are defined, we must rely on field mapping.
+          if (isset($variant['options'])) {
+            $pattern_settings['variants'][$key]['default'] = [
+              '#type' => 'select',
+              '#title' => t('Default value'),
+              '#options' => $variant['options'],
+              '#default_value' => $config[$key]['default'],
+            ];
+
+            $pattern_settings['variants'][$key]['options'] = [
+              '#type' => 'hidden',
+              '#value' => $variant['options'],
+            ];
+          }
+
+          $pattern_settings['variants'][$key]['variant_field'] = [
+            '#type' => 'select',
+            '#title' => t('Variant Field'),
+            '#description' => t('Field to define variant to use.'),
+            '#options' => $fields,
+            '#empty_option' => t('- None -'),
+            '#default_value' => $config[$key]['variant_field'],
+          ];
+        }
+      }
+
+      array_unshift($format_settings['actions']['save_settings']['#submit'], 'ui_patterns_variants_field_group_save');
+    }
+  }
+}
+
+/**
+ * Field group update submission.
+ */
+function ui_patterns_variants_field_group_save($form, FormStateInterface $form_state) {
+  $values = $form_state->getValues();
+
+  foreach ($form['#fieldgroups'] as $fieldgroup) {
+    if (!isset($values['fields'][$fieldgroup]['settings_edit_form'])) {
+      continue;
+    }
+    foreach ($values['fields'][$fieldgroup]['settings_edit_form']['settings']['pattern_mapping'] as $pattern => &$settings) {
+      if ($pattern == $values['fields'][$fieldgroup]['settings_edit_form']['settings']['pattern']) {
+        if (isset($settings['variants'])) {
+          $values['fields']['group_postcard']['settings_edit_form']['settings']['variants'] = $settings['variants'];
+        }
+      }
+
+      unset($settings['variants']);
+    }
+  }
+  $form_state->setValues($values);
+}
+
+/**
+ * Get the variants if any are defined for a particular pattern.
+ *
+ * @param string $pattern_id
+ *   The pattern id.
+ *
+ * @return array
+ *   The defined variants for the given pattern.
+ */
+function _ui_patterns_variants_get_variants($pattern_id) {
+  $definition = UiPatterns::getPatternDefinition($pattern_id);
+  $additional = $definition->getAdditional();
+  if (isset($additional['variants'])) {
+    return $additional['variants'];
+  }
+  return [];
 }
