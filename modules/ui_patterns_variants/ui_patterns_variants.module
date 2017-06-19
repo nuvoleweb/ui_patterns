@@ -289,9 +289,10 @@ function ui_patterns_variants_form_entity_view_display_edit_form_alter(&$form, F
     ->getEntity()
     ->get('fieldDefinitions');
 
-  $fields = [];
-  foreach (array_keys($entity_fields) as $field) {
-    $fields[$field] = $field;
+  $field_options = [];
+  /** @var \Drupal\field\Entity\FieldConfig $definition */
+  foreach ($entity_fields as $field_name => $definition) {
+    $field_options[$field_name] = $definition->getLabel();
   }
 
   foreach ($form['#fieldgroups'] as $group) {
@@ -341,7 +342,7 @@ function ui_patterns_variants_form_entity_view_display_edit_form_alter(&$form, F
             '#type' => 'select',
             '#title' => t('Variant Field'),
             '#description' => t('Field to define variant to use.'),
-            '#options' => $fields,
+            '#options' => $field_options,
             '#empty_option' => t('- None -'),
             '#default_value' => $config[$key]['variant_field'],
           ];

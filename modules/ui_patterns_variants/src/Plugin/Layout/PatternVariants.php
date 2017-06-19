@@ -37,7 +37,6 @@ class PatternVariants extends PatternLayout {
     $entity_form = $form_state->getFormObject();
     $fieldDefinitions = $entity_form->getEntity()->get('fieldDefinitions');
 
-    // Allow no field mapping.
     $field_options = [];
     /** @var \Drupal\field\Entity\FieldConfig $definition */
     foreach ($fieldDefinitions as $field_name => $definition) {
