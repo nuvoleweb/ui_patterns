@@ -35,6 +35,10 @@ class PatternVariants extends PatternLayout {
 
     /* @var \Drupal\Core\Entity\EntityFormInterface $entity_form */
     $entity_form = $form_state->getFormObject();
+    if (!method_exists($entity_form, 'getEntity')) {
+      // todo: Panels patterns.
+      return $form;
+    }
     $fieldDefinitions = $entity_form->getEntity()->get('fieldDefinitions');
 
     $field_options = [];

@@ -16,6 +16,10 @@ function ui_patterns_variants_layout_alter(&$definitions) {
   /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
   // Right now, this overrides the services provided in ui_patterns_library.
   foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
+    $additional = $pattern_definition->getAdditional();
+    if (!isset($additional['variants'])) {
+      continue;
+    }
     $definition = [
       'label' => $pattern_definition->getLabel(),
       'theme' => $pattern_definition->getThemeHook(),
