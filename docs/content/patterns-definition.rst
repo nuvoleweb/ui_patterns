@@ -13,7 +13,7 @@ theme:
 Pattern definitions
 -------------------
 
-To define your patterns simply create a YAML file named ``MY_MODULE.ui_patterns.yml`` or ``MY_THEME.ui_patterns.yml``
+To define your patterns simply create a YAML file named ``MY_MODULE.patterns.yml`` or ``MY_THEME.patterns.yml``
 and list them using the following format:
 
 .. code-block:: yaml
@@ -101,7 +101,7 @@ The ``blockquote`` pattern defined above will be rendered in the pattern library
 Organize your patterns in sub-folders
 -------------------------------------
 
-Patterns can be defined using a single ``NAME.ui_patterns.yml`` file. However, in case of sites with a large number of
+Patterns can be defined using a single ``NAME.patterns.yml`` file. However, in case of sites with a large number of
 patterns, this might quickly becomes difficult to manage.
 
 Luckily pattern definitions can be organised in sub-folders too, as shown below:
@@ -112,15 +112,15 @@ Luckily pattern definitions can be organised in sub-folders too, as shown below:
     ├── templates
     │   └── patterns
     │       ├── button
-    │       │   ├── button.ui_patterns.yml
+    │       │   ├── button.patterns.yml
     │       │   └── pattern-button.html.twig
     │       ├── media
-    │       │   ├── media.ui_patterns.yml
+    │       │   ├── media.patterns.yml
     │       │   └── pattern-media.html.twig
     ...
     │       └── pattern-jumbotron.html.twig
     ├── ui_patterns_test_theme.info.yml
-    └── ui_patterns_test_theme.ui_patterns.yml
+    └── ui_patterns_test_theme.patterns.yml
 
 **Note:** the example above is taken by the actual test target site that is used to test the module itself: have a look
 at ``./tests/README.md`` and at ``./tests/target/custom`` for working examples on how to use the UI Patterns module.
