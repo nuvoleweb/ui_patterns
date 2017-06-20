@@ -43,27 +43,16 @@ function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
   $pattern_settings = $variables['content']['#ds_configuration']['layout']['settings']['pattern'];
   if (isset($pattern_settings['variants'])) {
     $variant_settings = [];
-    $entity = $variables['content']['#entity'];
-    $entity_fields = $entity->getFieldDefinitions();
 
     foreach ($pattern_settings['variants'] as $key => $variant) {
-      $variant_settings[$key] = NULL;
+      $variant_settings[$key] = $variant['default'];
 
-      // If using a field value, make sure the field exists and has a value.
-      if ($variant['variant_field'] &&
-        isset($entity_fields[$variant['variant_field']]) &&
-        $entity->get($variant['variant_field'])
-      ) {
-        $field_values = $entity->get($variant['variant_field'])->getValue();
+      if ($variant['variant_field']) {
+        $field_value = _ui_patterns_variants_entity_variant_value($variables['content']['#entity'], $variant['variant_field']);
 
-        // Simply implode all values into a string for easier use.
-        foreach ($field_values as &$value) {
-          $value = implode(' ', $value);
+        if ($field_value) {
+          $variant_settings[$key] = $field_value;
         }
-        $variant_settings[$key] = implode(' ', $field_values);
-      }
-      elseif (isset($variant['default'])) {
-        $variant_settings[$key] = $variant['default'];
       }
     }
 
@@ -74,9 +63,11 @@ function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
 
 /**
  * Implements hook_preprocess_views_view_field().
+ *
+ * Get the value of the field to be used in the variants.
  */
 function ui_patterns_variants_preprocess_views_view_field(&$variables) {
-  /** @var ViewExecutable $view */
+  /** @var \Drupal\views\ViewExecutable $view */
   $view = $variables['view'];
   if (!isset($view->rowPlugin->options['variants'])) {
     return;
@@ -111,6 +102,7 @@ function ui_patterns_variants_preprocess_pattern_views_row(&$variables) {
  * Implements hook_field_group_build_pre_render_alter().
  */
 function ui_patterns_variants_field_group_build_pre_render_alter(&$element) {
+  // Find the entity.
   $entity = NULL;
   foreach ($element as $item) {
     if (is_object($item) && method_exists($item, 'getEntityTypeId') && $item->getEntityTypeId() == $element['#entity_type']) {
@@ -121,16 +113,22 @@ function ui_patterns_variants_field_group_build_pre_render_alter(&$element) {
 
   foreach ($element['#fieldgroups'] as $group_name => $group) {
     if (isset($group->format_settings['variants'])) {
+      $variant_values = [];
+
       foreach ($group->format_settings['variants'] as $key => $variant) {
-        $element[$group_name]['#context']['variants'][$key] = $variant['default'];
+        // Set the initial value to the default setting, override for field
+        // values next.
+        $variant_values[$key] = $variant['default'];
         if ($variant['variant_field'] && $entity) {
-          $field_values = $entity->get($variant['variant_field'])->getValue();
-          foreach ($field_values as &$value) {
-            $value = implode(' ', $value);
+          $field_value = _ui_patterns_variants_entity_variant_value($entity, $variant['variant_field']);
+
+          if ($field_value) {
+            $variant_values[$key] = $field_value;
           }
-          $element[$group_name]['#context']['variants'][$key] = implode(' ', $field_values);
         }
       }
+
+      $element[$group_name]['#context']['variants'] = $variant_values;
     }
   }
 }
@@ -397,4 +395,29 @@ function _ui_patterns_variants_get_variants($pattern_id) {
     return $additional['variants'];
   }
   return [];
+}
+
+/**
+ * Get the variant field values and implode them into a string.
+ *
+ * @param object $entity
+ *   The fieldable entity.
+ * @param string $variant_field
+ *   The field name to get values.
+ *
+ * @return string
+ *   Imploded field values.
+ */
+function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
+  $entity_fields = $entity->getFieldDefinitions();
+
+  if (!$entity_fields || !isset($entity_fields[$variant_field])) {
+    return '';
+  }
+
+  $field_values = $entity->get($variant_field)->getValue();
+  foreach ($field_values as &$value) {
+    $value = implode(' ', $value);
+  }
+  return implode(' ', $field_values);
 }
