@@ -8,6 +8,7 @@
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\ui_patterns\UiPatterns;
 use \Drupal\Core\Form\FormStateInterface;
+use \Drupal\ui_patterns\Element\PatternContext;
 
 /**
  * Implements hook_layout_alter().
@@ -40,6 +41,10 @@ function ui_patterns_variants_layout_alter(&$definitions) {
  * Implements hook_preprocess_HOOK().
  */
 function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
+  if (empty($variables['content']['#ds_configuration']['layout']['settings']['pattern'])) {
+    return;
+  }
+
   $pattern_settings = $variables['content']['#ds_configuration']['layout']['settings']['pattern'];
   if (isset($pattern_settings['variants'])) {
     $variant_settings = [];
@@ -47,14 +52,17 @@ function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
     foreach ($pattern_settings['variants'] as $key => $variant) {
       $variant_settings[$key] = isset($variant['default']) ? $variant['default'] : NULL;
 
+      // If configured to use a field on the entity, override the default value.
       if ($variant['variant_field']) {
         $field_value = _ui_patterns_variants_entity_variant_value($variables['content']['#entity'], $variant['variant_field']);
 
+        // Only override default if the field has a value.
         if ($field_value) {
           $variant_settings[$key] = $field_value;
         }
       }
     }
+
     // Set some variables to be used in the preprocess for the pattern.
     $variables['content']['#context']['variants'] = $variant_settings;
   }
@@ -73,14 +81,17 @@ function ui_patterns_variants_preprocess_views_view_field(&$variables) {
   }
   $variants = $view->rowPlugin->options['variants'];
   $field_id = $variables['field']->options['id'];
-  $output = trim(strip_tags(render($variables['output'])));
 
   foreach ($variants as $key => $variant) {
+    // Don't overwrite the variant value since it could've been set by a field's
+    // value.
     if (!isset($variables['row']->variants[$key])) {
       $variables['row']->variants[$key] = isset($variant['default']) ? $variant['default'] : '';
     }
 
-    if (!$variant['default'] && $field_id == $variant['field_mapping'] && $output) {
+    // Override any default value if configured to use this field value.
+    if (!$variant['default'] && $field_id == $variant['field_mapping'] && $variables['output']) {
+      $output = trim(strip_tags(render($variables['output'])));
       $variables['row']->variants[$key] = $output;
     }
   }
@@ -91,6 +102,7 @@ function ui_patterns_variants_preprocess_views_view_field(&$variables) {
  */
 function ui_patterns_variants_preprocess_pattern_views_row(&$variables) {
   if (isset($variables['row']->variants)) {
+    // Pass row variants into the context for pattern preprocess.
     $variables['pattern']['#context']['variants'] = $variables['row']->variants;
   }
 }
@@ -119,6 +131,7 @@ function ui_patterns_variants_field_group_build_pre_render_alter(&$element) {
         if ($variant['variant_field'] && $entity) {
           $field_value = _ui_patterns_variants_entity_variant_value($entity, $variant['variant_field']);
 
+          // Only overwrite the default setting if the field has a value.
           if ($field_value) {
             $variant_values[$key] = $field_value;
           }
@@ -131,18 +144,37 @@ function ui_patterns_variants_field_group_build_pre_render_alter(&$element) {
 }
 
 /**
+ * Implements hook_preprocess_panelizer_view_mode().
+ */
+function ui_patterns_variants_preprocess_panelizer_view_mode(&$variables) {
+  $config = $variables['element']['#panels_display']->getConfiguration();
+
+  if (!empty($config['layout_settings']['pattern']['variants'])) {
+    $variant_settings = [];
+
+    foreach ($config['layout_settings']['pattern']['variants'] as $key => $variant) {
+      $variant_settings[$key] = isset($variant['default']) ? $variant['default'] : '';
+      if (isset($variant['variant_field']) && $variant['variant_field']) {
+        $variant_settings[$key] = _ui_patterns_variants_entity_variant_value($variables['entity'], $variant['variant_field']);
+      }
+    }
+
+    // Add context to the fields that can be accessed in the pattern preprocess.
+    $variables['content']['#fields']['context'] = new PatternContext('variants', ['variants' => $variant_settings]);
+  }
+}
+
+/**
  * Implements hook_preprocess().
  */
 function ui_patterns_variants_preprocess(&$variables, $hook) {
-  /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
-  foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
-    if ($hook != 'pattern_' . $pattern_definition->id()) {
-      continue;
-    }
+  $definitions = [];
+  ui_patterns_variants_layout_alter($definitions);
 
-    $additional = $pattern_definition->getAdditional();
-    if (!isset($additional['variants'])) {
-      break;
+  /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
+  foreach (array_keys($definitions) as $pattern_id) {
+    if ($hook != $pattern_id) {
+      continue;
     }
 
     /** @var \Drupal\ui_patterns\Element\PatternContext $context */
@@ -154,7 +186,7 @@ function ui_patterns_variants_preprocess(&$variables, $hook) {
       $variables['variants'] = $variants;
     }
 
-    _ui_patterns_variants_validate_variants($pattern_definition->id(), $variables['variants']);
+    _ui_patterns_variants_validate_variants(substr($pattern_id, 8), $variables['variants']);
     break;
   }
 }
@@ -187,9 +219,8 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variants) {
       $variants[$key] = implode(' ', $limited_options);
 
       // If the variant is not set at all, use the first option.
-      $default = key($variant['options']);
       if (!$variants[$key]) {
-        $variants[$key] = $default;
+        $variants[$key] = key($variant['options']);
         continue;
       }
     }
@@ -204,6 +235,7 @@ function ui_patterns_variants_form_views_ui_edit_display_form_alter(&$form, Form
   $storage = $form_state->getStorage();
   $executable = $storage['view']->get('storage')->getExecutable();
 
+  // Not a Patterns row setting or not in the correct form.
   if (!$executable->rowPlugin ||
     $executable->rowPlugin->getPluginId() != 'ui_patterns' ||
     empty($form['options']['row_options']['pattern_mapping'])
@@ -215,7 +247,6 @@ function ui_patterns_variants_form_views_ui_edit_display_form_alter(&$form, Form
   if (isset($executable->rowPlugin->options['variants'])) {
     $defaults = $executable->rowPlugin->options['variants'];
   }
-
 
   // Get all fields in the view.
   $fields = $executable->display_handler->handlers['field'];
@@ -371,7 +402,7 @@ function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
  * @return array
  *   The form elements array.
  */
-function _ui_patterns_variants_get_form_elements(array $variants, array $defaults, array $field_options) {
+function _ui_patterns_variants_get_form_elements(array $variants, array $defaults, array $field_options = []) {
   $pattern_settings = [];
   $pattern_settings['variants'] = [
     '#type' => 'container',
@@ -379,6 +410,9 @@ function _ui_patterns_variants_get_form_elements(array $variants, array $default
   ];
 
   foreach ($variants as $key => $variant) {
+    if (!isset($variant['options']) && !$field_options) {
+      continue;
+    }
 
     $pattern_settings['variants'][$key] = [
       '#type' => 'fieldset',
@@ -393,7 +427,7 @@ function _ui_patterns_variants_get_form_elements(array $variants, array $default
         '#type' => 'select',
         '#title' => t('Default value'),
         '#options' => $variant['options'],
-        '#default_value' => $defaults[$key]['default'],
+        '#default_value' => !empty($defaults[$key]['default']) ? $defaults[$key]['default'] : NULL,
       ];
 
       $pattern_settings['variants'][$key]['options'] = [
@@ -402,23 +436,17 @@ function _ui_patterns_variants_get_form_elements(array $variants, array $default
       ];
       $available_options = array_keys($variant['options']);
     }
-    else {
-      $pattern_settings['variants'][$key]['default'] = [
-        '#type' => 'textfield',
-        '#title' => t('Default value'),
-        '#description' => t('Define the default variant value'),
-        '#default_value' => $defaults[$key]['default'],
+
+    if ($field_options) {
+      $pattern_settings['variants'][$key]['variant_field'] = [
+        '#type' => 'select',
+        '#title' => t('Variant Field'),
+        '#description' => t('Field to define variant to use. Valid values are: %values', ['%values' => implode(', ', $available_options)]),
+        '#options' => $field_options,
+        '#empty_option' => t('- None -'),
+        '#default_value' => !empty($defaults[$key]['variant_field']) ? $defaults[$key]['variant_field'] : NULL,
       ];
     }
-
-    $pattern_settings['variants'][$key]['variant_field'] = [
-      '#type' => 'select',
-      '#title' => t('Variant Field'),
-      '#description' => t('Field to define variant to use. Valid values are: %values', ['%values' => implode(', ', $available_options)]),
-      '#options' => $field_options,
-      '#empty_option' => t('- None -'),
-      '#default_value' => $defaults[$key]['variant_field'],
-    ];
   }
   return $pattern_settings;
 }

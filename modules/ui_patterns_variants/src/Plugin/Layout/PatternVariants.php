@@ -29,28 +29,39 @@ class PatternVariants extends PatternLayout {
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
     $pattern = $this->getPluginDefinition()->get('additional')['pattern'];
-    if (empty($variants = _ui_patterns_variants_get_variants($pattern))) {
-      return $form;
-    }
+    $variants = _ui_patterns_variants_get_variants($pattern);
 
-    /* @var \Drupal\Core\Entity\EntityFormInterface $entity_form */
-    $entity_form = $form_state->getFormObject();
-    if (!method_exists($entity_form, 'getEntity')) {
-      // todo: Panels patterns.
+    if (empty($variants)) {
       return $form;
-    }
-    $fieldDefinitions = $entity_form->getEntity()->get('fieldDefinitions');
-
-    $field_options = [];
-    /** @var \Drupal\field\Entity\FieldConfig $definition */
-    foreach ($fieldDefinitions as $field_name => $definition) {
-      $field_options[$field_name] = $definition->getLabel();
     }
 
     $config = $this->getConfiguration();
     $defaults = [];
     if (isset($config['pattern']['variants'])) {
       $defaults = $config['pattern']['variants'];
+    }
+
+    $field_options = [];
+
+    /* @var \Drupal\Core\Entity\EntityFormInterface $entity_form */
+    $entity_form = $form_state->getFormObject();
+
+    if (method_exists($entity_form, 'getEntity') && $entity_form->getEntity()) {
+      $fieldDefinitions = $entity_form->getEntity()->get('fieldDefinitions');
+    }
+    else {
+      // Panels form.
+      list($entity_type, $bundle) = explode('__', $entity_form->getMachineName());
+      /** @var \Drupal\Core\Entity\EntityFieldManager $entity_manager */
+      $entity_manager = \Drupal::service('entity_field.manager');
+      $fieldDefinitions = $entity_manager->getFieldDefinitions($entity_type, $bundle);
+    }
+
+    /** @var \Drupal\field\Entity\FieldConfig $definition */
+    foreach ($fieldDefinitions as $field_name => $definition) {
+      if ($definition->getFieldStorageDefinition()->isBaseField() == FALSE) {
+        $field_options[$field_name] = $definition->getLabel();
+      }
     }
 
     $form['pattern'] += _ui_patterns_variants_get_form_elements($variants, $defaults, $field_options);
