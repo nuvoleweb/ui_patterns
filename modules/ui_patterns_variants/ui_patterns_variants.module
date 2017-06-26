@@ -180,11 +180,7 @@ function ui_patterns_variants_preprocess(&$variables, $hook) {
     /** @var \Drupal\ui_patterns\Element\PatternContext $context */
     $context = $variables['context'];
     $variants = $context->getProperty('variants');
-
-    $variables['variants'] = [];
-    if ($variants) {
-      $variables['variants'] = $variants;
-    }
+    $variables['variants'] = $variants ? $variants : [];
 
     _ui_patterns_variants_validate_variants(substr($pattern_id, 8), $variables['variants']);
     break;
@@ -199,12 +195,12 @@ function ui_patterns_variants_preprocess(&$variables, $hook) {
  * @param array $variants
  *   The current variant settings.
  */
-function _ui_patterns_variants_validate_variants($pattern, array &$variants) {
+function _ui_patterns_variants_validate_variants($pattern, array &$variant_settings) {
 
   foreach (_ui_patterns_variants_get_variants($pattern) as $key => $variant) {
     // Make sure all variants exist even if they are null.
-    if (!isset($variants[$key])) {
-      $variants[$key] = NULL;
+    if (!isset($variant_settings[$key])) {
+      $variant_settings[$key] = NULL;
     }
 
     if (isset($variant['options'])) {
@@ -212,15 +208,15 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variants) {
       // Rip out anything that is not one of the options.
       $limited_options = [];
       foreach (array_keys($variant['options']) as $option) {
-        if (strpos($variants[$key], $option) !== FALSE) {
+        if (strpos($variant_settings[$key], $option) !== FALSE) {
           $limited_options[] = $option;
         }
       }
-      $variants[$key] = implode(' ', $limited_options);
+      $variant_settings[$key] = implode(' ', $limited_options);
 
       // If the variant is not set at all, use the first option.
-      if (!$variants[$key]) {
-        $variants[$key] = key($variant['options']);
+      if (!$variant_settings[$key]) {
+        $variant_settings[$key] = key($variant['options']);
         continue;
       }
     }
