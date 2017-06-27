@@ -78,17 +78,13 @@ function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
   // field value if available.
   $variant_settings = [];
   foreach ($pattern_settings['variants'] as $key => $variant) {
-    $variant_settings[$key] = isset($variant['default']) ? $variant['default'] : NULL;
+    $variant_settings[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : NULL;
 
     // If configured to use a field on the entity, override the default value.
-    if (isset($variant['variant_field']) && !empty($variant['variant_field'])) {
+    if (isset($variant['dynamic_value']) && !empty($variant['dynamic_value'])) {
 
       // Fetch the value from the field.
-      $field_value = _ui_patterns_variants_entity_variant_value($variables['content']['#entity'], $variant['variant_field']);
-
-      // @TODO: Validate field value if variant has options.
-      // Compare the field value against the options in the yml configuration
-      // and throw an error if something is amiss.
+      $field_value = _ui_patterns_variants_entity_variant_value($variables['content']['#entity'], $variant['dynamic_value']);
 
       // Only override default if the field has a value.
       if ($field_value) {
@@ -130,11 +126,11 @@ function ui_patterns_variants_preprocess_views_view_field(&$variables) {
     // to check for the existence of a setting before trying to set one. If no
     // value is set then we should apply the default value.
     if (!isset($variables['row']->variants[$key])) {
-      $variables['row']->variants[$key] = isset($variant['default']) ? $variant['default'] : '';
+      $variables['row']->variants[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : '';
     }
 
     // Override any default value if configured to use this field value.
-    if (!$variant['default'] && $field_id == $variant['field_mapping'] && $variables['output']) {
+    if (!$variant['constant_value'] && $field_id == $variant['field_mapping'] && $variables['output']) {
       $output = trim(strip_tags(render($variables['output'])));
       $variables['row']->variants[$key] = $output;
     }
@@ -179,12 +175,9 @@ function ui_patterns_variants_field_group_build_pre_render_alter(&$element) {
     foreach ($group->format_settings['variants'] as $key => $variant) {
       // Set the initial value to the default setting, override for field
       // values next.
-      $variant_values[$key] = $variant['default'];
-      if ($variant['variant_field'] && $entity) {
-        $field_value = _ui_patterns_variants_entity_variant_value($entity, $variant['variant_field']);
-
-        // @TODO: Validate the field value here if options were set in the YAML
-        // configuration for the field.
+      $variant_values[$key] = $variant['constant_value'];
+      if ($variant['dynamic_value'] && $entity) {
+        $field_value = _ui_patterns_variants_entity_variant_value($entity, $variant['dynamic_value']);
 
         // Only overwrite the default setting if the field has a value.
         if ($field_value) {
@@ -215,12 +208,12 @@ function ui_patterns_variants_preprocess_panelizer_view_mode(&$variables) {
   $variant_settings = [];
   foreach ($config['layout_settings']['pattern']['variants'] as $key => $variant) {
     // If there is a default key set grab it.
-    $variant_settings[$key] = isset($variant['default']) ? $variant['default'] : '';
+    $variant_settings[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : '';
 
     // If the field pass through option is set use it's value instead of the
     // default value from the settings form.
-    if (isset($variant['variant_field']) && $variant['variant_field']) {
-      $variant_settings[$key] = _ui_patterns_variants_entity_variant_value($variables['entity'], $variant['variant_field']);
+    if (isset($variant['dynamic_value']) && $variant['dynamic_value']) {
+      $variant_settings[$key] = _ui_patterns_variants_entity_variant_value($variables['entity'], $variant['dynamic_value']);
     }
   }
 
@@ -266,7 +259,7 @@ function ui_patterns_variants_preprocess(&$variables, $hook) {
  *
  * @param string $pattern
  *   The pattern id being used.
- * @param array $variants
+ * @param array $variant_settings
  *   The current variant settings.
  */
 function _ui_patterns_variants_validate_variants($pattern, array &$variant_settings) {
@@ -296,8 +289,8 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
     $variant_settings[$key] = implode(' ', $limited_options);
 
     // If the variant is not set at all, use the first option.
-    if (!$variant_settings[$key]) {
-      $variant_settings[$key] = key($variant['options']);
+    if (!$variant_settings[$key] && isset($variant['default'])) {
+      $variant_settings[$key] = $variant['default'];
     }
 
   }
@@ -485,7 +478,7 @@ function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
 function _ui_patterns_variants_get_form_elements(array $variants, array $defaults, array $field_options = []) {
   $pattern_settings = [];
   $pattern_settings['variants'] = [
-    '#type' => 'container',
+    '#type' => 'fieldset',
     '#title' => t('Variants'),
   ];
 
@@ -503,11 +496,14 @@ function _ui_patterns_variants_get_form_elements(array $variants, array $default
     $available_options = [];
     // If no variant options are defined, we must rely on field mapping.
     if (isset($variant['options'])) {
-      $pattern_settings['variants'][$key]['default'] = [
+      $original_default = isset($variant['default']) ? $variant['default'] : NULL;
+
+      $pattern_settings['variants'][$key]['constant_value'] = [
         '#type' => 'select',
         '#title' => t('Constant value'),
         '#options' => $variant['options'],
-        '#default_value' => !empty($defaults[$key]['default']) ? $defaults[$key]['default'] : NULL,
+        '#empty_option' => t('- None -'),
+        '#default_value' => isset($defaults[$key]['constant_value']) ? $defaults[$key]['constant_value'] : $original_default,
       ];
 
       $pattern_settings['variants'][$key]['options'] = [
@@ -518,13 +514,13 @@ function _ui_patterns_variants_get_form_elements(array $variants, array $default
     }
 
     if ($field_options) {
-      $pattern_settings['variants'][$key]['variant_field'] = [
+      $pattern_settings['variants'][$key]['dynamic_value'] = [
         '#type' => 'select',
         '#title' => t('Dynamic Value'),
         '#description' => t('Field to define variant to use. Valid values are: %values', ['%values' => implode(', ', $available_options)]),
         '#options' => $field_options,
         '#empty_option' => t('- None -'),
-        '#default_value' => !empty($defaults[$key]['variant_field']) ? $defaults[$key]['variant_field'] : NULL,
+        '#default_value' => isset($defaults[$key]['dynamic_value']) ? $defaults[$key]['dynamic_value'] : NULL,
       ];
     }
   }

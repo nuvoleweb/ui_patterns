@@ -30,6 +30,7 @@ example_pattern:
     variant_name:
       label: "Variant Name"
       description: "A description of what this variant does"
+      default: option-key-2
       options:
         option-key-1: "First possible option"
         option-key-2: "Second possible option"
@@ -46,11 +47,13 @@ eg:
 ```
 
 The options key is optional but is useful for enumerating the possible values
-that the twig file is capable of handling. The default value will be the first
-item in the options list. The key of the options array is the value that is
-passed in to the template. For example, if the administrator selected
-"Second possible option" in the form settings `{{ variants.variant_name }}`
+that the twig file is capable of handling. The key of the options array is 
+the value that is passed in to the template. For example, if the administrator 
+selected "Second possible option" in the form settings `{{ variants.variant_name }}`
 would have a value of `option-key-2`.
+
+The default key is also optional and will be used if the variant output has
+no valid output option/value.
 
 Implementation
 ---
