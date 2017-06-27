@@ -2,7 +2,7 @@ name: UI Patterns Variants
 description: Provide configurable variations for patterns.
 core: 8.x
 type: module
-package: Stanford
+package: User interface
 version: 8.x-1.0-dev
 dependencies:
   - ui_patterns

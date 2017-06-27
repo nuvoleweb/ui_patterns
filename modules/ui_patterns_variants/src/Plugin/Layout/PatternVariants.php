@@ -8,6 +8,9 @@ use Drupal\ui_patterns_layouts\Plugin\Layout\PatternLayout;
 /**
  * Class PatternVariants.
  *
+ * Extends and replaces the PatternLayout class in order to provide variant
+ * functionality to all patterns.
+ *
  * @package Drupal\ui_patterns_variants\Plugin\Layout
  */
 class PatternVariants extends PatternLayout {
@@ -16,10 +19,15 @@ class PatternVariants extends PatternLayout {
    * {@inheritdoc}
    */
   public function getConfiguration() {
+
+    // Get the normal config from the parent.
     $config = parent::getConfiguration();
+
+    // If the pattern definition has variants add it to the config.
     if (!isset($config['pattern']['variants'])) {
       $config['pattern']['variants'] = [];
     }
+
     return $config;
   }
 
@@ -27,6 +35,8 @@ class PatternVariants extends PatternLayout {
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+
+    // Add the variant configuration fields.
     $form = parent::buildConfigurationForm($form, $form_state);
     $pattern = $this->getPluginDefinition()->get('additional')['pattern'];
     $variants = _ui_patterns_variants_get_variants($pattern);
