@@ -200,7 +200,7 @@ function ui_patterns_variants_preprocess_panelizer_view_mode(&$variables) {
 
   // Apply pattern variants to items rendered in panels when available.
   $config = $variables['element']['#panels_display']->getConfiguration();
-  if (!empty($config['layout_settings']['pattern']['variants'])) {
+  if (empty($config['layout_settings']['pattern']['variants'])) {
     return;
   }
 
@@ -449,6 +449,7 @@ function _ui_patterns_variants_get_variants($pattern_id) {
  *   Imploded field values.
  */
 function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
+
   $entity_fields = $entity->getFieldDefinitions();
 
   if (!$entity_fields || !isset($entity_fields[$variant_field])) {
@@ -456,10 +457,24 @@ function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
   }
 
   $field_values = $entity->get($variant_field)->getValue();
-  foreach ($field_values as &$value) {
-    $value = implode(' ', $value);
+  $return_values = array();
+  foreach ($field_values as $key => $values) {
+    foreach ($values as $column => $value) {
+      // For some reason we get an `_attributes` column which is an array.
+      if ($column !== "value") {
+        continue;
+      }
+
+      // ALL THE VALUES!
+      if (is_array($value)) {
+        $value = implode(' ', $value);
+      }
+
+      $return_values[] = $value;
+    }
   }
-  return implode(' ', $field_values);
+
+  return implode(' ', $return_values);
 }
 
 /**
@@ -487,10 +502,20 @@ function _ui_patterns_variants_get_form_elements(array $variants, array $default
       continue;
     }
 
+    // Validation label.
+    if (!isset($variant['label'])) {
+      drupal_set_message(t("%variant_key is missing label", array("%variant_key" => $key)), 'error', FALSE);
+    }
+
+    // Validation description.
+    if (!isset($variant['description'])) {
+      drupal_set_message(t("%variant_key is missing description", array("%variant_key" => $key)), 'error', FALSE);
+    }
+
     $pattern_settings['variants'][$key] = [
       '#type' => 'fieldset',
-      '#title' => $variant['label'],
-      '#description' => isset($variant['description']) ? $variant['description'] : '',
+      '#title' => isset($variant['label']) ? $variant['label'] : t("Missing label"),
+      '#description' => isset($variant['description']) ? $variant['description'] : t('No description.'),
     ];
 
     $available_options = [];
