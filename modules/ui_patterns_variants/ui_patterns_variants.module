@@ -457,11 +457,12 @@ function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
   }
 
   $field_values = $entity->get($variant_field)->getValue();
-  $return_values = array();
-  foreach ($field_values as $key => $values) {
+  $return_values = [];
+  foreach ($field_values as $values) {
     foreach ($values as $column => $value) {
-      // For some reason we get an `_attributes` column which is an array.
-      if ($column !== "value") {
+      // For some reason we get an `_attributes`, `_accessCacheability` etc
+      // columns which are objects or unwanted arrays.
+      if (substr($column, 0, 1) == '_') {
         continue;
       }
 
@@ -473,8 +474,7 @@ function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
       $return_values[] = $value;
     }
   }
-
-  return implode(' ', $return_values);
+  return implode(' ', array_filter($return_values));
 }
 
 /**
@@ -504,12 +504,12 @@ function _ui_patterns_variants_get_form_elements(array $variants, array $default
 
     // Validation label.
     if (!isset($variant['label'])) {
-      drupal_set_message(t("%variant_key is missing label", array("%variant_key" => $key)), 'error', FALSE);
+      drupal_set_message(t("%variant_key is missing label", ["%variant_key" => $key]), 'error', FALSE);
     }
 
     // Validation description.
     if (!isset($variant['description'])) {
-      drupal_set_message(t("%variant_key is missing description", array("%variant_key" => $key)), 'error', FALSE);
+      drupal_set_message(t("%variant_key is missing description", ["%variant_key" => $key]), 'error', FALSE);
     }
 
     $pattern_settings['variants'][$key] = [
