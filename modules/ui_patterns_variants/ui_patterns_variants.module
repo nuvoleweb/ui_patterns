@@ -531,10 +531,6 @@ function _ui_patterns_variants_get_form_elements(array $variants, array $default
         '#default_value' => isset($defaults[$key]['constant_value']) ? $defaults[$key]['constant_value'] : $original_default,
       ];
 
-      $pattern_settings['variants'][$key]['options'] = [
-        '#type' => 'hidden',
-        '#value' => $variant['options'],
-      ];
       $available_options = array_keys($variant['options']);
     }
 
