@@ -13,6 +13,7 @@
   ],
   "prefer-stable": true,
   "require-dev": {
+    "squizlabs/php_codesniffer": "2.8.0",
     "drupal/coder": "8.2.8"
   },
   "scripts": {
