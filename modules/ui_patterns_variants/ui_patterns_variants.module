@@ -495,7 +495,7 @@ function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
  * @return array
  *   The form elements array.
  */
-function _ui_patterns_variants_get_form_elements(array $variants, array $defaults, array $field_options = []) {
+function _ui_patterns_variants_get_form_elements(array $variants, $defaults = [], array $field_options = []) {
   $pattern_settings = [];
   $pattern_settings['variants'] = [
     '#type' => 'fieldset',
