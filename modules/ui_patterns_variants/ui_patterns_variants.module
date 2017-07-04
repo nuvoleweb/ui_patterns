@@ -288,11 +288,16 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
 
     $variant_settings[$key] = implode(' ', $limited_options);
 
-    // If the variant is not set at all, use the first option.
+    // If the variant is not set at all, use the default option.
     if (!$variant_settings[$key] && isset($variant['default'])) {
       $variant_settings[$key] = $variant['default'];
     }
 
+    foreach ($variant_settings as &$setting) {
+      if (is_numeric($setting)) {
+        $setting = (int) $setting;
+      }
+    }
   }
 }
 
