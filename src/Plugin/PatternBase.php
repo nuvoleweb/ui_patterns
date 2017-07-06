@@ -96,14 +96,18 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
   /**
    * Process libraries.
    *
-   * @param array $libraries
-   *    Libraries array.
+   * @param array|string $libraries
+   *    Libraries array or library string.
    * @param string $base_path
    *    Pattern base path.
    * @param string $parent
    *    Item parent set in previous recursive iteration, if any.
    */
-  protected function processLibraries(array &$libraries, $base_path, $parent = '') {
+  protected function processLibraries(&$libraries, $base_path, $parent = '') {
+    if(is_string($libraries)){
+      // Dependencies.
+      return;
+    }
     $parents = ['js', 'base', 'layout', 'component', 'state', 'theme'];
     $_libraries = $libraries;
     foreach ($_libraries as $name => $values) {
