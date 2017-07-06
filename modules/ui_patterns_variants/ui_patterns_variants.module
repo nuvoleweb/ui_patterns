@@ -244,7 +244,7 @@ function ui_patterns_variants_preprocess(&$variables, $hook) {
     $context = $variables['context'];
     $variants = $context->getProperty('variants');
     $variables['variants'] = $variants ? $variants : [];
-
+    dpm($hook);
     // Validate the variants against the options available if options have been
     // provided in the pattern's YAML file.
     _ui_patterns_variants_validate_variants(substr($pattern_id, 8), $variables['variants']);
@@ -286,10 +286,12 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
       }
     }
 
-    $variant_settings[$key] = implode(' ', $limited_options);
+    if ($limited_options) {
+      $variant_settings[$key] = implode(' ', $limited_options);
+    }
 
     // If the variant is not set at all, use the default option.
-    if (!$variant_settings[$key] && isset($variant['default'])) {
+    if (is_null($variant_settings[$key]) && isset($variant['default'])) {
       $variant_settings[$key] = $variant['default'];
     }
 
