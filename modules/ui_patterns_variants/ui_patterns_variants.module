@@ -130,7 +130,7 @@ function ui_patterns_variants_preprocess_views_view_field(&$variables) {
     }
 
     // Override any default value if configured to use this field value.
-    if (!$variant['constant_value'] && $field_id == $variant['field_mapping'] && $variables['output']) {
+    if (!$variant['constant_value'] && $field_id == $variant['dynamic_value'] && $variables['output']) {
       $output = trim(strip_tags(render($variables['output'])));
       $variables['row']->variants[$key] = $output;
     }
@@ -553,4 +553,14 @@ function _ui_patterns_variants_get_form_elements(array $variants, $defaults = []
     }
   }
   return $pattern_settings;
+}
+
+function ui_patterns_variants_preprocess_patterns_meta_information($variables) {
+  $pattern_id = $variables['pattern']['id'];
+  if (!$variants = _ui_patterns_variants_get_variants($pattern_id)) {
+    return;
+  }
+
+//  $variables['pattern']['fields']['test'] = ['description' => 'something'];
+
 }
