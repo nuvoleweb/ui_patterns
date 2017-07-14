@@ -249,6 +249,10 @@ function ui_patterns_variants_preprocess(&$variables, $hook) {
     // provided in the pattern's YAML file.
     _ui_patterns_variants_validate_variants(substr($pattern_id, 8), $variables['variants']);
 
+    // Set the newly validate variants in context to allow passing to embeded
+    // patterns.
+    $variables['context']->setProperty('variants', $variables['variants']);
+
     // Once we have found what we are looking for we can end the loop.
     break;
   }
