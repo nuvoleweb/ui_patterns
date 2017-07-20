@@ -30,6 +30,7 @@ example_pattern:
     variant_name:
       label: "Variant Name"
       description: "A description of what this variant does"
+      text_input: true
       default: option-key-2
       options:
         option-key-1: "First possible option"
@@ -54,6 +55,8 @@ would have a value of `option-key-2`.
 
 The default key is also optional and will be used if the variant output has
 no valid output option/value.
+
+`text_input` key is optional but can be defined and set to true to allow for a text input value instead of the options.
 
 Implementation
 ---

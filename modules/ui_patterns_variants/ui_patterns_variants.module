@@ -79,6 +79,8 @@ function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
   $variant_settings = [];
   foreach ($pattern_settings['variants'] as $key => $variant) {
     $variant_settings[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : NULL;
+    // If text input is allowed, set to that value if it's set.
+    $variant_settings[$key] = isset($variant['text_value']) && $variant['text_value'] ? $variant['text_value'] : $variant_settings[$key];
 
     // If configured to use a field on the entity, override the default value.
     if (isset($variant['dynamic_value']) && !empty($variant['dynamic_value'])) {
@@ -126,7 +128,9 @@ function ui_patterns_variants_preprocess_views_view_field(&$variables) {
     // to check for the existence of a setting before trying to set one. If no
     // value is set then we should apply the default value.
     if (!isset($variables['row']->variants[$key])) {
-      $variables['row']->variants[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : '';
+      $variables['row']->variants[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : NULL;
+      // If text input is allowed, set to that value if it's set.
+      $variables['row']->variants[$key] = isset($variant['text_value']) && $variant['text_value'] ? $variant['text_value'] : $variables['row']->variants[$key];
     }
 
     // Override any default value if configured to use this field value.
@@ -171,24 +175,27 @@ function ui_patterns_variants_field_group_build_pre_render_alter(&$element) {
     }
 
     // Loop through the variant values and store them to a variable.
-    $variant_values = [];
+    $variant_settings = [];
     foreach ($group->format_settings['variants'] as $key => $variant) {
-      // Set the initial value to the default setting, override for field
+      // Set the initial value to the default setting, override for field/text
       // values next.
-      $variant_values[$key] = $variant['constant_value'];
+      $variant_settings[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : NULL;
+      // If text input is allowed, set to that value if it's set.
+      $variant_settings[$key] = isset($variant['text_value']) && $variant['text_value'] ? $variant['text_value'] : $variant_settings[$key];
+
       if ($variant['dynamic_value'] && $entity) {
         $field_value = _ui_patterns_variants_entity_variant_value($entity, $variant['dynamic_value']);
 
         // Only overwrite the default setting if the field has a value.
         if ($field_value) {
-          $variant_values[$key] = $field_value;
+          $variant_settings[$key] = $field_value;
         }
       }
     }
 
     // Set the values if there is something to set to.
-    if (!empty($variant_values)) {
-      $element[$group_name]['#context']['variants'] = $variant_values;
+    if (!empty($variant_settings)) {
+      $element[$group_name]['#context']['variants'] = $variant_settings;
     }
   }
 }
@@ -209,6 +216,7 @@ function ui_patterns_variants_preprocess_panelizer_view_mode(&$variables) {
   foreach ($config['layout_settings']['pattern']['variants'] as $key => $variant) {
     // If there is a default key set grab it.
     $variant_settings[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : '';
+    $variant_settings[$key] = isset($variant['text_value']) && $variant['text_value'] ? $variant['text_value'] : $variant_settings[$key];
 
     // If the field pass through option is set use it's value instead of the
     // default value from the settings form.
@@ -277,8 +285,9 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
       $variant_settings[$key] = NULL;
     }
 
-    // If there are no options there is nothing to validate against.
-    if (!isset($variant['options'])) {
+    // If there are no options or text input is allowed, there is nothing to
+    // validate against.
+    if (!isset($variant['options']) || (isset($variant['text_input']) && $variant['text_input'])) {
       continue;
     }
 
@@ -289,10 +298,7 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
         $limited_options[] = $option;
       }
     }
-
-    if ($limited_options) {
-      $variant_settings[$key] = implode(' ', $limited_options);
-    }
+    $variant_settings[$key] = implode(' ', $limited_options);
 
     // If the variant is not set at all, use the default option.
     if (is_null($variant_settings[$key]) && isset($variant['default'])) {
@@ -509,7 +515,7 @@ function _ui_patterns_variants_get_form_elements(array $variants, $defaults = []
   ];
 
   foreach ($variants as $key => $variant) {
-    if (!isset($variant['options']) && !$field_options) {
+    if (!isset($variant['options']) && !$field_options && (!isset($variant['text_input']) || !$variant['text_input'])) {
       continue;
     }
 
@@ -555,16 +561,20 @@ function _ui_patterns_variants_get_form_elements(array $variants, $defaults = []
         '#default_value' => isset($defaults[$key]['dynamic_value']) ? $defaults[$key]['dynamic_value'] : NULL,
       ];
     }
+
+    if (isset($variant['text_input']) && $variant['text_input']) {
+      $pattern_settings['variants'][$key]['text_value'] = [
+        '#type' => 'textfield',
+        '#title' => t('Textual Value'),
+        '#description' => t('Enter the value to use for the variant.'),
+        '#default_value' => isset($defaults[$key]['text_value']) ? $defaults[$key]['text_value'] : NULL,
+        '#states' => [
+          'visible' => [
+            ':input[name*="[' . $key . '][constant_value]"]' => ['value' => ''],
+          ],
+        ],
+      ];
+    }
   }
   return $pattern_settings;
-}
-
-function ui_patterns_variants_preprocess_patterns_meta_information($variables) {
-  $pattern_id = $variables['pattern']['id'];
-  if (!$variants = _ui_patterns_variants_get_variants($pattern_id)) {
-    return;
-  }
-
-//  $variables['pattern']['fields']['test'] = ['description' => 'something'];
-
 }
