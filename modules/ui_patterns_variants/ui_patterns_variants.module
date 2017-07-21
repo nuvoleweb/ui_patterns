@@ -301,7 +301,9 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
     $variant_settings[$key] = implode(' ', $limited_options);
 
     // If the variant is not set at all, use the default option.
-    if (is_null($variant_settings[$key]) && isset($variant['default'])) {
+    if (($variant_settings[$key] !== FALSE && $variant_settings[$key] !== 0)
+        && empty($variant_settings[$key])
+        && isset($variant['default'])) {
       $variant_settings[$key] = $variant['default'];
     }
 
