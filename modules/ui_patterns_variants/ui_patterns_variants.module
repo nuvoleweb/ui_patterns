@@ -294,7 +294,7 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
     // Remove anything that is not one of the defined YAML options.
     $limited_options = [];
     foreach (array_keys($variant['options']) as $option) {
-      if (strpos($variant_settings[$key], (string) $option) !== FALSE) {
+      if (strpos($variant_settings[$key], "$option") !== FALSE) {
         $limited_options[] = $option;
       }
     }
