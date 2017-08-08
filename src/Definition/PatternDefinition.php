@@ -42,6 +42,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
     'libraries' => [],
     'fields' => [],
     'variants' => [],
+    'settings' => [],
     'tags' => [],
     'additional' => [],
     'deriver' => NULL,
@@ -65,6 +66,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
     $this->id = $this->definition['id'];
     $this->setFields($this->definition['fields']);
     $this->setVariants($this->definition['variants']);
+    $this->setSettings($this->definition['settings']);
     $this->setThemeHook(self::PATTERN_PREFIX . $this->id());
 
     if (!empty($definition['theme hook'])) {
@@ -190,6 +192,74 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   /**
    * Getter.
    *
+   * @return PatternDefinitionSetting[]
+   *   Property value.
+   */
+  public function getSettings() {
+    return $this->definition['settings'];
+  }
+
+  /**
+   * Setter.
+   *
+   * @param array $settings
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setSettings(array $settings) {
+    foreach ($settings as $name => $value) {
+      $setting = new PatternDefinitionSetting($name, $value);
+      $this->definition['settings'][$setting->getName()] = $setting;
+    }
+    return $this;
+  }
+
+  /**
+   * Get setting.
+   *
+   * @param string $name
+   *    Setting name.
+   *
+   * @return PatternDefinitionSetting|null
+   *    Definition setting.
+   */
+  public function getSetting($name) {
+    return $this->hasSetting($name) ? $this->definition['settings'][$name] : NULL;
+  }
+
+  /**
+   * Check whereas field exists.
+   *
+   * @param string $name
+   *   Field name.
+   *
+   * @return bool
+   *   Whereas field exists
+   */
+  public function hasSetting($name) {
+    return isset($this->definition['settings'][$name]);
+  }
+
+  /**
+   * Set field.
+   *
+   * @param string $name
+   *    Field name.
+   * @param string $label
+   *    Field label.
+   *
+   * @return $this
+   */
+  public function setSetting($name, $label) {
+    $this->definition['settings'][$name] = new PatternDefinitionSetting($name, $label);
+    return $this;
+  }
+
+
+  /**
+   * Getter.
+   *
    * @return PatternDefinitionField[]
    *   Property value.
    */
@@ -230,7 +300,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   /**
    * Check whereas pattern has variants.
    *
-   * @return bool
+   * @return bool/PatternDefinition.php
    *   Whereas pattern has variants.
    */
   public function hasVariants() {
