@@ -2,14 +2,14 @@
 
 namespace Drupal\ui_patterns_ds\Plugin\DsFieldTemplate;
 
+use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\ds\Plugin\DsFieldTemplate\DsFieldTemplateBase;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
-use Drupal\ui_patterns\UiPatternsSourceManager;
 use Drupal\ui_patterns\UiPatternsManager;
+use Drupal\ui_patterns\UiPatternsSourceManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Drupal\Core\Entity\EntityFieldManager;
 
 /**
  * Plugin for the expert field template.
@@ -48,7 +48,7 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
   /**
    * Entity field manager service.
    *
-   * @var \Drupal\Core\Entity\EntityFieldManager
+     * @var \Drupal\Core\Entity\EntityFieldManager
    */
   protected $fieldManager;
 
@@ -104,6 +104,16 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
     else {
       $form['#markup'] = $this->t("The current field is not supported.");
     }
+//
+    $this->buildPatternDisplayForm($form, 'ds_field_template', $context, $this->getConfiguration());
+    if (!empty($form['pattern']['#default_value'])) {
+      $config = $this->getConfiguration();
+      $defaults = [];
+      if (isset($config['settings'])) {
+        $defaults = $config['settings'];
+      }
+      $this->buildPatternSettingForm($form, $form['pattern']['#default_value'], $defaults);
+    }
   }
 
   /**
@@ -122,6 +132,7 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
       'entity_type' => $this->parameters->get('ds_entity_type'),
       'bundle' => $this->parameters->get('ds_bundle'),
       'view_mode' => $this->parameters->get('ds_view_mode'),
+
     ];
   }
 
