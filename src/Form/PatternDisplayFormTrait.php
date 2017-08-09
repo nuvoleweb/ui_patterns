@@ -70,6 +70,38 @@ trait PatternDisplayFormTrait {
     }
   }
 
+
+  /**
+   * Build pattern settings form.
+   *
+   * @param array $form
+   *    Form array.
+   * @param string $pattern_id
+   *    The pattern id for which to print the setting form for.
+   * @param array $defaults
+   *    Default setting values
+   */
+  public function buildPatternSettingForm(array &$form, $pattern_id, $defaults) {
+    $definition = \Drupal\ui_patterns\UiPatterns::getPatternDefinition($pattern_id);
+    $settings = $definition->getSettings();
+
+    if (!empty($settings)) {
+      $form['settings'] = [
+        '#type' => 'fieldset',
+        '#title' => t('Settings'),
+      ];
+
+      foreach ($settings as $key => $setting) {
+        if (empty($setting->getType())) {
+          continue;
+        }
+        $value = isset($defaults[$key]) ? $defaults[$key] : NULL;
+        $settingType = \Drupal\ui_patterns\UiPatternsSettings::createSettingType($setting);
+        $form['settings'] += $settingType->buildConfigurationForm([], $value);
+      }
+    }
+  }
+
   /**
    * Get mapping form.
    *
@@ -169,7 +201,10 @@ trait PatternDisplayFormTrait {
 
       // Normalize weights.
       $weight = 0;
-      uasort($settings['pattern_mapping'], [SortArray::class, 'sortByWeightElement']);
+      uasort($settings['pattern_mapping'], [
+        SortArray::class,
+        'sortByWeightElement'
+      ]);
       foreach ($settings['pattern_mapping'] as $key => $setting) {
         $settings['pattern_mapping'][$key]['weight'] = $weight++;
       }
