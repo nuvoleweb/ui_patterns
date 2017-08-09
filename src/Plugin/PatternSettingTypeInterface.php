@@ -13,11 +13,11 @@ interface PatternSettingTypeInterface extends ConfigurablePluginInterface {
   /**
    * Builds the configuration form.
    *
-   * @param [] $form
+   * @param array $form
    *   The base form
    * @param string $value
    *   The stored default value
-   * @return []
+   * @return array
    *    The configuration form.
    */
   public function buildConfigurationForm(array $form, $value);
@@ -25,10 +25,10 @@ interface PatternSettingTypeInterface extends ConfigurablePluginInterface {
 
   /**
    * Preprocess setting variable .
-   * @param [] $variables
-   *   Card template variables
    * @param string $value
    *   The stored value
+   * @param array $context
+   *   Context informations
    */
   public function preprocess($value, $context);
 }

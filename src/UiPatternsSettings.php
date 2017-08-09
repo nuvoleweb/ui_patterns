@@ -32,11 +32,12 @@ class UiPatternsSettings {
   public static function preprocess($pattern_id, $settings, $entity = NULL) {
     $processed_settings = [];
     $pattern = UiPatterns::getPatternDefinition($pattern_id);
+    $context = [];
+    $context['entity'] = $entity;
     foreach ($settings as $key => $value) {
       $settingDefinition = $pattern->getSetting($key);
       if ($settingDefinition != null) {
         $settingType = UiPatternsSettings::createSettingType($settingDefinition);
-        $context['entity'] = $entity;
         $processed_settings[$key] = $settingType->preprocess($value, $context);
       }
     }
