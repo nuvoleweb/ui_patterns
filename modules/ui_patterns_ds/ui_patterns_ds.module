@@ -92,3 +92,22 @@ function ui_patterns_ds_ui_patterns_suggestions_alter(array &$suggestions, array
     }
   }
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ui_patterns_ds_preprocess_ds_entity_view(&$variables) {
+  if (empty($variables['content']['#ds_configuration']['layout']['settings']['pattern'])) {
+    return;
+  }
+
+  $pattern_settings = $variables['content']['#ds_configuration']['layout']['settings']['pattern'];
+  $pattern_id = !empty($variables['content']['#ds_configuration']['layout']['id']) ?  $variables['content']['#ds_configuration']['layout']['id'] : NULL;
+
+  if (empty ($pattern_id) || !isset($pattern_settings['settings'])) {
+    return;
+  }
+
+  $pattern_id = str_replace('pattern_', '', $pattern_id);
+  $variables['content']['#context']['settings'] = \Drupal\ui_patterns\UiPatternsSettings::preprocess($pattern_id, $pattern_settings['settings'], $variables['content']['#entity']);
+}
