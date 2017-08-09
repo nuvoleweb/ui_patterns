@@ -5,6 +5,9 @@ services:
   plugin.manager.ui_patterns_source:
     class: Drupal\ui_patterns\UiPatternsSourceManager
     parent: default_plugin_manager
+  plugin.manager.ui_patterns_settings:
+    class: Drupal\ui_patterns\UiPatternsSettingsManager
+    arguments: ['@container.namespaces', '@module_handler', '@cache.discovery']
   ui_patterns.twig.extension:
     class: Drupal\ui_patterns\Template\TwigExtension
     tags:
