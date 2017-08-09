@@ -7,6 +7,7 @@ use Drupal\Core\Layout\LayoutDefault;
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
+use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
 use Drupal\ui_patterns\UiPatternsManager;
 use Drupal\Core\Render\ElementInfoManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @package Drupal\ui_patterns_layouts\Plugin\Layout
  */
 class PatternLayout extends LayoutDefault implements PluginFormInterface, ContainerFactoryPluginInterface {
-
+  use PatternDisplayFormTrait;
   /**
    * Pattern manager service.
    *
@@ -140,6 +141,13 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
       ];
     }
 
+    $pattern = $this->getPluginDefinition()->get('additional')['pattern'];
+    $defaults = [];
+    $config = $this->getConfiguration();
+    if (isset($config['pattern']['settings'])) {
+      $defaults = $config['pattern']['settings'];
+    }
+    $this->buildPatternSettingForm($form['pattern'], $pattern, $defaults);
     return $form;
   }
 
