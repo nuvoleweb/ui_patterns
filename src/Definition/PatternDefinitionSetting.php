@@ -23,7 +23,9 @@ class PatternDefinitionSetting implements \ArrayAccess {
     'type' => NULL,
     'required' => false,
     'default_value' => NULL,
+    'forced_value' => NULL,
     'options' => NULL,
+    'form_visible' => TRUE
   ];
 
   /**
@@ -40,6 +42,7 @@ class PatternDefinitionSetting implements \ArrayAccess {
       $this->definition['required'] = isset($value['required']) ? $value['required'] : FALSE;
       $this->definition['default_value'] = isset($value['default_value']) ? $value['default_value'] : NULL;
       $this->definition['options'] = isset($value['options']) ? $value['options'] : NULL;
+      $this->definition['form_visible'] = TRUE;
       $this->definition = $value + $this->definition;
     }
   }
@@ -93,6 +96,7 @@ class PatternDefinitionSetting implements \ArrayAccess {
   public function getOptions() {
     return $this->definition['options'];
   }
+
   /**
    * Get default value property.
    *
@@ -103,6 +107,37 @@ class PatternDefinitionSetting implements \ArrayAccess {
     return $this->definition['default_value'];
   }
 
+  /**
+   * Set default value property.
+   *
+   * @return mixed
+   *   Property value.
+   */
+  public function setDefaultValue($defaultValue) {
+    $this->definition['default_value'] = $defaultValue;
+    return $this;
+  }
+
+  /**
+   * Get default value property.
+   *
+   * @return mixed
+   *   Property value.
+   */
+  public function getForcedValue() {
+    return $this->definition['forced_value'];
+  }
+
+  /**
+   * Set default value property.
+   *
+   * @return mixed
+   *   Property value.
+   */
+  public function setForcedValue($forcedValue) {
+    $this->definition['forced_value'] = $forcedValue;
+    return $this;
+  }
   /**
    * Get Description property.
    *
@@ -123,6 +158,29 @@ class PatternDefinitionSetting implements \ArrayAccess {
    */
   public function setDescription($description) {
     $this->definition['description'] = $description;
+    return $this;
+  }
+
+  /**
+   * Is form visible property.
+   *
+   * @return boolean
+   *   Property value.
+   */
+  public function isFormVisible() {
+    return $this->definition['form_visible'];
+  }
+
+  /**
+   * Set form visible property.
+   *
+   * @param boolean $visible
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setFormVisible($visible) {
+    $this->definition['form_visible'] = $visible;
     return $this;
   }
 

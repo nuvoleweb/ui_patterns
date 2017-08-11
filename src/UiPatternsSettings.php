@@ -34,12 +34,19 @@ class UiPatternsSettings {
     $pattern = UiPatterns::getPatternDefinition($pattern_id);
     $context = [];
     $context['entity'] = $entity;
-    foreach ($settings as $key => $value) {
-      $settingDefinition = $pattern->getSetting($key);
-      if ($settingDefinition != null) {
-        $settingType = UiPatternsSettings::createSettingType($settingDefinition);
-        $processed_settings[$key] = $settingType->preprocess($value, $context);
+    $pattern_settings = $pattern->getSettings();
+    foreach ($pattern_settings as $key => $settingDefinition) {
+      if ($settingDefinition->getForcedValue()) {
+        $value = $settingDefinition->getForcedValue();
       }
+      elseif (isset($settings[$key])) {
+        $value = $settings[$key];
+      }
+      else {
+        $value = $settingDefinition->getDefaultValue();
+      }
+      $settingType = UiPatternsSettings::createSettingType($settingDefinition);
+      $processed_settings[$key] = $settingType->preprocess($value, $context);
     }
     return $processed_settings;
 

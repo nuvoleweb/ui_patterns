@@ -4,11 +4,11 @@ namespace Drupal\ui_patterns_library\Plugin\Deriver;
 
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Extension\ExtensionDiscovery;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\TypedData\TypedDataManager;
 use Drupal\ui_patterns\Plugin\Deriver\AbstractYamlPatternsDeriver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\Extension\ThemeHandlerInterface;
 
 /**
  * Class LibraryDeriver.
@@ -135,6 +135,22 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
             $definition['file name'] = basename($file_path);
             $definition['provider'] = $provider;
             $patterns[] = $this->getPatternDefinition($definition);
+            if (isset($definition['variants'])) {
+              foreach ($definition['variants'] as $variant_name => $variant) {
+                $definition['id'] = $id . '__' . $variant_name;
+                $variant_definition = $this->getPatternDefinition($definition);
+                $variant_definition->setThemeHook('pattern_' . $id);
+                $variant_definition->setLabel($variant_definition->getLabel() . ' [' . $variant['label'] . ']');
+                $settings = $variant_definition->getSettings();
+                foreach ($settings as $name => $setting) {
+                  if (isset($variant['settings'][$name])) {
+                    $setting->setForcedValue($variant['settings'][$name]);
+                    $setting->setFormVisible(FALSE);
+                  }
+                }
+                $patterns[] = $variant_definition;
+              }
+            }
           }
         }
       }

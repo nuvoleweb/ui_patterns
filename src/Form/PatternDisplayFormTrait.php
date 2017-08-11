@@ -84,21 +84,22 @@ trait PatternDisplayFormTrait {
   public function buildPatternSettingForm(array &$form, $pattern_id, $defaults) {
     $definition = \Drupal\ui_patterns\UiPatterns::getPatternDefinition($pattern_id);
     $settings = $definition->getSettings();
-
     if (!empty($settings)) {
-      $form['settings'] = [
-        '#type' => 'fieldset',
-        '#title' => t('Settings'),
-      ];
-
       foreach ($settings as $key => $setting) {
-        if (empty($setting->getType())) {
+        if (empty($setting->getType()) || !$setting->isFormVisible()) {
           continue;
+        }
+        if (!isset($form['settings'])) {
+          $form['settings'] = [
+            '#type' => 'fieldset',
+            '#title' => t('Settings'),
+          ];
         }
         $value = isset($defaults[$key]) ? $defaults[$key] : NULL;
         $settingType = \Drupal\ui_patterns\UiPatternsSettings::createSettingType($setting);
         $form['settings'] += $settingType->buildConfigurationForm([], $value);
       }
+
     }
   }
 
