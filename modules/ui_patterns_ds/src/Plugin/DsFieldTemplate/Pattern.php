@@ -48,7 +48,7 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
   /**
    * Entity field manager service.
    *
-     * @var \Drupal\Core\Entity\EntityFieldManager
+   * @var \Drupal\Core\Entity\EntityFieldManager
    */
   protected $fieldManager;
 
@@ -104,7 +104,7 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
     else {
       $form['#markup'] = $this->t("The current field is not supported.");
     }
-//
+
     $this->buildPatternDisplayForm($form, 'ds_field_template', $context, $this->getConfiguration());
     if (!empty($form['pattern']['#default_value'])) {
       $config = $this->getConfiguration();

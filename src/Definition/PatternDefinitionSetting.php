@@ -25,7 +25,7 @@ class PatternDefinitionSetting implements \ArrayAccess {
     'default_value' => NULL,
     'forced_value' => NULL,
     'options' => NULL,
-    'form_visible' => TRUE
+    'form_visible' => TRUE,
   ];
 
   /**
@@ -138,6 +138,7 @@ class PatternDefinitionSetting implements \ArrayAccess {
     $this->definition['forced_value'] = $forcedValue;
     return $this;
   }
+
   /**
    * Get Description property.
    *
@@ -164,7 +165,7 @@ class PatternDefinitionSetting implements \ArrayAccess {
   /**
    * Is form visible property.
    *
-   * @return boolean
+   * @return bool
    *   Property value.
    */
   public function isFormVisible() {
@@ -174,7 +175,7 @@ class PatternDefinitionSetting implements \ArrayAccess {
   /**
    * Set form visible property.
    *
-   * @param boolean $visible
+   * @param bool $visible
    *   Property value.
    *
    * @return $this
@@ -206,4 +207,5 @@ class PatternDefinitionSetting implements \ArrayAccess {
     $this->definition['type'] = $type;
     return $this;
   }
+
 }

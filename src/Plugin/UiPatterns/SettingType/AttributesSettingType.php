@@ -23,7 +23,6 @@ class AttributesSettingType extends PatternSettingTypeBase {
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, $value) {
-
     $def = $this->getPatternSettingDefinition();
     $value = $this->getValue($value);
     $description = $this->getDescription() != NULL ? $this->getDescription() : $this->t('E.g. role="navigation" class="class-1"');
@@ -50,4 +49,5 @@ class AttributesSettingType extends PatternSettingTypeBase {
     }
     return new Attribute($attributes);
   }
+
 }

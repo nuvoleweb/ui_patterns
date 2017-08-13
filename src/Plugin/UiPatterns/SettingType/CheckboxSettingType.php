@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
-
 /**
  * Checkbox setting type.
  *
@@ -15,12 +14,10 @@ use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
  */
 class CheckboxSettingType extends PatternSettingTypeBase {
 
-
   /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, $value) {
-
     $def = $this->getPatternSettingDefinition();
     $value = $this->getValue($value);
     if (is_scalar($value)) {
@@ -32,7 +29,7 @@ class CheckboxSettingType extends PatternSettingTypeBase {
       '#description' => $def->getDescription(),
       '#default_value' => $value,
       '#required' => $def->getRequired(),
-      '#options' => $def->getOptions()
+      '#options' => $def->getOptions(),
     );
     return $form;
   }

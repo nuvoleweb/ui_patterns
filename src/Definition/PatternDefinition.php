@@ -259,7 +259,6 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
     return $this;
   }
 
-
   /**
    * Getter.
    *

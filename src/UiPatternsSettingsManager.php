@@ -9,6 +9,9 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
+/**
+ * Provides the UI Patterns Settings plugin manager.
+ */
 class UiPatternsSettingsManager extends DefaultPluginManager implements PluginManagerInterface {
 
   use StringTranslationTrait;
@@ -38,6 +41,5 @@ class UiPatternsSettingsManager extends DefaultPluginManager implements PluginMa
     }
     return $plugin;
   }
-
 
 }

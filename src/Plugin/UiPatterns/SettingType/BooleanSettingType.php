@@ -5,7 +5,6 @@ namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
-
 /**
  * Checkbox setting type.
  *
@@ -22,7 +21,6 @@ class BooleanSettingType extends PatternSettingTypeBase {
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, $value) {
-
     $def = $this->getPatternSettingDefinition();
     $value = $this->getValue($value);
     $form[$def->getName()] = array(
@@ -32,7 +30,7 @@ class BooleanSettingType extends PatternSettingTypeBase {
       '#default_value' => $value,
       '#required' => $def->getRequired(),
       '#options' =>
-        [0 => $this->t('false'), 1 => $this->t('true')]
+        [0 => $this->t('false'), 1 => $this->t('true')],
     );
     return $form;
   }

@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
-
 /**
  * Select setting type.
  *
@@ -15,14 +14,14 @@ use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
  */
 class SelectSettingType extends PatternSettingTypeBase {
 
+  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, $value) {
-
     $def = $this->getPatternSettingDefinition();
-    $options = [''=>'Please select'];
+    $options = ["" => $this->t("Please select")];
     $options += $def->getOptions();
     $form[$def->getName()] = array(
       '#type' => 'select',
@@ -30,7 +29,7 @@ class SelectSettingType extends PatternSettingTypeBase {
       '#description' => $def->getDescription(),
       '#default_value' => $this->getValue($value),
       '#required' => $def->getRequired(),
-      '#options' => $options
+      '#options' => $options,
     );
     return $form;
   }

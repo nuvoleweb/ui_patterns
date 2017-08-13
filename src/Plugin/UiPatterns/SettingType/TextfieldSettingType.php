@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
-
 /**
  * Textfield setting type.
  *
@@ -15,12 +14,10 @@ use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
  */
 class TextfieldSettingType extends PatternSettingTypeBase {
 
-
   /**
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, $value) {
-
     $def = $this->getPatternSettingDefinition();
     $form[$def->getName()] = array(
       '#type' => 'textfield',
@@ -31,4 +28,5 @@ class TextfieldSettingType extends PatternSettingTypeBase {
     );
     return $form;
   }
+
 }

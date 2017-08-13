@@ -2,6 +2,8 @@
 
 namespace Drupal\ui_patterns;
 
+use Drupal\Core\Entity\Entity;
+
 /**
  * UI Patterns setting factory class.
  *
@@ -20,16 +22,16 @@ class UiPatternsSettings {
   }
 
   /**
-   * Preprocess setiting variables. Called before rendered
+   * Preprocess setiting variables. Called before rendered.
    *
    * @param string $pattern_id
-   *    Pattern ID for which to preprocess
+   *    Pattern ID for which to preprocess.
    * @param array $settings
-   *    The stored settings
+   *    The stored settings.
    * @param \Drupal\Core\Entity\Entity $entity
-   *    The entity of the pattern. Useful for dynamic settings
+   *    The entity of the pattern. Useful for dynamic settings.
    */
-  public static function preprocess($pattern_id, $settings, $entity = NULL) {
+  public static function preprocess($pattern_id, $settings, Entity $entity = NULL) {
     $processed_settings = [];
     $pattern = UiPatterns::getPatternDefinition($pattern_id);
     $context = [];
@@ -53,19 +55,19 @@ class UiPatternsSettings {
   }
 
   /**
-   * Create setting type plugin
+   * Create setting type plugin.
    *
    * @param \Drupal\ui_patterns\Definition\PatternDefinitionSetting $settingDefintion
    *    The setting defintion.
+   *
    * @return \Drupal\ui_patterns\Plugin\PatternSettingTypeInterface
    *    UI Patterns setting manager instance.
    */
-  public static function createSettingType($settingDefintion) {
+  public static function createSettingType(PatternDefinitionSetting $settingDefintion) {
     $configuration = [];
     $configuration['pattern_setting_definition'] = $settingDefintion;
     return \Drupal::service('plugin.manager.ui_patterns_settings')
       ->createInstance($settingDefintion->getType(), $configuration);
   }
-
 
 }

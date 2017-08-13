@@ -9,26 +9,27 @@ use Drupal\Component\Plugin\ConfigurablePluginInterface;
  */
 interface PatternSettingTypeInterface extends ConfigurablePluginInterface {
 
-
   /**
    * Builds the configuration form.
    *
    * @param array $form
-   *   The base form
+   *   The base form.
    * @param string $value
-   *   The stored default value
+   *   The stored default value.
+   *
    * @return array
    *    The configuration form.
    */
   public function buildConfigurationForm(array $form, $value);
 
-
   /**
    * Preprocess setting variable .
+   *
    * @param string $value
-   *   The stored value
+   *   The stored value.
    * @param array $context
-   *   Context informations
+   *   Context informations.
    */
   public function preprocess($value, $context);
+
 }

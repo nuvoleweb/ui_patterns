@@ -16,9 +16,7 @@ abstract class PatternSettingTypeBase extends PluginBase implements Configurable
    *
    * @var \Drupal\ui_patterns\Definition\PatternDefinitionSetting
    */
-
   private $patternSettingDefinition;
-
 
   /**
    * {@inheritdoc}
@@ -29,6 +27,7 @@ abstract class PatternSettingTypeBase extends PluginBase implements Configurable
     unset($configuration['pattern_setting_definition']);
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
+
   /**
    * Return value if set otherwise take the default value.
    *
@@ -38,11 +37,13 @@ abstract class PatternSettingTypeBase extends PluginBase implements Configurable
   protected function getValue($value) {
     if (empty($value)) {
       return $this->getPatternSettingDefinition()->getDefaultValue();
-    }else {
+    }
+    else {
       return $value;
     }
 
   }
+
   /**
    * Return pattern setting definition.
    *
@@ -116,4 +117,5 @@ abstract class PatternSettingTypeBase extends PluginBase implements Configurable
   public function preprocess($value, $context) {
     return $value;
   }
+
 }
