@@ -21,7 +21,7 @@ class PatternDefinitionSetting implements \ArrayAccess {
     'label' => NULL,
     'description' => NULL,
     'type' => NULL,
-    'required' => false,
+    'required' => FALSE,
     'default_value' => NULL,
     'forced_value' => NULL,
     'options' => NULL,
@@ -35,6 +35,7 @@ class PatternDefinitionSetting implements \ArrayAccess {
     if (is_scalar($value)) {
       $this->definition['name'] = is_numeric($name) ? $value : $name;
       $this->definition['label'] = $value;
+      $this->definition['type'] = 'textfield';
     }
     else {
       $this->definition['name'] = !isset($value['name']) ? $name : $value['name'];
@@ -42,7 +43,6 @@ class PatternDefinitionSetting implements \ArrayAccess {
       $this->definition['required'] = isset($value['required']) ? $value['required'] : FALSE;
       $this->definition['default_value'] = isset($value['default_value']) ? $value['default_value'] : NULL;
       $this->definition['options'] = isset($value['options']) ? $value['options'] : NULL;
-      $this->definition['form_visible'] = TRUE;
       $this->definition = $value + $this->definition;
     }
   }
