@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns;
 
 use Drupal\Core\Entity\Entity;
+use Drupal\ui_patterns\Definition\PatternDefinitionSetting;
 
 /**
  * UI Patterns setting factory class.
