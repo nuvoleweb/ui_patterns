@@ -71,6 +71,31 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
   }
 
   /**
+   * Test field singleton.
+   *
+   * @dataProvider definitionGettersProvider
+   */
+  public function testSettings() {
+    $settings = [
+      'name' => [
+        'name' => 'name',
+        'label' => 'Label',
+      ],
+    ];
+    $pattern_definition = new PatternDefinition();
+    $pattern_definition->setSettings($settings);
+    assert($pattern_definition->getSetting('name')->getLabel(), equals($settings['name']['label']));
+    assert($pattern_definition->getSetting('name')->getName(), equals($settings['name']['name']));
+    assert($pattern_definition->getSetting('name')->getType(), equals(NULL));
+    assert($pattern_definition->getSetting('name')->getDescription(), equals(NULL));
+
+    $pattern_definition->getSetting('name')->setType('type');
+    $pattern_definition->getSetting('name')->setDescription('description');
+    assert($pattern_definition->getSetting('name')->getType(), equals('type'));
+    assert($pattern_definition->getSetting('name')->getDescription(), equals('description'));
+  }
+
+  /**
    * Test fields processing.
    *
    * @dataProvider fieldsProcessingProvider
@@ -79,6 +104,17 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
     $pattern_definition = new PatternDefinition();
     $data = $pattern_definition->setFields($actual)->toArray();
     $this->assertEquals($expected, $data['fields']);
+  }
+
+  /**
+   * Test settings processing.
+   *
+   * @dataProvider settingsProcessingProvider
+   */
+  public function testSettingsProcessing($actual, $expected) {
+    $pattern_definition = new PatternDefinition();
+    $data = $pattern_definition->setSettings($actual)->toArray();
+    assert($data['settings'], equals($expected));
   }
 
   /**
@@ -117,6 +153,16 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    *
    * @return array
    *   Data.
+   */
+  public function settingsProcessingProvider() {
+    return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/settings_processing.yml'));
+  }
+
+  /**
+   * Provider.
+   *
+   * @return array
+   *    Data.
    */
   public function definitionGettersProvider() {
     return [
