@@ -1,0 +1,67 @@
+-
+  actual:
+    - setting1
+    - setting2
+  expected:
+    setting1:
+      name: setting1
+      label: setting1
+      form_visible: TRUE
+      type: textfield
+      description: null
+      required: false
+      default_value: null
+      forced_value: null
+      options: null
+    setting2:
+      name: setting2
+      label: setting2
+      type: textfield
+      form_visible: TRUE
+      type: textfield
+      description: null
+      required: false
+      default_value: null
+      forced_value: null
+      options: null
+
+-
+  actual:
+    -
+      name: setting1
+      label: Setting 1
+      description: Setting 1
+      type: textfield
+      default_value: val1
+    -
+      name: setting2
+      label: Setting 2
+      description: Setting 2
+      type: select
+      default_value: val1
+      options:
+        val1: val1
+        val2: val2
+  expected:
+    setting1:
+      name: setting1
+      label: Setting 1
+      description: Setting 1
+      type: textfield
+      default_value: val1
+      required: false
+      forced_value: null
+      form_visible: TRUE
+      options: NULL
+    setting2:
+      name: setting2
+      label: Setting 2
+      description: Setting 2
+      type: select
+      default_value: val1
+      required: false
+      forced_value: null
+      form_visible: TRUE
+      options:
+        val1: val1
+        val2: val2
