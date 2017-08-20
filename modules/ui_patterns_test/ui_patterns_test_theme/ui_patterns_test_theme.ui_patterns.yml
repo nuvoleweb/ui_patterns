@@ -100,6 +100,10 @@ image:
       preview:
         theme: image
         uri: http://lorempixel.com/350/250/nature/1
+    copyright:
+      type: string
+      label: Copyright
+      description: Image copyright, it can be empty.
   libraries:
     - image_library:
         js:
