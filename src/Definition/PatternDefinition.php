@@ -69,6 +69,10 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
       $this->setThemeHook($definition['theme hook']);
       $this->definition['custom theme hook'] = TRUE;
     }
+
+    if (!$this->hasTemplate()) {
+      $this->setTemplate(str_replace('_', '-', $this->getThemeHook()));
+    }
   }
 
   /**
