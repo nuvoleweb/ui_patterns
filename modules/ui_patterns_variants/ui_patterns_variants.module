@@ -302,8 +302,8 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
 
     // If the variant is not set at all, use the default option.
     if (($variant_settings[$key] !== FALSE && $variant_settings[$key] !== 0)
-        && empty($variant_settings[$key])
-        && isset($variant['default'])) {
+      && empty($variant_settings[$key])
+      && isset($variant['default'])) {
       $variant_settings[$key] = $variant['default'];
     }
 
@@ -402,7 +402,11 @@ function ui_patterns_variants_form_entity_view_display_edit_form_alter(&$form, F
     $format_settings = &$form['fields'][$group]['format']['format_settings'];
     if (isset($format_settings['settings']['pattern_mapping'])) {
 
-      $defaults = $storage['field_group'][$group]->format_settings['variants'];
+      $defaults = [];
+      if (!empty($storage['field_group'][$group]->format_settings['variants'])) {
+        $defaults = $storage['field_group'][$group]->format_settings['variants'];
+      }
+
       foreach ($format_settings['settings']['pattern_mapping'] as $pattern => &$pattern_settings) {
         if (empty($variants = _ui_patterns_variants_get_variants($pattern))) {
           continue;
