@@ -64,6 +64,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
 
     $this->id = $this->definition['id'];
     $this->setFields($this->definition['fields']);
+    $this->setVariants($this->definition['variants']);
     $this->setThemeHook(self::PATTERN_PREFIX . $this->id());
 
     if (!empty($definition['theme hook'])) {
@@ -223,6 +224,16 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
       $this->definition['fields'][$field->getName()] = $field;
     }
     return $this;
+  }
+
+  /**
+   * Check whereas pattern has variants.
+   *
+   * @return bool
+   *   Whereas pattern has variants.
+   */
+  public function hasVariants() {
+    return !empty($this->definition['variants']);
   }
 
   /**
