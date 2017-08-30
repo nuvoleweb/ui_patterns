@@ -80,8 +80,17 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
 
     $fields = [];
     $mapping = $this->getSetting('pattern_mapping');
-    foreach ($mapping as $field) {
-      $fields[$field['destination']][] = $element[$field['source']];
+    foreach ($mapping as $field_key => $field) {
+      if (isset($element[$field['source']])) {
+        $fields[$field['destination']][] = $element[$field['source']];
+      }
+      else{
+        // Handling ds fields. @TODO: Find a better way. Where can I set $field['source']
+        list(,$internal_field_key) = explode(':', $field_key, 2);
+        if (isset($element[$internal_field_key])) {
+          $fields[$field['destination']][] = $element[$internal_field_key];
+        }
+      }
     }
 
     $element['#type'] = 'pattern';
@@ -95,6 +104,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#context']['entity_type'] = $this->configuration['group']->entity_type;
     $element['#context']['bundle'] = $this->configuration['group']->bundle;
     $element['#context']['view_mode'] = $this->configuration['group']->mode;
+    $element['#context']['settings'] = isset($this->configuration['settings']['settings']) ? $this->configuration['settings']['settings'] : [];
 
     // Pass current entity to pattern context, if any.
     if (!empty($element['#fields'])) {
