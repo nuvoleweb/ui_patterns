@@ -1,6 +1,10 @@
 button:
   label: Button
   description: A simple button.
+  variants:
+    default: Default
+    primary: Primary
+    error: Error
   fields:
     title:
       type: text
