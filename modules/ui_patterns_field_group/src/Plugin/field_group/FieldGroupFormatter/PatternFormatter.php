@@ -139,7 +139,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       $this->buildPatternDisplayForm($form, 'entity_display', $context, $this->configuration['settings']);
       if (isset($this->configuration['settings']['pattern'])) {
         $pattern_id = $this->configuration['settings']['pattern'];
-        $this->buildPatternSettingForm($form, $pattern_id, $this->configuration['settings']['settings']);
+        $this->buildPatternSettingForm($form, $pattern_id, isset($this->configuration['settings']['settings']) ? $this->configuration['settings']['settings'] : []);
       }
     }
     else {
