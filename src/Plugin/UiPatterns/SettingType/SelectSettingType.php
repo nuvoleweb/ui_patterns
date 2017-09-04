@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Select setting type.
