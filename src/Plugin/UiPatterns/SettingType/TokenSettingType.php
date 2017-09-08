@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 
 use Drupal\Core\Entity\ContentEntityType;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\token\Token;
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
 /**
@@ -25,7 +24,7 @@ class TokenSettingType extends PatternSettingTypeBase {
   public function buildConfigurationForm(array $form, $value) {
     $def = $this->getPatternSettingDefinition();
     $value = $this->getValue($value);
-    $description = $this->getDescription() != NULL ? $this->getDescription() : $this->t('"Field name of entity property. (E.g: field_title, title)"');
+    $description = $this->getDescription() != NULL ? $this->getDescription() : "";
 
     $content_entity_types = [];
     $entity_type_definations = \Drupal::entityTypeManager()->getDefinitions();
@@ -43,14 +42,13 @@ class TokenSettingType extends PatternSettingTypeBase {
     $form[$def->getName()]['input'] = array(
       '#type' => 'textfield',
       '#title' => $def->getLabel(),
-      '#description' => $def->getDescription(),
+      '#description' => $description,
       '#default_value' => $this->getValue($value),
       '#required' => $def->getRequired(),
     );
 
     $form[$def->getName()]['token'] = array(
       '#theme' => 'token_tree_link',
-      "#description" => $description,
       '#token_types' => $content_entity_types,
       '#show_restricted' => TRUE,
       '#default_value' => $value,
@@ -64,15 +62,14 @@ class TokenSettingType extends PatternSettingTypeBase {
    */
   public function preprocess($value, $context) {
     /** @var \Drupal\Core\Entity\Entity $entity */
-    $entity = isset($context['entity']) ? $context['entity'] : null;
+    $entity = isset($context['entity']) ? $context['entity'] : NULL;
     $return_value = '';
-    if (!empty($value) && $entity !== null) {
-
-      if (is_array($value) && !empty($value['input'])) {
+    if (!empty($value) && $entity !== NULL) {
+      if (is_array($value) && empty($value['input']) == FALSE) {
         $value = $value['input'];
       }
       $token_service = \Drupal::token();
-      $return_value = $token_service->replace($value,array($entity->getEntityTypeId() => $entity));
+      $return_value = $token_service->replace($value, array($entity->getEntityTypeId() => $entity));
     }
     return $return_value;
   }

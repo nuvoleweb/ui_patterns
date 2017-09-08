@@ -83,7 +83,7 @@ trait PatternDisplayFormTrait {
    *    Default setting values.
    */
   public function buildPatternSettingForm(array &$form, $pattern_id, $defaults) {
-    if ($pattern_id == null) {
+    if ($pattern_id == NULL) {
       return;
     }
     $definition = UiPatterns::getPatternDefinition($pattern_id);
