@@ -87,9 +87,8 @@ function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
 
       // Fetch the value from the field.
       $field_value = _ui_patterns_variants_entity_variant_value($variables['content']['#entity'], $variant['dynamic_value']);
-
       // Only override default if the field has a value.
-      if ($field_value) {
+      if ($field_value !== '') {
         $variant_settings[$key] = $field_value;
       }
     }
@@ -294,14 +293,16 @@ function _ui_patterns_variants_validate_variants($pattern, array &$variant_setti
     // Remove anything that is not one of the defined YAML options.
     $limited_options = [];
     foreach (array_keys($variant['options']) as $option) {
-      if (!empty($option) && strpos($variant_settings[$key], "$option") !== FALSE) {
+
+      if (!is_null($option) && strpos($variant_settings[$key], "$option") !== FALSE) {
         $limited_options[] = $option;
       }
     }
+
     $variant_settings[$key] = implode(' ', $limited_options);
 
     // If the variant is not set at all, use the default option.
-    if (($variant_settings[$key] !== FALSE && $variant_settings[$key] !== 0)
+    if (($variant_settings[$key] == '' || is_null($variant_settings[$key]))
       && empty($variant_settings[$key])
       && isset($variant['default'])) {
       $variant_settings[$key] = $variant['default'];
@@ -480,6 +481,7 @@ function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
   }
 
   $field_values = $entity->get($variant_field)->getValue();
+
   $return_values = [];
   foreach ($field_values as $values) {
     foreach ($values as $column => $value) {
@@ -497,7 +499,9 @@ function _ui_patterns_variants_entity_variant_value($entity, $variant_field) {
       $return_values[] = $value;
     }
   }
-  return implode(' ', array_filter($return_values));
+  $return_values = implode(' ', $return_values);
+
+  return preg_replace('/\s+/', ' ', $return_values);
 }
 
 /**
