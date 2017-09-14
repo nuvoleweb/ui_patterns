@@ -4,6 +4,7 @@ namespace Drupal\ui_patterns\Plugin\Validation\Constraint;
 
 use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * ValidFieldNameConstraint constraint.
@@ -30,6 +31,13 @@ class ValidPatternMachineNameConstraint extends Constraint implements Constraint
    * @var array
    */
   protected $reserved = ['id', 'type', 'theme', 'context', 'use', 'attributes'];
+
+  /**
+   * {@inheritdoc}
+   */
+  public function initialize(ExecutionContextInterface $context) {
+    $this->context = $context;
+  }
 
   /**
    * {@inheritdoc}
