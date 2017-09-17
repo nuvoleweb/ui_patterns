@@ -34,7 +34,8 @@
     "bex/behat-screenshot": "^1.2",
     "bex/behat-screenshot-image-driver-img42": "^1.0",
     "bex/behat-extension-driver-locator": "^1.0",
-    "phpro/grumphp": "^0.12.0",
+    "phpro/grumphp": "0.11.4",
+    "squizlabs/php_codesniffer": "~2.9",
     "drupal/coder": "8.2.8"
   },
   "conflict": {
