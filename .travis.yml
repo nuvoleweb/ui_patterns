@@ -31,9 +31,9 @@ before_script:
 
 script:
   - cd $TRAVIS_BUILD_DIR
-  - ./vendor/bin/grumphp run
   - ./vendor/bin/phpunit
   - ./vendor/bin/behat
+  # - ./vendor/bin/grumphp run
 
 notifications:
   email: false

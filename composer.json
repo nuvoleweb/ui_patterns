@@ -45,5 +45,11 @@
       "type": "composer",
       "url": "https://packages.drupal.org/8"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "Drupal\\ui_patterns\\": "src",
+      "Drupal\\Tests\\ui_patterns\\": "tests/src"
+    }
+  }
 }
