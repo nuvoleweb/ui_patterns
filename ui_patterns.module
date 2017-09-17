@@ -28,7 +28,7 @@ function ui_patterns_theme() {
 }
 
 /**
- * Implements hook_library_info_build()
+ * Implements hook_library_info_build().
  */
 function ui_patterns_library_info_build() {
   /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
@@ -41,7 +41,7 @@ function ui_patterns_library_info_build() {
 }
 
 /**
- * Implements hook_theme_suggestions_HOOK_alter()
+ * Implements hook_theme_suggestions_HOOK_alter().
  */
 function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
 

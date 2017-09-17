@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 use Behat\Gherkin\Node\TableNode;
 use NuvoleWeb\Drupal\DrupalExtension\Context\RawDrupalContext;
 use function bovigo\assert\assert;

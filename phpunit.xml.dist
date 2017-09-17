@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="core/tests/bootstrap.php" backupGlobals="false" colors="true" >
+<phpunit bootstrap="build/core/tests/bootstrap.php" backupGlobals="false" colors="true" >
   <php>
     <ini name="error_reporting" value="32767"/>
     <ini name="memory_limit" value="-1"/>
@@ -7,10 +7,10 @@
   </php>
   <testsuites>
     <testsuite name="unit">
-      <directory>./modules/ui_patterns/tests/</directory>
+      <directory>./tests/</directory>
     </testsuite>
     <testsuite name="kernel">
-      <directory>./modules/ui_patterns/tests/</directory>
+      <directory>./tests/</directory>
     </testsuite>
   </testsuites>
 </phpunit>
