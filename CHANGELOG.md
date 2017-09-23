@@ -6,6 +6,14 @@
 
 
 
+- Add entity and view objects to pattern context \#97 [\#138](https://github.com/nuvoleweb/ui_patterns/pull/138) ([ademarco](https://github.com/ademarco))
+- Use getLabel on field definition [\#135](https://github.com/nuvoleweb/ui_patterns/pull/135) ([ademarco](https://github.com/ademarco))
+- Defining library dependencies \#120 [\#134](https://github.com/nuvoleweb/ui_patterns/pull/134) ([ademarco](https://github.com/ademarco))
+- Drupal 8.4.x compatibility \#126 [\#133](https://github.com/nuvoleweb/ui_patterns/pull/133) ([ademarco](https://github.com/ademarco))
+- Setup project development using Drupal Component Scaffold \#128 [\#129](https://github.com/nuvoleweb/ui_patterns/pull/129) ([ademarco](https://github.com/ademarco))
+- Make sure that preview property is not required to be set \#90 [\#115](https://github.com/nuvoleweb/ui_patterns/pull/115) ([ademarco](https://github.com/ademarco))
+- Looks for templates in the wrong folder \#110 [\#114](https://github.com/nuvoleweb/ui_patterns/pull/114) ([ademarco](https://github.com/ademarco))
+- Fix Travis build [\#113](https://github.com/nuvoleweb/ui_patterns/pull/113) ([ademarco](https://github.com/ademarco))
 - Fix field select option values [\#98](https://github.com/nuvoleweb/ui_patterns/pull/98) ([aleksip](https://github.com/aleksip))
 - Decentralise plugin manager responsibilities towards pattern plugin classes \#91 [\#92](https://github.com/nuvoleweb/ui_patterns/pull/92) ([ademarco](https://github.com/ademarco))
 
