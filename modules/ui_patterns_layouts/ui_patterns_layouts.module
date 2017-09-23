@@ -49,6 +49,7 @@ function ui_patterns_layouts_preprocess_ds_entity_view(&$variables) {
     $variables['content']['#context']['bundle'] = $variables['content']['#bundle'];
     $variables['content']['#context']['view_mode'] = $variables['content']['#view_mode'];
     $variables['content']['#context']['entity_id'] = $entity->id();
+    $variables['content']['#context']['entity'] = $entity;
   }
 }
 

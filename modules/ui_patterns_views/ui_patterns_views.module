@@ -62,6 +62,7 @@ function template_preprocess_pattern_views_row(array &$variables) {
     $variables['pattern']['#context']['type'] = 'views_row';
     $variables['pattern']['#context']['view_name'] = $view->storage->id();
     $variables['pattern']['#context']['display'] = $view->current_display;
+    $variables['pattern']['#context']['view'] = $view;
   }
 }
 

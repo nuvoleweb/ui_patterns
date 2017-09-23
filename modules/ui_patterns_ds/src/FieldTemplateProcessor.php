@@ -2,6 +2,8 @@
 
 namespace Drupal\ui_patterns_ds;
 
+use Drupal\Core\Entity\ContentEntityBase;
+
 /**
  * Class FieldTemplateProcessor.
  *
@@ -122,13 +124,21 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    *    Pattern context.
    */
   protected function getContext() {
-    return [
+    $element = $this->variables['element'];
+    $context = [
       'type' => 'ds_field_template',
       'field_name' => $this->getFieldName(),
-      'entity_type' => $this->variables['element']['#entity_type'],
-      'bundle' => $this->variables['element']['#bundle'],
-      'view_mode' => $this->variables['element']['#view_mode'],
+      'entity_type' => $element['#entity_type'],
+      'bundle' => $element['#bundle'],
+      'view_mode' => $element['#view_mode'],
+      'entity' => NULL,
     ];
+
+    if (isset($element['#object']) && is_object($element['#object']) && $element['#object'] instanceof ContentEntityBase) {
+      $context['entity'] = $element['#object'];
+    }
+
+    return $context;
   }
 
 }
