@@ -2,19 +2,26 @@ language: php
 dist: precise
 
 php:
-  # Temporarily disable 5.6 build
-  # - 5.6
   - 7.0
 
 env:
   global:
-    - PATH=$PATH:/home/travis/.composer/vendor/bin
+env:
+  global:
+    - PATH=$PATH:/home/travis/.composer/vendor/bin:$TRAVIS_BUILD_DIR/vendor/bin
+  matrix:
+    - DRUPAL_VERSION=8.3.x-dev
+    - DRUPAL_VERSION=8.4.x-dev
+    - DRUPAL_VERSION=8.5.x-dev
+
+matrix:
+  allow_failures:
+    - php: 7.0
+      env: DRUPAL_VERSION=8.5.x-dev
 
 install:
   - composer self-update
-  - composer install --prefer-dist
-  - ./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer
-  - ./vendor/bin/phpcs --config-set show_progress 1
+  - composer require drupal/core:$DRUPAL_VERSION --dev --prefer-dist
 
 before_script:
   # Start PhantomJS server.
@@ -24,23 +31,17 @@ before_script:
   # Create database.
   - mysql -e 'create database drupal'
   # Install Drupal 8 target site.
-  - cd tests
-  - composer install --prefer-dist
-  - ./vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
-  # Test latest commit on current branch.
-  - git clone --branch=$TRAVIS_BRANCH https://github.com/$TRAVIS_REPO_SLUG.git modules/ui_patterns
-  - ./vendor/bin/drush en ui_patterns_test -y
+  - drush --root=$PWD/build si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
+  - drush --root=$PWD/build en ui_patterns_test -y
   # Run Drush web server.
-  - ./vendor/bin/drush --debug runserver :8888 > ~/debug.txt 2>&1 &
+  - drush --root=$PWD/build --debug runserver :8888 > ~/debug.txt 2>&1 &
   - sleep 4s
-  - chmod -R ug+w sites
 
 script:
   - cd $TRAVIS_BUILD_DIR
-  - composer phpcs
-  - cd tests
-  - ./vendor/bin/phpunit
-  - ./vendor/bin/behat
+  - phpunit
+  - behat
+  - grumphp run
 
 notifications:
   email: false

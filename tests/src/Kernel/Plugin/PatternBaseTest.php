@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel\Plugin;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\equals;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
 use Drupal\ui_patterns\Plugin\PatternBase;
@@ -28,7 +26,7 @@ class PatternBaseTest extends AbstractUiPatternsTest {
 
       /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
       $libraries = $pattern->getLibraryDefinitions();
-      assert($libraries, equals($item['expected']));
+      expect($libraries)->to->loosely->equal($item['expected']);
     }
   }
 

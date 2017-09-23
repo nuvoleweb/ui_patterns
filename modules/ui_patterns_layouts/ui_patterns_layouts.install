@@ -20,5 +20,3 @@ function ui_patterns_layouts_update_8101() {
     $installer->install(['layout_discovery']);
   }
 }
-
-

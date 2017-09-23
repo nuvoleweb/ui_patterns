@@ -11,6 +11,17 @@
     - "theme hook: This value should not be null."
 -
   pattern:
+    id: 'id'
+  messages:
+    - "id: This value is not valid."
+    - "label: This value should not be null."
+    - "base path: This value should not be null."
+    - "file name: This value should not be null."
+    - "provider: This value should not be null."
+    - "fields: This value should not be null."
+    - "theme hook: This value should not be null."
+-
+  pattern:
     id: pattern_id
     label: label
     description: description
