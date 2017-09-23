@@ -2,11 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\isNotEmpty;
-use function bovigo\assert\predicate\hasKey;
-use function bovigo\assert\predicate\equals;
-
 /**
  * @coversDefaultClass \Drupal\ui_patterns\UiPatternsSourceManager
  *
@@ -24,7 +19,9 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
     $plugin_manager = \Drupal::service('plugin.manager.ui_patterns_source');
 
     $definitions = $plugin_manager->getDefinitions();
-    assert($definitions, isNotEmpty()->and(hasKey('test_source')));
+    expect($definitions)
+      ->to->not->be->empty()
+      ->and->to->have->keys(['test_source']);
 
     $expected = [
       ['name' => 'field_1', 'label' => 'Field 1'],
@@ -37,8 +34,8 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
     /** @var \Drupal\ui_patterns\Plugin\PatternSourceBase $plugin */
     $plugin = $plugin_manager->createInstance('test_source');
     foreach ($plugin->getSourceFields() as $key => $field) {
-      assert($field->getFieldName(), equals($expected[$key]['name']));
-      assert($field->getFieldLabel(), equals($expected[$key]['label']));
+      expect($field->getFieldName())->to->equal($expected[$key]['name']);
+      expect($field->getFieldLabel())->to->equal($expected[$key]['label']);
     }
   }
 

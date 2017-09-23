@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns\Unit\Element;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\equals;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Tests\ui_patterns\Unit\AbstractUiPatternsTest;
 use Drupal\ui_patterns\Element\PatternPreview;
@@ -24,7 +22,7 @@ class PatternPreviewTest extends AbstractUiPatternsTest {
     $assertions = Yaml::decode(file_get_contents($this->getFixturePath() . '/preview_markup.yml'));
     foreach ($assertions as $assertion) {
       $result = PatternPreview::getPreviewMarkup($assertion['actual']);
-      assert($assertion['expected'], equals($result));
+      expect($assertion['expected'])->to->equal($result);
     }
   }
 

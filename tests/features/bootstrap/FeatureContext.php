@@ -6,8 +6,6 @@
 
 use Behat\Gherkin\Node\TableNode;
 use NuvoleWeb\Drupal\DrupalExtension\Context\RawDrupalContext;
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\isTrue;
 
 /**
  * Class FeatureContext.
@@ -31,7 +29,7 @@ class FeatureContext extends RawDrupalContext {
   public function assertModulesEnabled(TableNode $table) {
     $rows = $table->getRows();
     foreach ($rows as $row) {
-      assert(\Drupal::moduleHandler()->moduleExists($row[0]), isTrue(), "Module '{$row[0]}' should be enabled but it is not.");
+      expect(\Drupal::moduleHandler()->moduleExists($row[0]))->to->be->true("Module '{$row[0]}' should be enabled but it is not.");
     }
   }
 
