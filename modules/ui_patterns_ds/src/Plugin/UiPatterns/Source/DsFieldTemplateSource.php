@@ -59,7 +59,7 @@ class DsFieldTemplateSource extends PatternSourceBase implements ContainerFactor
 
     /** @var \Drupal\field\Entity\FieldConfig $field */
     $field = $this->fieldManager->getFieldDefinitions($entity_type, $bundle)[$field_name];
-    $label = $field->label();
+    $label = $field->getLabel();
 
     $sources[] = $this->getSourceField($field_name, $label);
     foreach ($field->getFieldStorageDefinition()->getColumns() as $column_name => $column) {
