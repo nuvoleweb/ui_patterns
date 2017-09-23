@@ -8,7 +8,7 @@ env:
   global:
 env:
   global:
-    - PATH=$PATH:/home/travis/.composer/vendor/bin
+    - PATH=$PATH:/home/travis/.composer/vendor/bin:$TRAVIS_BUILD_DIR/vendor/bin
   matrix:
     - DRUPAL_VERSION=8.3.x-dev
     - DRUPAL_VERSION=8.4.x-dev
@@ -33,18 +33,17 @@ before_script:
   # Create database.
   - mysql -e 'create database drupal'
   # Install Drupal 8 target site.
-  - cd build
-  - ../vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
-  - ../vendor/bin/drush en ui_patterns_test -y
+  - drush --root=$PWD/build si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
+  - drush --root=$PWD/build en ui_patterns_test -y
   # Run Drush web server.
-  - ../vendor/bin/drush --debug runserver :8888 > ~/debug.txt 2>&1 &
+  - drush --root=$PWD/build --debug runserver :8888 > ~/debug.txt 2>&1 &
   - sleep 4s
 
 script:
   - cd $TRAVIS_BUILD_DIR
-  - ./vendor/bin/phpunit
-  - ./vendor/bin/behat
-  - ./vendor/bin/grumphp run
+  - phpunit
+  - behat
+  - grumphp run
 
 notifications:
   email: false

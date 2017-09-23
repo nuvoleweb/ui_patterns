@@ -53,6 +53,9 @@
       "Drupal\\Tests\\ui_patterns\\": "tests/src"
     }
   },
-  "require": {
+  "extra": {
+      "installer-paths": {
+        "build/core": ["type:drupal-core"]
+      }
   }
 }
