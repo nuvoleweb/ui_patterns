@@ -17,8 +17,6 @@ env:
 matrix:
   allow_failures:
     - php: 7.0
-      env: DRUPAL_VERSION=8.4.x-dev
-    - php: 7.0
       env: DRUPAL_VERSION=8.5.x-dev
 
 install:
