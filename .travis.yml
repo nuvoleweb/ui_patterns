@@ -2,17 +2,29 @@ language: php
 dist: precise
 
 php:
-  # Temporarily disable 5.6 build
-  # - 5.6
   - 7.0
 
 env:
   global:
+env:
+  global:
     - PATH=$PATH:/home/travis/.composer/vendor/bin
+  matrix:
+    - DRUPAL_VERSION=8.3.x-dev
+    - DRUPAL_VERSION=8.4.x-dev
+    - DRUPAL_VERSION=8.5.x-dev
+
+matrix:
+  allow_failures:
+    - php: 7.0
+      env: DRUPAL_VERSION=8.4.x-dev
+  allow_failures:
+    - php: 7.0
+      env: DRUPAL_VERSION=8.5.x-dev
 
 install:
   - composer self-update
-  - composer install --prefer-dist
+  - composer require drupal/core:$DRUPAL_VERSION --prefer-dist
 
 before_script:
   # Start PhantomJS server.

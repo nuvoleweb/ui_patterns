@@ -15,9 +15,8 @@
   "require-dev": {
     "nuvoleweb/drupal-component-scaffold": "*",
     "drupal/config_installer": "1.3.0",
-    "drupal/core": "~8",
-    "drupal/console": "0.11.3",
-    "drush/drush": "~8.0",
+    "drupal/console": "~1",
+    "drush/drush": "*",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",
@@ -36,7 +35,8 @@
     "bex/behat-extension-driver-locator": "^1.0",
     "phpro/grumphp": "0.11.4",
     "squizlabs/php_codesniffer": "~2.9",
-    "drupal/coder": "8.2.8"
+    "drupal/coder": "8.2.8",
+    "drupal/core": "8.4.x-dev"
   },
   "conflict": {
     "drupal/drupal": "*"
@@ -52,5 +52,7 @@
       "Drupal\\ui_patterns\\": "src",
       "Drupal\\Tests\\ui_patterns\\": "tests/src"
     }
+  },
+  "require": {
   }
 }
