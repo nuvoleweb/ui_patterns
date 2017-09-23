@@ -55,12 +55,16 @@ class DsFieldSource extends PatternSourceBase implements ContainerFactoryPluginI
     $sources = [];
     $fields = $this->dsManager->getDefinitions();
 
-    foreach ($fields as $field) {
+    foreach ($fields as $field_key => $field) {
       if (!$this->getContextProperty('limit')) {
         $sources[] = $this->getSourceField($field['id'], $field['title']);
       }
       elseif (in_array($field['id'], $this->getContextProperty('limit'))) {
         $sources[] = $this->getSourceField($field['id'], $field['title']);
+      }
+      // Field id is not unique for dynamic fields.
+      elseif (in_array($field_key, $this->getContextProperty('limit'))) {
+        $sources[] = $this->getSourceField($field_key, $field['title']);
       }
     }
     return $sources;
