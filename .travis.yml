@@ -18,13 +18,12 @@ matrix:
   allow_failures:
     - php: 7.0
       env: DRUPAL_VERSION=8.4.x-dev
-  allow_failures:
     - php: 7.0
       env: DRUPAL_VERSION=8.5.x-dev
 
 install:
   - composer self-update
-  - composer require drupal/core:$DRUPAL_VERSION --prefer-dist
+  - composer require drupal/core:$DRUPAL_VERSION --dev --prefer-dist
 
 before_script:
   # Start PhantomJS server.
