@@ -36,3 +36,5 @@ media:
         js:
           js/media1.js: {}
           js/media2.js: {}
+        dependencies:
+          - core/drupal.tabledrag
