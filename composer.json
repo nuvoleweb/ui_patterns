@@ -27,7 +27,7 @@
     "drupal/page_manager": "*",
     "drupal/paragraphs": "~1",
     "drupal/token": "~1",
-    "drupal/bootstrap": "3.1",
+    "drupal/bootstrap": "~3",
     "phpunit/phpunit": "5.5.*",
     "nuvoleweb/drupal-behat": "1.0.2",
     "mikey179/vfsStream": "*",
