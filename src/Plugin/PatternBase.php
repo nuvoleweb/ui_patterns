@@ -96,25 +96,27 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
   /**
    * Process libraries.
    *
-   * @param array $libraries
-   *    Libraries array.
+   * @param array|string $libraries
+   *    List of dependencies or "dependencies:" root property.
    * @param string $base_path
    *    Pattern base path.
    * @param string $parent
    *    Item parent set in previous recursive iteration, if any.
    */
-  protected function processLibraries(array &$libraries, $base_path, $parent = '') {
-    $parents = ['js', 'base', 'layout', 'component', 'state', 'theme'];
-    $_libraries = $libraries;
-    foreach ($_libraries as $name => $values) {
-      $is_asset = in_array($parent, $parents, TRUE);
-      $is_external = isset($values['type']) && $values['type'] == 'external';
-      if ($is_asset && !$is_external) {
-        $libraries[$base_path . DIRECTORY_SEPARATOR . $name] = $values;
-        unset($libraries[$name]);
-      }
-      elseif (!$is_asset) {
-        $this->processLibraries($libraries[$name], $base_path, $name);
+  protected function processLibraries(&$libraries, $base_path, $parent = '') {
+    if (!is_string($libraries)) {
+      $parents = ['js', 'base', 'layout', 'component', 'state', 'theme'];
+      $_libraries = $libraries;
+      foreach ($_libraries as $name => $values) {
+        $is_asset = in_array($parent, $parents, TRUE);
+        $is_external = isset($values['type']) && $values['type'] == 'external';
+        if ($is_asset && !$is_external) {
+          $libraries[$base_path . DIRECTORY_SEPARATOR . $name] = $values;
+          unset($libraries[$name]);
+        }
+        elseif (!$is_asset) {
+          $this->processLibraries($libraries[$name], $base_path, $name);
+        }
       }
     }
   }

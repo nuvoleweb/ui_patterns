@@ -43,6 +43,8 @@ and list them using the following format:
        - pattern_library_two:
           js:
             js/library_two.js: {}
+          dependencies:
+            - core/jquery
 
 Let's break this down:
 
