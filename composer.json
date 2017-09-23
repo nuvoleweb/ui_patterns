@@ -3,31 +3,59 @@
   "type": "drupal-module",
   "description": "UI Patterns.",
   "keywords": ["drupal", "web", "ui"],
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "license": "GPL-2.0+",
+  "prefer-stable": true,
   "authors": [
     {
       "name": "Nuvole Web",
       "email": "info@nuvole.org"
     }
   ],
-  "prefer-stable": true,
   "require-dev": {
-    "squizlabs/php_codesniffer": "2.8.0",
-    "drupal/coder": "8.2.8"
+    "nuvoleweb/drupal-component-scaffold": "*",
+    "drupal/config_installer": "1.3.0",
+    "drupal/console": "~1",
+    "drush/drush": "*",
+    "drupal/coder": "8.2.8",
+    "drupal/core": "~8",
+    "drupal/ds": "~3",
+    "drupal/field_group": "~1",
+    "drupal/coffee": "~1",
+    "drupal/panels": "~4",
+    "drupal/features": "~3",
+    "drupal/page_manager": "*",
+    "drupal/paragraphs": "~1",
+    "drupal/token": "~1",
+    "drupal/bootstrap": "3.1",
+    "phpunit/phpunit": "5.5.*",
+    "nuvoleweb/drupal-behat": "1.0.2",
+    "mikey179/vfsStream": "*",
+    "bex/behat-screenshot": "^1.2",
+    "bex/behat-screenshot-image-driver-img42": "^1.0",
+    "bex/behat-extension-driver-locator": "^1.0",
+    "phpro/grumphp": "0.11.4",
+    "squizlabs/php_codesniffer": "~2.9",
+    "peridot-php/leo": "^1.6"
   },
-  "scripts": {
-    "post-install-cmd": [
-      "./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer",
-      "./vendor/bin/phpcs --config-set show_progress 1",
-      "cp ./tests/scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
-    ],
-    "post-update-cmd": [
-      "./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer",
-      "./vendor/bin/phpcs --config-set show_progress 1",
-      "cp ./tests/scripts/pre-push.sh .git/hooks/pre-push && chmod +x .git/hooks/pre-push"
-    ],
-    "phpcs": "./vendor/bin/phpcs --standard=Drupal,DrupalPractice ./src ./tests/src ./modules --ignore=./modules/ui_patterns_test",
-    "phpcbf": "./vendor/bin/phpcbf --standard=Drupal,DrupalPractice ./src ./tests/src ./modules --ignore=./modules/ui_patterns_test"
+  "conflict": {
+    "drupal/drupal": "*"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Drupal\\ui_patterns\\": "src",
+      "Drupal\\Tests\\ui_patterns\\": "tests/src"
+    }
+  },
+  "extra": {
+      "installer-paths": {
+        "build/core": ["type:drupal-core"]
+      }
   }
 }

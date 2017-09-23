@@ -85,11 +85,11 @@ function ui_patterns_layouts_ui_patterns_destination_suggestions_alter(array &$s
     $pattern = $context->getProperty('pattern');
     $field = $context->getProperty('field');
 
-    $suggestions[] = $hook . '__layout__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $view_mode . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $entity_id . '__' . $pattern  . '__' . $field;
+    $suggestions[] = $hook . '__layout__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $entity_id . '__' . $pattern . '__' . $field;
   }
 }

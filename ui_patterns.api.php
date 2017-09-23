@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * API file.
+ */
+
 use Drupal\ui_patterns\Element\PatternContext;
 
 /**
@@ -62,7 +67,7 @@ function hook_ui_patterns_destination_suggestions_alter(array &$suggestions, arr
     $pattern = $context->getProperty('pattern');
     $field = $context->getProperty('field');
 
-    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern  . '__' . $field;
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern . '__' . $field;
   }
 }
