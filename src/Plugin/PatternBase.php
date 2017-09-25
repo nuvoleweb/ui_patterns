@@ -104,7 +104,7 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
    *    Item parent set in previous recursive iteration, if any.
    */
   protected function processLibraries(&$libraries, $base_path, $parent = '') {
-    if (!is_string($libraries)) {
+    if (is_array($libraries)) {
       $parents = ['js', 'base', 'layout', 'component', 'state', 'theme'];
       $_libraries = $libraries;
       foreach ($_libraries as $name => $values) {
