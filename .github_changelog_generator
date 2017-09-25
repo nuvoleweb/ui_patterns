@@ -1,2 +1,5 @@
-merge_prefix=
-issues=false
+merge_prefix=**Merged Pull Requests**
+tag1='API change'
+include-labels='API change,Bug,New feature'
+enhancement_prefix=**New features**
+enhancement-labels='New feature'
