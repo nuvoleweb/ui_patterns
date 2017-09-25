@@ -41,7 +41,7 @@ function ui_patterns_ds_field_overview_submit($form, FormStateInterface $form_st
 
   $entity_form = $form_state->getFormObject();
   $display = $entity_form->getEntity();
-  $components = array_filter($display->getComponents(), function($component) {
+  $components = array_filter($display->getComponents(), function ($component) {
     return isset($component['third_party_settings']['ds']['ft']['settings']['pattern']);
   });
 
@@ -56,10 +56,10 @@ function ui_patterns_ds_field_overview_submit($form, FormStateInterface $form_st
 /**
  * Preprocess hook.
  *
- * @param $variables
+ * @param array $variables
  *    Theme variables.
  */
-function template_preprocess_field__pattern_ds_field_template(&$variables) {
+function template_preprocess_field__pattern_ds_field_template(array &$variables) {
   \Drupal::service('ui_patterns_ds.field_template_processor')->process($variables);
 }
 

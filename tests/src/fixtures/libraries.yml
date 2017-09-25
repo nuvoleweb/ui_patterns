@@ -73,7 +73,6 @@
         http://example.com/external.min.js: { type: external, minified: true }
         /pattern/base/path/library_two.js: {}
 
-
 -
   actual:
     id: pattern_name
@@ -81,7 +80,6 @@
       - drupal/library_one
       - drupal/library_two
   expected: []
-
 
 -
   actual:

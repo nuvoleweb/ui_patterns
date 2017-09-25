@@ -79,10 +79,10 @@ function ui_patterns_field_group_ui_patterns_destination_suggestions_alter(array
     $pattern = $context->getProperty('pattern');
     $field = $context->getProperty('field');
 
-    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern  . '__' . $field;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
   }
 }

@@ -16,7 +16,21 @@ class PatternDataDefinition extends MapDataDefinition {
   /**
    * Valid machine name string.
    */
-  const MACHINE_NAME = '/^[A-Za-z0-9_]+$/';
+  const MACHINE_NAME = '/^(?!(%s)$)(?=[A-Za-z0-9_]+$).*$/';
+
+  /**
+   * Reserved words.
+   *
+   * @var array
+   */
+  protected $reserved = [
+    'id',
+    'type',
+    'theme',
+    'context',
+    'use',
+    'attributes',
+  ];
 
   /**
    * {@inheritdoc}
@@ -47,8 +61,7 @@ class PatternDataDefinition extends MapDataDefinition {
    */
   protected function getMachineNameDefinition() {
     return DataDefinition::create('string')
-      ->addConstraint('Regex', self::MACHINE_NAME)
-      ->addConstraint('ValidPatternMachineName');
+      ->addConstraint('Regex', sprintf(self::MACHINE_NAME, implode('|', $this->reserved)));
   }
 
   /**

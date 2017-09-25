@@ -1,5 +1,7 @@
 vendor
 behat.yml
-tests/drupal
 composer.lock
 docs/_build
+build/
+phpunit.xml
+behat.yml

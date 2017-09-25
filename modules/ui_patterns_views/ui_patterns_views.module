@@ -21,10 +21,10 @@ function ui_patterns_views_theme() {
 /**
  * Preprocess hook.
  *
- * @param $variables
+ * @param array $variables
  *    Theme variables.
  */
-function template_preprocess_pattern_views_row(&$variables) {
+function template_preprocess_pattern_views_row(array &$variables) {
   /** @var \Drupal\views\ResultRow $row */
   /** @var \Drupal\views\ViewExecutable $view */
   /** @var \Drupal\ui_patterns_views\Plugin\views\row\Pattern $row_plugin */
@@ -62,6 +62,7 @@ function template_preprocess_pattern_views_row(&$variables) {
     $variables['pattern']['#context']['type'] = 'views_row';
     $variables['pattern']['#context']['view_name'] = $view->storage->id();
     $variables['pattern']['#context']['display'] = $view->current_display;
+    $variables['pattern']['#context']['view'] = $view;
   }
 }
 
@@ -90,7 +91,7 @@ function ui_patterns_views_ui_patterns_destination_suggestions_alter(array &$sug
     $pattern = $context->getProperty('pattern');
     $field = $context->getProperty('field');
 
-    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern  . '__' . $field;
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern . '__' . $field;
   }
 }
