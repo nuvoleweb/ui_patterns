@@ -147,7 +147,10 @@ class Pattern extends RenderElement {
           $element[$key] = $setting;
         }
         else {
-          if (is_array($element[$key]) && is_array($setting)) {
+          if ($setting instanceof Attribute && $element[$key] instanceof Attribute) {
+            $element[$key] = new Attribute(array_merge($setting->toArray(), $element[$key]->toArray()));
+          }
+          elseif (is_array($element[$key]) && is_array($setting)) {
             $element[$key] = array_merge($element[$key], $setting);
           }
         }
