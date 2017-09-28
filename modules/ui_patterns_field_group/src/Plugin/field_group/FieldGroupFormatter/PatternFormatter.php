@@ -96,6 +96,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#type'] = 'pattern';
     $element['#id'] = $this->getSetting('pattern');
     $element['#fields'] = $fields;
+    $element['#settings'] = isset($this->configuration['settings']['settings']) ? $this->configuration['settings']['settings'] : [];
     $element['#multiple_sources'] = TRUE;
     $element['#variant'] = $this->getSetting('pattern_variant');
 
@@ -105,7 +106,6 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#context']['entity_type'] = $this->configuration['group']->entity_type;
     $element['#context']['bundle'] = $this->configuration['group']->bundle;
     $element['#context']['view_mode'] = $this->configuration['group']->mode;
-    $element['#context']['settings'] = isset($this->configuration['settings']['settings']) ? $this->configuration['settings']['settings'] : [];
 
     // Pass current entity to pattern context, if any.
     $element['#context']['entity'] = $this->entityFinder->findEntityFromFields($element['#fields']);
