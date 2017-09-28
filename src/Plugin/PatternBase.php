@@ -155,6 +155,9 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
     foreach ($definition->getFields() as $field) {
       $return['variables'][$field->getName()] = NULL;
     }
+    foreach ($definition->getSettings() as $setting) {
+      $return['variables'][$setting->getName()] = NULL;
+    }
     $return['variables']['attributes'] = [];
     $return['variables']['context'] = [];
     $return['variables']['variant'] = '';

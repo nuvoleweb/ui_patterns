@@ -5,6 +5,7 @@ namespace Drupal\ui_patterns\Element;
 use Drupal\Core\Render\Element\RenderElement;
 use Drupal\Core\Template\Attribute;
 use Drupal\ui_patterns\UiPatterns;
+use Drupal\ui_patterns\UiPatternsSettings;
 
 /**
  * Renders a pattern element.
@@ -27,6 +28,7 @@ class Pattern extends RenderElement {
         [$class, 'processLibraries'],
         [$class, 'processMultipleSources'],
         [$class, 'processFields'],
+        [$class, 'processSettings'],
         [$class, 'processUse'],
       ],
     ];
@@ -122,6 +124,39 @@ class Pattern extends RenderElement {
   }
 
   /**
+   * Process settings.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public static function processSettings(array $element) {
+    // Make sure we don't render anything in case fields are empty.
+    if (self::hasSettings($element)) {
+      $settings = $element['#settings'];
+      $context = $element['#context'];
+      $pattern_id = $element['#id'];
+      $entity = $context->getProperty('entity');
+      $settings = UiPatternsSettings::preprocess($pattern_id, $settings, $entity);
+      unset($element['#settings']);
+      foreach ($settings as $name => $setting) {
+        $key = '#' . $name;
+        if (!isset($element[$key])) {
+          $element[$key] = $setting;
+        }
+        else {
+          if (is_array($element[$key]) && is_array($setting)) {
+            $element[$key] = array_merge($element[$key], $setting);
+          }
+        }
+      }
+    }
+    return $element;
+  }
+
+  /**
    * Process fields.
    *
    * @param array $element
@@ -177,6 +212,19 @@ class Pattern extends RenderElement {
     }
 
     return $element;
+  }
+
+  /**
+   * Whereas pattern has settings or not.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return bool
+   *    TRUE or FALSE.
+   */
+  public static function hasSettings($element) {
+    return isset($element['#settings']) && !empty($element['#settings']) && is_array($element['#settings']);
   }
 
   /**
