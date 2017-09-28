@@ -220,14 +220,17 @@ class Pattern extends RenderElement {
   /**
    * Whereas pattern has settings or not.
    *
-   * @param array $element
-   *   Render array.
-   *
    * @return bool
    *    TRUE or FALSE.
    */
   public static function hasSettings($element) {
-    return isset($element['#settings']) && !empty($element['#settings']) && is_array($element['#settings']);
+    $definition = UiPatterns::getPatternDefinition($element['#id']);
+    if ($definition != NULL && count($definition->getSettings()) != 0) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
   }
 
   /**
