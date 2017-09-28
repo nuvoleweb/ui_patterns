@@ -55,7 +55,10 @@
   },
   "extra": {
       "installer-paths": {
-        "build/core": ["type:drupal-core"]
+        "build/core": ["type:drupal-core"],
+        "build/modules/contrib/{$name}": ["type:drupal-module"],
+        "build/profiles/contrib/{$name}": ["type:drupal-profile"],
+        "build/themes/contrib/{$name}": ["type:drupal-theme"]
       }
   }
 }
