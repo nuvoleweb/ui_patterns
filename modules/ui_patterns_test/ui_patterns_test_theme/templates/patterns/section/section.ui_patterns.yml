@@ -1,0 +1,31 @@
+section:
+  label: Section
+  description: Section area
+  settings:
+    modifier:
+      label: Modifier
+      type: textfield
+      description: Modifier
+    attributes:
+      label: Attributes
+      type: textfield
+      description: Attributes
+  fields:
+    title:
+      type: link
+      label: Title
+      description: Media title.
+      preview:
+        type: processed_text
+        text: <a href="#">Etiam iaculis nunc ac metus</a>
+        format: basic_html
+    content:
+      type: text
+      label: Content
+      description: Section content.
+      preview: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+  libraries:
+    - library_one:
+        css:
+          component:
+            css/section.css: {}
