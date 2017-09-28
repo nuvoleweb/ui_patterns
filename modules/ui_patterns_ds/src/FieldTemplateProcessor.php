@@ -32,11 +32,13 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
         $fields[$mapping['destination']][] = $this->getSourceValue($mapping, $delta);
       }
 
+      $settings = isset($variables['ds-config']['settings']['settings']) ? $variables['ds-config']['settings']['settings'] : [];
       $content['pattern_' . $delta] = [
         '#type' => 'pattern',
         '#id' => $this->getPatternId(),
         '#variant' => $this->getVariant(),
         '#fields' => $fields,
+        '#settings' => $settings,
         '#context' => $this->getContext(),
         '#multiple_sources' => TRUE,
       ];
@@ -151,7 +153,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    *   Pattern context.
    */
   protected function getContext() {
-    // Preprocess settings
+
     $element = $this->variables['element'];
 
     $ui_pattern_settings = isset($this->variables['ds-config']['settings']) ? $this->variables['ds-config']['settings'] : [];
@@ -162,21 +164,20 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
       $processed_settings = UiPatternsSettings::preprocess($pattern_id, $settings, isset($this->variables['element']['#object']) ? $this->variables['element']['#object'] : NULL);
     }
 
+    $entity = NULL;
+    if (isset($element['#object']) && is_object($element['#object']) && $element['#object'] instanceof ContentEntityBase) {
+      $entity = $element['#object'];
+    }
+
     return [
       'type' => 'ds_field_template',
       'field_name' => $this->getFieldName(),
       'entity_type' => $element['#entity_type'],
       'bundle' => $element['#bundle'],
       'view_mode' => $element['#view_mode'],
-      'entity' => NULL,
-      'settings' => $processed_settings
+      'entity' => $entity,
+      'settings' => $processed_settings,
     ];
-
-    if (isset($element['#object']) && is_object($element['#object']) && $element['#object'] instanceof ContentEntityBase) {
-      $context['entity'] = $element['#object'];
-    }
-
-    return $context;
   }
 
 }
