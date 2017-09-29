@@ -38,9 +38,6 @@
     "squizlabs/php_codesniffer": "~2.9",
     "peridot-php/leo": "^1.6"
   },
-  "conflict": {
-    "drupal/drupal": "*"
-  },
   "repositories": [
     {
       "type": "composer",
