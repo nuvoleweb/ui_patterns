@@ -102,51 +102,39 @@ function ui_patterns_variants_preprocess_ds_entity_view(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_views_view_field().
- */
-function ui_patterns_variants_preprocess_views_view_field(&$variables) {
-  /** @var \Drupal\views\ViewExecutable $view */
-
-  // Only process fields that have a variant value available.
-  $view = $variables['view'];
-  if (!isset($view->rowPlugin->options['variants'])) {
-    return;
-  }
-
-  // Process a view field that is having a pattern variant applied to it. Both
-  // the row and the field need to be processed so please also
-  // see: ui_patterns_variants_preprocess_pattern_views_row().
-  $variants = $view->rowPlugin->options['variants'];
-  $field_id = $variables['field']->options['id'];
-
-  // Loop through each of the variants and process if the value has come through
-  // the view's settings or through the field value pass through.
-  foreach ($variants as $key => $variant) {
-
-    // Because the variants value could have come from the field value we want
-    // to check for the existence of a setting before trying to set one. If no
-    // value is set then we should apply the default value.
-    if (!isset($variables['row']->variants[$key])) {
-      $variables['row']->variants[$key] = isset($variant['constant_value']) ? $variant['constant_value'] : NULL;
-      // If text input is allowed, set to that value if it's set.
-      $variables['row']->variants[$key] = isset($variant['text_value']) && $variant['text_value'] ? $variant['text_value'] : $variables['row']->variants[$key];
-    }
-
-    // Override any default value if configured to use this field value.
-    if (!$variant['constant_value'] && $field_id == $variant['dynamic_value'] && $variables['output']) {
-      $output = trim(strip_tags(render($variables['output'])));
-      $variables['row']->variants[$key] = $output;
-    }
-  }
-}
-
-/**
  * Implements hook_preprocess_pattern_views_row().
  */
 function ui_patterns_variants_preprocess_pattern_views_row(&$variables) {
-  if (isset($variables['row']->variants)) {
-    // Pass row variants into the context for pattern preprocess.
-    $variables['pattern']['#context']['variants'] = $variables['row']->variants;
+
+  $row = $variables['row'];
+  $view = $variables['view'];
+
+  // Pass row variants into the context for pattern preprocess.
+  if (isset($row->variants)) {
+    $variables['pattern']['#context']['variants'] = $row->variants;
+  }
+
+  // Some times the view information is stored elsewhere.
+  if (isset($variables['options']['variants'])) {
+    $variants = $variables['options']['variants'];
+    foreach ($variants as $variant_name => $variant_values) {
+
+      // Check dynamic fist.
+      if (isset($variant_values['dynamic_value']) && $variant_values['dynamic_value'] !== "") {
+        if (!empty($view->field[$variant_values['dynamic_value']])) {
+          $field_data = $view->field[$variant_values['dynamic_value']];
+          $render_result = $field_data->advancedRender($row);
+          $variant_value = (is_object($render_result)) ? $render_result->__toString() : $render_result;
+          $variables['pattern']['#context']['variants'][$variant_name] = $variant_value;
+        }
+      }
+
+      // Check for a constant value second as it should be a stronger setting
+      // than the dynamic option.
+      if (isset($variant_values['constant_value']) && $variant_values['constant_value'] !== "") {
+        $variables['pattern']['#context']['variants'][$variant_name] = $variant_values['constant_value'];
+      }
+    }
   }
 }
 
