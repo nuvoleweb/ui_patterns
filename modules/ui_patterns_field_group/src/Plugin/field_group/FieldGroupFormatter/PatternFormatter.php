@@ -115,7 +115,9 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       if (isset($field['#object']) && is_object($field['#object']) && $field['#object'] instanceof ContentEntityBase) {
         return $field['#object'];
       }
-      return $this->findEntity($field);
+      if (is_array($field)) {
+        return $this->findEntity($field);
+      }
     }
     return NULL;
   }
