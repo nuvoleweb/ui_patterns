@@ -21,31 +21,6 @@ carousel:
           subtitle: Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
           image: http://lorempixel.com/900/500/sports/6
 
-jumbotron:
-  label: Jumbotron
-  description: A lightweight, flexible component that can optionally extend the entire viewport to showcase key content on your site.
-  fields:
-    title:
-      type: text
-      label: Title
-      description: Jumbotron title.
-      preview: Hello, world!
-    subtitle:
-      type: text
-      label: Description
-      description: Jumbotron description.
-      preview: This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.
-    link_label:
-      type: text
-      label: Link label
-      description: Jumbotron link label.
-      preview: Learn more
-    link_url:
-      type: text
-      label: URL
-      description: Jumbotron link URL.
-      preview: http://example.com
-
 modal:
   label: Modal
   description: Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart defaults.

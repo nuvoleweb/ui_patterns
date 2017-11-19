@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {  }
+id: panels_test_page
+label: 'Panels Test Page'
+description: ''
+use_admin_theme: false
+path: /panels-test-page
+access_logic: and
+access_conditions: {  }
+parameters: {  }

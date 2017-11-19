@@ -42,5 +42,30 @@ blockquote:
     - ui_patterns_test/library1
     - ui_patterns_test/library2
 
+jumbotron:
+  label: Jumbotron
+  description: A lightweight, flexible component that can optionally extend the entire viewport to showcase key content on your site.
+  fields:
+    title:
+      type: text
+      label: Title
+      description: Jumbotron title.
+      preview: Hello, world!
+    subtitle:
+      type: text
+      label: Description
+      description: Jumbotron description.
+      preview: This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.
+    link_label:
+      type: text
+      label: Link label
+      description: Jumbotron link label.
+      preview: Learn more
+    link_url:
+      type: text
+      label: URL
+      description: Jumbotron link URL.
+      preview: http://example.com
+
 bad_pattern:
   description: This pattern is for test purposes only, it will print an error message on /patterns page.

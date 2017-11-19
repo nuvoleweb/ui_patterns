@@ -17,6 +17,7 @@ dependencies:
   - image
   - link
   - node
+  - page_manager
   - page_manager_ui
   - panels
   - paragraphs
