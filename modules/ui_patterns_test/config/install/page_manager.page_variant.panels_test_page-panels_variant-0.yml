@@ -1,4 +1,3 @@
-uuid: 01d3ecac-e74a-478e-9c39-108eee15061b
 langcode: en
 status: true
 dependencies:
@@ -16,7 +15,7 @@ variant_settings:
       label: 'Page title'
       provider: core
       label_display: '0'
-      region: title
+      region: subtitle
       weight: 0
       uuid: 4fe295c8-8fd2-44fd-a8c0-65d71579f4de
       context_mapping: {  }
