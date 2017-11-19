@@ -34,6 +34,7 @@ before_script:
   - drush --root=$PWD/build si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
   # Force exit status to true so expected patterns validation error will not stop Travis build.
   - drush --root=$PWD/build en ui_patterns_test -y || true
+  - drush --root=$PWD/build cr
   # Run Drush web server.
   - drush --root=$PWD/build --debug runserver :8888 > ~/debug.txt 2>&1 &
   - sleep 4s
