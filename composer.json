@@ -18,7 +18,7 @@
     "drupal/console": "~1",
     "drush/drush": "*",
     "drupal/coder": "8.2.8",
-    "drupal/core": "~8",
+    "drupal/core": "8.4.x-dev",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",
@@ -36,7 +36,8 @@
     "bex/behat-extension-driver-locator": "^1.0",
     "phpro/grumphp": "0.11.4",
     "squizlabs/php_codesniffer": "~2.9",
-    "peridot-php/leo": "^1.6"
+    "peridot-php/leo": "^1.6",
+    "ec-europa/oe-task-runner": "^0.3"
   },
   "repositories": [
     {

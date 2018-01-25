@@ -1,0 +1,22 @@
+drupal:
+  root: "build"
+  base_url: "http://nginx"
+  database:
+    host: "mariadb"
+    port: "3306"
+    name: "drupal"
+    user: "drupal"
+    password: "drupal"
+  post_install:
+    - "./vendor/bin/drush --root=$(pwd)/build en -y ui_patterns_test"
+
+commands:
+  drupal:site-setup:
+    - { task: "run", command: "drupal:drush-setup" }
+    - { task: "run", command: "drupal:settings-setup" }
+    - { task: "run", command: "setup:behat" }
+    - { task: "run", command: "setup:phpunit" }
+  setup:behat:
+    - { task: "process", source: "behat.yml.dist", destination: "behat.yml" }
+  setup:phpunit:
+    - { task: "process", source: "phpunit.xml.dist", destination: "phpunit.xml" }
