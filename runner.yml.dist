@@ -8,7 +8,8 @@ drupal:
     user: "drupal"
     password: "drupal"
   post_install:
-    - "./vendor/bin/drush --root=$(pwd)/build en -y ui_patterns_test"
+    - "./vendor/bin/drush en -y ui_patterns_test"
+    - "./vendor/bin/drush cr"
 
 commands:
   drupal:site-setup:
