@@ -12,6 +12,11 @@ env:
     - DRUPAL_VERSION=8.4.x-dev
     - DRUPAL_VERSION=8.5.x-dev
 
+matrix:
+  allow_failures:
+    - php: 7.0
+      env: DRUPAL_VERSION=8.5.x-dev
+
 before_install:
   - docker-compose up -d
   - docker ps
