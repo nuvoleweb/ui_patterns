@@ -9,7 +9,7 @@ parameters:
         - build/
         - vendor/
         - tests/
-        - ui_patterns/modules/ui_patterns_test/
+        - modules/ui_patterns_test/
       triggered_by:
         - php
         - module

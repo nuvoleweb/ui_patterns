@@ -19,14 +19,14 @@ default:
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      selenium2: ~
+      selenium2:
+        wd_host: 'http://selenium:4444/wd/hub'
       javascript_session: selenium2
-      base_url: http://127.0.0.1:8888
+      base_url: "${drupal.base_url}"
     NuvoleWeb\Drupal\DrupalExtension:
       api_driver: 'drupal'
       drupal:
-        # Change this to the absolute path to Drupal install.
-        drupal_root: 'build'
+        drupal_root: "${drupal.root}"
       region_map:
         left sidebar: '#sidebar-first'
         content: '#content'
@@ -39,7 +39,5 @@ default:
         error_message_selector: '.alert.alert-danger'
       text:
         node_submit_label: 'Save and publish'
-    Bex\Behat\ScreenshotExtension:
-      active_image_drivers: img42
   formatters:
     progress: ~
