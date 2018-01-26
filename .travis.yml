@@ -22,6 +22,7 @@ install:
 before_script:
   - docker-compose exec -u root php ./vendor/bin/run drupal:site-setup
   - docker-compose exec -u root php ./vendor/bin/run drupal:site-install
+  - docker-compose exec -u root php chown -R www-data:www-data build
 
 script:
   - docker-compose exec -u root php ./vendor/bin/grumphp run
