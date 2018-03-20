@@ -123,6 +123,9 @@ function ui_patterns_variants_preprocess_pattern_views_row(&$variables) {
       if (isset($variant_values['dynamic_value']) && $variant_values['dynamic_value'] !== "") {
         if (!empty($view->field[$variant_values['dynamic_value']])) {
           $field_data = $view->field[$variant_values['dynamic_value']];
+          if (!isset($field_data->view->row_index)) {
+            $field_data->view->row_index = $row->index;
+          }
           $render_result = $field_data->advancedRender($row);
           $variant_value = (is_object($render_result)) ? $render_result->__toString() : $render_result;
           $variables['pattern']['#context']['variants'][$variant_name] = $variant_value;
