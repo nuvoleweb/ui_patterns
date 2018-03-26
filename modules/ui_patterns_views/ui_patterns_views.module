@@ -24,10 +24,10 @@ function ui_patterns_views_theme() {
 /**
  * Preprocess hook.
  *
- * @param array $variables
+ * @param $variables
  *    Theme variables.
  */
-function template_preprocess_pattern_views_row(array &$variables) {
+function template_preprocess_pattern_views_row(&$variables) {
   /** @var \Drupal\views\ResultRow $row */
   /** @var \Drupal\views\ViewExecutable $view */
   /** @var \Drupal\ui_patterns_views\Plugin\views\row\Pattern $row_plugin */
@@ -71,7 +71,6 @@ function template_preprocess_pattern_views_row(array &$variables) {
     $variables['pattern']['#context']['type'] = 'views_row';
     $variables['pattern']['#context']['view_name'] = $view->storage->id();
     $variables['pattern']['#context']['display'] = $view->current_display;
-    $variables['pattern']['#context']['view'] = $view;
   }
 }
 
