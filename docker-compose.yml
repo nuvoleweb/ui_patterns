@@ -28,8 +28,6 @@ services:
       COMPOSER_CACHE_DIR: "/tmp/composer"
     volumes:
       - ./:/var/www/html
-      - ~/.bash_history:/root/.bash_history
-      - ~/.bashrc.aliases:/root/.bashrc
       - ~/.composer/cache:/tmp/composer
 
   nginx:

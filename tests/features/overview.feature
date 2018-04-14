@@ -71,6 +71,7 @@ Feature: Overview
     And the response should contain "/ui_patterns_test_theme/templates/patterns/media/js/media2.js"
     And the response should contain "/misc/tabledrag.js"
 
+  @javascript
   Scenario: Patterns overview page will show validation errors after clearing the cache.
     Given I am logged in as a user with the "access patterns page" permission
 
