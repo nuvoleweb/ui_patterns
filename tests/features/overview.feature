@@ -73,9 +73,9 @@ Feature: Overview
 
   Scenario: Patterns overview page will show validation errors after clearing the cache.
     Given I am logged in as a user with the "access patterns page" permission
-    And the cache has been cleared
 
-    When I am on "/patterns"
+    And the cache has been cleared
+    And I reload the page
     Then I should see the following error messages:
       | error messages                                                                 |
       | Pattern 'bad_pattern' is skipped because of the following validation error(s): |
