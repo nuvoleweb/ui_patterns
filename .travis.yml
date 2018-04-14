@@ -20,16 +20,16 @@ before_install:
   - docker ps
 
 install:
-  - docker-compose exec php composer require drupal/core:$DRUPAL_VERSION --dev --prefer-dist
+  - docker-compose exec --user 82 php composer require drupal/core:$DRUPAL_VERSION --dev --prefer-dist
 
 before_script:
-  - docker-compose exec php ./vendor/bin/run drupal:site-setup
-  - docker-compose exec php ./vendor/bin/run drupal:site-install
+  - docker-compose exec --user 82 php ./vendor/bin/run drupal:site-setup
+  - docker-compose exec --user 82 php ./vendor/bin/run drupal:site-install
 
 script:
-  - docker-compose exec php ./vendor/bin/grumphp run
-  - docker-compose exec php ./vendor/bin/phpunit
-  - docker-compose exec php ./vendor/bin/behat
+  - docker-compose exec --user 82 php ./vendor/bin/grumphp run
+  - docker-compose exec --user 82 php ./vendor/bin/phpunit
+  - docker-compose exec --user 82 php ./vendor/bin/behat
 
 notifications:
   email: false
