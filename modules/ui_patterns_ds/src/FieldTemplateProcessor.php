@@ -47,12 +47,12 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    * Get source value.
    *
    * @param array $mapping
-   *    Mapping array.
+   *   Mapping array.
    * @param int $delta
-   *    Field delta.
+   *   Field delta.
    *
    * @return mixed
-   *    Source value.
+   *   Source value.
    */
   public function getSourceValue(array $mapping, $delta) {
     $value = $this->variables['items'][$delta]['content'];
@@ -68,7 +68,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    * Get field parent entity.
    *
    * @return \Drupal\Core\Entity\ContentEntityBase
-   *    Parent entity.
+   *   Parent entity.
    */
   protected function getEntity() {
     return $this->variables['element']['#object'];
@@ -78,7 +78,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    * Get Pattern ID.
    *
    * @return string
-   *    Pattern ID.
+   *   Pattern ID.
    */
   protected function getPatternId() {
     return $this->variables['ds-config']['settings']['pattern'];
@@ -88,7 +88,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    * Get mapping settings.
    *
    * @return mixed
-   *    Mapping settings.
+   *   Mapping settings.
    */
   protected function getMapping() {
     return $this->variables['ds-config']['settings']['pattern_mapping'];
@@ -98,7 +98,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    * Get field name.
    *
    * @return string
-   *    Field name.
+   *   Field name.
    */
   protected function getFieldName() {
     return $this->variables['field_name'];
@@ -108,10 +108,10 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    * Extract column name from a source name.
    *
    * @param string $source
-   *    Source name.
+   *   Source name.
    *
    * @return string
-   *    Column name.
+   *   Column name.
    */
   protected function getColumnName($source) {
     return str_replace($this->getFieldName() . '__', '', $source);
@@ -121,7 +121,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    * Get pattern context.
    *
    * @return array
-   *    Pattern context.
+   *   Pattern context.
    */
   protected function getContext() {
     $element = $this->variables['element'];

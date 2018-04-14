@@ -51,9 +51,9 @@ class Pattern extends Fields {
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
    * @param \Drupal\ui_patterns\UiPatternsManager $patterns_manager
-   *    UI Patterns manager.
+   *   UI Patterns manager.
    * @param \Drupal\ui_patterns\UiPatternsSourceManager $source_manager
-   *     UI Patterns source manager.
+   *   UI Patterns source manager.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -121,12 +121,12 @@ class Pattern extends Fields {
    * Helper function: check for all conditions that make a field visible.
    *
    * @param \Drupal\views\Plugin\views\field\FieldPluginBase $field
-   *    Field object.
+   *   Field object.
    * @param \Drupal\Component\Render\MarkupInterface|null $field_output
-   *    Field output.
+   *   Field output.
    *
    * @return bool
-   *    TRUE if a field should be visible, FALSE otherwise.
+   *   TRUE if a field should be visible, FALSE otherwise.
    *
    * @see template_preprocess_pattern_views_row()
    */

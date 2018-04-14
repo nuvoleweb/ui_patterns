@@ -27,9 +27,9 @@ class PatternContext {
    * PatternContext constructor.
    *
    * @param string $type
-   *    Pattern context type.
+   *   Pattern context type.
    * @param array $values
-   *    Initial context values.
+   *   Initial context values.
    */
   public function __construct($type, array $values = []) {
     $this->type = $type;
@@ -43,7 +43,7 @@ class PatternContext {
    * Get pattern context property.
    *
    * @return mixed
-   *    Property value.
+   *   Property value.
    */
   public function getProperty($name) {
     return isset($this->properties[$name]) ? $this->properties[$name] : NULL;
@@ -53,9 +53,9 @@ class PatternContext {
    * Set pattern context property.
    *
    * @param string $name
-   *    Property name.
+   *   Property name.
    * @param mixed $value
-   *    Property value.
+   *   Property value.
    */
   public function setProperty($name, $value) {
     $this->properties[$name] = $value;
@@ -65,10 +65,10 @@ class PatternContext {
    * Check whereas the current context is of a given type.
    *
    * @param string $type
-   *    Type string.
+   *   Type string.
    *
    * @return bool
-   *    Whereas the current context is of a given type.
+   *   Whereas the current context is of a given type.
    */
   public function isOfType($type) {
     return $this->type == $type;
@@ -78,7 +78,7 @@ class PatternContext {
    * Get context type.
    *
    * @return string
-   *    Context type.
+   *   Context type.
    */
   public function getType() {
     return $this->type;

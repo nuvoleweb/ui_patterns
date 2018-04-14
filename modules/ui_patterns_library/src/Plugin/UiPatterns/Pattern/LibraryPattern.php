@@ -66,10 +66,10 @@ class LibraryPattern extends PatternBase {
    * Process 'custom hook theme' definition property.
    *
    * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
-   *    Pattern definition array.
+   *   Pattern definition array.
    *
    * @return array
-   *    Processed hook definition portion.
+   *   Processed hook definition portion.
    */
   protected function processCustomThemeHookProperty(PatternDefinition $definition) {
     /** @var \Drupal\Core\Extension\Extension $module */
@@ -88,12 +88,12 @@ class LibraryPattern extends PatternBase {
    * Weather template exists in given directory.
    *
    * @param string $directory
-   *    Directory full path.
+   *   Directory full path.
    * @param string $template
-   *    Template name, without default Twig extension.
+   *   Template name, without default Twig extension.
    *
    * @return bool
-   *    Weather template exists in given directory.
+   *   Weather template exists in given directory.
    */
   protected function templateExists($directory, $template) {
     return file_exists($directory . DIRECTORY_SEPARATOR . $template . '.html.twig');
@@ -103,10 +103,10 @@ class LibraryPattern extends PatternBase {
    * Process 'template' definition property.
    *
    * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
-   *    Pattern definition array.
+   *   Pattern definition array.
    *
    * @return array
-   *    Processed hook definition portion.
+   *   Processed hook definition portion.
    */
   protected function processTemplateProperty(PatternDefinition $definition) {
     $return = [];

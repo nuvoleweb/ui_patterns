@@ -41,7 +41,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * Get pattern objects.
    *
    * @return \Drupal\ui_patterns\Plugin\PatternBase[]
-   *    Pattern objects.
+   *   Pattern objects.
    */
   public function getPatterns() {
     $patterns = [];
@@ -55,7 +55,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * Return pattern definitions.
    *
    * @return \Drupal\ui_patterns\Definition\PatternDefinition[]
-   *    Pattern definitions.
+   *   Pattern definitions.
    */
   public function getDefinitions() {
     $definitions = $this->getCachedDefinitions();
