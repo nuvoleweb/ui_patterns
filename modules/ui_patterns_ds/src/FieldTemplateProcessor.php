@@ -21,7 +21,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
   /**
    * {@inheritdoc}
    */
-  public function process(&$variables) {
+  public function process(array &$variables) {
     $this->variables = $variables;
 
     $content = [];
