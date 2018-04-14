@@ -25,10 +25,8 @@ services:
       PHP_XDEBUG_REMOTE_HOST: "10.254.254.254"
       PHP_XDEBUG_IDEKEY: "PHPSTORM"
       PHP_IDE_CONFIG: "serverName=ui_patterns"
-      COMPOSER_CACHE_DIR: "/tmp/composer"
     volumes:
       - ./:/var/www/html
-      - ~/.composer/cache:/tmp/composer
 
   nginx:
     image: wodby/drupal-nginx:8-1.13-3.0.1
