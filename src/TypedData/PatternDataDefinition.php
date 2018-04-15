@@ -57,7 +57,7 @@ class PatternDataDefinition extends MapDataDefinition {
    * Get valid machine name definition.
    *
    * @return \Drupal\Core\TypedData\DataDefinition
-   *    Data definition instance.
+   *   Data definition instance.
    */
   protected function getMachineNameDefinition() {
     return DataDefinition::create('string')
@@ -68,7 +68,7 @@ class PatternDataDefinition extends MapDataDefinition {
    * Get definition for 'field' property.
    *
    * @return \Drupal\Core\TypedData\ListDataDefinition
-   *    Data definition instance.
+   *   Data definition instance.
    */
   protected function getFieldsDefinition() {
     return new ListDataDefinition([], MapDataDefinition::create()

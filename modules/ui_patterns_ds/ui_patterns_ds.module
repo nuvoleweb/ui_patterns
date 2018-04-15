@@ -35,7 +35,7 @@ function ui_patterns_ds_form_entity_view_display_edit_form_alter(&$form, FormSta
  * @param \Drupal\Core\Form\FormStateInterface $form_state
  *   The form state.
  */
-function ui_patterns_ds_field_overview_submit($form, FormStateInterface $form_state) {
+function ui_patterns_ds_field_overview_submit(array $form, FormStateInterface $form_state) {
   /* @var \Drupal\Core\Entity\EntityFormInterface $entity_form */
   /* @var \Drupal\Core\Entity\Display\EntityDisplayInterface $display */
 
@@ -57,7 +57,7 @@ function ui_patterns_ds_field_overview_submit($form, FormStateInterface $form_st
  * Preprocess hook.
  *
  * @param array $variables
- *    Theme variables.
+ *   Theme variables.
  */
 function template_preprocess_field__pattern_ds_field_template(array &$variables) {
   \Drupal::service('ui_patterns_ds.field_template_processor')->process($variables);

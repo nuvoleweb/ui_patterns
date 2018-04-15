@@ -79,7 +79,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Return array definition.
    *
    * @return array
-   *    Array definition.
+   *   Array definition.
    */
   public function toArray() {
     $definition = $this->definition;
@@ -195,7 +195,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Get field as options.
    *
    * @return array
-   *    Fields as select options.
+   *   Fields as select options.
    */
   public function getFieldsAsOptions() {
     $options = [];
@@ -225,10 +225,10 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Get field.
    *
    * @param string $name
-   *    Field name.
+   *   Field name.
    *
    * @return PatternDefinitionField|null
-   *    Definition field.
+   *   Definition field.
    */
   public function getField($name) {
     return $this->hasField($name) ? $this->definition['fields'][$name] : NULL;
@@ -251,9 +251,9 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Set field.
    *
    * @param string $name
-   *    Field name.
+   *   Field name.
    * @param string $label
-   *    Field label.
+   *   Field label.
    *
    * @return $this
    */
@@ -312,7 +312,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Getter.
    *
    * @return bool
-   *    Whereas definition uses the "use:" property.
+   *   Whereas definition uses the "use:" property.
    */
   public function hasUse() {
     return !empty($this->definition['use']);
@@ -359,7 +359,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *
    * @return $this
    */
-  public function setTags($tags) {
+  public function setTags(array $tags) {
     $this->definition['tags'] = $tags;
     return $this;
   }
@@ -501,7 +501,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *
    * @return $this
    */
-  public function setAdditional($additional) {
+  public function setAdditional(array $additional) {
     $this->definition['additional'] = $additional;
     return $this;
   }

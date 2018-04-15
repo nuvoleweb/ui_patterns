@@ -2,7 +2,7 @@
 
 namespace Drupal\ui_patterns\Element;
 
-use \Drupal\Core\Render\Markup;
+use Drupal\Core\Render\Markup;
 use Drupal\ui_patterns\UiPatterns;
 
 /**

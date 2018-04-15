@@ -44,7 +44,7 @@ class PatternDefinitionField implements \ArrayAccess {
    * Return array definition.
    *
    * @return array
-   *    Array definition.
+   *   Array definition.
    */
   public function toArray() {
     return $this->definition;

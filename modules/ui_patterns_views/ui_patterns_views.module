@@ -22,7 +22,7 @@ function ui_patterns_views_theme() {
  * Preprocess hook.
  *
  * @param array $variables
- *    Theme variables.
+ *   Theme variables.
  */
 function template_preprocess_pattern_views_row(array &$variables) {
   /** @var \Drupal\views\ResultRow $row */
