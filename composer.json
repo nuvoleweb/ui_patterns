@@ -19,7 +19,7 @@
     "drupal/console": "~1",
     "drush/drush": "*",
     "drupal/core": "8.5.x-dev",
-    "webflo/drupal-core-require-dev": "8.5.x-dev",
+    "webflo/drupal-core-require-dev": "^8.5",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",
@@ -32,8 +32,7 @@
     "nuvoleweb/drupal-behat": "~1.1.0",
     "phpro/grumphp": "0.11.4",
     "peridot-php/leo": "^1.6",
-    "openeuropa/task-runner": "^0.4",
-    "phpunit/phpunit": "^6.1"
+    "openeuropa/task-runner": "^0.4"
   },
   "repositories": [
     {
