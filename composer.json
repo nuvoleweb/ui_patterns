@@ -45,14 +45,7 @@
     }
   },
   "autoload-dev": {
-    "psr-0": {
-      "Drupal\\Tests": "build/core/tests",
-      "Drupal\\KernelTests": "build/core/tests",
-      "Drupal\\FunctionalTests": "build/core/tests",
-      "Drupal\\FunctionalJavascriptTests": "build/core/tests"
-    },
     "psr-4": {
-      "Drupal\\simpletest\\": "build/core/modules/simpletest/src",
       "Drupal\\Tests\\ui_patterns\\": "tests/src"
     }
   },
@@ -62,7 +55,7 @@
   "extra": {
     "patches": {
       "drupal/core": {
-        "https://www.drupal.org/project/drupal/issues/2943172": "https://www.drupal.org/files/issues/2943172-kernel-test-base.patch"
+        "https://www.drupal.org/project/drupal/issues/2943172": "https://www.drupal.org/files/issues/2018-04-15/2943172-kernel-test-base-2.patch"
       }
     },
     "installer-paths": {
