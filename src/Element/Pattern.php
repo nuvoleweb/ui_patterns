@@ -135,7 +135,7 @@ class Pattern extends RenderElement {
   public static function processSettings(array $element) {
     // Make sure we don't render anything in case fields are empty.
     if (self::hasSettings($element)) {
-      $settings = $element['#settings'];
+      $settings = isset($element['#settings']) ? $element['#settings'] : [];
       $context = $element['#context'];
       $pattern_id = $element['#id'];
       $entity = $context->getProperty('entity');

@@ -114,7 +114,7 @@ abstract class PatternSettingTypeBase extends PluginBase implements Configurable
   /**
    * {@inheritdoc}
    */
-  public function preprocess($value, $context) {
+  public function preprocess($value, array $context) {
     return $value;
   }
 
