@@ -4,8 +4,8 @@ namespace Drupal\ui_patterns\Form;
 
 use Drupal\Component\Utility\SortArray;
 use Drupal\ui_patterns\Plugin\PatternSourceBase;
-use \Drupal\ui_patterns\UiPatternsSettings;
-use \Drupal\ui_patterns\UiPatterns;
+use Drupal\ui_patterns\UiPatternsSettings;
+use Drupal\ui_patterns\UiPatterns;
 
 /**
  * Trait PatternDisplayFormTrait.
@@ -76,13 +76,13 @@ trait PatternDisplayFormTrait {
    * Build pattern settings form.
    *
    * @param array $form
-   *    Form array.
+   *   Form array.
    * @param string $pattern_id
-   *    The pattern id for which to print the setting form for.
+   *   The pattern id for which to print the setting form for.
    * @param array $defaults
-   *    Default setting values.
+   *   Default setting values.
    */
-  public function buildPatternSettingForm(array &$form, $pattern_id, $defaults) {
+  public function buildPatternSettingForm(array &$form, $pattern_id, array $defaults) {
     if ($pattern_id == NULL) {
       return;
     }

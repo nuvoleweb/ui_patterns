@@ -19,13 +19,13 @@ class TextfieldSettingType extends PatternSettingTypeBase {
    */
   public function buildConfigurationForm(array $form, $value) {
     $def = $this->getPatternSettingDefinition();
-    $form[$def->getName()] = array(
+    $form[$def->getName()] = [
       '#type' => 'textfield',
       '#title' => $def->getLabel(),
       '#description' => $def->getDescription(),
       '#default_value' => $this->getValue($value),
       '#required' => $def->getRequired(),
-    );
+    ];
     return $form;
   }
 

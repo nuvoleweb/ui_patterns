@@ -32,7 +32,7 @@ abstract class PatternSettingTypeBase extends PluginBase implements Configurable
    * Return value if set otherwise take the default value.
    *
    * @return string
-   *    The value for this setting
+   *   The value for this setting
    */
   protected function getValue($value) {
     if (empty($value)) {
@@ -48,7 +48,7 @@ abstract class PatternSettingTypeBase extends PluginBase implements Configurable
    * Return pattern setting definition.
    *
    * @return \Drupal\ui_patterns\Definition\PatternDefinitionSetting
-   *    Pattern setting definition.
+   *   Pattern setting definition.
    */
   protected function getPatternSettingDefinition() {
     return $this->patternSettingDefinition;

@@ -222,10 +222,10 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Get setting.
    *
    * @param string $name
-   *    Setting name.
+   *   The setting name.
    *
    * @return PatternDefinitionSetting|null
-   *    Definition setting.
+   *   Definition setting.
    */
   public function getSetting($name) {
     return $this->hasSetting($name) ? $this->definition['settings'][$name] : NULL;
@@ -235,7 +235,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Check whereas field exists.
    *
    * @param string $name
-   *   Field name.
+   *   The field name.
    *
    * @return bool
    *   Whereas field exists
@@ -248,9 +248,9 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Set field.
    *
    * @param string $name
-   *    Field name.
+   *   Field name.
    * @param string $label
-   *    Field label.
+   *   Field label.
    *
    * @return $this
    */

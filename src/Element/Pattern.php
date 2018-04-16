@@ -221,7 +221,7 @@ class Pattern extends RenderElement {
    * Whereas pattern has settings or not.
    *
    * @return bool
-   *    TRUE or FALSE.
+   *   TRUE or FALSE.
    */
   public static function hasSettings($element) {
     $definition = UiPatterns::getPatternDefinition($element['#id']);

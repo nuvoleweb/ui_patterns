@@ -24,14 +24,14 @@ class SelectSettingType extends PatternSettingTypeBase {
     $def = $this->getPatternSettingDefinition();
     $options = ["" => $this->t("Please select")];
     $options += $def->getOptions();
-    $form[$def->getName()] = array(
+    $form[$def->getName()] = [
       '#type' => 'select',
       '#title' => $def->getLabel(),
       '#description' => $def->getDescription(),
       '#default_value' => $this->getValue($value),
       '#required' => $def->getRequired(),
       '#options' => $options,
-    );
+    ];
     return $form;
   }
 

@@ -18,7 +18,7 @@ interface PatternSettingTypeInterface extends ConfigurablePluginInterface {
    *   The stored default value.
    *
    * @return array
-   *    The configuration form.
+   *   The configuration form.
    */
   public function buildConfigurationForm(array $form, $value);
 
@@ -30,6 +30,6 @@ interface PatternSettingTypeInterface extends ConfigurablePluginInterface {
    * @param array $context
    *   Context informations.
    */
-  public function preprocess($value, $context);
+  public function preprocess($value, array $context);
 
 }

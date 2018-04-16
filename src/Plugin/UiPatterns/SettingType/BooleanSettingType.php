@@ -23,7 +23,7 @@ class BooleanSettingType extends PatternSettingTypeBase {
   public function buildConfigurationForm(array $form, $value) {
     $def = $this->getPatternSettingDefinition();
     $value = $this->getValue($value);
-    $form[$def->getName()] = array(
+    $form[$def->getName()] = [
       '#type' => 'select',
       '#title' => $def->getLabel(),
       '#description' => $def->getDescription(),
@@ -31,7 +31,7 @@ class BooleanSettingType extends PatternSettingTypeBase {
       '#required' => $def->getRequired(),
       '#options' =>
         [0 => $this->t('false'), 1 => $this->t('true')],
-    );
+    ];
     return $form;
   }
 

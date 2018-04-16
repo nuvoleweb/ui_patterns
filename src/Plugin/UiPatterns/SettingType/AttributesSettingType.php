@@ -26,20 +26,20 @@ class AttributesSettingType extends PatternSettingTypeBase {
     $def = $this->getPatternSettingDefinition();
     $value = $this->getValue($value);
     $description = $this->getDescription() != NULL ? $this->getDescription() : $this->t('E.g. role="navigation" class="class-1"');
-    $form[$def->getName()] = array(
+    $form[$def->getName()] = [
       '#type' => 'textfield',
       '#title' => $def->getLabel(),
       '#description' => $description,
       '#default_value' => $value,
       '#required' => $def->getRequired(),
-    );
+    ];
     return $form;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function preprocess($value, $context) {
+  public function preprocess($value, array $context) {
     $parse_html = '<div ' . $value . '></div>';
     $attributes = [];
     foreach (HTML::load($parse_html)->getElementsByTagName('div') as $div) {

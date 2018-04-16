@@ -84,15 +84,19 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
     ];
     $pattern_definition = new PatternDefinition();
     $pattern_definition->setSettings($settings);
-    assert($pattern_definition->getSetting('name')->getLabel(), equals($settings['name']['label']));
-    assert($pattern_definition->getSetting('name')->getName(), equals($settings['name']['name']));
-    assert($pattern_definition->getSetting('name')->getType(), equals(NULL));
-    assert($pattern_definition->getSetting('name')->getDescription(), equals(NULL));
+
+    expect($pattern_definition->getSetting('name')->getLabel())->to->equal($settings['name']['label']);
+
+    expect($pattern_definition->getSetting('name')->getName())->to->equal($settings['name']['name']);
+
+    expect($pattern_definition->getSetting('name')->getType())->to->equal(NULL);
+    expect($pattern_definition->getSetting('name')->getDescription())->to->equal(NULL);
 
     $pattern_definition->getSetting('name')->setType('type');
     $pattern_definition->getSetting('name')->setDescription('description');
-    assert($pattern_definition->getSetting('name')->getType(), equals('type'));
-    assert($pattern_definition->getSetting('name')->getDescription(), equals('description'));
+
+    expect($pattern_definition->getSetting('name')->getType())->to->equal('type');
+    expect($pattern_definition->getSetting('name')->getDescription())->to->equal('description');
   }
 
   /**
@@ -114,7 +118,7 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
   public function testSettingsProcessing($actual, $expected) {
     $pattern_definition = new PatternDefinition();
     $data = $pattern_definition->setSettings($actual)->toArray();
-    assert($data['settings'], equals($expected));
+    expect($data['settings'])->to->be->loosely->equal($expected);
   }
 
   /**

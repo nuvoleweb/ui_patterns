@@ -23,14 +23,14 @@ class CheckboxSettingType extends PatternSettingTypeBase {
     if (is_scalar($value)) {
       $value = [$value];
     }
-    $form[$def->getName()] = array(
+    $form[$def->getName()] = [
       '#type' => 'checkboxes',
       '#title' => $def->getLabel(),
       '#description' => $def->getDescription(),
       '#default_value' => $value,
       '#required' => $def->getRequired(),
       '#options' => $def->getOptions(),
-    );
+    ];
     return $form;
   }
 

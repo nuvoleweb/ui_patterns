@@ -35,32 +35,32 @@ class TokenSettingType extends PatternSettingTypeBase {
       }
     }
 
-    $form[$def->getName()] = array(
+    $form[$def->getName()] = [
       '#type' => 'container',
-    );
+    ];
 
-    $form[$def->getName()]['input'] = array(
+    $form[$def->getName()]['input'] = [
       '#type' => 'textfield',
       '#title' => $def->getLabel(),
       '#description' => $description,
       '#default_value' => $this->getValue($value),
       '#required' => $def->getRequired(),
-    );
+    ];
 
-    $form[$def->getName()]['token'] = array(
+    $form[$def->getName()]['token'] = [
       '#theme' => 'token_tree_link',
       '#token_types' => $content_entity_types,
       '#show_restricted' => TRUE,
       '#default_value' => $value,
       '#weight' => 90,
-    );
+    ];
     return $form;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function preprocess($value, $context) {
+  public function preprocess($value, array $context) {
     /** @var \Drupal\Core\Entity\Entity $entity */
     $entity = isset($context['entity']) ? $context['entity'] : NULL;
     $return_value = '';
@@ -69,7 +69,7 @@ class TokenSettingType extends PatternSettingTypeBase {
         $value = $value['input'];
       }
       $token_service = \Drupal::token();
-      $return_value = $token_service->replace($value, array($entity->getEntityTypeId() => $entity));
+      $return_value = $token_service->replace($value, [$entity->getEntityTypeId() => $entity]);
     }
     return $return_value;
   }

@@ -16,7 +16,7 @@ class UiPatternsSettings {
    * Get pattern manager setting instance.
    *
    * @return \Drupal\ui_patterns\UiPatternsSettingsManager
-   *    UI Patterns setting manager instance.
+   *   UI Patterns setting manager instance.
    */
   public static function getManager() {
     return \Drupal::service('plugin.manager.ui_patterns_settings');
@@ -26,13 +26,16 @@ class UiPatternsSettings {
    * Preprocess setiting variables. Called before rendered.
    *
    * @param string $pattern_id
-   *    Pattern ID for which to preprocess.
+   *   Pattern ID for which to preprocess.
    * @param array $settings
-   *    The stored settings.
+   *   The stored settings.
    * @param \Drupal\Core\Entity\Entity $entity
-   *    The entity of the pattern. Useful for dynamic settings.
+   *   The entity of the pattern. Useful for dynamic settings.
+   *
+   * @return array
+   *   The processed settings.
    */
-  public static function preprocess($pattern_id, $settings, Entity $entity = NULL) {
+  public static function preprocess($pattern_id, array $settings, Entity $entity = NULL) {
     $processed_settings = [];
     $pattern = UiPatterns::getPatternDefinition($pattern_id);
     $context = [];
@@ -59,10 +62,10 @@ class UiPatternsSettings {
    * Create setting type plugin.
    *
    * @param \Drupal\ui_patterns\Definition\PatternDefinitionSetting $settingDefintion
-   *    The setting defintion.
+   *   The setting defintion.
    *
    * @return \Drupal\ui_patterns\Plugin\PatternSettingTypeInterface
-   *    UI Patterns setting manager instance.
+   *   UI Patterns setting manager instance.
    */
   public static function createSettingType(PatternDefinitionSetting $settingDefintion) {
     $configuration = [];
