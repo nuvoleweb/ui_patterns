@@ -66,7 +66,7 @@ class TokenSettingType extends PatternSettingTypeBase {
         $value = $value['input'];
       }
       $token_service = \Drupal::token();
-      $return_value = $token_service->replace($value, [$entity->getEntityTypeId() => $entity]);
+      $return_value = $token_service->replace($value, [$entity->getEntityTypeId() => $entity], ['clear' => TRUE]);
     }
     return $return_value;
   }
