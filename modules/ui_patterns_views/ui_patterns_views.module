@@ -46,8 +46,8 @@ function template_preprocess_pattern_views_row(array &$variables) {
   }
 
   $variables['pattern'] = [];
-  if ($view->preview) {
-    drupal_set_message(t("Pattern Views row plugin does not support preview."), 'warning');
+  if (!empty($view->live_preview)) {
+    drupal_set_message(t("Pattern Views row plugin does not support live preview."), 'warning');
     $variables['pattern'] = ['#type' => 'status_messages'];
   }
   elseif (!empty($fields)) {
