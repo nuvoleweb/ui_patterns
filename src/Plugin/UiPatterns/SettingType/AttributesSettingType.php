@@ -3,7 +3,6 @@
 namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 
 use Drupal\Component\Utility\Html;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Template\Attribute;
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
@@ -16,8 +15,6 @@ use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
  * )
  */
 class AttributesSettingType extends PatternSettingTypeBase {
-
-  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}

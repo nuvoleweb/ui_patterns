@@ -3,7 +3,6 @@
 namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 
 use Drupal\Core\Entity\ContentEntityType;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
 /**
@@ -15,8 +14,6 @@ use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
  * )
  */
 class TokenSettingType extends PatternSettingTypeBase {
-
-  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}

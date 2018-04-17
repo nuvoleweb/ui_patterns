@@ -2,7 +2,6 @@
 
 namespace Drupal\ui_patterns\Plugin\UIPatterns\SettingType;
 
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
 /**
@@ -14,8 +13,6 @@ use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
  * )
  */
 class BooleanSettingType extends PatternSettingTypeBase {
-
-  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}
