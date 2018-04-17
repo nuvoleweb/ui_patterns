@@ -1,0 +1,11 @@
+<div>Test pattern for settings.</div>
+<div>boolean: {{ boolean }}</div>
+<div>textfield: {{ textfield }}</div>
+<div>token: {{ token }}</div>
+<div>attributes: {{ attributes }}</div>
+<div>select: {{ select }}</div>
+{% for checked in checkbox %}
+    <div>checkbox: {{ checkbox[checked] }}</div>
+{% endfor %}
+
+

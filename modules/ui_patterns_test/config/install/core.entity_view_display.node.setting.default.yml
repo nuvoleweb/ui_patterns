@@ -1,0 +1,47 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.setting.body
+    - node.type.setting
+  module:
+    - ds
+    - text
+    - user
+third_party_settings:
+  ds:
+    layout:
+      id: pattern_settings
+      library: null
+      disable_css: false
+      entity_classes: all_classes
+      settings:
+        pattern:
+          field_templates: default
+          settings:
+            textfield: textfield
+            boolean: '1'
+            token:
+              input: '[node:title]'
+            attributes: 'role="navigation" class="class-1"'
+            select: option1
+            checkbox:
+              option1: option1
+              option2: 0
+    regions:
+      title:
+        - body
+id: node.setting.default
+targetEntityType: node
+bundle: setting
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    region: title
+hidden:
+  links: true
