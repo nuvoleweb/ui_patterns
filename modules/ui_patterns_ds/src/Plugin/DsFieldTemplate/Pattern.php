@@ -142,7 +142,7 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
    *   Name of field currently being edited.
    */
   protected function getCurrentField() {
-    $fields = array_filter($this->parameters->get('fields'), function ($field) {
+    $fields = array_filter($this->parameters->get('fields', []), function ($field) {
       return isset($field['settings_edit_form']['third_party_settings']['ds']['ft']['id']) && $field['settings_edit_form']['third_party_settings']['ds']['ft']['id'] == 'pattern';
     });
     $fields = array_keys($fields);
@@ -167,8 +167,11 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
    */
   protected function isSupportedField(array $context) {
     /** @var \Drupal\field\Entity\FieldConfig $field */
-    $field = $this->fieldManager->getFieldDefinitions($context['entity_type'], $context['bundle']);
-    return isset($field[$context['field_name']]);
+    if ($context['entity_type'] && $context['bundle']) {
+      $field = $this->fieldManager->getFieldDefinitions($context['entity_type'], $context['bundle']);
+      return isset($field[$context['field_name']]);
+    }
+    return FALSE;
   }
 
 }
