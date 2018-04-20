@@ -81,11 +81,9 @@ Feature: Overview
       | error messages                                                                 |
       | Pattern 'bad_pattern' is skipped because of the following validation error(s): |
       | Validation error on "bad_pattern.label": This value should not be null.        |
-      | Validation error on "bad_pattern.fields": This value should not be null.       |
 
     And I reload the page
     Then I should not see the following error messages:
       | error messages                                                                 |
       | Pattern 'bad_pattern' is skipped because of the following validation error(s): |
       | Validation error on "bad_pattern.label": This value should not be null.        |
-      | Validation error on "bad_pattern.fields": This value should not be null.       |

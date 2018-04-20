@@ -42,7 +42,7 @@ class PatternDataDefinition extends MapDataDefinition {
       ->setPropertyDefinition('base path', DataDefinition::create('string')->setRequired(TRUE))
       ->setPropertyDefinition('file name', DataDefinition::create('string')->setRequired(TRUE))
       ->setPropertyDefinition('provider', DataDefinition::create('string')->setRequired(TRUE))
-      ->setPropertyDefinition('fields', $this->getFieldsDefinition()->setRequired(TRUE))
+      ->setPropertyDefinition('fields', $this->getFieldsDefinition())
       ->setPropertyDefinition('theme hook', DataDefinition::create('string')->setRequired(TRUE))
       ->setPropertyDefinition('description', DataDefinition::create('string'))
       ->setPropertyDefinition('use', DataDefinition::create('string'))

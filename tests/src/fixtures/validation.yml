@@ -7,7 +7,6 @@
     - "base path: This value should not be null."
     - "file name: This value should not be null."
     - "provider: This value should not be null."
-    - "fields: This value should not be null."
     - "theme hook: This value should not be null."
 -
   pattern:
@@ -18,7 +17,6 @@
     - "base path: This value should not be null."
     - "file name: This value should not be null."
     - "provider: This value should not be null."
-    - "fields: This value should not be null."
     - "theme hook: This value should not be null."
 -
   pattern:
@@ -26,12 +24,14 @@
     label: label
     description: description
     fields:
-      not valid name:
+      fass:
+        name: 'not valid name'
   messages:
     - "base path: This value should not be null."
     - "file name: This value should not be null."
     - "provider: This value should not be null."
-    - "fields: This value should not be null."
+    - "fields.0.name: This value is not valid."
+    - "fields.0.label: This value should not be null."
     - "theme hook: This value should not be null."
 -
   pattern:
