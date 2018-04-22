@@ -6,7 +6,7 @@ use Drupal\Core\Entity\ContentEntityType;
 use Drupal\ui_patterns\Plugin\PatternSettingTypeBase;
 
 /**
- * Entity value setting type.
+ * Token setting type.
  *
  * @UiPatternsSettingType(
  *   id = "token",
@@ -62,11 +62,13 @@ class TokenSettingType extends PatternSettingTypeBase {
     $entity = isset($context['entity']) ? $context['entity'] : NULL;
     $return_value = '';
     if (!empty($value) && $entity !== NULL) {
-      if (is_array($value) && empty($value['input']) == FALSE) {
+      if (isset($value['input'])) {
         $value = $value['input'];
       }
-      $token_service = \Drupal::token();
-      $return_value = $token_service->replace($value, [$entity->getEntityTypeId() => $entity], ['clear' => TRUE]);
+      if (is_string($value)) {
+        $token_service = \Drupal::token();
+        $return_value = $token_service->replace($value, [$entity->getEntityTypeId() => $entity], ['clear' => TRUE]);
+      }
     }
     return $return_value;
   }
