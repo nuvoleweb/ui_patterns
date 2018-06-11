@@ -42,6 +42,13 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processRenderArray(array $element) {
+    // Return informational placeholder, if pattern is not found.
+    if (!static::exists($element)) {
+      return [
+        '#markup' => t('Pattern not found: %pattern', ['%pattern' => $element['#id']]),
+      ];
+    }
+
     $element['#theme'] = UiPatterns::getPatternDefinition($element['#id'])->getThemeHook();
 
     if (isset($element['#attributes']) && !empty($element['#attributes']) && is_array($element['#attributes'])) {
@@ -65,6 +72,11 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processLibraries(array $element) {
+    // Skip processing if pattern does not exist.
+    if (!static::exists($element)) {
+      return $element;
+    }
+
     foreach (UiPatterns::getPatternDefinition($element['#id'])->getLibrariesNames() as $library) {
       $element['#attached']['library'][] = $library;
     }
@@ -82,6 +94,11 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processFields(array $element) {
+    // Skip processing if pattern does not exist.
+    if (!static::exists($element)) {
+      return $element;
+    }
+
     // Make sure we don't render anything in case fields are empty.
     if (self::hasFields($element)) {
       $fields = $element['#fields'];
@@ -108,6 +125,11 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processUse(array $element) {
+    // Skip processing if pattern does not exist.
+    if (!static::exists($element)) {
+      return $element;
+    }
+
     $definition = UiPatterns::getPatternDefinition($element['#id']);
     if ($definition->hasUse()) {
       $element['#use'] = $definition->getUse();
@@ -126,6 +148,11 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processMultipleSources(array $element) {
+    // Skip processing if pattern does not exist.
+    if (!static::exists($element)) {
+      return $element;
+    }
+
     // Make sure we don't render anything in case fields are empty.
     if (self::hasFields($element) && self::hasMultipleSources($element)) {
       foreach ($element['#fields'] as $name => $field) {
@@ -162,6 +189,10 @@ class Pattern extends RenderElement {
    *    Throws an exception if no context type is specified.
    */
   public static function processContext(array $element) {
+    // Skip processing if pattern does not exist.
+    if (!static::exists($element)) {
+      return $element;
+    }
 
     if (self::hasValidContext($element)) {
       $context = $element['#context'];
@@ -172,6 +203,19 @@ class Pattern extends RenderElement {
     }
 
     return $element;
+  }
+
+  /**
+   * Whether the given pattern exists or not.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return bool
+   *   TRUE or FALSE.
+   */
+  public static function exists(array $element) {
+    return isset($element['#id']) && UiPatterns::getManager()->hasDefinition($element['#id']);
   }
 
   /**
