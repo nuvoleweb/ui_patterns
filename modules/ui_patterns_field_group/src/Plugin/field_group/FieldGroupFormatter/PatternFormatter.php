@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Render\Element;
 use Drupal\field_group\FieldGroupFormatterBase;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
 use Drupal\ui_patterns\UiPatternsSourceManager;
@@ -95,10 +94,9 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    * fieldgroup doesn't have fieldgroup pattern items itself. (And the story
    * keeps going until there are no more people alive on earth).
    *
-   * @param $element
+   * @param array $element
    *   Renderable array of the outputed content.
-   *
-   * @param $field
+   * @param array $field
    *   Pattern config settings.
    */
   protected function buildFieldGroupElements(&$element, $field) {
@@ -120,7 +118,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   /**
    * Helper to get the pattern subfieldgroup settings.
    *
-   * @param $field array
+   * @param array $field
    *   Array if fieldgroup pattern fields config. Its determines the type of
    *   each field within the pattern, its source and its destination.
    *
@@ -141,7 +139,6 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     // - Figure out if temporary modifications in the other fieldgroup
     // patterns can be fetch. When loading from config storage, we may not
     // have the latest changes.
-
     // Fetch the child pattern configuration to know which field goes where.
     $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
     $view_display = $storage->load($config_name);
@@ -153,9 +150,9 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   /**
    * Helper to build the context expected to render the fieldgroup pattern.
    *
-   * @param $element array
+   * @param array $element
    *   Field data.
-   * @param $pattern_id string
+   * @param string $pattern_id
    *   Machine name of the pattern to load.
    */
   protected function determineConfigSettings(&$element, $pattern_id) {
@@ -258,4 +255,3 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   }
 
 }
-
