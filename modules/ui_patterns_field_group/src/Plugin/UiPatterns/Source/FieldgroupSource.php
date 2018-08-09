@@ -24,9 +24,6 @@ class FieldgroupSource extends PatternSourceBase {
    * @return \Drupal\ui_patterns\Definition\PatternSourceField[]
    *   List of source fields.
    */
-  /**
-   * {@inheritdoc}
-   */
   public function getSourceFields() {
     $sources = [];
     $entity_type_id = $this->getContextProperty('entity_type');
@@ -46,4 +43,6 @@ class FieldgroupSource extends PatternSourceBase {
 
     return $sources;
   }
+
 }
+
