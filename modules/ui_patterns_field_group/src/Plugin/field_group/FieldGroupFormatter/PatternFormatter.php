@@ -94,21 +94,24 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
         // have the latest changes.
         // - Make this recursive. A fieldgroup can have a fieldgroup child that
         // can have a fieldgroup child and so on...
+
+        // Fetch the child pattern configuration to know which field goes where.
         $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
         $view_display = $storage->load("$entity_type.$entity_bundle.$entity_view_mode");
         $group_settings = $view_display->getThirdPartySetting('field_group', $field['source']);
 
+        // Build pattern group children content.
+        $child_fields = [];
+        foreach ($group_settings["format_settings"]["pattern_mapping"] as $child) {
+          $child_fields[$child['destination']][] = $element[$field['source']][$child['source']];
+        }
+        $element[$field['source']]['#fields'] = $child_fields;
+
+        // Set config. This is identical to below and will need some
+        // factorization.
         $element[$field['source']]['#type'] = 'pattern';
         $element[$field['source']]['#id'] = $group_settings['format_settings']['pattern'];
-        $child_fields = [];
-        foreach (Element::children($element[$field['source']]) as $child) {
-          $child_fields[$child] = $element[$field['source']][$child];
-        };
-        $element[$field['source']]['#fields'] = $child_fields;
         $element[$field['source']]['#multiple_sources'] = TRUE;
-
-
-        // Allow default context values to not override those exposed elsewhere.
         $element[$field['source']]['#context']['type'] = 'field_group';
         $element[$field['source']]['#context']['group_name'] = $field['source'];
         $element[$field['source']]['#context']['entity_type'] = $entity_type;
@@ -220,3 +223,4 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   }
 
 }
+
