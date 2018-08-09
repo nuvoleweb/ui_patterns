@@ -144,6 +144,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       $context = [
         'entity_type' => $this->configuration['group']->entity_type,
         'entity_bundle' => $this->configuration['group']->bundle,
+        'entity_view_mode' => $this->configuration['group']->mode,
         'limit' => $this->configuration['group']->children,
       ];
 
