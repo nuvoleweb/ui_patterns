@@ -79,29 +79,44 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    * {@inheritdoc}
    */
   public function preRender(&$element, $rendering_object) {
-
     $fields = [];
     $mapping = $this->getSetting('pattern_mapping');
     foreach ($mapping as $field) {
-      if ($field['plugin'] == 'fieldgroup') {
-        // @TODO:
-        // - Figure out if temporary modification in the other fieldgroup
-        // patterns can be fetch. When loading from config storage, we may not
-        // have the latest changes.
-        // - Make this recursive. A fieldgroup can have a fieldgroup child that
-        // can have a fieldgroup child and so on...
-        $group_settings = $this->getSubFieldgroupPatternSettings($field);
-
-        // Build pattern group children content.
-        $child_fields = [];
-        foreach ($group_settings["format_settings"]["pattern_mapping"] as $child) {
-          $child_fields[$child['destination']][] = $element[$field['source']][$child['source']];
-        }
-        $this->determineConfigSettings($element[$field['source']], $group_settings['format_settings']['pattern'], $child_fields);
-      }
+      $this->buildFieldGroupElements($element, $field);
       $fields[$field['destination']][] = $element[$field['source']];
     }
     $this->determineConfigSettings($element, $this->getSetting('pattern'), $fields);
+  }
+
+  /**
+   * Recursive method building the fieldgroup content.
+   *
+   * This method checks if one of the fieldgroup items are a fieldgroup pattern
+   * themselve. If so, we must build its configuration again and check if this
+   * fieldgroup doesn't have fieldgroup pattern items itself. (And the story
+   * keeps going until there are no more people alive on earth).
+   *
+   * @param $element
+   *   Renderable array of the outputed content.
+   *
+   * @param $field
+   *   Pattern config settings.
+   */
+  protected function buildFieldGroupElements(&$element, $field) {
+    if ($field['plugin'] == 'fieldgroup') {
+      $group_settings = $this->getSubFieldgroupPatternSettings($field);
+
+      // Build pattern group children content.
+      $child_fields = [];
+      foreach ($group_settings["format_settings"]["pattern_mapping"] as $child) {
+        if ($child['plugin'] == 'fieldgroup') {
+          $this->buildFieldGroupElements($element[$field['source']], $child);
+        }
+        $child_fields[$child['destination']][] = $element[$field['source']][$child['source']];
+      }
+      $this->determineConfigSettings($element[$field['source']], $group_settings['format_settings']['pattern'], $child_fields);
+    }
+    $element[$field['destination']][] = $element[$field['source']];
   }
 
   /**
@@ -123,6 +138,11 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       $config_name_pieces[] = $this->configuration["group"]->{$key};
     }
     $config_name = implode('.', $config_name_pieces);
+
+    // @TODO:
+    // - Figure out if temporary modifications in the other fieldgroup
+    // patterns can be fetch. When loading from config storage, we may not
+    // have the latest changes.
 
     // Fetch the child pattern configuration to know which field goes where.
     $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
