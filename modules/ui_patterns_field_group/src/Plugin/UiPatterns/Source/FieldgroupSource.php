@@ -45,4 +45,3 @@ class FieldgroupSource extends PatternSourceBase {
   }
 
 }
-
