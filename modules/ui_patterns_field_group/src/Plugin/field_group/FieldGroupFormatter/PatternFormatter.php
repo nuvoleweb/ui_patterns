@@ -105,39 +105,45 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
         foreach ($group_settings["format_settings"]["pattern_mapping"] as $child) {
           $child_fields[$child['destination']][] = $element[$field['source']][$child['source']];
         }
-        $element[$field['source']]['#fields'] = $child_fields;
-
-        // Set config. This is identical to below and will need some
-        // factorization.
-        $element[$field['source']]['#type'] = 'pattern';
-        $element[$field['source']]['#id'] = $group_settings['format_settings']['pattern'];
-        $element[$field['source']]['#multiple_sources'] = TRUE;
-        $element[$field['source']]['#context']['type'] = 'field_group';
-        $element[$field['source']]['#context']['group_name'] = $field['source'];
-        $element[$field['source']]['#context']['entity_type'] = $entity_type;
-        $element[$field['source']]['#context']['bundle'] = $entity_bundle;
-        $element[$field['source']]['#context']['view_mode'] = $entity_view_mode;
-
-        // Pass current entity to pattern context, if any.
-        $element[$field['source']]['#context']['entity'] = $this->findEntity($child_fields);
+        $element[$field['source']] = array_merge($element[$field['source']], $this->determineConfigSettings($group_settings['format_settings']['pattern'], $child_fields));
       }
       $fields[$field['destination']][] = $element[$field['source']];
     }
+    $element = array_merge($element, $this->determineConfigSettings( $this->getSetting('pattern'), $fields));
+  }
 
-    $element['#type'] = 'pattern';
-    $element['#id'] = $this->getSetting('pattern');
-    $element['#fields'] = $fields;
-    $element['#multiple_sources'] = TRUE;
+  /**
+   * Helper to build the context expected to render the fieldgroup pattern.
+   *
+   * @param $pattern_id string
+   *   Machine name of the pattern to load.
+   * @param $fields array
+   *   Array of renderable elements keyed by "regions" of the pattern where they
+   *   will be rendered and where values are renderable arrays.
+   *
+   * @return array
+   *   The array of context data.
+   */
+  protected function determineConfigSettings($pattern_id, $fields) {
+    $context = [];
+
+    $context['#id'] = $pattern_id;
+    $context['#fields'] = $fields;
+
+    $context['#type'] = 'pattern';
+    $context['#multiple_sources'] = TRUE;
 
     // Allow default context values to not override those exposed elsewhere.
-    $element['#context']['type'] = 'field_group';
-    $element['#context']['group_name'] = $this->configuration['group']->group_name;
-    $element['#context']['entity_type'] = $this->configuration['group']->entity_type;
-    $element['#context']['bundle'] = $this->configuration['group']->bundle;
-    $element['#context']['view_mode'] = $this->configuration['group']->mode;
+    $context['#context']['type'] = 'field_group';
+    $context['#context']['group_name'] = $this->configuration['group']->group_name;
+    $context['#context']['entity_type'] = $this->configuration['group']->entity_type;
+    $context['#context']['bundle'] = $this->configuration['group']->bundle;
+    $context['#context']['view_mode'] = $this->configuration['group']->mode;
 
     // Pass current entity to pattern context, if any.
-    $element['#context']['entity'] = $this->findEntity($element['#fields']);
+    $element['#context']['entity'] = $this->findEntity($fields);
+
+    return $context;
   }
 
   /**
