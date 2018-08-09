@@ -84,10 +84,6 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $mapping = $this->getSetting('pattern_mapping');
     foreach ($mapping as $field) {
       if ($field['plugin'] == 'fieldgroup') {
-        $entity_type = $this->configuration["group"]->entity_type;
-        $entity_bundle = $this->configuration["group"]->bundle;
-        $entity_view_mode = $this->configuration["group"]->mode;
-
         // @TODO:
         // - Figure out if temporary modification in the other fieldgroup
         // patterns can be fetch. When loading from config storage, we may not
@@ -95,9 +91,16 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
         // - Make this recursive. A fieldgroup can have a fieldgroup child that
         // can have a fieldgroup child and so on...
 
+        // Build the key name of the view display config that we will retrieve
+        // the group config from.
+        foreach (['entity_type', 'bundle', 'mode'] as $key) {
+          $config_name_pieces[] = $this->configuration["group"]->{$key};
+        }
+        $config_name = implode('.', $config_name_pieces);
+
         // Fetch the child pattern configuration to know which field goes where.
         $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
-        $view_display = $storage->load("$entity_type.$entity_bundle.$entity_view_mode");
+        $view_display = $storage->load($config_name);
         $group_settings = $view_display->getThirdPartySetting('field_group', $field['source']);
 
         // Build pattern group children content.
