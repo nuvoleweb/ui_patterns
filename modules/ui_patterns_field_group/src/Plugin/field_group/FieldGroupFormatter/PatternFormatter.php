@@ -90,63 +90,75 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
         // have the latest changes.
         // - Make this recursive. A fieldgroup can have a fieldgroup child that
         // can have a fieldgroup child and so on...
-
-        // Build the key name of the view display config that we will retrieve
-        // the group config from.
-        foreach (['entity_type', 'bundle', 'mode'] as $key) {
-          $config_name_pieces[] = $this->configuration["group"]->{$key};
-        }
-        $config_name = implode('.', $config_name_pieces);
-
-        // Fetch the child pattern configuration to know which field goes where.
-        $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
-        $view_display = $storage->load($config_name);
-        $group_settings = $view_display->getThirdPartySetting('field_group', $field['source']);
+        $group_settings = $this->getSubFieldgroupPatternSettings($field);
 
         // Build pattern group children content.
         $child_fields = [];
         foreach ($group_settings["format_settings"]["pattern_mapping"] as $child) {
           $child_fields[$child['destination']][] = $element[$field['source']][$child['source']];
         }
-        $element[$field['source']] = array_merge($element[$field['source']], $this->determineConfigSettings($group_settings['format_settings']['pattern'], $child_fields));
+        $this->determineConfigSettings($element[$field['source']], $group_settings['format_settings']['pattern'], $child_fields);
       }
       $fields[$field['destination']][] = $element[$field['source']];
     }
-    $element = array_merge($element, $this->determineConfigSettings( $this->getSetting('pattern'), $fields));
+    $this->determineConfigSettings($element, $this->getSetting('pattern'), $fields);
+  }
+
+  /**
+   * Helper to get the pattern subfieldgroup settings.
+   *
+   * @param $field array
+   *   Array if fieldgroup pattern fields config. Its determines the type of
+   *   each field within the pattern, its source and its destination.
+   *
+   * @return array
+   *   Array of settings for the group.
+   */
+  protected function getSubFieldgroupPatternSettings($field) {
+    $config_name_pieces = [];
+
+    // Build the key name of the view display config that we will retrieve
+    // the group config from.
+    foreach (['entity_type', 'bundle', 'mode'] as $key) {
+      $config_name_pieces[] = $this->configuration["group"]->{$key};
+    }
+    $config_name = implode('.', $config_name_pieces);
+
+    // Fetch the child pattern configuration to know which field goes where.
+    $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
+    $view_display = $storage->load($config_name);
+    $group_settings = $view_display->getThirdPartySetting('field_group', $field['source']);
+
+    return $group_settings;
   }
 
   /**
    * Helper to build the context expected to render the fieldgroup pattern.
    *
+   * @param $element array
+   *   Field data.
    * @param $pattern_id string
    *   Machine name of the pattern to load.
    * @param $fields array
    *   Array of renderable elements keyed by "regions" of the pattern where they
    *   will be rendered and where values are renderable arrays.
-   *
-   * @return array
-   *   The array of context data.
    */
-  protected function determineConfigSettings($pattern_id, $fields) {
-    $context = [];
+  protected function determineConfigSettings(&$element, $pattern_id, $fields) {
+    $element['#id'] = $pattern_id;
+    $element['#fields'] = $fields;
 
-    $context['#id'] = $pattern_id;
-    $context['#fields'] = $fields;
-
-    $context['#type'] = 'pattern';
-    $context['#multiple_sources'] = TRUE;
+    $element['#type'] = 'pattern';
+    $element['#multiple_sources'] = TRUE;
 
     // Allow default context values to not override those exposed elsewhere.
-    $context['#context']['type'] = 'field_group';
-    $context['#context']['group_name'] = $this->configuration['group']->group_name;
-    $context['#context']['entity_type'] = $this->configuration['group']->entity_type;
-    $context['#context']['bundle'] = $this->configuration['group']->bundle;
-    $context['#context']['view_mode'] = $this->configuration['group']->mode;
+    $element['#context']['type'] = 'field_group';
+    $element['#context']['group_name'] = $this->configuration['group']->group_name;
+    $element['#context']['entity_type'] = $this->configuration['group']->entity_type;
+    $element['#context']['bundle'] = $this->configuration['group']->bundle;
+    $element['#context']['view_mode'] = $this->configuration['group']->mode;
 
     // Pass current entity to pattern context, if any.
     $element['#context']['entity'] = $this->findEntity($fields);
-
-    return $context;
   }
 
   /**
