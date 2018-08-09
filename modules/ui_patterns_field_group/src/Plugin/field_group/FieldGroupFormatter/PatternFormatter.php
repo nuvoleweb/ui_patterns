@@ -4,6 +4,7 @@ namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\Element;
 use Drupal\field_group\FieldGroupFormatterBase;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
 use Drupal\ui_patterns\UiPatternsSourceManager;
@@ -82,6 +83,41 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $fields = [];
     $mapping = $this->getSetting('pattern_mapping');
     foreach ($mapping as $field) {
+      if ($field['plugin'] == 'fieldgroup') {
+        $entity_type = $this->configuration["group"]->entity_type;
+        $entity_bundle = $this->configuration["group"]->bundle;
+        $entity_view_mode = $this->configuration["group"]->mode;
+
+        // @TODO:
+        // - Figure out if temporary modification in the other fieldgroup
+        // patterns can be fetch. When loading from config storage, we may not
+        // have the latest changes.
+        // - Make this recursive. A fieldgroup can have a fieldgroup child that
+        // can have a fieldgroup child and so on...
+        $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
+        $view_display = $storage->load("$entity_type.$entity_bundle.$entity_view_mode");
+        $group_settings = $view_display->getThirdPartySetting('field_group', $field['source']);
+
+        $element[$field['source']]['#type'] = 'pattern';
+        $element[$field['source']]['#id'] = $group_settings['format_settings']['pattern'];
+        $child_fields = [];
+        foreach (Element::children($element[$field['source']]) as $child) {
+          $child_fields[$child] = $element[$field['source']][$child];
+        };
+        $element[$field['source']]['#fields'] = $child_fields;
+        $element[$field['source']]['#multiple_sources'] = TRUE;
+
+
+        // Allow default context values to not override those exposed elsewhere.
+        $element[$field['source']]['#context']['type'] = 'field_group';
+        $element[$field['source']]['#context']['group_name'] = $field['source'];
+        $element[$field['source']]['#context']['entity_type'] = $entity_type;
+        $element[$field['source']]['#context']['bundle'] = $entity_bundle;
+        $element[$field['source']]['#context']['view_mode'] = $entity_view_mode;
+
+        // Pass current entity to pattern context, if any.
+        $element[$field['source']]['#context']['entity'] = $this->findEntity($child_fields);
+      }
       $fields[$field['destination']][] = $element[$field['source']];
     }
 
