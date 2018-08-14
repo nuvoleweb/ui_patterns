@@ -144,7 +144,7 @@ trait PatternDisplayFormTrait {
           unset($settings['pattern_mapping'][$key]);
         }
         else {
-          list($plugin, $source) = explode(PatternSourceBase::DERIVATIVE_SEPARATOR, $key);
+          list($plugin, $source) = explode(PatternSourceBase::DERIVATIVE_SEPARATOR, $key, 2);
           $settings['pattern_mapping'][$key]['plugin'] = $plugin;
           $settings['pattern_mapping'][$key]['source'] = $source;
         }
