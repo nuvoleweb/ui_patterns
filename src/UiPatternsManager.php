@@ -67,9 +67,10 @@ class UiPatternsManager extends DefaultPluginManager implements CategorizingPlug
         $definitions[$definition['id']] = $definition;
         unset($definitions[$id]);
       }
+      $definitions = $this->getSortedDefinitions($definitions);
       $this->setCachedDefinitions($definitions);
     }
-    return $this->getSortedDefinitions($definitions);
+    return $definitions;
   }
 
   /**
