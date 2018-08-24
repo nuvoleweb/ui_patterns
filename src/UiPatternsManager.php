@@ -27,6 +27,13 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   protected $themeHandler;
 
   /**
+   * An array of pattern theme hooks for fast lookup.
+   *
+   * @var array
+   */
+  protected $patternHooks;
+
+  /**
    * UiPatternsManager constructor.
    */
   public function __construct(\Traversable $namespaces, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, CacheBackendInterface $cache_backend) {
@@ -85,10 +92,12 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * {@inheritdoc}
    */
   public function isPatternHook($hook) {
-    $definitions = array_filter($this->getDefinitions(), function (PatternDefinition $definition) use ($hook) {
-      return $definition->getThemeHook() == $hook;
-    });
-    return !empty($definitions);
+    if (empty($this->patternHooks)) {
+      foreach ($this->getDefinitions() as $definition) {
+        $this->patternHooks[$definition->getThemeHook()] = $definition->getThemeHook();
+      }
+    }
+    return !empty($this->patternHooks[$hook]);
   }
 
   /**
