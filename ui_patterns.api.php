@@ -11,11 +11,11 @@ use Drupal\ui_patterns\Element\PatternContext;
  * Alter UI Patterns definitions.
  *
  * @param \Drupal\ui_patterns\Definition\PatternDefinition[] $definitions
- *    Pattern definitions.
+ *   Pattern definitions.
  *
  * @see \Drupal\ui_patterns\UiPatternsManager
  */
-function hook_ui_patterns_info_alter(&$definitions) {
+function hook_ui_patterns_info_alter(array &$definitions) {
   $definitions['my_pattern']->setLabel('My new label');
 }
 

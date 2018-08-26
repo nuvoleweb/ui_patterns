@@ -48,7 +48,7 @@ class PatternsLibraryController extends ControllerBase {
    * Render pattern library page.
    *
    * @param string $name
-   *    Plugin ID.
+   *   Plugin ID.
    *
    * @return array
    *   Return render array.

@@ -10,9 +10,17 @@ drupal:
   post_install:
     - "./vendor/bin/drush en -y ui_patterns_test"
     - "./vendor/bin/drush cr"
+  settings:
+    settings:
+      file_scan_ignore_directories:
+        - "node_modules"
+        - "bower_components"
+        - "vendor"
+        - "${drupal.root}"
 
 commands:
   drupal:site-setup:
+    - { task: "symlink", from: "../../..", to: "${drupal.root}/modules/custom/ui_patterns" }
     - { task: "run", command: "drupal:drush-setup" }
     - { task: "run", command: "drupal:settings-setup" }
     - { task: "run", command: "setup:behat" }

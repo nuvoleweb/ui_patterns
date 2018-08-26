@@ -19,7 +19,7 @@ class YamlDeriverTest extends AbstractUiPatternsTest {
    */
   public function testGetDerivativeDefinitions() {
     foreach (UiPatterns::getManager()->getDefinitions() as $definition) {
-      expect($definition)->to->have->keys(['id', 'provider', 'base path']);
+      $this->assertArrayHasKey(['id', 'provider', 'base path'], $definition);
     }
   }
 

@@ -26,7 +26,7 @@ class PatternBaseTest extends AbstractUiPatternsTest {
 
       /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
       $libraries = $pattern->getLibraryDefinitions();
-      expect($libraries)->to->loosely->equal($item['expected']);
+      $this->assertEquals($item['expected'], $libraries);
     }
   }
 

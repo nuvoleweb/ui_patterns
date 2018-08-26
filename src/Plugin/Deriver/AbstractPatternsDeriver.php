@@ -59,12 +59,12 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
    * Get pattern data object.
    *
    * @param array $definition
-   *    Pattern definition array.
+   *   Pattern definition array.
    *
    * @return \Drupal\ui_patterns\Definition\PatternDefinition
-   *    Pattern definition object.
+   *   Pattern definition object.
    */
-  protected function getPatternDefinition($definition = []) {
+  protected function getPatternDefinition(array $definition = []) {
     return new PatternDefinition($definition);
   }
 
@@ -72,10 +72,10 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
    * Validate pattern definition.
    *
    * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
-   *    Pattern definition.
+   *   Pattern definition.
    *
    * @return bool
-   *    Whereas current pattern definition is valid or not.
+   *   Whereas current pattern definition is valid or not.
    */
   protected function isValidPatternDefinition(PatternDefinition $definition) {
     $data_definition = PatternDataDefinition::create();
