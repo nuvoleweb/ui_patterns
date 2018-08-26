@@ -8,7 +8,6 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\ui_patterns\Definition\PatternDefinition;
 
 /**
  * Provides the default ui_patterns manager.
@@ -27,11 +26,11 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   protected $themeHandler;
 
   /**
-   * An array of pattern theme hooks for fast lookup.
+   * An array of pattern theme hooks for fast lookup on not cached pages.
    *
    * @var array
    */
-  protected $patternHooks;
+  protected $patternHooks = [];
 
   /**
    * UiPatternsManager constructor.
@@ -92,6 +91,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * {@inheritdoc}
    */
   public function isPatternHook($hook) {
+    // Improve performance on not cached pages.
     if (empty($this->patternHooks)) {
       foreach ($this->getDefinitions() as $definition) {
         $this->patternHooks[$definition->getThemeHook()] = $definition->getThemeHook();
