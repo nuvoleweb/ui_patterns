@@ -13,7 +13,6 @@ services:
 
 env:
   global:
-  - COMPOSER_MEMORY_LIMIT=-1
   - DOCKER_COMPOSE_VERSION=1.17.1
   matrix:
   - DRUPAL_VERSION=~8.5
@@ -29,7 +28,6 @@ before_install:
 - docker-compose up -d
 
 install:
-- docker-compose exec -u root php composer clearcache
 - docker-compose exec -u root php composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
 
 before_script:
