@@ -31,9 +31,10 @@ matrix:
 before_install:
 - cp docker-compose.yml.dist docker-compose.yml
 - docker-compose up -d
-- docker ps
+- sudo chmod -R a+w .
 
 install:
+- composer install
 - composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
 
 before_script:
