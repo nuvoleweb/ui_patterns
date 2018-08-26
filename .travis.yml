@@ -17,6 +17,7 @@ cache:
 
 env:
   global:
+  - COMPOSER_MEMORY_LIMIT=-1
   - DOCKER_COMPOSE_VERSION=1.17.1
   matrix:
   - DRUPAL_VERSION=~8.5
@@ -33,7 +34,7 @@ before_install:
 - docker ps
 
 install:
-- composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev --prefer-dist
+- composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
 
 before_script:
 - docker-compose exec -u root php ./vendor/bin/run drupal:site-install

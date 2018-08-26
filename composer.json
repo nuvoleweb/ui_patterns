@@ -18,7 +18,7 @@
     "drupal/config_installer": "~1",
     "drupal/console": "~1",
     "drush/drush": "~9",
-    "webflo/drupal-core-require-dev": "^8.5",
+    "webflo/drupal-core-require-dev": "~8.6@rc",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",
