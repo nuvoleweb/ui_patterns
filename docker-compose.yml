@@ -54,12 +54,25 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
+  # If you would like to see what is going on you can run the following on your host:
+  # docker run --rm -p 4444:4444 -p 5900:5900 --network="host" selenium/standalone-chrome-debug:latest
+  # Newer version of this image might run into this issue:
+  # @link https://github.com/elgalu/docker-selenium/issues/20
   selenium:
-    image: selenium/standalone-firefox-debug:latest
-    ports:
-    - "5900:5900"
+    image: selenium/standalone-chrome-debug:3.11
     expose:
     - '4444'
+    environment:
+    - DISPLAY=:99
+    - SE_OPTS=-debug
+    - SCREEN_WIDTH=1280
+    - SCREEN_HEIGHT=800
+    - VNC_NO_PASSWORD=1
+    ports:
+    - '4444:4444'
+    - "5900:5900"
+    volumes:
+    - /dev/shm:/dev/shm
 
 volumes:
   codebase:

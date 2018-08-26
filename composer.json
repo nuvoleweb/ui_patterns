@@ -17,7 +17,7 @@
     "drupal-composer/drupal-scaffold": "^2.2",
     "drupal/config_installer": "~1",
     "drupal/console": "~1",
-    "drush/drush": "*",
+    "drush/drush": "~9",
     "webflo/drupal-core-require-dev": "^8.5",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
@@ -30,7 +30,6 @@
     "drupal/bootstrap": "3.1",
     "nuvoleweb/drupal-behat": "~1.1.0",
     "phpro/grumphp": "0.11.4",
-    "peridot-php/leo": "^1.6",
     "openeuropa/task-runner": "^0.4"
   },
   "repositories": [

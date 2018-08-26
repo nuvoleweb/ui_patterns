@@ -19,9 +19,8 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
     $plugin_manager = \Drupal::service('plugin.manager.ui_patterns_source');
 
     $definitions = $plugin_manager->getDefinitions();
-    expect($definitions)
-      ->to->not->be->empty()
-      ->and->to->have->keys(['test_source']);
+    $this->assertNotEmpty($definitions);
+    $this->assertArrayHasKey('test_source', $definitions);
 
     $expected = [
       ['name' => 'field_1', 'label' => 'Field 1'],
@@ -34,8 +33,8 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
     /** @var \Drupal\ui_patterns\Plugin\PatternSourceBase $plugin */
     $plugin = $plugin_manager->createInstance('test_source');
     foreach ($plugin->getSourceFields() as $key => $field) {
-      expect($field->getFieldName())->to->equal($expected[$key]['name']);
-      expect($field->getFieldLabel())->to->equal($expected[$key]['label']);
+      $this->assertEquals($expected[$key]['name'], $field->getFieldName());
+      $this->assertEquals($expected[$key]['label'], $field->getFieldLabel());
     }
   }
 
