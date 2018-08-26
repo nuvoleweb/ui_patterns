@@ -22,7 +22,7 @@ class PatternPreviewTest extends AbstractUiPatternsTest {
     $assertions = Yaml::decode(file_get_contents($this->getFixturePath() . '/preview_markup.yml'));
     foreach ($assertions as $assertion) {
       $result = PatternPreview::getPreviewMarkup($assertion['actual']);
-      expect($assertion['expected'])->to->equal($result);
+      $this->assertEquals($assertion['expected'], $result);
     }
   }
 

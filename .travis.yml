@@ -1,36 +1,43 @@
 sudo: required
+language: php
+
+php:
+- 5.6
+- 7.1
+
+git:
+  depth: 1
 
 services:
-  - docker
-  - docker-compose
+- docker
 
 env:
   global:
-    - DOCKER_COMPOSE_VERSION=1.17.1
+  - DOCKER_COMPOSE_VERSION=1.17.1
   matrix:
-    - DRUPAL_VERSION=8.5.x-dev
-    - DRUPAL_VERSION=8.6.x-dev
+  - DRUPAL_VERSION=~8.5
+  - DRUPAL_VERSION=~8.6@rc
+  - DRUPAL_VERSION=8.7.x-dev
 
 matrix:
   allow_failures:
-    - env: DRUPAL_VERSION=8.6.x-dev
+  - env: DRUPAL_VERSION=8.7.x-dev
 
 before_install:
-  - docker-compose up -d
-  - docker ps
+- cp docker-compose.yml.dist docker-compose.yml
+- docker-compose up -d
 
 install:
-  - docker-compose exec -u root php composer require drupal/core:$DRUPAL_VERSION --dev --prefer-dist
+- docker-compose exec -u root php composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
 
 before_script:
-  - docker-compose exec -u root php ./vendor/bin/run drupal:site-setup
-  - docker-compose exec -u root php ./vendor/bin/run drupal:site-install
-  - docker-compose exec -u root php chown -R www-data:www-data build
+- docker-compose exec -u root php ./vendor/bin/run drupal:site-install
+- docker-compose exec -u root php chown -R www-data:www-data build
 
 script:
-  - docker-compose exec -u root php ./vendor/bin/grumphp run
-  - docker-compose exec -u root php ./vendor/bin/phpunit
-  - docker-compose exec -u root php ./vendor/bin/behat
+- docker-compose exec -u root php ./vendor/bin/grumphp run
+- docker-compose exec -u root php ./vendor/bin/phpunit
+- docker-compose exec -u root php ./vendor/bin/behat
 
 notifications:
   email: false

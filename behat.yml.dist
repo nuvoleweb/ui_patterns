@@ -19,8 +19,10 @@ default:
   extensions:
     Behat\MinkExtension:
       goutte: ~
+      browser_name: chrome
       selenium2:
         wd_host: 'http://selenium:4444/wd/hub'
+        capabilities: { "browser": "chrome", "version": "*" }
       javascript_session: selenium2
       base_url: "${drupal.base_url}"
     NuvoleWeb\Drupal\DrupalExtension:

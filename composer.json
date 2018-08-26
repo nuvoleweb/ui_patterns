@@ -15,11 +15,10 @@
   "require-dev": {
     "cweagans/composer-patches": "~1.0",
     "drupal-composer/drupal-scaffold": "^2.2",
-    "drupal/config_installer": "1.3.0",
+    "drupal/config_installer": "~1",
     "drupal/console": "~1",
-    "drush/drush": "*",
-    "drupal/core": "8.5.x-dev",
-    "webflo/drupal-core-require-dev": "^8.5",
+    "drush/drush": "~9",
+    "webflo/drupal-core-require-dev": "~8.6@rc",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",
@@ -30,8 +29,7 @@
     "drupal/token": "~1",
     "drupal/bootstrap": "3.1",
     "nuvoleweb/drupal-behat": "~1.1.0",
-    "phpro/grumphp": "0.11.4",
-    "peridot-php/leo": "^1.6",
+    "phpro/grumphp": "~0.14",
     "openeuropa/task-runner": "^0.4"
   },
   "repositories": [
@@ -41,16 +39,19 @@
     }
   ],
   "autoload": {
-    "psr-4": {"Drupal\\ui_patterns\\": "src"
+    "psr-4": {
+      "Drupal\\ui_patterns\\": "./src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Drupal\\Tests\\ui_patterns\\": "tests/src"
+      "Drupal\\Tests\\ui_patterns\\": "./tests/src"
     }
   },
   "scripts": {
-    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold"
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "post-install-cmd": "./vendor/bin/run drupal:site-setup",
+    "post-update-cmd": "./vendor/bin/run drupal:site-setup"
   },
   "extra": {
     "patches": {
@@ -64,5 +65,8 @@
       "build/profiles/contrib/{$name}": ["type:drupal-profile"],
       "build/themes/contrib/{$name}": ["type:drupal-theme"]
     }
+  },
+  "config": {
+    "sort-packages": true
   }
 }
