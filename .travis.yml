@@ -28,6 +28,7 @@ matrix:
   - env: DRUPAL_VERSION=8.7.x-dev
 
 before_install:
+- cp docker-compose.yml.dist docker-compose.yml
 - docker-compose up -d
 - docker ps
 

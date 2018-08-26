@@ -5,3 +5,4 @@ docs/_build
 build/
 phpunit.xml
 behat.yml
+docker-compose.yml
