@@ -32,7 +32,7 @@ before_install:
 - docker ps
 
 install:
-- docker-compose exec -u root php composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev --prefer-dist
+- composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev --prefer-dist
 
 before_script:
 - docker-compose exec -u root php ./vendor/bin/run drupal:site-install
