@@ -12,7 +12,7 @@ services:
       MYSQL_PASSWORD: drupal
 
   php:
-    image: wodby/drupal-php:${TRAVIS_PHP_VERSION}-4.6.0
+    image: wodby/drupal-php:${TRAVIS_PHP_VERSION}-4.6.3
     environment:
       PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       DB_HOST: mariadb

@@ -29,7 +29,7 @@
     "drupal/token": "~1",
     "drupal/bootstrap": "3.1",
     "nuvoleweb/drupal-behat": "~1.1.0",
-    "phpro/grumphp": "0.11.4",
+    "phpro/grumphp": "~0.14",
     "openeuropa/task-runner": "^0.4"
   },
   "repositories": [

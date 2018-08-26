@@ -11,10 +11,6 @@ git:
 services:
 - docker
 
-cache:
-  directories:
-  - $HOME/.composer/cache/files
-
 env:
   global:
   - COMPOSER_MEMORY_LIMIT=-1
@@ -31,11 +27,10 @@ matrix:
 before_install:
 - cp docker-compose.yml.dist docker-compose.yml
 - docker-compose up -d
-- sudo chmod -R a+w .
 
 install:
-- composer install
-- composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
+- docker-compose exec -u root php composer clearcache
+- docker-compose exec -u root php composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
 
 before_script:
 - docker-compose exec -u root php ./vendor/bin/run drupal:site-install
