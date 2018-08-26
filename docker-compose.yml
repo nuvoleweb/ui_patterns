@@ -1,8 +1,10 @@
 version: "2"
 
 services:
+
   mariadb:
-    image: wodby/mariadb:10.1-2.3.5
+    image: wodby/mariadb:10.1-3.3.0
+    stop_grace_period: 30s
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: drupal
@@ -10,10 +12,9 @@ services:
       MYSQL_PASSWORD: drupal
 
   php:
-    image: wodby/drupal-php:7.0-3.0.0
+    image: wodby/drupal-php:7.1-4.6.0
     environment:
       PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
-      PHP_FPM_CLEAR_ENV: "no"
       DB_HOST: mariadb
       DB_USER: drupal
       DB_PASSWORD: drupal
@@ -26,38 +27,39 @@ services:
       PHP_XDEBUG_IDEKEY: "PHPSTORM"
       PHP_IDE_CONFIG: "serverName=ui_patterns"
     volumes:
-      - ./:/var/www/html
+    - ./:/var/www/html
 
   nginx:
-    image: wodby/drupal-nginx:8-1.13-3.0.1
+    image: wodby/nginx:1.15-5.0.0
     depends_on:
-      - php
+    - php
     environment:
-      NGINX_STATIC_CONTENT_OPEN_FILE_CACHE: "off"
+      NGINX_STATIC_OPEN_FILE_CACHE: "off"
       NGINX_ERROR_LOG_LEVEL: debug
       NGINX_BACKEND_HOST: php
       NGINX_SERVER_ROOT: /var/www/html/build
+      NGINX_VHOST_PRESET: drupal8
     volumes:
-      - ./:/var/www/html
+    - ./:/var/www/html
     labels:
-      - 'traefik.backend=nginx'
-      - 'traefik.port=80'
-      - 'traefik.frontend.rule=Host:ui_patterns.localhost'
+    - 'traefik.backend=nginx'
+    - 'traefik.port=80'
+    - 'traefik.frontend.rule=Host:ui_patterns.localhost'
 
   traefik:
     image: traefik
     command: -c /dev/null --web --docker --logLevel=INFO
     ports:
-      - '80:80'
+    - '80:80'
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    - /var/run/docker.sock:/var/run/docker.sock
 
   selenium:
-    image: selenium/standalone-firefox-debug:2.53.1-beryllium
+    image: selenium/standalone-firefox-debug:latest
     ports:
-      - "5900:5900"
+    - "5900:5900"
     expose:
-      - '4444'
+    - '4444'
 
 volumes:
   codebase:
