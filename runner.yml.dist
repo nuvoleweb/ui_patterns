@@ -1,0 +1,31 @@
+drupal:
+  root: "build"
+  base_url: "http://nginx"
+  database:
+    host: "mariadb"
+    port: "3306"
+    name: "drupal"
+    user: "drupal"
+    password: "drupal"
+  post_install:
+    - "./vendor/bin/drush en -y ui_patterns_test"
+    - "./vendor/bin/drush cr"
+  settings:
+    settings:
+      file_scan_ignore_directories:
+        - "node_modules"
+        - "bower_components"
+        - "vendor"
+        - "${drupal.root}"
+
+commands:
+  drupal:site-setup:
+    - { task: "symlink", from: "../../..", to: "${drupal.root}/modules/custom/ui_patterns" }
+    - { task: "run", command: "drupal:drush-setup" }
+    - { task: "run", command: "drupal:settings-setup" }
+    - { task: "run", command: "setup:behat" }
+    - { task: "run", command: "setup:phpunit" }
+  setup:behat:
+    - { task: "process", source: "behat.yml.dist", destination: "behat.yml" }
+  setup:phpunit:
+    - { task: "process", source: "phpunit.xml.dist", destination: "phpunit.xml" }

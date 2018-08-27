@@ -7,6 +7,8 @@ use Drupal\Tests\UnitTestCase;
 /**
  * Class AbstractUiPatternsTest.
  *
+ * @group ui_patterns
+ *
  * @package Drupal\Tests\ui_patterns\Unit
  */
 abstract class AbstractUiPatternsTest extends UnitTestCase {

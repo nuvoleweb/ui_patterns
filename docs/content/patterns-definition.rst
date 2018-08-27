@@ -54,9 +54,9 @@ Let's break this down:
 ``label``
     Pattern label, used on pattern library page.
 ``description``
-    Pattern description, used on pattern library page.
+    Pattern description (optional), used on pattern library page.
 ``fields``
-    Hash defining the pattern fields. Each field must have the following properties defined below.
+    Hash defining the pattern fields (optional). Each field must have the following properties defined below.
 
     ``type``
         Field type, can be ``text``, ``numeric``, etc. at the moment only used for documentation purposes.
@@ -69,7 +69,7 @@ Let's break this down:
         we can use keys like ``type: processed_text`` or ``theme: image``.
 
 ``libraries``
-    List of libraries to be loaded when rendering the pattern. UI patterns are supposed to be self-contained so they
+    List of libraries to be loaded when rendering the pattern (optional). UI patterns are supposed to be self-contained so they
     should define along all needed libraries.
 
 Once the pattern is defined the module will expose them as standard Drupal theme definitions.

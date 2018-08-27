@@ -11,12 +11,12 @@ interface PatternSourceInterface {
    * Source field factory method.
    *
    * @param string $name
-   *    Machine name.
+   *   Machine name.
    * @param string $label
-   *    Human readable label.
+   *   Human readable label.
    *
    * @return \Drupal\ui_patterns\Definition\PatternSourceField
-   *    Source field instance.
+   *   Source field instance.
    */
   public function getSourceField($name, $label);
 
@@ -24,7 +24,7 @@ interface PatternSourceInterface {
    * Return list of source fields.
    *
    * @return \Drupal\ui_patterns\Definition\PatternSourceField[]
-   *    List of source fields.
+   *   List of source fields.
    */
   public function getSourceFields();
 
@@ -32,10 +32,10 @@ interface PatternSourceInterface {
    * Get context property value, if any.
    *
    * @param string $name
-   *    Context property name.
+   *   Context property name.
    *
    * @return mixed
-   *    Context property value.
+   *   Context property value.
    */
   public function getContextProperty($name);
 

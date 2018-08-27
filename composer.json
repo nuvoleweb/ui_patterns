@@ -3,8 +3,8 @@
   "type": "drupal-module",
   "description": "UI Patterns.",
   "keywords": ["drupal", "web", "ui"],
-  "minimum-stability": "dev",
   "license": "GPL-2.0+",
+  "minimum-stability": "dev",
   "prefer-stable": true,
   "authors": [
     {
@@ -13,12 +13,12 @@
     }
   ],
   "require-dev": {
-    "nuvoleweb/drupal-component-scaffold": "*",
-    "drupal/config_installer": "1.3.0",
+    "cweagans/composer-patches": "~1.0",
+    "drupal-composer/drupal-scaffold": "^2.2",
+    "drupal/config_installer": "~1",
     "drupal/console": "~1",
-    "drush/drush": "*",
-    "drupal/coder": "8.2.8",
-    "drupal/core": "~8",
+    "drush/drush": "~9",
+    "webflo/drupal-core-require-dev": "~8.6@rc",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",
@@ -28,15 +28,9 @@
     "drupal/paragraphs": "~1",
     "drupal/token": "~1",
     "drupal/bootstrap": "3.1",
-    "phpunit/phpunit": "5.5.*",
     "nuvoleweb/drupal-behat": "~1.1.0",
-    "mikey179/vfsStream": "*",
-    "bex/behat-screenshot": "^1.2",
-    "bex/behat-screenshot-image-driver-img42": "^1.0",
-    "bex/behat-extension-driver-locator": "^1.0",
-    "phpro/grumphp": "0.11.4",
-    "squizlabs/php_codesniffer": "~2.9",
-    "peridot-php/leo": "^1.6"
+    "phpro/grumphp": "~0.14",
+    "openeuropa/task-runner": "^0.4"
   },
   "repositories": [
     {
@@ -46,16 +40,33 @@
   ],
   "autoload": {
     "psr-4": {
-      "Drupal\\ui_patterns\\": "src",
-      "Drupal\\Tests\\ui_patterns\\": "tests/src"
+      "Drupal\\ui_patterns\\": "./src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Tests\\ui_patterns\\": "./tests/src"
+    }
+  },
+  "scripts": {
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "post-install-cmd": "./vendor/bin/run drupal:site-setup",
+    "post-update-cmd": "./vendor/bin/run drupal:site-setup"
+  },
   "extra": {
-      "installer-paths": {
-        "build/core": ["type:drupal-core"],
-        "build/modules/contrib/{$name}": ["type:drupal-module"],
-        "build/profiles/contrib/{$name}": ["type:drupal-profile"],
-        "build/themes/contrib/{$name}": ["type:drupal-theme"]
+    "patches": {
+      "drupal/core": {
+        "https://www.drupal.org/project/drupal/issues/2943172": "https://www.drupal.org/files/issues/2018-04-15/2943172-kernel-test-base-2.patch"
       }
+    },
+    "installer-paths": {
+      "build/core": ["type:drupal-core"],
+      "build/modules/contrib/{$name}": ["type:drupal-module"],
+      "build/profiles/contrib/{$name}": ["type:drupal-profile"],
+      "build/themes/contrib/{$name}": ["type:drupal-theme"]
+    }
+  },
+  "config": {
+    "sort-packages": true
   }
 }

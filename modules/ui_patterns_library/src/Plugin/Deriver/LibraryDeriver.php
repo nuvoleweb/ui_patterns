@@ -81,9 +81,9 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
    * @param \Drupal\Core\TypedData\TypedDataManager $typed_data_manager
    *   Typed data manager service.
    * @param string $root
-   *    Application root directory.
+   *   Application root directory.
    * @param array $extensions
-   *    File extensions.
+   *   File extensions.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   Module handler service.
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
@@ -172,10 +172,10 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
    * Get extension name that hosts the given YAML definition file.
    *
    * @param string $pathname
-   *    YAML definition file full path.
+   *   YAML definition file full path.
    *
    * @return bool|string
-   *    Either extension machine name or FALSE if not found.
+   *   Either extension machine name or FALSE if not found.
    */
   protected function getHostExtension($pathname) {
     $extensions = $this->getExtensionLocations();
@@ -194,7 +194,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
    * Get extension locations.
    *
    * @return array
-   *    Array of extensions keyed by their path location.
+   *   Array of extensions keyed by their path location.
    */
   protected function getExtensionLocations() {
     /** @var \Drupal\Core\Extension\Extension[] $extensions */

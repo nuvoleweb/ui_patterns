@@ -26,7 +26,7 @@ class PatternDataDefinitionTest extends AbstractUiPatternsTest {
     foreach ($violations as $violation) {
       $actual[] = $violation->getPropertyPath() . ': ' . $violation->getMessage();
     }
-    expect($actual)->to->equal($expected);
+    $this->assertEquals($expected, $actual);
   }
 
   /**

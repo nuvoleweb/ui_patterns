@@ -41,8 +41,10 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
    *   The plugin_id for the plugin instance.
    * @param \Drupal\Core\Layout\LayoutDefinition $plugin_definition
    *   The plugin implementation definition.
+   * @param \Drupal\Core\Render\ElementInfoManagerInterface $element_info
+   *   Element info object.
    * @param \Drupal\ui_patterns\UiPatternsManager $pattern_manager
-   *    Pattern manager service.
+   *   Pattern manager service.
    */
   public function __construct(array $configuration, $plugin_id, LayoutDefinition $plugin_definition, ElementInfoManagerInterface $element_info, UiPatternsManager $pattern_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
@@ -145,7 +147,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
    * Remove default field template if "Only content" option has been selected.
    *
    * @param array $regions
-   *    Layout regions.
+   *   Layout regions.
    */
   protected function processOnlyContentFields(array &$regions) {
     foreach ($regions as $region_name => $region) {
