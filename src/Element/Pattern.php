@@ -44,6 +44,15 @@ class Pattern extends RenderElement {
   public static function processRenderArray(array $element) {
     // Return empty element, if pattern is not found.
     if (!static::exists($element)) {
+      if (!isset($element['#id'])) {
+        \Drupal::logger('ui_patterns')->error('UI pattern plugin requested without identifier.');
+      }
+      else {
+        \Drupal::logger('ui_patterns')->error('UI pattern plugin %plugin_id not found.', [
+          '%plugin_id' => $element['#id'],
+        ]);
+      }
+
       return [];
     }
 
