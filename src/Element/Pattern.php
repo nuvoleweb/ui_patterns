@@ -42,11 +42,9 @@ class Pattern extends RenderElement {
    *   Render array.
    */
   public static function processRenderArray(array $element) {
-    // Return informational placeholder, if pattern is not found.
+    // Return empty element, if pattern is not found.
     if (!static::exists($element)) {
-      return [
-        '#markup' => t('Pattern not found: %pattern', ['%pattern' => $element['#id']]),
-      ];
+      return [];
     }
 
     $element['#theme'] = UiPatterns::getPatternDefinition($element['#id'])->getThemeHook();
