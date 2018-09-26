@@ -97,11 +97,11 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
    * Process libraries.
    *
    * @param array|string $libraries
-   *    List of dependencies or "dependencies:" root property.
+   *   List of dependencies or "dependencies:" root property.
    * @param string $base_path
-   *    Pattern base path.
+   *   Pattern base path.
    * @param string $parent
-   *    Item parent set in previous recursive iteration, if any.
+   *   Item parent set in previous recursive iteration, if any.
    */
   protected function processLibraries(&$libraries, $base_path, $parent = '') {
     if (is_array($libraries)) {
@@ -125,10 +125,10 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
    * Process 'use' definition property.
    *
    * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
-   *    Pattern definition array.
+   *   Pattern definition array.
    *
    * @return array
-   *    Processed hook definition portion.
+   *   Processed hook definition portion.
    */
   protected function processUseProperty(PatternDefinition $definition) {
     $return = [];
@@ -145,10 +145,10 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
    * Process theme variables.
    *
    * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
-   *    Pattern definition array.
+   *   Pattern definition array.
    *
    * @return array
-   *    Processed hook definition portion.
+   *   Processed hook definition portion.
    */
   protected function processVariables(PatternDefinition $definition) {
     $return = [];

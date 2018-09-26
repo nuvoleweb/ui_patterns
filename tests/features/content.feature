@@ -82,3 +82,7 @@ Feature: Content
     And I should see the button "Save changes" in the "modal"
     And I should see the link "Link title"
 
+  Scenario: Patterns render as Panels layouts.
+    Given I am on "/panels-test-page"
+    Then I should see "Here is your jumbotron title" in the "jumbotron"
+

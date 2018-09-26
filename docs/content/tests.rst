@@ -52,3 +52,27 @@ you'll still need to manually disable Twig and other Drupal 8 caching by un-comm
    #   include $app_root . '/' . $site_path . '/settings.local.php';
    # }
 
+Docker Compose
+--------------
+
+UI Patterns ships with a ``docker-compose.yml`` file which can be used to streamline local development and tests execution.
+
+In the project root run:
+
+.. code-block:: bash
+
+   $ docker-compose up -d
+   $ docker-compose exec -u root php composer install
+   $ docker-compose exec -u root php ./vendor/bin/run drupal:site-setup
+   $ docker-compose exec -u root php ./vendor/bin/run drupal:site-install
+   $ docker-compose exec -u root php chown -R www-data:www-data build
+
+You'll then have a fully functional test site at `http://ui_patterns.localhost <http://ui_patterns.localhost>`_.
+
+You can then run all tests as follows:
+
+.. code-block:: bash
+
+   $ docker-compose exec -u root php ./vendor/bin/grumphp run
+   $ docker-compose exec -u root php ./vendor/bin/phpunit
+   $ docker-compose exec -u root php ./vendor/bin/behat

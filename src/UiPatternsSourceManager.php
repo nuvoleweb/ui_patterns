@@ -24,10 +24,10 @@ class UiPatternsSourceManager extends DefaultPluginManager {
    * Filter definitions by given tag.
    *
    * @param string $tag
-   *    Tag used on plugin annotation.
+   *   Tag used on plugin annotation.
    *
    * @return array
-   *    List of definitions tagged with given tag.
+   *   List of definitions tagged with given tag.
    */
   public function getDefinitionsByTag($tag) {
     return array_filter($this->getDefinitions(), function ($definition) use ($tag) {
@@ -39,14 +39,14 @@ class UiPatternsSourceManager extends DefaultPluginManager {
    * Get field source definitions by specified tags.
    *
    * @param string $tag
-   *    Field source tag.
+   *   Field source tag.
    * @param array $context
-   *    Plugin context.
+   *   Plugin context.
    *
    * @return \Drupal\ui_patterns\Definition\PatternSourceField[]
-   *    List of source fields.
+   *   List of source fields.
    */
-  public function getFieldsByTag($tag, $context) {
+  public function getFieldsByTag($tag, array $context) {
     /** @var \Drupal\ui_patterns\Plugin\PatternSourceInterface $plugin */
     $fields = [];
     foreach ($this->getDefinitionsByTag($tag) as $id => $definition) {

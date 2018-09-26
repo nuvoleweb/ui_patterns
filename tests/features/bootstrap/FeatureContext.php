@@ -29,7 +29,9 @@ class FeatureContext extends RawDrupalContext {
   public function assertModulesEnabled(TableNode $table) {
     $rows = $table->getRows();
     foreach ($rows as $row) {
-      expect(\Drupal::moduleHandler()->moduleExists($row[0]))->to->be->true("Module '{$row[0]}' should be enabled but it is not.");
+      if (!\Drupal::moduleHandler()->moduleExists($row[0])) {
+        throw new \Exception("Module '{$row[0]}' should be enabled but it is not.");
+      }
     }
   }
 

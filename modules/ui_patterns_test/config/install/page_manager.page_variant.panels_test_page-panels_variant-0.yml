@@ -1,0 +1,36 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - page_manager.page.panels_test_page
+  module:
+    - panels
+id: panels_test_page-panels_variant-0
+label: Panels
+variant: panels_variant
+variant_settings:
+  blocks:
+    4fe295c8-8fd2-44fd-a8c0-65d71579f4de:
+      id: page_title_block
+      label: 'Page title'
+      provider: core
+      label_display: '0'
+      region: subtitle
+      weight: 0
+      uuid: 4fe295c8-8fd2-44fd-a8c0-65d71579f4de
+      context_mapping: {  }
+  id: panels_variant
+  uuid: dba05a1b-0070-4e7d-8720-305b76b61827
+  label: null
+  weight: 0
+  layout: pattern_jumbotron
+  layout_settings: {  }
+  page_title: 'Here is your jumbotron title'
+  storage_type: page_manager
+  storage_id: panels_test_page-panels_variant-0
+  builder: standard
+page: panels_test_page
+weight: 0
+selection_criteria: {  }
+selection_logic: and
+static_context: {  }

@@ -9,9 +9,6 @@ namespace Drupal\ui_patterns\Definition;
  */
 class PatternSourceField {
 
-  /**
-   * Separator used to namespace fields with their plugin type.
-   */
   const FIELD_KEY_SEPARATOR = ':';
 
   private $fieldName;
@@ -125,7 +122,7 @@ class PatternSourceField {
    * Get unique field key.
    *
    * @return string
-   *    Field key.
+   *   Field key.
    */
   public function getFieldKey() {
     return $this->getPluginId() . self::FIELD_KEY_SEPARATOR . $this->getFieldName();

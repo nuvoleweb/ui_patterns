@@ -21,7 +21,7 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     $definitions = $manager->getDefinitions();
 
     foreach ($manager->getPatterns() as $pattern) {
-      expect($pattern->getBaseId())->to->equal($definitions[$pattern->getPluginId()]->id());
+      $this->assertEquals($definitions[$pattern->getPluginId()]->id(), $pattern->getBaseId());
     }
   }
 

@@ -22,7 +22,7 @@ function ui_patterns_views_theme() {
  * Preprocess hook.
  *
  * @param array $variables
- *    Theme variables.
+ *   Theme variables.
  */
 function template_preprocess_pattern_views_row(array &$variables) {
   /** @var \Drupal\views\ResultRow $row */
@@ -46,7 +46,8 @@ function template_preprocess_pattern_views_row(array &$variables) {
   }
 
   $variables['pattern'] = [];
-  if ($view->preview) {
+  $requestURI = $view->getRequest()->getRequestUri();
+  if ($view->preview && !isset($view->element['#embed']) && !preg_match('/views\/ajax/', $requestURI)) {
     drupal_set_message(t("Pattern Views row plugin does not support preview."), 'warning');
     $variables['pattern'] = ['#type' => 'status_messages'];
   }
@@ -63,6 +64,7 @@ function template_preprocess_pattern_views_row(array &$variables) {
     $variables['pattern']['#context']['view_name'] = $view->storage->id();
     $variables['pattern']['#context']['display'] = $view->current_display;
     $variables['pattern']['#context']['view'] = $view;
+    $variables['pattern']['#context']['row'] = $row;
   }
 }
 
