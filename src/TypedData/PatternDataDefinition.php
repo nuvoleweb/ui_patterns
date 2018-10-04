@@ -84,7 +84,7 @@ class PatternDataDefinition extends MapDataDefinition {
    * Get definition for 'variant' property.
    *
    * @return \Drupal\Core\TypedData\ListDataDefinition
-   *    Data definition instance.
+   *   Data definition instance.
    */
   protected function getVariantsDefinition() {
     return new ListDataDefinition([], MapDataDefinition::create()

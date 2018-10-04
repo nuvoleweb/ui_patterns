@@ -250,7 +250,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Get field as options.
    *
    * @return array
-   *    Variants as select options.
+   *   Variants as select options.
    */
   public function getVariantsAsOptions() {
     $options = [];
@@ -321,10 +321,10 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Get variant.
    *
    * @param string $name
-   *    Field name.
+   *   Field name.
    *
    * @return PatternDefinitionField|null
-   *    Definition field.
+   *   Definition field.
    */
   public function getVariant($name) {
     return $this->hasField($name) ? $this->definition['variants'][$name] : NULL;
@@ -347,9 +347,9 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Set variant.
    *
    * @param string $name
-   *    Variant name.
+   *   Variant name.
    * @param string $label
-   *    Variant label.
+   *   Variant label.
    *
    * @return $this
    */
@@ -619,12 +619,12 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Factory method: create a new field definition.
    *
    * @param string $name
-   *    Field name.
+   *   Field name.
    * @param string $value
-   *    Field value.
+   *   Field value.
    *
    * @return \Drupal\ui_patterns\Definition\PatternDefinitionField
-   *    Definition instance.
+   *   Definition instance.
    */
   public function getFieldDefinition($name, $value) {
     return new PatternDefinitionField($name, $value);
@@ -634,12 +634,12 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Factory method: create a new variant definition.
    *
    * @param string $name
-   *    Variant name.
+   *   Variant name.
    * @param string $value
-   *    Variant value.
+   *   Variant value.
    *
    * @return \Drupal\ui_patterns\Definition\PatternDefinitionVariant
-   *    Definition instance.
+   *   Definition instance.
    */
   public function getVariantDefinition($name, $value) {
     return new PatternDefinitionVariant($name, $value);
