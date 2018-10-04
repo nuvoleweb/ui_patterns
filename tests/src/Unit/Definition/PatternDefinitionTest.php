@@ -99,7 +99,7 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
   public function testVariantsProcessing($actual, $expected) {
     $pattern_definition = new PatternDefinition();
     $data = $pattern_definition->setVariants($actual)->toArray();
-    assert($data['variants'], equals($expected));
+    $this->assertEquals($expected, $data['variants']);
   }
 
   /**
