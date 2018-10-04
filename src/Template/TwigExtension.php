@@ -33,17 +33,20 @@ class TwigExtension extends \Twig_Extension {
    *   Pattern ID.
    * @param array $fields
    *   Pattern fields.
+   * @param string $variant
+   *   Variant name.
    *
    * @return array
    *   Pattern render array.
    *
    * @see \Drupal\ui_patterns\Element\Pattern
    */
-  public function renderPattern($id, array $fields = []) {
+  public function renderPattern($id, array $fields = [], $variant = "") {
     return [
       '#type' => 'pattern',
       '#id' => $id,
       '#fields' => $fields,
+      '#variant' => $variant,
     ];
   }
 
@@ -52,16 +55,19 @@ class TwigExtension extends \Twig_Extension {
    *
    * @param string $id
    *   Pattern ID.
+   * @param string $variant
+   *   Variant name.
    *
    * @return array
    *   Pattern render array.
    *
    * @see \Drupal\ui_patterns\Element\Pattern
    */
-  public function renderPatternPreview($id) {
+  public function renderPatternPreview($id, $variant = "") {
     return [
       '#type' => 'pattern_preview',
       '#id' => $id,
+      '#variant' => $variant,
     ];
   }
 

@@ -33,7 +33,11 @@
 
         {# Rendered pattern preview. #}
         <div class="pattern-preview">
-          {{ pattern.rendered }}
+          {% for variant in pattern.previews %}
+            <h3>{{ variant.meta['#variant'].label }}</h3><hr>
+            <span>{{ variant.meta['#variant'].description }}</span>
+              {{ variant.rendered }}
+          {% endfor %}
         </div>
       </div>
       {% endfor %}

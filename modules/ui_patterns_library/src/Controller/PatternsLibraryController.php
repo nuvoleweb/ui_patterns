@@ -54,11 +54,33 @@ class PatternsLibraryController extends ControllerBase {
    *   Return render array.
    */
   public function single($name) {
+    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
+
     $definition = [];
-    $definition['rendered']['#type'] = 'pattern_preview';
-    $definition['rendered']['#id'] = $name;
     $definition['meta']['#theme'] = 'patterns_meta_information';
     $definition['meta']['#pattern'] = $this->patternsManager->getDefinition($name)->toArray();
+
+    if ($this->patternsManager->getDefinition($name)->hasVariants()) {
+      $variants = $this->patternsManager->getDefinition($name)->getVariants();
+      $definition['meta']['#variant'] = $variants;
+
+      foreach ($variants as $id => $variant) {
+        $preview = [];
+        $preview['rendered']['#type'] = 'pattern_preview';
+        $preview['rendered']['#id'] = $name;
+        $preview['rendered']['#variant'] = $id;
+        $preview['meta']['#variant'] = $variant->toArray();
+
+        $definition['previews'][$id] = $preview;
+      }
+    }
+    else {
+      $preview = [];
+      $preview['rendered']['#type'] = 'pattern_preview';
+      $preview['rendered']['#id'] = $name;
+
+      $definition['previews'][] = $preview;
+    }
 
     return [
       '#theme' => 'patterns_single_page',
@@ -76,12 +98,32 @@ class PatternsLibraryController extends ControllerBase {
     /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
 
     $definitions = [];
-    foreach ($this->patternsManager->getDefinitions() as $id => $definition) {
-      $definitions[$id] = $definition->toArray();
-      $definitions[$id]['rendered']['#type'] = 'pattern_preview';
-      $definitions[$id]['rendered']['#id'] = $definition->id();
-      $definitions[$id]['meta']['#theme'] = 'patterns_meta_information';
-      $definitions[$id]['meta']['#pattern'] = $definition->toArray();
+    foreach ($this->patternsManager->getDefinitions() as $id_pattern => $definition) {
+      $definitions[$id_pattern] = $definition->toArray();
+      $definitions[$id_pattern]['meta']['#theme'] = 'patterns_meta_information';
+      $definitions[$id_pattern]['meta']['#pattern'] = $this->patternsManager->getDefinition($id_pattern)->toArray();
+
+      if ($this->patternsManager->getDefinition($id_pattern)->hasVariants()) {
+        $variants = $this->patternsManager->getDefinition($id_pattern)->getVariants();
+        $definitions[$id_pattern]['meta']['#variant'] = $variants;
+
+        foreach ($variants as $id_variant => $variant) {
+          $preview = [];
+          $preview['rendered']['#type'] = 'pattern_preview';
+          $preview['rendered']['#id'] = $id_pattern;
+          $preview['rendered']['#variant'] = $id_variant;
+          $preview['meta']['#variant'] = $variant->toArray();
+
+          $definitions[$id_pattern]["previews"][$id_variant] = $preview;
+        }
+      }
+      else {
+        $preview = [];
+        $preview['rendered']['#type'] = 'pattern_preview';
+        $preview['rendered']['#id'] = $id_pattern;
+
+        $definitions[$id_pattern]["previews"][] = $preview;
+      }
     }
 
     return [

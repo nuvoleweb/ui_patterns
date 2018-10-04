@@ -95,6 +95,11 @@ class Pattern extends RenderElement {
     else {
       $element['#markup'] = '';
     }
+
+    if (!isset($element['#variant'])) {
+      $element['#variant'] = "";
+    }
+
     return $element;
   }
 
