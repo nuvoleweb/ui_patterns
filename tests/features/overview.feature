@@ -87,3 +87,20 @@ Feature: Overview
       | error messages                                                                 |
       | Pattern 'bad_pattern' is skipped because of the following validation error(s): |
       | Validation error on "bad_pattern.label": This value should not be null.        |
+
+  Scenario: Patterns simple page of button will show all button's variants with custom template.
+
+    Given I am logged in as a user with the "access patterns page" permission
+    And I am on "/patterns/button"
+
+    Then I should see the heading "Button"
+    And I should see "A simple button."
+
+    And I should see "Default" in the "preview"
+    And I should see "Submit" in the "button_default"
+
+    And I should see "Primary" in the "preview"
+    And I should see "Submit" in the "button_primary"
+
+    And I should see "Error" in the "preview"
+    And I should see "Cancel" in the "button_error"

@@ -10,10 +10,16 @@
   {{ pattern.meta }}
   {# Rendered pattern preview. #}
   <div class="pattern-preview">
-    {% for variant in pattern.previews %}
-      <h3>{{ variant.meta['#variant'].label }}</h3><hr>
-      <span>{{ variant.meta['#variant'].description }}</span>
-      {{ variant.rendered }}
+    {% for preview in pattern.previews %}
+      {% if preview.meta['#variant'] is not empty %}
+        <div class="pattern-preview--{{ preview.meta['#variant'].name }}">
+          <h3>{{ preview.meta['#variant'].label }}</h3><hr>
+          <p>{{ preview.meta['#variant'].description }}</p>
+      {% endif %}
+      {{ preview.rendered }}
+      {% if preview.meta['#variant'] is not empty %}
+          </div>
+      {% endif %}
     {% endfor %}
   </div>
 

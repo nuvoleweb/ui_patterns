@@ -37,6 +37,10 @@ default:
         jumbotron: '.jumbotron'
         quote: '.quote'
         modal: '.modal-dialog'
+        preview: '.pattern-preview'
+        button_default: '.pattern-preview--default'
+        button_primary: '.pattern-preview--primary'
+        button_error: '.pattern-preview--error'
       selectors:
         error_message_selector: '.alert.alert-danger'
       text:
