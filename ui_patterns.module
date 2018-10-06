@@ -58,10 +58,7 @@ function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variabl
  * Implements hook_ui_patterns_suggestions_alter().
  */
 function ui_patterns_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
-  if ('' !== $variables['variant']) {
-    $hook = $variables['theme_hook_original'];
-    $variant = $variables['variant'];
-
-    $suggestions[] = $hook . '__' . $variant;
+  if (!empty($variables['variant'])) {
+    $suggestions[] = $variables['theme_hook_original'] . '__' . $variables['variant'];
   }
 }
