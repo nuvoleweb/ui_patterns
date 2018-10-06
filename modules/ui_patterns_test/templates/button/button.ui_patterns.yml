@@ -2,9 +2,15 @@ button:
   label: Button
   description: A simple button.
   variants:
-    default: Default
-    primary: Primary
-    error: Error
+    default:
+      label: Default
+      description: A default button, nothing to see here.
+    primary:
+      label: Primary
+      description: A primary button.
+    danger:
+      label: Danger
+      description: A button for dangerous operations.
   fields:
     title:
       type: text

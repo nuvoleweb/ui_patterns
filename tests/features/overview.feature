@@ -98,4 +98,4 @@ Feature: Overview
 
     And the ".btn.btn-primary" element should contain "Submit"
     And the ".btn.btn-default" element should contain "Submit"
-    And the ".btn.btn-error" element should contain "Cancel"
+    And the ".btn.btn-danger" element should contain "Delete"
