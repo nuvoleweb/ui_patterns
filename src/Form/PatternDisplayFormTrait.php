@@ -43,10 +43,11 @@ trait PatternDisplayFormTrait {
     /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
     foreach ($this->patternsManager->getDefinitions() as $pattern_id => $definition) {
       if ($definition->hasVariants()) {
-        $form['pattern_variants'] = [
+        $form['pattern_variant'] = [
           '#type' => 'select',
-          '#title' => $this->t('Variants'),
+          '#title' => $this->t('Variant'),
           '#options' => $definition->getVariantsAsOptions(),
+          '#default_value' => isset($configuration['pattern_variant']) ? $configuration['pattern_variant'] : NULL,
           '#weight' => 0,
           '#states' => [
             'visible' => [
