@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns_library\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\ui_patterns\Definition\PatternDefinition;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -54,37 +55,17 @@ class PatternsLibraryController extends ControllerBase {
    *   Return render array.
    */
   public function single($name) {
-    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
-
-    $definition = [];
-    $definition['meta']['#theme'] = 'patterns_meta_information';
-    $definition['meta']['#pattern'] = $this->patternsManager->getDefinition($name)->toArray();
-
-    if ($this->patternsManager->getDefinition($name)->hasVariants()) {
-      $variants = $this->patternsManager->getDefinition($name)->getVariants();
-      $definition['meta']['#variant'] = $variants;
-
-      foreach ($variants as $id => $variant) {
-        $preview = [];
-        $preview['rendered']['#type'] = 'pattern_preview';
-        $preview['rendered']['#id'] = $name;
-        $preview['rendered']['#variant'] = $id;
-        $preview['meta']['#variant'] = $variant->toArray();
-
-        $definition['previews'][$id] = $preview;
-      }
-    }
-    else {
-      $preview = [];
-      $preview['rendered']['#type'] = 'pattern_preview';
-      $preview['rendered']['#id'] = $name;
-
-      $definition['previews'][] = $preview;
-    }
+    $definition = $this->patternsManager->getDefinition($name);
 
     return [
       '#theme' => 'patterns_single_page',
-      '#pattern' => $definition,
+      '#pattern' => [
+        'meta' => [
+          '#theme' => 'patterns_meta_information',
+          '#pattern' => $definition->toArray(),
+        ],
+        'rendered' => $this->getPatternRenderArray($definition),
+      ],
     ];
   }
 
@@ -95,41 +76,63 @@ class PatternsLibraryController extends ControllerBase {
    *   Patterns overview page render array.
    */
   public function overview() {
-    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
 
-    $definitions = [];
-    foreach ($this->patternsManager->getDefinitions() as $id_pattern => $definition) {
-      $definitions[$id_pattern] = $definition->toArray();
-      $definitions[$id_pattern]['meta']['#theme'] = 'patterns_meta_information';
-      $definitions[$id_pattern]['meta']['#pattern'] = $this->patternsManager->getDefinition($id_pattern)->toArray();
-
-      if ($this->patternsManager->getDefinition($id_pattern)->hasVariants()) {
-        $variants = $this->patternsManager->getDefinition($id_pattern)->getVariants();
-        $definitions[$id_pattern]['meta']['#variant'] = $variants;
-
-        foreach ($variants as $id_variant => $variant) {
-          $preview = [];
-          $preview['rendered']['#type'] = 'pattern_preview';
-          $preview['rendered']['#id'] = $id_pattern;
-          $preview['rendered']['#variant'] = $id_variant;
-          $preview['meta']['#variant'] = $variant->toArray();
-
-          $definitions[$id_pattern]["previews"][$id_variant] = $preview;
-        }
-      }
-      else {
-        $preview = [];
-        $preview['rendered']['#type'] = 'pattern_preview';
-        $preview['rendered']['#id'] = $id_pattern;
-
-        $definitions[$id_pattern]["previews"][] = $preview;
-      }
+    $patterns = [];
+    foreach ($this->patternsManager->getDefinitions() as $definition) {
+      $patterns[$definition->id()] = $definition->toArray() + [
+        'meta' => [
+          '#theme' => 'patterns_meta_information',
+          '#pattern' => $definition->toArray(),
+        ],
+        'rendered' => $this->getPatternRenderArray($definition),
+      ];
     }
 
     return [
       '#theme' => 'patterns_overview_page',
-      '#patterns' => $definitions,
+      '#patterns' => $patterns,
     ];
+  }
+
+  /**
+   * Get pattern preview render array, handling variants.
+   *
+   * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
+   *   Pattern definition object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPatternRenderArray(PatternDefinition $definition) {
+    $render = [];
+
+    // If pattern has variants then render them all adding meta information
+    // on top of each one, or simply render pattern preview otherwise.
+    if ($definition->hasVariants()) {
+      foreach ($definition->getVariants() as $variant) {
+        $render[$definition->id() . '_' . $variant->getName()] = [
+          'meta' => [
+            '#theme' => 'patterns_variant_meta_information',
+            '#variant' => $variant->toArray(),
+          ],
+          'pattern' => [
+            '#type' => 'pattern_preview',
+            '#id' => $definition->id(),
+            '#variant' => $variant->getName(),
+          ],
+        ];
+      }
+    }
+    else {
+      $render[$definition->id()] = [
+        'pattern' => [
+          '#type' => 'pattern_preview',
+          '#id' => $definition->id(),
+        ],
+      ];
+    }
+
+    return $render;
   }
 
 }
