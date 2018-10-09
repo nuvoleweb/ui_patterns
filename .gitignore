@@ -6,3 +6,4 @@ build/
 phpunit.xml
 behat.yml
 docker-compose.yml
+.idea/
