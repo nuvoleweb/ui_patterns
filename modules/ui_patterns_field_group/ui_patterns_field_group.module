@@ -53,6 +53,7 @@ function ui_patterns_field_group_field_group_field_overview_submit(array $form, 
 function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('field_group')) {
     $hook = $variables['theme_hook_original'];
+    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
     $group_name = $context->getProperty('group_name');
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');
@@ -63,6 +64,14 @@ function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestio
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
+
+    if ('' !== $variant) {
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name;
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type;
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle;
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode;
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
+    }
   }
 }
 
@@ -72,6 +81,7 @@ function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestio
 function ui_patterns_field_group_ui_patterns_destination_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('field_group')) {
     $hook = $variables['theme_hook_original'];
+    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
     $group_name = $context->getProperty('group_name');
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');
@@ -84,5 +94,13 @@ function ui_patterns_field_group_ui_patterns_destination_suggestions_alter(array
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
+
+    if ('' !== $variant) {
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
+    }
   }
 }

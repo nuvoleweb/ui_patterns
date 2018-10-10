@@ -6,6 +6,7 @@
 
 use Behat\Gherkin\Node\TableNode;
 use NuvoleWeb\Drupal\DrupalExtension\Context\RawDrupalContext;
+use Drupal\node\Entity\NodeType;
 
 /**
  * Class FeatureContext.
@@ -20,6 +21,13 @@ class FeatureContext extends RawDrupalContext {
    * @var array
    */
   private $systemPerformance = [];
+
+  /**
+   * The list of node type before a scenario starts.
+   *
+   * @var array
+   */
+  private $defaultNodeTypes = [];
 
   /**
    * Assert that modules are enabled.
@@ -58,6 +66,45 @@ class FeatureContext extends RawDrupalContext {
       \Drupal::configFactory()->getEditable('system.performance')->setData($this->systemPerformance)->save();
       $this->systemPerformance = [];
     }
+  }
+
+  /**
+   * Remember the list of node type.
+   *
+   * @BeforeScenario @restoreContentTypes
+   */
+  public function rememberCurrentNodeTypes() {
+    $this->defaultNodeTypes = NodeType::loadMultiple();
+  }
+
+  /**
+   * Removes any node types created after the last list node type remembered.
+   *
+   * @AfterScenario @restoreContentTypes
+   */
+  public function restoreContentTypes() {
+    # Update the list of node types
+    # TODO: \Drupal::entityTypeManager()->getStorage('node')->resetCache()
+    # TODO: doesn't work.
+    drupal_flush_all_caches();
+
+    foreach (NodeType::loadMultiple() as $machine_name => $content_type) {
+      if (!in_array($content_type, $this->defaultNodeTypes)) {
+        # Delete all nodes associated to the content type
+        $nodes = \Drupal::entityTypeManager()
+          ->getStorage('node')
+          ->loadByProperties(array('type' => $machine_name));
+
+        foreach ($nodes as $node) {
+          $node->delete();
+        }
+
+        # Delete the content type
+        NodeType::load($machine_name)->delete();
+      }
+    }
+
+    $this->defaultNodeTypes = [];
   }
 
 }

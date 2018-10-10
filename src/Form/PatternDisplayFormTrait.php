@@ -56,6 +56,7 @@ trait PatternDisplayFormTrait {
           ],
         ];
       }
+
       $form['pattern_mapping'][$pattern_id] = [
         '#type' => 'container',
         '#weight' => 1,
@@ -64,8 +65,8 @@ trait PatternDisplayFormTrait {
             'select[id="patterns-select"]' => ['value' => $pattern_id],
           ],
         ],
+        'settings' => $this->getMappingForm($pattern_id, $tag, $context, $configuration),
       ];
-      $form['pattern_mapping'][$pattern_id]['settings'] = $this->getMappingForm($pattern_id, $tag, $context, $configuration);
     }
   }
 
