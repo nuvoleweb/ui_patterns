@@ -5,7 +5,7 @@
     <ini name="memory_limit" value="-1"/>
     <env name="SIMPLETEST_BASE_URL" value="${drupal.base_url}"/>
     <env name="SIMPLETEST_IGNORE_DIRECTORIES" value="${drupal.root}"/>
-    <env name="SIMPLETEST_DB" value="sqlite://localhost/sites/default/files/test.sqlite"/>
+    <env name="SIMPLETEST_DB" value="mysql://${drupal.database.user}:${drupal.database.password}@${drupal.database.host}:${drupal.database.port}/${drupal.database.name}"/>
     <env name="MINK_DRIVER_CLASS" value="Drupal\FunctionalJavascriptTests\DrupalSelenium2Driver"/>
     <env name="MINK_DRIVER_ARGS" value='["${selenium.host}"]'/>
     <env name="MINK_DRIVER_ARGS_WEBDRIVER" value='["${selenium.browser}", null, "${selenium.host}/wd/hub"]'/>

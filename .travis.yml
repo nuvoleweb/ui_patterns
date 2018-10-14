@@ -29,15 +29,15 @@ before_install:
 
 install:
 - docker-compose exec -u root php composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
-
-before_script:
-- docker-compose exec -u root php ./vendor/bin/run drupal:site-install
 - docker-compose exec -u root php chown -R www-data:www-data build
 
+before_script:
+- docker-compose exec -u www-data php ./vendor/bin/run drupal:site-install
+
 script:
-- docker-compose exec -u root php ./vendor/bin/grumphp run
-- docker-compose exec -u root php ./vendor/bin/phpunit
-- docker-compose exec -u root php ./vendor/bin/behat
+- docker-compose exec -u www-data php ./vendor/bin/grumphp run
+- docker-compose exec -u www-data php ./vendor/bin/phpunit
+- docker-compose exec -u www-data php ./vendor/bin/behat
 
 notifications:
   email: false
