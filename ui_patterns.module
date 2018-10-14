@@ -47,10 +47,12 @@ function ui_patterns_library_info_build() {
 function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
   if (UiPatterns::getManager()->isPatternHook($hook)) {
     \Drupal::moduleHandler()->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
+    \Drupal::theme()->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
   }
 
   if ($hook == 'patterns_destination') {
     \Drupal::moduleHandler()->alter('ui_patterns_destination_suggestions', $suggestions, $variables, $variables['context']);
+    \Drupal::theme()->alter('ui_patterns_destination_suggestions', $suggestions, $variables, $variables['context']);
   }
 }
 
