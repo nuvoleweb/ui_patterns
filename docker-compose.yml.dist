@@ -14,7 +14,6 @@ services:
   php:
     image: wodby/drupal-php:${TRAVIS_PHP_VERSION}-4.6.3
     environment:
-      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       DB_HOST: mariadb
       DB_USER: drupal
       DB_PASSWORD: drupal
@@ -41,18 +40,8 @@ services:
       NGINX_VHOST_PRESET: drupal8
     volumes:
     - ./:/var/www/html
-    labels:
-    - 'traefik.backend=nginx'
-    - 'traefik.port=80'
-    - 'traefik.frontend.rule=Host:ui_patterns.localhost'
-
-  traefik:
-    image: traefik
-    command: -c /dev/null --web --docker --logLevel=INFO
     ports:
-    - '80:80'
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    - "8080:80"
 
   # If you would like to see what is going on you can run the following on your host:
   # docker run --rm -p 4444:4444 -p 5900:5900 --network="host" selenium/standalone-chrome-debug:latest

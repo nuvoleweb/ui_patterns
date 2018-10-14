@@ -21,8 +21,8 @@ default:
       goutte: ~
       browser_name: chrome
       selenium2:
-        wd_host: 'http://selenium:4444/wd/hub'
-        capabilities: { "browser": "chrome", "version": "*" }
+        wd_host: "${selenium.host}/wd/hub"
+        capabilities: { "browser": "${selenium.browser}", "version": "*" }
       javascript_session: selenium2
       base_url: "${drupal.base_url}"
     NuvoleWeb\Drupal\DrupalExtension:
