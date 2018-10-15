@@ -12,6 +12,14 @@ use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
  */
 class FieldGroupRenderTest extends WebDriverTestBase {
 
+  /**
+   * Disable schema validation when running tests.
+   * @todo: Fix this by providing actual schema validation.
+   *
+   * @var bool
+   */
+  protected $strictConfigSchema = FALSE;
+
   use TwigDebugTrait;
 
   /**
