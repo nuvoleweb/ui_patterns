@@ -82,8 +82,8 @@ function ui_patterns_views_ui_patterns_suggestions_alter(array &$suggestions, ar
     $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display;
 
     if ('' !== $variant) {
-      $suggestions[] = $hook . '__' . $variant . '__views_row__' . $view_name;
-      $suggestions[] = $hook . '__' . $variant . '__views_row__' . $view_name . '__' . $display;
+      $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name;
+      $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name . '__' . $display;
     }
   }
 }
@@ -104,8 +104,8 @@ function ui_patterns_views_ui_patterns_destination_suggestions_alter(array &$sug
     $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern . '__' . $field;
 
     if ('' !== $variant) {
-      $suggestions[] = $hook . '__' . $variant . '__views_row__' . $view_name . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__' . $variant . '__views_row__' . $view_name . '__' . $display . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name . '__' . $display . '__' . $pattern . '__' . $field;
     }
   }
 }

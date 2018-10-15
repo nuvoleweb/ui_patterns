@@ -82,11 +82,11 @@ function ui_patterns_ds_ui_patterns_suggestions_alter(array &$suggestions, array
     $suggestions[] = $hook . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
 
     if ('' !== $variant) {
-      $suggestions[] = $hook . '__' . $variant . '__ds_field_template__' . $field_name;
-      $suggestions[] = $hook . '__' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type;
-      $suggestions[] = $hook . '__' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle;
-      $suggestions[] = $hook . '__' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $view_mode;
-      $suggestions[] = $hook . '__' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
+      $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name;
+      $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type;
+      $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle;
+      $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $view_mode;
+      $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
     }
   }
 }
