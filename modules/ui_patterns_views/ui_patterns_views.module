@@ -78,10 +78,12 @@ function ui_patterns_views_ui_patterns_suggestions_alter(array &$suggestions, ar
     $view_name = $context->getProperty('view_name');
     $display = $context->getProperty('display');
 
+    $suggestions[] = $hook . '__views_row';
     $suggestions[] = $hook . '__views_row__' . $view_name;
     $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display;
 
-    if ('' !== $variant) {
+    if (!empty($variant)) {
+      $suggestions[] = $hook . '__variant_' . $variant . '__views_row';
       $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name;
       $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name . '__' . $display;
     }
@@ -103,7 +105,7 @@ function ui_patterns_views_ui_patterns_destination_suggestions_alter(array &$sug
     $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $pattern . '__' . $field;
     $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern . '__' . $field;
 
-    if ('' !== $variant) {
+    if (!empty($variant)) {
       $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name . '__' . $pattern . '__' . $field;
       $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name . '__' . $display . '__' . $pattern . '__' . $field;
     }
