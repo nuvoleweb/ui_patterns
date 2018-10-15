@@ -1,0 +1,20 @@
+metadata:
+  label: "Metadata"
+  variants:
+    first:
+      label: "First"
+    second:
+      label: "Second"
+  fields:
+    field_1:
+      type: "text"
+      label: "Field 1"
+      preview: "Field 1"
+    field_2:
+      type: "text"
+      label: "Field 2"
+      preview: "Field 3"
+    field_3:
+      type: "text"
+      label: "Field 3"
+      preview: "Field 3"

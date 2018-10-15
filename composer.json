@@ -22,6 +22,7 @@
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",
+    "drupal/config_devel": "~1",
     "drupal/panels": "~4",
     "drupal/features": "~3",
     "drupal/page_manager": "*",
