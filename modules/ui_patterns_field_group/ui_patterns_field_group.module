@@ -59,18 +59,20 @@ function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestio
     $bundle = $context->getProperty('bundle');
     $view_mode = $context->getProperty('view_mode');
 
+    $suggestions[] = $hook . '__field_group';
     $suggestions[] = $hook . '__field_group__' . $group_name;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
 
-    if ('' !== $variant) {
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name;
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type;
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle;
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode;
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
+    if (!empty($variant)) {
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group';
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name;
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type;
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle;
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode;
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
     }
   }
 }
@@ -95,12 +97,12 @@ function ui_patterns_field_group_ui_patterns_destination_suggestions_alter(array
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
 
-    if ('' !== $variant) {
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
+    if (!empty($variant)) {
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
+      $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
     }
   }
 }

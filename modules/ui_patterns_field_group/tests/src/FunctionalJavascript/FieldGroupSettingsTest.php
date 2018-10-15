@@ -64,7 +64,7 @@ class FieldGroupSettingsTest extends WebDriverTestBase {
   /**
    * Test that pattern field group settings are correctly saved.
    */
-  public function testFieldTemplateSettings() {
+  public function testFieldGroupSettings() {
     $page = $this->getSession()->getPage();
     $assert_session = $this->assertSession();
 
