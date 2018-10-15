@@ -23,6 +23,7 @@ selenium:
 commands:
   drupal:site-setup:
     - { task: "symlink", from: "../../..", to: "${drupal.root}/modules/custom/ui_patterns" }
+    # Generate settings.testing.php, it will be used when running functional tests.
     - { task: "process-php", type: "write", config: "drupal.settings", source: "${drupal.root}/sites/default/default.settings.php", destination: "${drupal.root}/sites/default/settings.testing.php", override: true }
     - { task: "run", command: "drupal:drush-setup" }
     - { task: "run", command: "drupal:settings-setup" }

@@ -86,14 +86,19 @@ class FieldTemplateSettingsTest extends WebDriverTestBase {
     $assert_session->assertWaitOnAjaxRequest();
 
     // Choose test pattern.
-    $page->selectFieldOption('fields[body][settings_edit_form][third_party_settings][ds][ft][settings][pattern]', 'Button');
+    $page->selectFieldOption('fields[body][settings_edit_form][third_party_settings][ds][ft][settings][pattern]', 'Field');
     $assert_session->assertWaitOnAjaxRequest();
 
     // Choose test variant.
-    $page->selectFieldOption('Variant', 'Primary');
+    $page->selectFieldOption('Variant', 'Overridden');
     $assert_session->assertWaitOnAjaxRequest();
 
+    // Map pattern fields.
+    $page->selectFieldOption('Destination for Body: value', 'Value');
+    $page->selectFieldOption('Destination for Body: format', 'Format');
+
     // Submit field settings.
+    // @todo: Make sure values are persisted when re-editing the field settings.
     $page->pressButton('Update');
     $assert_session->assertWaitOnAjaxRequest();
 
@@ -110,8 +115,18 @@ class FieldTemplateSettingsTest extends WebDriverTestBase {
     // Assert settings value.
     $settings = $third_party_settings['ds']['ft'];
     $this->assertEquals($settings['id'], 'pattern');
-    $this->assertEquals($settings['settings']['pattern'], 'button');
-    $this->assertEquals($settings['settings']['pattern_variant'], 'primary');
+    $this->assertEquals($settings['settings']['pattern'], 'field');
+    $this->assertEquals($settings['settings']['pattern_variant'], 'overridden');
+
+    // Assert mappings.
+    $this->assertNotEmpty($settings['settings']['pattern_mapping'], "Pattern mapping is empty.");
+
+    $mapping = $settings['settings']['pattern_mapping'];
+    $this->assertArrayHasKey('ds_field_template:body__value', $mapping, "Body value mapping not found.");
+    $this->assertArrayHasKey('ds_field_template:body__format', $mapping, "Body format mapping not found.");
+
+    $this->assertEquals($mapping['ds_field_template:body__value']['destination'], 'value', "Body value mapping not valid.");
+    $this->assertEquals($mapping['ds_field_template:body__format']['destination'], 'format', "Body format mapping not valid.");
   }
 
 }

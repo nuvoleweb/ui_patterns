@@ -1,0 +1,16 @@
+field:
+  label: "Field"
+  variants:
+    default:
+      label: "Default"
+    overridden:
+      label: "Overridden"
+  fields:
+    value:
+      type: "text"
+      label: "Value"
+      preview: "value"
+    format:
+      type: "text"
+      label: "Format"
+      preview: "format"
