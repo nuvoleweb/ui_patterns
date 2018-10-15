@@ -1,0 +1,16 @@
+one_column:
+  label: "One column"
+  variants:
+    default:
+      label: "Default"
+    highlighted:
+      label: "Highlighted"
+  fields:
+    header:
+      type: "text"
+      label: "Header"
+      preview: "Header"
+    body:
+      type: "text"
+      label: "Body"
+      preview: "Body"

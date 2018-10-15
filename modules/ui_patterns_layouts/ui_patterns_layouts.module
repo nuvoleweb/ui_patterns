@@ -72,7 +72,7 @@ function ui_patterns_layouts_ui_patterns_suggestions_alter(array &$suggestions, 
     $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode;
     $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $entity_id;
 
-    if ('' !== $variant) {
+    if (!empty($variant)) {
       $suggestions[] = $hook . '__variant_' . $variant . '__layout';
       $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type;
       $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $bundle;
@@ -104,7 +104,7 @@ function ui_patterns_layouts_ui_patterns_destination_suggestions_alter(array &$s
     $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
     $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $entity_id . '__' . $pattern . '__' . $field;
 
-    if ('' !== $variant) {
+    if (!empty($variant)) {
       $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $pattern . '__' . $field;
       $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $pattern . '__' . $field;
       $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;

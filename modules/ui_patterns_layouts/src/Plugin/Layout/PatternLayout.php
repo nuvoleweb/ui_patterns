@@ -86,6 +86,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
       '#type' => 'pattern',
       '#id' => $this->getPluginDefinition()->get('additional')['pattern'],
       '#fields' => $fields,
+      '#variant' => $configuration['pattern']['variant'],
     ] + $this->elementInfo->getInfo('pattern');
   }
 
@@ -96,6 +97,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
     return parent::defaultConfiguration() + [
       'pattern' => [
         'field_templates' => 'default',
+        'variant' => '',
       ],
     ];
   }
@@ -126,6 +128,17 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
       ]),
       '#default_value' => $configuration['pattern']['field_templates'],
     ];
+
+    $pattern_id = $this->getPluginDefinition()->get('additional')['pattern'];
+    $definition = $this->patternManager->getDefinition($pattern_id);
+    if ($definition->hasVariants()) {
+      $form['pattern']['variant'] = [
+        '#type' => 'select',
+        '#title' => $this->t('Variant'),
+        '#options' => $definition->getVariantsAsOptions(),
+        '#default_value' => $configuration['pattern']['variant'],
+      ];
+    }
 
     return $form;
   }

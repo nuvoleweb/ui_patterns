@@ -82,7 +82,7 @@ function ui_patterns_ds_ui_patterns_suggestions_alter(array &$suggestions, array
     $suggestions[] = $hook . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $view_mode;
     $suggestions[] = $hook . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
 
-    if ('' !== $variant) {
+    if (!empty($variant)) {
       $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template';
       $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name;
       $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type;
