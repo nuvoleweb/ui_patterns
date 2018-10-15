@@ -12,6 +12,8 @@ use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
  */
 class UiPatternsViewsRenderTest extends WebDriverTestBase {
 
+  use TwigDebugTrait;
+
   /**
    * Disable schema validation when running tests.
    * @todo: Fix this by providing actual schema validation.
@@ -20,17 +22,11 @@ class UiPatternsViewsRenderTest extends WebDriverTestBase {
    */
   protected $strictConfigSchema = FALSE;
 
-  use TwigDebugTrait;
-
   /**
    * {@inheritdoc}
    */
   protected static $modules = [
-    'node',
     'field',
-    'field_group',
-    'field_ui',
-    'text',
     'ui_patterns_views_test',
   ];
 
