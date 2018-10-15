@@ -3,6 +3,7 @@
 namespace Drupal\Tests\ui_patterns_field_group\FunctionalJavascript;
 
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
+use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
 
 /**
  * Test Field Group pattern rendering.
@@ -11,13 +12,7 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
  */
 class FieldGroupRenderTest extends WebDriverTestBase {
 
-  /**
-   * Disable schema validation when running tests.
-   * @todo: Fix this by providing actual schema validation.
-   *
-   * @var bool
-   */
-  protected $strictConfigSchema = FALSE;
+  use TwigDebugTrait;
 
   /**
    * {@inheritdoc}
@@ -37,12 +32,7 @@ class FieldGroupRenderTest extends WebDriverTestBase {
   public function testFieldGroupRendering() {
     $assert_session = $this->assertSession();
 
-    // Enable debug, rebuild the service container, and clear all caches.
-    $parameters = $this->container->getParameter('twig.config');
-    $parameters['debug'] = TRUE;
-    $this->setContainerParameter('twig.config', $parameters);
-    $this->rebuildContainer();
-    $this->resetAll();
+    $this->enableTwigDebugMode();
 
     $user = $this->drupalCreateUser([], null, true);
     $this->drupalLogin($user);

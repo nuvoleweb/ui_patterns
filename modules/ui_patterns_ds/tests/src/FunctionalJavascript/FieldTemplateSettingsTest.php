@@ -32,28 +32,7 @@ class FieldTemplateSettingsTest extends WebDriverTestBase {
     'ui_patterns_ds',
     'ui_patterns_library',
     'ui_patterns_ds_test',
-    'dblog',
   ];
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function setUp() {
-    parent::setUp();
-
-    // Enable Display Suite field templates.
-    \Drupal::configFactory()
-      ->getEditable('ds.settings')
-      ->set('field_template', TRUE)
-      ->save();
-
-    // Create test content type and assign a Display Suite layout to it
-    // so that Display Suite's field templates can be assigned to its fields.
-    $this->drupalCreateContentType([
-      'type' => 'article',
-      'name' => 'Article',
-    ]);
-  }
 
   /**
    * Tests field template settings.
@@ -68,14 +47,6 @@ class FieldTemplateSettingsTest extends WebDriverTestBase {
 
     // Visit Article's default display settings page.
     $this->drupalGet('/admin/structure/types/manage/article/display');
-
-    // Select a Display suite layout so that we can access field template
-    // settings on one of its fields.
-    $page->selectFieldOption('layout', 'One column layout');
-    $assert_session->assertWaitOnAjaxRequest();
-
-    // Save view mode setting page.
-    $page->pressButton('Save');
 
     // Click on Body field display settings.
     $page->pressButton('body_plugin_settings_edit');
@@ -94,6 +65,7 @@ class FieldTemplateSettingsTest extends WebDriverTestBase {
     $assert_session->assertWaitOnAjaxRequest();
 
     // Map pattern fields.
+    $page->selectFieldOption('Destination for Body', '- Hidden -');
     $page->selectFieldOption('Destination for Body: value', 'Value');
     $page->selectFieldOption('Destination for Body: format', 'Format');
 
@@ -122,6 +94,7 @@ class FieldTemplateSettingsTest extends WebDriverTestBase {
     $this->assertNotEmpty($settings['settings']['pattern_mapping'], "Pattern mapping is empty.");
 
     $mapping = $settings['settings']['pattern_mapping'];
+    $this->assertArrayNotHasKey('ds_field_template:body', $mapping, "Body mapping found.");
     $this->assertArrayHasKey('ds_field_template:body__value', $mapping, "Body value mapping not found.");
     $this->assertArrayHasKey('ds_field_template:body__format', $mapping, "Body format mapping not found.");
 

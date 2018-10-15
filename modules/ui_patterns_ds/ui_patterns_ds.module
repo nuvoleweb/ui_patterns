@@ -75,6 +75,7 @@ function ui_patterns_ds_ui_patterns_suggestions_alter(array &$suggestions, array
     $bundle = $context->getProperty('bundle');
     $view_mode = $context->getProperty('view_mode');
 
+    $suggestions[] = $hook . '__ds_field_template';
     $suggestions[] = $hook . '__ds_field_template__' . $field_name;
     $suggestions[] = $hook . '__ds_field_template__' . $field_name . '__' . $entity_type;
     $suggestions[] = $hook . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle;
@@ -82,6 +83,7 @@ function ui_patterns_ds_ui_patterns_suggestions_alter(array &$suggestions, array
     $suggestions[] = $hook . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
 
     if ('' !== $variant) {
+      $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template';
       $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name;
       $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type;
       $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle;
