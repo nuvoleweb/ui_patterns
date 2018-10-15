@@ -3,6 +3,7 @@
 namespace Drupal\Tests\ui_patterns_field_group\FunctionalJavascript;
 
 use Behat\Mink\Element\DocumentElement;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
@@ -58,6 +59,54 @@ class FieldGroupSettingsTest extends WebDriverTestBase {
 
     // Assert warning message.
     $assert_session->pageTextContains("Attention: you have to add fields to this field group and save the whole entity display before being able to to access the pattern display configuration.");
+  }
+
+  /**
+   * Test that pattern field group settings are correctly saved.
+   */
+  public function testFieldTemplateSettings() {
+    $page = $this->getSession()->getPage();
+    $assert_session = $this->assertSession();
+
+    $user = $this->drupalCreateUser([], null, true);
+    $this->drupalLogin($user);
+
+    // Visit Article's default view mode page.
+    $this->drupalGet('/admin/structure/types/manage/article/display');
+
+    // Click on field group settings button.
+    $page->pressButton('group_pattern_group_group_settings_edit');
+    $assert_session->assertWaitOnAjaxRequest();
+
+    // Choose variant.
+    $page->selectFieldOption('Variant', 'Second');
+    $page->selectFieldOption('Destination for Text', 'Field 2');
+    $assert_session->assertWaitOnAjaxRequest();
+
+    // Submit field group settings.
+    $page->pressButton('Update');
+    $assert_session->assertWaitOnAjaxRequest();
+
+    // Save view mode setting page.
+    $page->pressButton('Save');
+
+    // Get default view mode for Article node bundle.
+    $display = EntityViewDisplay::load("node.article.default");
+
+    // Assert existence of third party settings.
+    $settings = $display->getThirdPartySetting('field_group', 'group_pattern_group');
+
+    // Assert settings value.
+    $this->assertEquals($settings['format_type'], 'pattern_formatter');
+    $this->assertEquals($settings['format_settings']['pattern'], 'metadata');
+    $this->assertEquals($settings['format_settings']['pattern_variant'], 'second');
+
+    // Assert mappings.
+    $this->assertNotEmpty($settings['format_settings']['pattern_mapping'], "Pattern mapping is empty.");
+
+    $mapping = $settings['format_settings']['pattern_mapping'];
+    $this->assertArrayHasKey('fields:field_text', $mapping, 'Mapping not found.');
+    $this->assertEquals($mapping['fields:field_text']['destination'], 'field_2', "Mapping not valid.");
   }
 
 }
