@@ -21,6 +21,13 @@ and list them using the following format:
    blockquote:
      label: Blockquote
      description: Display a quote with attribution information.
+     variants:
+       default:
+         label: Default
+         description: An ordinary quote.
+       highlighted:
+         label: Highlighted
+         description: A special quote.
      fields:
        quote:
          type: text
@@ -56,17 +63,25 @@ Let's break this down:
 ``description``
     Pattern description (optional), used on pattern library page.
 ``fields``
-    Hash defining the pattern fields (optional). Each field must have the following properties defined below.
+    Hash defining the pattern fields (optional). Each field can have the following properties:
 
     ``type``
-        Field type, can be ``text``, ``numeric``, etc. at the moment only used for documentation purposes.
+        Field type, can be ``text``, ``numeric``, etc. at the moment only used for documentation purposes. Optional.
     ``label``
         Field label, used on pattern library page.
     ``description``
-        Field description, used on pattern library page.
+        Field description, used on pattern library page. Optional.
     ``preview``
         Preview content, used on pattern library page. It can be either a string or a Drupal render array, in which case
-        we can use keys like ``type: processed_text`` or ``theme: image``.
+        we can use keys like ``type: processed_text`` or ``theme: image``. Optional.
+
+``variants``
+    Hash defining the pattern variants (optional). Each variant can have the following properties:
+
+    ``label``
+        Variant label, used on pattern library page.
+    ``description``
+        Variant description, used on pattern library page. Optional.
 
 ``libraries``
     List of libraries to be loaded when rendering the pattern (optional). UI patterns are supposed to be self-contained so they
@@ -77,12 +92,11 @@ Once the pattern is defined the module will expose them as standard Drupal theme
 For example, given the ``my_pattern`` pattern ID then a theme function ``pattern_my_pattern`` is created and,
 consequently, the module will look for a template file called  ``pattern-my-pattern.html.twig``.
 
-Once the pattern is defined it's time to provide its `Twig <http://twig.sensiolabs.org/>`_ template. In order to do so
-we create a Twig file called ``pattern-blockquote.html.twig`` and we place it either under ``MY_MODULE/templates``,
-if the pattern is exposed by a module, or under ``MY_THEME/templates``, if it is exposed by a theme. Obviously themes
-can always override templates exposed by modules.
+The Twig template can be placed it either under ``MY_MODULE/templates``, if the pattern is exposed by a module,
+or under ``MY_THEME/templates``, if it is exposed by a theme. As expected themes will override templates exposed by modules.
 
-For example, a blockquote Twig template file ``pattern-blockquote.html.twig`` could look like the following:
+For example, consider the following Twig template file ``pattern-blockquote.html.twig`` for the ``blockquote`` pattern
+defined above:
 
 .. code-block:: twig
 
@@ -92,8 +106,7 @@ For example, a blockquote Twig template file ``pattern-blockquote.html.twig`` co
     </blockquote>
 
 
-The ``blockquote`` pattern defined above will be rendered in the pattern library as shown below (styled using the
-`Bootstrap <https://www.drupal.org/project/bootstrap>`_ theme):
+The pattern will be rendered as shown below (styled using the `Bootstrap <https://www.drupal.org/project/bootstrap>`_ theme):
 
 .. image:: ../images/blockquote-preview.png
    :align: center
@@ -106,7 +119,7 @@ Organize your patterns in sub-folders
 Patterns can be defined using a single ``NAME.ui_patterns.yml`` file. However, in case of sites with a large number of
 patterns, this might quickly becomes difficult to manage.
 
-Luckily pattern definitions can be organised in sub-folders too, as shown below:
+If that's the case pattern definitions can also be organised in sub-folders, as shown below:
 
 .. code-block:: bash
 
