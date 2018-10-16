@@ -173,5 +173,4 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
       }
     }
   }
-
 }

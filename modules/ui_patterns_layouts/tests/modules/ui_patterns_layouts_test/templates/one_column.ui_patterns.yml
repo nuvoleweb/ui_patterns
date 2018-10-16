@@ -6,10 +6,6 @@ one_column:
     highlighted:
       label: "Highlighted"
   fields:
-    header:
-      type: "text"
-      label: "Header"
-      preview: "Header"
     body:
       type: "text"
       label: "Body"
