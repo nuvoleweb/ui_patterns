@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Feature Context for behat test.
  */
 
 use NuvoleWeb\Drupal\DrupalExtension\Context\RawDrupalContext;

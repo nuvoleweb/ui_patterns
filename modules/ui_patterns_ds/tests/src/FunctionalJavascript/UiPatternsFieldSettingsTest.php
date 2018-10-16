@@ -10,13 +10,14 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
  *
  * @group ui_patterns_ds
  */
-class FieldTemplateSettingsTest extends WebDriverTestBase {
+class UiPatternsFieldSettingsTest extends WebDriverTestBase {
 
   /**
    * Disable schema validation when running tests.
-   * @todo: Fix this by providing actual schema validation.
    *
    * @var bool
+   *
+   * @todo: Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 
@@ -37,12 +38,12 @@ class FieldTemplateSettingsTest extends WebDriverTestBase {
   /**
    * Tests field template settings.
    */
-  public function testFieldTemplateSettings() {
+  public function testUiPatternsFieldSettings() {
     $session = $this->getSession();
     $page = $session->getPage();
     $assert_session = $this->assertSession();
 
-    $user = $this->drupalCreateUser([], null, true);
+    $user = $this->drupalCreateUser([], NULL, TRUE);
     $this->drupalLogin($user);
 
     // Visit Article's default display settings page.

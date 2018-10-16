@@ -33,7 +33,7 @@ class PatternDataDefinitionTest extends AbstractUiPatternsTest {
    * Return validation data.
    *
    * @return array
-   *    Pattern validation data.
+   *   Pattern validation data.
    */
   public function validationProvider() {
     return Yaml::decode(file_get_contents($this->getFixturePath() . '/validation.yml'));

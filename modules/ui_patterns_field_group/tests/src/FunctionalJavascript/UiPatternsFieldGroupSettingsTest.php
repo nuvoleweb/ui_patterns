@@ -11,13 +11,14 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
  *
  * @group ui_patterns_field_group
  */
-class FieldGroupSettingsTest extends WebDriverTestBase {
+class UiPatternsFieldGroupSettingsTest extends WebDriverTestBase {
 
   /**
    * Disable schema validation when running tests.
-   * @todo: Fix this by providing actual schema validation.
    *
    * @var bool
+   *
+   * @todo: Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 
@@ -40,7 +41,7 @@ class FieldGroupSettingsTest extends WebDriverTestBase {
     $page = $this->getSession()->getPage();
     $assert_session = $this->assertSession();
 
-    $user = $this->drupalCreateUser([], null, true);
+    $user = $this->drupalCreateUser([], NULL, TRUE);
     $this->drupalLogin($user);
 
     // Visit Article's field group creation page.
@@ -64,11 +65,11 @@ class FieldGroupSettingsTest extends WebDriverTestBase {
   /**
    * Test that pattern field group settings are correctly saved.
    */
-  public function testFieldGroupSettings() {
+  public function testUiPatternsFieldGroupSettings() {
     $page = $this->getSession()->getPage();
     $assert_session = $this->assertSession();
 
-    $user = $this->drupalCreateUser([], null, true);
+    $user = $this->drupalCreateUser([], NULL, TRUE);
     $this->drupalLogin($user);
 
     // Visit Article's default view mode page.

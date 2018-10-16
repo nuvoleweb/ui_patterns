@@ -85,7 +85,7 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    * Provider.
    *
    * @return array
-   *    Data.
+   *   Data.
    */
   public function fieldsProcessingProvider() {
     return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/fields_processing.yml'));
@@ -106,7 +106,7 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    * Provider.
    *
    * @return array
-   *    Data.
+   *   Data.
    */
   public function variantsProcessingProvider() {
     return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/variants_processing.yml'));
@@ -116,7 +116,7 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    * Provider.
    *
    * @return array
-   *    Data.
+   *   Data.
    */
   public function definitionGettersProvider() {
     return [

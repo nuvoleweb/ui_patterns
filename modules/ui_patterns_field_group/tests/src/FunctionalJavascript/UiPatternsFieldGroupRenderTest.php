@@ -10,13 +10,14 @@ use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
  *
  * @group ui_patterns_field_group
  */
-class FieldGroupRenderTest extends WebDriverTestBase {
+class UiPatternsFieldGroupRenderTest extends WebDriverTestBase {
 
   /**
    * Disable schema validation when running tests.
-   * @todo: Fix this by providing actual schema validation.
    *
    * @var bool
+   *
+   * @todo: Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 
@@ -37,12 +38,12 @@ class FieldGroupRenderTest extends WebDriverTestBase {
   /**
    * Test that pattern field group settings are correctly saved.
    */
-  public function testFieldGroupRendering() {
+  public function testUiPatternsFieldGroupRendering() {
     $assert_session = $this->assertSession();
 
     $this->enableTwigDebugMode();
 
-    $user = $this->drupalCreateUser([], null, true);
+    $user = $this->drupalCreateUser([], NULL, TRUE);
     $this->drupalLogin($user);
 
     $node = $this->drupalCreateNode([

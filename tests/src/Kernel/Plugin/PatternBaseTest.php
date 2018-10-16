@@ -34,12 +34,12 @@ class PatternBaseTest extends AbstractUiPatternsTest {
    * Get PatternBase mock.
    *
    * @param array $plugin_definition
-   *    Plugin definition.
+   *   Plugin definition.
    * @param array $methods
-   *    List of methods to mock.
+   *   List of methods to mock.
    *
    * @return \PHPUnit_Framework_MockObject_MockObject
-   *    Mock object.
+   *   Mock object.
    */
   protected function getUiPatternBaseMock(array $plugin_definition = [], array $methods = []) {
     return $this->getMockForAbstractClass(PatternBase::class, [

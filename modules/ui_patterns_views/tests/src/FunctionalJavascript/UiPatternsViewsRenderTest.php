@@ -16,9 +16,10 @@ class UiPatternsViewsRenderTest extends WebDriverTestBase {
 
   /**
    * Disable schema validation when running tests.
-   * @todo: Fix this by providing actual schema validation.
    *
    * @var bool
+   *
+   * @todo: Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 
@@ -33,12 +34,12 @@ class UiPatternsViewsRenderTest extends WebDriverTestBase {
   /**
    * Test that pattern field group settings are correctly saved.
    */
-  public function testRendering() {
+  public function testUiPatternsViewsRendering() {
     $assert_session = $this->assertSession();
 
     $this->enableTwigDebugMode();
 
-    $user = $this->drupalCreateUser([], null, true);
+    $user = $this->drupalCreateUser([], NULL, TRUE);
     $this->drupalLogin($user);
 
     $this->drupalCreateNode([

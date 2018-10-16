@@ -19,7 +19,7 @@ use Drupal\ui_patterns\Plugin\PatternSourceBase;
 class TestSource extends PatternSourceBase {
 
   /**
-   * @inheritDoc
+   * {@inheritdoc}
    */
   public function getSourceFields() {
     return [

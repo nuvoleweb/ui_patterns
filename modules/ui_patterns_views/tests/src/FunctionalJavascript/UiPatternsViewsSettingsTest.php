@@ -14,9 +14,10 @@ class UiPatternsViewsSettingsTest extends WebDriverTestBase {
 
   /**
    * Disable schema validation when running tests.
-   * @todo: Fix this by providing actual schema validation.
    *
    * @var bool
+   *
+   * @todo: Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 
@@ -31,11 +32,11 @@ class UiPatternsViewsSettingsTest extends WebDriverTestBase {
   /**
    * Test that pattern field group settings are correctly saved.
    */
-  public function testFieldGroupSettings() {
+  public function testUiPatternsViewsSettings() {
     $page = $this->getSession()->getPage();
     $assert_session = $this->assertSession();
 
-    $user = $this->drupalCreateUser([], null, true);
+    $user = $this->drupalCreateUser([], NULL, TRUE);
     $this->drupalLogin($user);
 
     // Visit Articles views setting page.

@@ -6,17 +6,18 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
 
 /**
- * Test Display Suite field template rendering.
+ * Test Layouts template rendering.
  *
  * @group ui_patterns_layouts
  */
-class LayoutsTemplateRenderTest extends WebDriverTestBase {
+class UiPatternsLayoutsRenderTest extends WebDriverTestBase {
 
   /**
    * Disable schema validation when running tests.
-   * @todo: Fix this by providing actual schema validation.
    *
    * @var bool
+   *
+   * @todo: Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 
@@ -40,9 +41,9 @@ class LayoutsTemplateRenderTest extends WebDriverTestBase {
   /**
    * Tests field template settings.
    */
-  public function testFieldTemplateRendering() {
+  public function testUiPatternsLayoutsRendering() {
     $this->enableTwigDebugMode();
-    $this->drupalLogin($this->drupalCreateUser([], null, true));
+    $this->drupalLogin($this->drupalCreateUser([], NULL, TRUE));
 
     $node = $this->drupalCreateNode([
       'title' => 'Test article',

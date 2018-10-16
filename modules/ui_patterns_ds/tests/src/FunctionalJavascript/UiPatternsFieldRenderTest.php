@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns_ds\FunctionalJavascript;
 
-use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
 
@@ -11,13 +10,14 @@ use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
  *
  * @group ui_patterns_ds
  */
-class FieldTemplateRenderTest extends WebDriverTestBase {
+class UiPatternsFieldRenderTest extends WebDriverTestBase {
 
   /**
    * Disable schema validation when running tests.
-   * @todo: Fix this by providing actual schema validation.
    *
    * @var bool
+   *
+   * @todo: Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 
@@ -40,12 +40,12 @@ class FieldTemplateRenderTest extends WebDriverTestBase {
   /**
    * Tests field template settings.
    */
-  public function testFieldTemplateRendering() {
+  public function testUiPatternsFieldRendering() {
     $assert_session = $this->assertSession();
 
     $this->enableTwigDebugMode();
 
-    $user = $this->drupalCreateUser([], null, true);
+    $user = $this->drupalCreateUser([], NULL, TRUE);
     $this->drupalLogin($user);
 
     $node = $this->drupalCreateNode([
