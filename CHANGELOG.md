@@ -1,5 +1,47 @@
 # Change Log
 
+## [8.x-1.0-rc2](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-rc2) (2018-10-16)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-rc1...8.x-1.0-rc2)
+
+**Fixed bugs:**
+
+- Problem when embedding view using views\_embed\_view [\#184](https://github.com/nuvoleweb/ui_patterns/issues/184)
+- Null field values in field group pattern cause fatal error [\#145](https://github.com/nuvoleweb/ui_patterns/issues/145)
+- Searching for a pattern in the wrong directory [\#141](https://github.com/nuvoleweb/ui_patterns/issues/141)
+
+**Closed issues:**
+
+- Colon in source id causes a bug [\#205](https://github.com/nuvoleweb/ui_patterns/issues/205)
+- Development status [\#200](https://github.com/nuvoleweb/ui_patterns/issues/200)
+- Group annotation is missing [\#198](https://github.com/nuvoleweb/ui_patterns/issues/198)
+- cant find "modules/contrib/bootstrap\_patterns/templates/\*.twig.html" [\#177](https://github.com/nuvoleweb/ui_patterns/issues/177)
+- support request: pattern as paragraphs pattern as layout [\#173](https://github.com/nuvoleweb/ui_patterns/issues/173)
+- Integrate OpenEuropa Task Runner [\#169](https://github.com/nuvoleweb/ui_patterns/issues/169)
+- pattern libraries? [\#166](https://github.com/nuvoleweb/ui_patterns/issues/166)
+- installation [\#165](https://github.com/nuvoleweb/ui_patterns/issues/165)
+- make use of the `type` in fields [\#164](https://github.com/nuvoleweb/ui_patterns/issues/164)
+- Display custom pattern in specific page [\#163](https://github.com/nuvoleweb/ui_patterns/issues/163)
+- Libraries delivered by patterns can not be extended by sub themes [\#158](https://github.com/nuvoleweb/ui_patterns/issues/158)
+- 8.x-1.0-rc1 UI Patterns Display Suite error's [\#154](https://github.com/nuvoleweb/ui_patterns/issues/154)
+- Ability to add multiple previews to a single pattern [\#153](https://github.com/nuvoleweb/ui_patterns/issues/153)
+- Page display error message during drush cr [\#149](https://github.com/nuvoleweb/ui_patterns/issues/149)
+- Drupal 8.4 incompatibility [\#140](https://github.com/nuvoleweb/ui_patterns/issues/140)
+
+**Merged Pull Requests**
+
+- Add pattern variants [\#212](https://github.com/nuvoleweb/ui_patterns/pull/212) ([voidtek](https://github.com/voidtek))
+- Update build process [\#210](https://github.com/nuvoleweb/ui_patterns/pull/210) ([ademarco](https://github.com/ademarco))
+- Improve performance of pattern theme hook check [\#209](https://github.com/nuvoleweb/ui_patterns/pull/209) ([drclaw](https://github.com/drclaw))
+- \#205 fixed explode to cope with colons in the name [\#206](https://github.com/nuvoleweb/ui_patterns/pull/206) ([AndyIRC](https://github.com/AndyIRC))
+- Missing annotation added. [\#199](https://github.com/nuvoleweb/ui_patterns/pull/199) ([richardcanoe](https://github.com/richardcanoe))
+- Allow patterns without fields [\#187](https://github.com/nuvoleweb/ui_patterns/pull/187) ([ademarco](https://github.com/ademarco))
+- Issue \#154: Display Suite error [\#186](https://github.com/nuvoleweb/ui_patterns/pull/186) ([ademarco](https://github.com/ademarco))
+- Adds check for preview and embed for embedded views [\#185](https://github.com/nuvoleweb/ui_patterns/pull/185) ([tanc](https://github.com/tanc))
+- Fix tests for Drupal 8.5 [\#183](https://github.com/nuvoleweb/ui_patterns/pull/183) ([ademarco](https://github.com/ademarco))
+- Include the current views\_row as a context [\#180](https://github.com/nuvoleweb/ui_patterns/pull/180) ([drclaw](https://github.com/drclaw))
+- Integrate OpenEuropa Task Runner and add Docker Compose integration \#169 [\#170](https://github.com/nuvoleweb/ui_patterns/pull/170) ([ademarco](https://github.com/ademarco))
+- Null field values in field group pattern cause fatal error \#145 [\#146](https://github.com/nuvoleweb/ui_patterns/pull/146) ([aleksip](https://github.com/aleksip))
+
 ## [8.x-1.0-rc1](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-rc1) (2017-09-25)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-beta7...8.x-1.0-rc1)
 
