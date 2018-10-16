@@ -4,4 +4,4 @@ description: UI patterns
 core: 8.x
 package: User interface
 dependencies:
-  - system (>=8.3.0)
+  - drupal:system (>=8.3.0)
