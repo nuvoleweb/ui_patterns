@@ -5,9 +5,9 @@ core: 8.x
 hidden: true
 package: 'User interface'
 dependencies:
-  - ui_patterns
-  - ui_patterns_ds
-  - ui_patterns_library
+  - ui_patterns:ui_patterns
+  - ui_patterns:ui_patterns_ds
+  - ui_patterns:ui_patterns_library
 
 config_devel:
   install:
