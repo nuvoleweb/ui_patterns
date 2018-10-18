@@ -4,5 +4,5 @@ description: Use patterns as Display Suite field templates. It also provides Dis
 core: 8.x
 package: User interface
 dependencies:
-  - ds
-  - ui_patterns
+  - ds:ds
+  - ui_patterns:ui_patterns
