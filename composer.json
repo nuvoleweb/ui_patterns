@@ -13,12 +13,12 @@
     }
   ],
   "require-dev": {
-    "cweagans/composer-patches": "~1.0",
+    "composer/installers": "^1.2",
+    "cweagans/composer-patches": "~1.4",
     "drupal-composer/drupal-scaffold": "^2.2",
     "drupal/config_installer": "~1",
     "drupal/console": "~1",
     "drush/drush": "~9",
-    "webflo/drupal-core-require-dev": "~8.6@rc",
     "drupal/ds": "~3",
     "drupal/field_group": "~1",
     "drupal/coffee": "~1",
@@ -30,6 +30,7 @@
     "drupal/bootstrap": "3.1",
     "nuvoleweb/drupal-behat": "~1.1.0",
     "phpro/grumphp": "~0.14",
+    "openeuropa/drupal-core-require-dev": "~8.6@rc",
     "openeuropa/task-runner": "^0.4"
   },
   "repositories": [
@@ -54,11 +55,8 @@
     "post-update-cmd": "./vendor/bin/run drupal:site-setup"
   },
   "extra": {
-    "patches": {
-      "drupal/core": {
-        "https://www.drupal.org/project/drupal/issues/2943172": "https://www.drupal.org/files/issues/2018-04-15/2943172-kernel-test-base-2.patch"
-      }
-    },
+    "composer-exit-on-patch-failure": true,
+    "enable-patching": true,
     "installer-paths": {
       "build/core": ["type:drupal-core"],
       "build/modules/contrib/{$name}": ["type:drupal-module"],
