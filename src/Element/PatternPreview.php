@@ -73,4 +73,13 @@ class PatternPreview extends Pattern {
     return Markup::create($preview);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public static function processContext(array $element) {
+    $element['#context'] = new PatternContext('preview');
+
+    return $element;
+  }
+
 }
