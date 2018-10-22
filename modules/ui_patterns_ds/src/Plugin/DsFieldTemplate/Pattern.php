@@ -131,7 +131,8 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
   public function defaultConfiguration() {
     return [
       'pattern' => '',
-      'pattern_mapping' => '',
+      'pattern_variant' => '',
+      'pattern_mapping' => [],
     ];
   }
 

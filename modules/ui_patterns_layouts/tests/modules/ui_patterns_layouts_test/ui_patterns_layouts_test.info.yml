@@ -1,0 +1,21 @@
+name: 'UI Patterns Layouts Test'
+type: module
+description: 'Test module for UI Patterns.'
+core: 8.x
+hidden: true
+package: 'User interface'
+dependencies:
+- ui_patterns
+- ui_patterns_layouts
+- ui_patterns_library
+- node
+- text
+- field_layout
+- field_ui
+
+config_devel:
+  install:
+  - field.field.node.article.body
+  - node.type.article
+  - core.entity_view_display.node.article.default
+

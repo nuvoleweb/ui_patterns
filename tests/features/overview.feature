@@ -87,3 +87,15 @@ Feature: Overview
       | error messages                                                                 |
       | Pattern 'bad_pattern' is skipped because of the following validation error(s): |
       | Validation error on "bad_pattern.label": This value should not be null.        |
+
+  Scenario: "Button" overview page displays all pattern's variants.
+
+    Given I am logged in as a user with the "access patterns page" permission
+    And I am on "/patterns/button"
+
+    Then I should see the heading "Button"
+    And I should see "A simple button."
+
+    And the ".btn.btn-primary" element should contain "Submit"
+    And the ".btn.btn-default" element should contain "Submit"
+    And the ".btn.btn-danger" element should contain "Delete"

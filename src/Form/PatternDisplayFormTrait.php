@@ -40,16 +40,33 @@ trait PatternDisplayFormTrait {
       '#attributes' => ['id' => 'patterns-select'],
     ];
 
+    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
     foreach ($this->patternsManager->getDefinitions() as $pattern_id => $definition) {
+      if ($definition->hasVariants()) {
+        $form['pattern_variant'] = [
+          '#type' => 'select',
+          '#title' => $this->t('Variant'),
+          '#options' => $definition->getVariantsAsOptions(),
+          '#default_value' => isset($configuration['pattern_variant']) ? $configuration['pattern_variant'] : NULL,
+          '#weight' => 0,
+          '#states' => [
+            'visible' => [
+              'select[id="patterns-select"]' => ['value' => $pattern_id],
+            ],
+          ],
+        ];
+      }
+
       $form['pattern_mapping'][$pattern_id] = [
         '#type' => 'container',
+        '#weight' => 1,
         '#states' => [
           'visible' => [
             'select[id="patterns-select"]' => ['value' => $pattern_id],
           ],
         ],
+        'settings' => $this->getMappingForm($pattern_id, $tag, $context, $configuration),
       ];
-      $form['pattern_mapping'][$pattern_id]['settings'] = $this->getMappingForm($pattern_id, $tag, $context, $configuration);
     }
   }
 

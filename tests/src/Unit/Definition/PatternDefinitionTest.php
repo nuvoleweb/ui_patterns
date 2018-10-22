@@ -85,17 +85,38 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    * Provider.
    *
    * @return array
-   *    Data.
+   *   Data.
    */
   public function fieldsProcessingProvider() {
     return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/fields_processing.yml'));
   }
 
   /**
+   * Test fields processing.
+   *
+   * @dataProvider variantsProcessingProvider
+   */
+  public function testVariantsProcessing($actual, $expected) {
+    $pattern_definition = new PatternDefinition();
+    $data = $pattern_definition->setVariants($actual)->toArray();
+    $this->assertEquals($expected, $data['variants']);
+  }
+
+  /**
    * Provider.
    *
    * @return array
-   *    Data.
+   *   Data.
+   */
+  public function variantsProcessingProvider() {
+    return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/variants_processing.yml'));
+  }
+
+  /**
+   * Provider.
+   *
+   * @return array
+   *   Data.
    */
   public function definitionGettersProvider() {
     return [

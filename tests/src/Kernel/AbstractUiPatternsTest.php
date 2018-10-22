@@ -27,7 +27,7 @@ abstract class AbstractUiPatternsTest extends KernelTestBase {
    * Get fixtures base path.
    *
    * @return string
-   *    Fixtures base path.
+   *   Fixtures base path.
    */
   protected function getFixturePath() {
     return realpath(dirname(__FILE__) . '/../fixtures');

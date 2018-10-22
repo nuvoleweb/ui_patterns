@@ -8,8 +8,6 @@ parameters:
       ignore_patterns:
         - build/
         - vendor/
-        - tests/
-        - modules/ui_patterns_test/
       triggered_by:
         - php
         - module

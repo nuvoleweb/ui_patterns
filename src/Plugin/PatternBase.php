@@ -157,6 +157,7 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
     }
     $return['variables']['attributes'] = [];
     $return['variables']['context'] = [];
+    $return['variables']['variant'] = '';
     $return['variables']['use'] = '';
     return $return;
   }

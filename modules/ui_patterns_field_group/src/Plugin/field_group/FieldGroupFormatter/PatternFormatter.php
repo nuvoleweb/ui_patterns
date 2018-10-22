@@ -89,6 +89,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#id'] = $this->getSetting('pattern');
     $element['#fields'] = $fields;
     $element['#multiple_sources'] = TRUE;
+    $element['#variant'] = $this->getSetting('pattern_variant');
 
     // Allow default context values to not override those exposed elsewhere.
     $element['#context']['type'] = 'field_group';
@@ -179,6 +180,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     return [
       'pattern' => '',
       'pattern_mapping' => [],
+      'pattern_variant' => '',
     ] + parent::defaultContextSettings($context);
   }
 

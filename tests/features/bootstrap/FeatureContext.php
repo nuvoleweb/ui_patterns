@@ -2,9 +2,9 @@
 
 /**
  * @file
+ * Feature Context for behat test.
  */
 
-use Behat\Gherkin\Node\TableNode;
 use NuvoleWeb\Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
@@ -20,20 +20,6 @@ class FeatureContext extends RawDrupalContext {
    * @var array
    */
   private $systemPerformance = [];
-
-  /**
-   * Assert that modules are enabled.
-   *
-   * @Then the following modules are enabled:
-   */
-  public function assertModulesEnabled(TableNode $table) {
-    $rows = $table->getRows();
-    foreach ($rows as $row) {
-      if (!\Drupal::moduleHandler()->moduleExists($row[0])) {
-        throw new \Exception("Module '{$row[0]}' should be enabled but it is not.");
-      }
-    }
-  }
 
   /**
    * Assert that modules are enabled.

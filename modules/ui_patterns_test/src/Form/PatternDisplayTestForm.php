@@ -36,7 +36,9 @@ class PatternDisplayTestForm extends FormBase {
    * PatternDisplayForm constructor.
    *
    * @param \Drupal\ui_patterns\UiPatternsManager $patterns_manager
-   *    UI Patterns manager.
+   *   UI Patterns manager.
+   * @param \Drupal\ui_patterns\UiPatternsSourceManager $source_manager
+   *   UI Patterns Source manager.
    */
   public function __construct(UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager) {
     $this->patternsManager = $patterns_manager;
@@ -71,11 +73,11 @@ class PatternDisplayTestForm extends FormBase {
       '#tree' => FALSE,
       '#type' => 'actions',
     ];
-    $form['actions']['submit'] = array(
+    $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Save mapping'),
       '#button_type' => 'primary',
-    );
+    ];
     return $form;
   }
 
