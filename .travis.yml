@@ -28,7 +28,7 @@ before_install:
 - docker-compose up -d
 
 install:
-- docker-compose exec -u root php composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
+- docker-compose exec -u root php composer require openeuropa/drupal-core-require-dev:$DRUPAL_VERSION --dev
 - docker-compose exec -u root php chown -R www-data:www-data build
 
 before_script:
