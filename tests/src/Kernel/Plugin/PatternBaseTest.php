@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel\Plugin;
 
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
 use Drupal\ui_patterns\Plugin\PatternBase;
 
@@ -16,18 +15,27 @@ class PatternBaseTest extends AbstractUiPatternsTest {
   /**
    * Test hookLibraryInfoBuild.
    *
+   * @dataProvider hookLibraryInfoBuildDataProvider
+   *
    * @covers ::hookLibraryInfoBuild
    */
-  public function testHookLibraryInfoBuild() {
-    $items = Yaml::decode(file_get_contents($this->getFixturePath() . '/libraries.yml'));
+  public function testHookLibraryInfoBuild($actual, $expected) {
+    $pattern = $this->getUiPatternBaseMock($actual);
+    /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
+    $libraries = $pattern->getLibraryDefinitions();
+    $this->assertEquals($expected, $libraries);
+  }
 
-    foreach ($items as $item) {
-      $pattern = $this->getUiPatternBaseMock($item['actual']);
-
-      /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
-      $libraries = $pattern->getLibraryDefinitions();
-      $this->assertEquals($item['expected'], $libraries);
-    }
+  /**
+   * Data provider for rendering tests.
+   *
+   * The actual data is read from fixtures stored in a YAML configuration.
+   *
+   * @return array
+   *   A set of dump data for testing.
+   */
+  public function hookLibraryInfoBuildDataProvider() {
+    return $this->getFixtureContent('libraries.yml');
   }
 
   /**

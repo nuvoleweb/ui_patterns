@@ -1,5 +1,4 @@
--
-  actual:
+- actual:
     id: pattern_name
     base path: /pattern/base/path
     libraries:
@@ -40,10 +39,7 @@
            /pattern/base/path/library_one.css: {}
       js:
         /pattern/base/path/library_two.js: {}
-
-
--
-  actual:
+- actual:
     id: pattern_name
     base path: /pattern/base/path
     libraries:
@@ -72,17 +68,13 @@
         /pattern/base/path/library_one.js: {}
         http://example.com/external.min.js: { type: external, minified: true }
         /pattern/base/path/library_two.js: {}
-
--
-  actual:
+- actual:
     id: pattern_name
     libraries:
       - drupal/library_one
       - drupal/library_two
   expected: []
-
--
-  actual:
+- actual:
     id: pattern_name
     base path: ''
     libraries:

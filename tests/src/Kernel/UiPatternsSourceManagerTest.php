@@ -10,6 +10,14 @@ namespace Drupal\Tests\ui_patterns\Kernel;
 class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
 
   /**
+   * {@inheritdoc}
+   */
+  public static $modules = [
+    'ui_patterns',
+    'ui_patterns_test',
+  ];
+
+  /**
    * Test processDefinition.
    *
    * @covers ::processDefinition

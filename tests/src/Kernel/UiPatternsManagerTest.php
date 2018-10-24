@@ -12,6 +12,13 @@ use Drupal\ui_patterns\UiPatterns;
 class UiPatternsManagerTest extends AbstractUiPatternsTest {
 
   /**
+   * {@inheritdoc}
+   */
+  public static $modules = [
+    'ui_patterns',
+  ];
+
+  /**
    * Test UiPatternsManager::getPatternDefinition.
    *
    * @covers ::getPatternDefinition
