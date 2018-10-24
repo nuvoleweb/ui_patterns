@@ -50,4 +50,3 @@ Feature: Content
   Scenario: Patterns render as Panels layouts.
     Given I am on "/panels-test-page"
     Then I should see "Here is your jumbotron title" in the "jumbotron"
-

@@ -1,5 +1,4 @@
--
-  actual:
+- actual:
     - field1
     - field2
   expected:
@@ -17,8 +16,7 @@
       type: ~
       preview: ~
       escape: TRUE
--
-  actual:
+- actual:
     field1: Field 1
     field2: Field 2
   expected:
@@ -36,8 +34,7 @@
       type: ~
       preview: ~
       escape: TRUE
--
-  actual:
+- actual:
     field1:
       label: field1
   expected:
@@ -48,10 +45,8 @@
       type: ~
       preview: ~
       escape: TRUE
--
-  actual:
-    -
-      name: field1
+- actual:
+    - name: field1
       label: Field 1
   expected:
     field1:

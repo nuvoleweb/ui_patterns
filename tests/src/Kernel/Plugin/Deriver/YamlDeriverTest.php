@@ -13,6 +13,13 @@ use Drupal\ui_patterns\UiPatterns;
 class YamlDeriverTest extends AbstractUiPatternsTest {
 
   /**
+   * {@inheritdoc}
+   */
+  public static $modules = [
+    'ui_patterns',
+  ];
+
+  /**
    * Test get derivative definitions.
    *
    * @covers ::getDerivativeDefinitions

@@ -1,5 +1,4 @@
--
-  actual:
+- actual:
     type: pattern
     id: image
     fields:
