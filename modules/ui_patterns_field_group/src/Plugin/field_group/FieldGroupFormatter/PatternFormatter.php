@@ -111,13 +111,32 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    * @return \Drupal\Core\Entity\ContentEntityBase|null
    *   Entity object or NULL if none found.
    */
-  protected function findEntity(array $fields) {
+  protected function findEntityFromFields(array $fields) {
     foreach ($fields as $field) {
-      if (isset($field['#object']) && is_object($field['#object']) && $field['#object'] instanceof ContentEntityBase) {
-        return $field['#object'];
+      $entity = $this->findEntityFromField($field);
+      if (is_object($entity) && $entity instanceof ContentEntityBase) {
+        return $entity;
       }
-      if (is_array($field)) {
-        return $this->findEntity($field);
+    }
+    return NULL;
+  }
+
+  /**
+   * Look for entity object in single field.
+   *
+   * @param array $field
+   *   Field array.
+   *
+   * @return \Drupal\Core\Entity\ContentEntityBase|null
+   *   Entity object or NULL if none found.
+   */
+  protected function findEntityFromField(array $field) {
+    foreach ($field as $items) {
+      if (isset($items['#object']) && is_object($items['#object']) && $items['#object'] instanceof ContentEntityBase) {
+        return $items['#object'];
+      }
+      if (is_array($items)) {
+        return $this->findEntityFromField($items);
       }
     }
     return NULL;
