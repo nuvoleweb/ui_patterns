@@ -99,7 +99,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#context']['view_mode'] = $this->configuration['group']->mode;
 
     // Pass current entity to pattern context, if any.
-    $element['#context']['entity'] = $this->findEntity($element['#fields']);
+    $element['#context']['entity'] = $this->findEntityFromFields($element['#fields']);
   }
 
   /**
