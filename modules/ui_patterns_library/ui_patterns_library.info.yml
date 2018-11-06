@@ -4,4 +4,4 @@ description: Exposed patterns in you modules and themes and display them in a pa
 core: 8.x
 package: User interface
 dependencies:
-  - ui_patterns
+  - ui_patterns:ui_patterns
