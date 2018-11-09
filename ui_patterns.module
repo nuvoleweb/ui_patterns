@@ -60,7 +60,17 @@ function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variabl
  * Implements hook_ui_patterns_suggestions_alter().
  */
 function ui_patterns_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
+  // Add preview theme suggestion.
+  if ($context->isOfType('preview')) {
+    $suggestions[] = $variables['theme_hook_original'] . '__preview';
+  }
+
   if (!empty($variables['variant'])) {
     $suggestions[] = $variables['theme_hook_original'] . '__variant_' . $variables['variant'];
+
+    // Add variant preview theme suggestion.
+    if ($context->isOfType('preview')) {
+      $suggestions[] = $variables['theme_hook_original'] . '__variant_' . $variables['variant'] . '__preview';
+    }
   }
 }
