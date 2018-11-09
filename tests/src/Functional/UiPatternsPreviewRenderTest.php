@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\Tests\ui_patterns\FunctionalJavascript;
+namespace Drupal\Tests\ui_patterns\Functional;
 
-use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
+use Drupal\Tests\BrowserTestBase;
 use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
 
 /**
@@ -10,7 +10,7 @@ use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
  *
  * @group ui_patterns
  */
-class UiPatternsPreviewRenderTest extends WebDriverTestBase {
+class UiPatternsPreviewRenderTest extends BrowserTestBase {
 
   /**
    * Disable schema validation when running tests.
