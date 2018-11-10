@@ -14,7 +14,7 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
    */
   public static $modules = [
     'ui_patterns',
-    'ui_patterns_test',
+    'ui_patterns_field_source_test',
   ];
 
   /**

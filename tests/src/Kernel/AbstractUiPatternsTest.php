@@ -34,7 +34,7 @@ abstract class AbstractUiPatternsTest extends KernelTestBase {
    *   A set of test data.
    */
   protected function getFixtureContent($filepath) {
-    return Yaml::decode(file_get_contents($this->getFixturePath() . "/{$filepath}"));
+    return Yaml::decode(file_get_contents($this->getFixturePath() . '/' . $filepath));
   }
 
 }
