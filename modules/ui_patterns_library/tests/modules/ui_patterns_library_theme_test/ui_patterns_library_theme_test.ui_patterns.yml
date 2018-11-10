@@ -1,0 +1,26 @@
+simple:
+  label: 'Simple'
+  description: 'A simple pattern'
+  fields:
+    field:
+      type: 'string'
+      label: 'Field'
+      description: 'Field description'
+      preview: 'Simple pattern field'
+
+with_variants:
+  label: 'With variants'
+  description: 'Pattern with variants'
+  variants:
+    one:
+      label: 'One'
+      description: 'First variant'
+    two:
+      label: 'Two'
+      description: 'Second variant'
+  fields:
+    field:
+      type: 'string'
+      label: 'Field'
+      description: 'Field description'
+      preview: 'With variants pattern field'

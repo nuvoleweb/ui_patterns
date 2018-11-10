@@ -65,6 +65,7 @@ class PatternsLibraryController extends ControllerBase {
           '#pattern' => $definition->toArray(),
         ],
         'rendered' => $this->getPatternRenderArray($definition),
+        'definition' => $definition->toArray(),
       ],
     ];
   }
@@ -85,6 +86,7 @@ class PatternsLibraryController extends ControllerBase {
           '#pattern' => $definition->toArray(),
         ],
         'rendered' => $this->getPatternRenderArray($definition),
+        'definition' => $definition->toArray(),
       ];
     }
 
