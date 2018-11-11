@@ -76,6 +76,17 @@
       description: 'A button for dangerous operations.'
     preview: '<a href="http://example.com" target="_blank" class="btn btn-danger button">Delete</a>'
 
+- name: 'with_local_libraries'
+  label: 'With local libraries'
+  description: 'Pattern defining local libraries'
+  has_variants: false
+  preview: 'With local libraries: Pattern field value'
+  fields:
+  - name: 'field'
+    type: 'string'
+    label: 'Field'
+    description: 'Field description'
+
 - name: 'with_raw_template'
   label: 'With raw template'
   description: 'Pattern using raw Twig template.'

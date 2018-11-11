@@ -30,20 +30,17 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     $this->container->get('theme_installer')->install(['ui_patterns_library_theme_test']);
     $this->container->get('theme_handler')->setDefault('ui_patterns_library_theme_test');
     $this->container->set('theme.registry', NULL);
+
+    $user = $this->drupalCreateUser(['access patterns page']);
+    $this->drupalLogin($user);
   }
 
   /**
    * Tests overview page.
-   *
-   * @throws \Behat\Mink\Exception\ElementHtmlException
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   * @throws \Behat\Mink\Exception\ExpectationException
    */
   public function testOverviewPage() {
     $session = $this->assertSession();
 
-    $user = $this->drupalCreateUser(['access patterns page']);
-    $this->drupalLogin($user);
     $this->drupalGet('/patterns');
 
     $session->elementContains('css', 'h1', 'Pattern library');
@@ -55,29 +52,76 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
       $this->assertListLink($index + 1, $pattern['label'], $pattern['name']);
 
       // Assert pattern preview.
-      $root = '.pattern-preview__' . $pattern['name'];
-      $session->elementExists('css', $root);
-      $session->elementContains('css', "$root > h3.pattern-preview__label", $pattern['label']);
-      $session->elementContains('css', "$root > p.pattern-preview__description", $pattern['description']);
+      $this->assertPatternPreview($pattern);
 
-      // Assert metadata block.
-      $this->assertPatternFields($root, $pattern);
+      // Test view single page link.
+      $session->linkExists("View {$pattern['label']} as stand-alone");
+      $link = $this->getSession()->getPage()->findLink("View {$pattern['label']} as stand-alone");
+      $this->assertContains('/patterns/' . $pattern['name'], $link->getAttribute('href'));
+    }
+  }
 
-      if (!$pattern['has_variants']) {
-        // Make sure no variant markup exists.
-        $session->elementNotExists('css', "$root > fieldset.pattern-preview__preview > .pattern-preview__variants");
+  /**
+   * Tests overview page.
+   */
+  public function testSinglePages() {
+    $session = $this->assertSession();
 
-        // Assert preview content when without variants.
-        $session->elementContains('css', "$root > fieldset.pattern-preview__preview > .pattern-preview__markup", $pattern['preview']);
-      }
-      else {
-        // Assert that variant markup exists.
-        $session->elementExists('css', "$root > fieldset.pattern-preview__preview > .pattern-preview__variants");
+    foreach ($this->getExpectedPatterns() as $index => $pattern) {
+      $this->drupalGet('/patterns/' . $pattern['name']);
+      $session->elementContains('css', 'h1', $pattern['label']);
 
-        // Assert variant meta information and preview.
-        foreach ($pattern['variants'] as $variant) {
-          $this->assertPatternVariant($root, $variant);
-        }
+      // Assert pattern preview.
+      $this->assertPatternPreview($pattern);
+    }
+  }
+
+  /**
+   * Test that libraries defined locally are loaded correctly.
+   */
+  public function testLocalLibraries() {
+    $session = $this->assertSession();
+
+    $this->drupalGet('/patterns/with_local_libraries');
+    $session->responseContains('<link rel="stylesheet" href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_one.css');
+    $session->responseContains('<link rel="stylesheet" href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_two.css');
+    $session->responseContains('<script src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_1.js');
+    $session->responseContains('<script src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_2.js');
+    $session->responseContains('<script src="/core/misc/tabledrag.js');
+  }
+
+  /**
+   * Assert pattern preview display.
+   *
+   * @param array $pattern
+   *   Expected pattern.
+   */
+  protected function assertPatternPreview(array $pattern) {
+    $session = $this->assertSession();
+
+    // Assert pattern title and description.
+    $root = '.pattern-preview__' . $pattern['name'];
+    $session->elementExists('css', $root);
+    $session->elementContains('css', "$root > h3.pattern-preview__label", $pattern['label']);
+    $session->elementContains('css', "$root > p.pattern-preview__description", $pattern['description']);
+
+    // Assert metadata block.
+    $this->assertPatternFields($root, $pattern);
+
+    if (!$pattern['has_variants']) {
+      // Make sure no variant markup exists.
+      $session->elementNotExists('css', "$root > fieldset.pattern-preview__preview > .pattern-preview__variants");
+
+      // Assert preview content when without variants.
+      $session->elementContains('css', "$root > fieldset.pattern-preview__preview > .pattern-preview__markup", $pattern['preview']);
+    }
+    else {
+      // Assert that variant markup exists.
+      $session->elementExists('css', "$root > fieldset.pattern-preview__preview > .pattern-preview__variants");
+
+      // Assert variant meta information and preview.
+      foreach ($pattern['variants'] as $variant) {
+        $this->assertPatternVariant($root, $variant);
       }
     }
   }
@@ -88,7 +132,7 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
    * @param string $root
    *   CSS selector of element containing the table.
    * @param array $pattern
-   *   Pattern definition.
+   *   Expected pattern.
    *
    * @throws \Behat\Mink\Exception\ElementHtmlException
    */
@@ -119,8 +163,6 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
    *   CSS selector of element containing the table.
    * @param array $variant
    *   Variant expected values.
-   *
-   * @throws \Behat\Mink\Exception\ElementHtmlException
    */
   protected function assertPatternVariant($root, array $variant) {
     $session = $this->assertSession();

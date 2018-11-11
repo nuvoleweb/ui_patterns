@@ -1,0 +1,23 @@
+with_local_libraries:
+  label: 'With local libraries'
+  description: 'Pattern defining local libraries'
+  fields:
+    field:
+      type: 'string'
+      label: 'Field'
+      description: 'Field description'
+      preview: 'Pattern field value'
+  libraries:
+    - library_one:
+        css:
+          component:
+            css/library_one.css: {}
+    - library_two:
+        css:
+          theme:
+            css/library_two.css: {}
+        js:
+          js/library_two_1.js: {}
+          js/library_two_2.js: {}
+        dependencies:
+          - core/drupal.tabledrag
