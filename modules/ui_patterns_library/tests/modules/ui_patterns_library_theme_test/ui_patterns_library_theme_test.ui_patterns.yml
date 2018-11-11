@@ -24,3 +24,14 @@ with_variants:
       label: 'Field'
       description: 'Field description'
       preview: 'With variants pattern field'
+
+with_custom_theme_hook:
+  theme hook: 'custom_theme_hook'
+  label: 'With custom theme hook'
+  description: 'Pattern with custom theme hook.'
+  fields:
+    field:
+      type: 'string'
+      label: 'Field'
+      description: 'Field description'
+      preview: 'Pattern field value'

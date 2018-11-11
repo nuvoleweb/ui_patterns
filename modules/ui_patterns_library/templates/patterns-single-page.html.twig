@@ -6,15 +6,13 @@
 #}
 
 {% if pattern is not empty %}
-  <div class="pattern-preview pattern-preview--{{ pattern.definition.id }}">
+  <div class="pattern-preview pattern-preview__{{ pattern.definition.id }}">
     {{ pattern.meta }}
 
     {# Rendered pattern preview. #}
-    <fieldset>
+    <fieldset class="pattern-preview__preview">
       <legend>{{ "Preview"|t }}</legend>
-      <div>
-        {{ pattern.rendered }}
-      </div>
+      {{ pattern.rendered }}
     </fieldset>
   </div>
 {% endif %}

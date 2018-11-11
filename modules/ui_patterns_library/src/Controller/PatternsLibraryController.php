@@ -121,6 +121,11 @@ class PatternsLibraryController extends ControllerBase {
             '#type' => 'pattern_preview',
             '#id' => $definition->id(),
             '#variant' => $variant->getName(),
+            '#theme_wrappers' => [
+              'container' => [
+                '#attributes' => ['class' => 'pattern-preview__markup pattern-preview__markup--variant_' . $variant->getName()],
+              ],
+            ],
           ],
         ];
       }
@@ -130,6 +135,11 @@ class PatternsLibraryController extends ControllerBase {
         'pattern' => [
           '#type' => 'pattern_preview',
           '#id' => $definition->id(),
+          '#theme_wrappers' => [
+            'container' => [
+              '#attributes' => ['class' => 'pattern-preview__markup'],
+            ],
+          ],
         ],
       ];
     }
