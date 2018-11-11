@@ -1,7 +1,7 @@
 Working with tests
 ==================
 
-UI Patterns is tested using both `Behat <http://behat.org/en/latest/>`_ and `PHPUnit <https://phpunit.de/>`_.
+UI Patterns is tested using `PHPUnit <https://phpunit.de/>`_.
 
 In order to work with tests you need a fully functional Drupal site. To build the test site just run:
 

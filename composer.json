@@ -24,12 +24,9 @@
     "drupal/coffee": "~1",
     "drupal/config_devel": "~1",
     "drupal/panels": "~4",
-    "drupal/features": "~3",
     "drupal/page_manager": "*",
     "drupal/paragraphs": "~1",
     "drupal/token": "~1",
-    "drupal/bootstrap": "3.1",
-    "nuvoleweb/drupal-behat": "~1.1.0",
     "phpro/grumphp": "~0.14",
     "openeuropa/drupal-core-require-dev": "~8.6@rc",
     "openeuropa/task-runner": "~1.0-beta2"

@@ -8,7 +8,9 @@ drupal:
     user: "drupal"
     password: "drupal"
   post_install:
-    - "./vendor/bin/drush en -y ui_patterns_test"
+    - "./vendor/bin/drush en -y ui_patterns ui_patterns_library ui_patterns_ds ui_patterns_field_group ui_patterns_layouts ui_patterns_views"
+    - "./vendor/bin/drush en -y coffee config_devel"
+    - "./vendor/bin/drush en -y page_manager paragraphs panels"
     - "./vendor/bin/drush cr"
   settings:
     settings:
@@ -27,9 +29,6 @@ commands:
     - { task: "process-php", type: "write", config: "drupal.settings", source: "${drupal.root}/sites/default/default.settings.php", destination: "${drupal.root}/sites/default/settings.testing.php", override: true }
     - { task: "run", command: "drupal:drush-setup" }
     - { task: "run", command: "drupal:settings-setup" }
-    - { task: "run", command: "setup:behat" }
     - { task: "run", command: "setup:phpunit" }
-  setup:behat:
-    - { task: "process", source: "behat.yml.dist", destination: "behat.yml" }
   setup:phpunit:
     - { task: "process", source: "phpunit.xml.dist", destination: "phpunit.xml" }

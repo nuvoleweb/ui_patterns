@@ -1,3 +1,0 @@
-excluded:
-  - ui_patterns_test_theme.settings
-required: true
