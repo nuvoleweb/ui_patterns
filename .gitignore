@@ -4,5 +4,5 @@
 /docs/_build
 /build/
 /phpunit.xml
-/docker-compose.yml
+/docker-compose.override.yml
 /runner.yml
