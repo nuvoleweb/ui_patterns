@@ -1,5 +1,22 @@
 # Change Log
 
+## [8.x-1.0](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0) (2018-11-12)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-rc2...8.x-1.0)
+
+**Closed issues:**
+
+- Remove Behat tests in favor of Drupal tests [\#229](https://github.com/nuvoleweb/ui_patterns/issues/229)
+- map yml 'collections' to drupal collections \(field and entityreference lists\) [\#224](https://github.com/nuvoleweb/ui_patterns/issues/224)
+
+**Merged Pull Requests**
+
+- Remove Behat tests in favor of Drupal tests [\#230](https://github.com/nuvoleweb/ui_patterns/pull/230) ([ademarco](https://github.com/ademarco))
+- Add preview theme suggestions [\#228](https://github.com/nuvoleweb/ui_patterns/pull/228) ([ademarco](https://github.com/ademarco))
+- All dependencies must be prefixed by project name [\#227](https://github.com/nuvoleweb/ui_patterns/pull/227) ([chipway](https://github.com/chipway))
+- Change drupal-core-require-dev on composer.json. [\#219](https://github.com/nuvoleweb/ui_patterns/pull/219) ([voidtek](https://github.com/voidtek))
+- OPENEUROPA-1253: Preview context on pattern preview element. [\#217](https://github.com/nuvoleweb/ui_patterns/pull/217) ([upchuk](https://github.com/upchuk))
+- Update ui\_patterns\_field\_group.info.yml [\#216](https://github.com/nuvoleweb/ui_patterns/pull/216) ([AmyJuneH](https://github.com/AmyJuneH))
+
 ## [8.x-1.0-rc2](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0-rc2) (2018-10-16)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-rc1...8.x-1.0-rc2)
 
