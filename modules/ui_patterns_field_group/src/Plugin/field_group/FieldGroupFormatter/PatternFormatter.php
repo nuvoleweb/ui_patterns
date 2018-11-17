@@ -2,12 +2,12 @@
 
 namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
-use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\field_group\FieldGroupFormatterBase;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
 use Drupal\ui_patterns\UiPatternsSourceManager;
 use Drupal\ui_patterns\UiPatternsManager;
+use Drupal\ui_patterns_field_group\Utility\EntityFinder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -41,6 +41,13 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   protected $sourceManager;
 
   /**
+   * Entity finder utility.
+   *
+   * @var \Drupal\ui_patterns_field_group\Utility\EntityFinder
+   */
+  protected $entityFinder;
+
+  /**
    * Constructs a Drupal\Component\Plugin\PluginBase object.
    *
    * @param array $configuration
@@ -59,6 +66,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $this->configuration = $configuration;
     $this->patternsManager = $patterns_manager;
     $this->sourceManager = $source_manager;
+    $this->entityFinder = new EntityFinder();
   }
 
   /**
@@ -99,47 +107,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#context']['view_mode'] = $this->configuration['group']->mode;
 
     // Pass current entity to pattern context, if any.
-    $element['#context']['entity'] = $this->findEntityFromFields($element['#fields']);
-  }
-
-  /**
-   * Look for entity object in fields array.
-   *
-   * @param array $fields
-   *   Fields array.
-   *
-   * @return \Drupal\Core\Entity\ContentEntityBase|null
-   *   Entity object or NULL if none found.
-   */
-  protected function findEntityFromFields(array $fields) {
-    foreach ($fields as $field) {
-      $entity = $this->findEntityFromField($field);
-      if (is_object($entity) && $entity instanceof ContentEntityBase) {
-        return $entity;
-      }
-    }
-    return NULL;
-  }
-
-  /**
-   * Look for entity object in single field.
-   *
-   * @param array $field
-   *   Field array.
-   *
-   * @return \Drupal\Core\Entity\ContentEntityBase|null
-   *   Entity object or NULL if none found.
-   */
-  protected function findEntityFromField(array $field) {
-    foreach ($field as $items) {
-      if (isset($items['#object']) && is_object($items['#object']) && $items['#object'] instanceof ContentEntityBase) {
-        return $items['#object'];
-      }
-      if (is_array($items)) {
-        return $this->findEntityFromField($items);
-      }
-    }
-    return NULL;
+    $element['#context']['entity'] = $this->entityFinder->findEntityFromFields($element['#fields']);
   }
 
   /**
