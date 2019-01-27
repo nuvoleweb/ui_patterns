@@ -302,7 +302,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   /**
    * Check whereas pattern has variants.
    *
-   * @return bool/PatternDefinition.php
+   * @return bool
    *   Whereas pattern has variants.
    */
   public function hasVariants() {

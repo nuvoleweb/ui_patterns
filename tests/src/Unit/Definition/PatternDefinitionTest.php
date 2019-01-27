@@ -166,7 +166,7 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    * Provider.
    *
    * @return array
-   *    Data.
+   *   Data.
    */
   public function definitionGettersProvider() {
     return [
