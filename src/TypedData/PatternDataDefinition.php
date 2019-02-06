@@ -16,7 +16,7 @@ class PatternDataDefinition extends MapDataDefinition {
   /**
    * Valid machine name string.
    */
-  const MACHINE_NAME = '/^(?!(%s)$)(?=[A-Za-z0-9_]+$).*$/';
+  const MACHINE_NAME = '/^(?!(%s)$)(?=[A-Za-z0-9_-]+$).*$/';
 
   /**
    * Reserved words.
