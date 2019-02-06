@@ -51,6 +51,10 @@ class UiPatternsPreviewRenderTest extends BrowserTestBase {
       'pattern-foo--variant-default.html.twig',
       'pattern-foo--preview.html.twig',
       'pattern-foo.html.twig',
+      'pattern-foo-bar--variant-default--preview.html.twig',
+      'pattern-foo-bar--variant-default.html.twig',
+      'pattern-foo-bar--preview.html.twig',
+      'pattern-foo-bar.html.twig',
     ];
     foreach ($suggestions as $suggestion) {
       $assert_session->responseContains($suggestion);
