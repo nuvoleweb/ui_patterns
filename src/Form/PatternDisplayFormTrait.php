@@ -39,11 +39,12 @@ trait PatternDisplayFormTrait {
       '#required' => TRUE,
       '#attributes' => ['id' => 'patterns-select'],
     ];
+    $form['variants'] = ['#type' => 'container'];
 
     /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
     foreach ($this->patternsManager->getDefinitions() as $pattern_id => $definition) {
       if ($definition->hasVariants()) {
-        $form['pattern_variant'] = [
+        $form['variants'][$pattern_id] = [
           '#type' => 'select',
           '#title' => $this->t('Variant'),
           '#options' => $definition->getVariantsAsOptions(),
@@ -151,6 +152,11 @@ trait PatternDisplayFormTrait {
    *   Pattern display form values array.
    */
   public static function processFormStateValues(array &$settings) {
+    if (isset($settings['variants']) && isset($settings['variants'][$settings['pattern']])) {
+      $settings['pattern_variant'] = $settings['variants'][$settings['pattern']];
+      unset($settings['variants']);
+    }
+
     // Normalize only when necessary.
     if (isset($settings['pattern_mapping'][$settings['pattern']]['settings'])) {
       $settings['pattern_mapping'] = $settings['pattern_mapping'][$settings['pattern']]['settings'];
