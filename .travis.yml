@@ -1,46 +1,38 @@
+sudo: required
 language: php
-dist: precise
 
 php:
-  # Temporarily disable 5.6 build
-  # - 5.6
-  - 7.0
+- 5.6
+- 7.1
+
+git:
+  depth: 1
+
+services:
+- docker
 
 env:
   global:
-    - PATH=$PATH:/home/travis/.composer/vendor/bin
+  - DOCKER_COMPOSE_VERSION=1.17.1
+  matrix:
+  - DRUPAL_VERSION=~8.5
+  - DRUPAL_VERSION=~8.6@rc
+  - DRUPAL_VERSION=8.7.x-dev
+
+matrix:
+  allow_failures:
+  - env: DRUPAL_VERSION=8.7.x-dev
+
+before_install:
+- docker-compose up -d
 
 install:
-  - composer self-update
-  - composer install --prefer-dist
-  - ./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer
-  - ./vendor/bin/phpcs --config-set show_progress 1
-
-before_script:
-  # Start PhantomJS server.
-  - phantomjs --webdriver=4444 > /dev/null &
-  # Set sendmail so drush doesn't throw an error during site install.
-  - echo "sendmail_path=`which true`" >> `php --ini | grep "Loaded Configuration" | awk '{print $4}'`
-  # Create database.
-  - mysql -e 'create database drupal'
-  # Install Drupal 8 target site.
-  - cd tests
-  - composer install --prefer-dist
-  - ./vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
-  # Test latest commit on current branch.
-  - git clone --branch=$TRAVIS_BRANCH https://github.com/$TRAVIS_REPO_SLUG.git modules/ui_patterns
-  - ./vendor/bin/drush en ui_patterns_test -y
-  # Run Drush web server.
-  - ./vendor/bin/drush --debug runserver :8888 > ~/debug.txt 2>&1 &
-  - sleep 4s
-  - chmod -R ug+w sites
+- docker-compose exec -u root php composer require openeuropa/drupal-core-require-dev:$DRUPAL_VERSION --dev
+- docker-compose exec -u root php chown -R www-data:www-data build
 
 script:
-  - cd $TRAVIS_BUILD_DIR
-  - composer phpcs
-  - cd tests
-  - ./vendor/bin/phpunit
-  - ./vendor/bin/behat
+- docker-compose exec -u www-data php ./vendor/bin/grumphp run
+- docker-compose exec -u www-data php ./vendor/bin/phpunit
 
 notifications:
   email: false

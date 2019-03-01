@@ -2,9 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel\Plugin;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\equals;
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
 use Drupal\ui_patterns\Plugin\PatternBase;
 
@@ -18,30 +15,39 @@ class PatternBaseTest extends AbstractUiPatternsTest {
   /**
    * Test hookLibraryInfoBuild.
    *
+   * @dataProvider hookLibraryInfoBuildDataProvider
+   *
    * @covers ::hookLibraryInfoBuild
    */
-  public function testHookLibraryInfoBuild() {
-    $items = Yaml::decode(file_get_contents($this->getFixturePath() . '/libraries.yml'));
+  public function testHookLibraryInfoBuild($actual, $expected) {
+    $pattern = $this->getUiPatternBaseMock($actual);
+    /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
+    $libraries = $pattern->getLibraryDefinitions();
+    $this->assertEquals($expected, $libraries);
+  }
 
-    foreach ($items as $item) {
-      $pattern = $this->getUiPatternBaseMock($item['actual']);
-
-      /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
-      $libraries = $pattern->getLibraryDefinitions();
-      assert($libraries, equals($item['expected']));
-    }
+  /**
+   * Data provider for rendering tests.
+   *
+   * The actual data is read from fixtures stored in a YAML configuration.
+   *
+   * @return array
+   *   A set of dump data for testing.
+   */
+  public function hookLibraryInfoBuildDataProvider() {
+    return $this->getFixtureContent('libraries.yml');
   }
 
   /**
    * Get PatternBase mock.
    *
    * @param array $plugin_definition
-   *    Plugin definition.
+   *   Plugin definition.
    * @param array $methods
-   *    List of methods to mock.
+   *   List of methods to mock.
    *
    * @return \PHPUnit_Framework_MockObject_MockObject
-   *    Mock object.
+   *   Mock object.
    */
   protected function getUiPatternBaseMock(array $plugin_definition = [], array $methods = []) {
     return $this->getMockForAbstractClass(PatternBase::class, [

@@ -2,33 +2,39 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel;
 
+use Drupal\Component\Serialization\Yaml;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Class AbstractUiPatternsTest.
+ *
+ * @group ui_patterns
  *
  * @package Drupal\Tests\ui_patterns\Kernel
  */
 abstract class AbstractUiPatternsTest extends KernelTestBase {
 
   /**
-   * Modules to enable.
-   *
-   * @var array
-   */
-  public static $modules = [
-    'ui_patterns',
-    'ui_patterns_test',
-  ];
-
-  /**
    * Get fixtures base path.
    *
    * @return string
-   *    Fixtures base path.
+   *   Fixtures base path.
    */
   protected function getFixturePath() {
-    return realpath(dirname(__FILE__) . '/../fixtures');
+    return realpath(__DIR__ . '/../fixtures');
+  }
+
+  /**
+   * Get fixture content.
+   *
+   * @param string $filepath
+   *   File path.
+   *
+   * @return array
+   *   A set of test data.
+   */
+  protected function getFixtureContent($filepath) {
+    return Yaml::decode(file_get_contents($this->getFixturePath() . '/' . $filepath));
   }
 
 }

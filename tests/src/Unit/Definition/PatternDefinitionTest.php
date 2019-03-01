@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns\Unit\Definition;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\equals;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Tests\ui_patterns\Unit\AbstractUiPatternsTest;
 use Drupal\ui_patterns\Definition\PatternDefinition;
@@ -22,7 +20,7 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    */
   public function testGettersSetters($getter, $name, $value) {
     $pattern_definition = new PatternDefinition([$name => $value]);
-    assert($value, equals(call_user_func([$pattern_definition, $getter])));
+    $this->assertEquals(call_user_func([$pattern_definition, $getter]), $value);
   }
 
   /**
@@ -39,18 +37,37 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
     ];
     $pattern_definition = new PatternDefinition();
     $pattern_definition->setFields($fields);
-    assert($pattern_definition->getField('name')->getLabel(), equals($fields['name']['label']));
-    assert($pattern_definition->getField('name')->getName(), equals($fields['name']['name']));
-    assert($pattern_definition->getField('name')->getType(), equals(NULL));
-    assert($pattern_definition->getField('name')->getDescription(), equals(NULL));
-    assert($pattern_definition->getField('name')->getPreview(), equals(NULL));
+    $this->assertEquals(
+      [
+        $fields['name']['label'],
+        $fields['name']['name'],
+        NULL,
+        NULL,
+        NULL,
+      ],
+      [
+        $pattern_definition->getField('name')->getLabel(),
+        $pattern_definition->getField('name')->getName(),
+        $pattern_definition->getField('name')->getType(),
+        $pattern_definition->getField('name')->getDescription(),
+        $pattern_definition->getField('name')->getPreview(),
+      ]);
 
     $pattern_definition->getField('name')->setType('type');
     $pattern_definition->getField('name')->setPreview('preview');
     $pattern_definition->getField('name')->setDescription('description');
-    assert($pattern_definition->getField('name')->getType(), equals('type'));
-    assert($pattern_definition->getField('name')->getDescription(), equals('description'));
-    assert($pattern_definition->getField('name')->getPreview(), equals('preview'));
+
+    $this->assertEquals(
+      [
+        'type',
+        'description',
+        'preview',
+      ],
+      [
+        $pattern_definition->getField('name')->getType(),
+        $pattern_definition->getField('name')->getDescription(),
+        $pattern_definition->getField('name')->getPreview(),
+      ]);
   }
 
   /**
@@ -61,24 +78,45 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
   public function testFieldsProcessing($actual, $expected) {
     $pattern_definition = new PatternDefinition();
     $data = $pattern_definition->setFields($actual)->toArray();
-    assert($data['fields'], equals($expected));
+    $this->assertEquals($expected, $data['fields']);
   }
 
   /**
    * Provider.
    *
    * @return array
-   *    Data.
+   *   Data.
    */
   public function fieldsProcessingProvider() {
     return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/fields_processing.yml'));
   }
 
   /**
+   * Test fields processing.
+   *
+   * @dataProvider variantsProcessingProvider
+   */
+  public function testVariantsProcessing($actual, $expected) {
+    $pattern_definition = new PatternDefinition();
+    $data = $pattern_definition->setVariants($actual)->toArray();
+    $this->assertEquals($expected, $data['variants']);
+  }
+
+  /**
    * Provider.
    *
    * @return array
-   *    Data.
+   *   Data.
+   */
+  public function variantsProcessingProvider() {
+    return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/variants_processing.yml'));
+  }
+
+  /**
+   * Provider.
+   *
+   * @return array
+   *   Data.
    */
   public function definitionGettersProvider() {
     return [

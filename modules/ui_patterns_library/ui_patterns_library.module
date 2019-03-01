@@ -19,5 +19,8 @@ function ui_patterns_library_theme() {
     'patterns_meta_information' => [
       'variables' => ['pattern' => NULL],
     ],
+    'patterns_variant_meta_information' => [
+      'variables' => ['variant' => NULL],
+    ],
   ];
 }

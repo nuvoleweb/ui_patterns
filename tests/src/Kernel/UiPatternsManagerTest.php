@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\equals;
 use Drupal\ui_patterns\UiPatterns;
 
 /**
@@ -12,6 +10,13 @@ use Drupal\ui_patterns\UiPatterns;
  * @group ui_patterns
  */
 class UiPatternsManagerTest extends AbstractUiPatternsTest {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static $modules = [
+    'ui_patterns',
+  ];
 
   /**
    * Test UiPatternsManager::getPatternDefinition.
@@ -23,7 +28,7 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
     $definitions = $manager->getDefinitions();
 
     foreach ($manager->getPatterns() as $pattern) {
-      assert($pattern->getBaseId(), equals($definitions[$pattern->getPluginId()]->id()));
+      $this->assertEquals($definitions[$pattern->getPluginId()]->id(), $pattern->getBaseId());
     }
   }
 

@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns_library\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\ui_patterns\Definition\PatternDefinition;
 use Drupal\ui_patterns\UiPatternsManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -48,21 +49,24 @@ class PatternsLibraryController extends ControllerBase {
    * Render pattern library page.
    *
    * @param string $name
-   *    Plugin ID.
+   *   Plugin ID.
    *
    * @return array
    *   Return render array.
    */
   public function single($name) {
-    $definition = [];
-    $definition['rendered']['#type'] = 'pattern_preview';
-    $definition['rendered']['#id'] = $name;
-    $definition['meta']['#theme'] = 'patterns_meta_information';
-    $definition['meta']['#pattern'] = $this->patternsManager->getDefinition($name)->toArray();
+    $definition = $this->patternsManager->getDefinition($name);
 
     return [
       '#theme' => 'patterns_single_page',
-      '#pattern' => $definition,
+      '#pattern' => [
+        'meta' => [
+          '#theme' => 'patterns_meta_information',
+          '#pattern' => $definition->toArray(),
+        ],
+        'rendered' => $this->getPatternRenderArray($definition),
+        'definition' => $definition->toArray(),
+      ],
     ];
   }
 
@@ -73,21 +77,74 @@ class PatternsLibraryController extends ControllerBase {
    *   Patterns overview page render array.
    */
   public function overview() {
-    /** @var \Drupal\ui_patterns\Definition\PatternDefinition $definition */
 
-    $definitions = [];
-    foreach ($this->patternsManager->getDefinitions() as $id => $definition) {
-      $definitions[$id] = $definition->toArray();
-      $definitions[$id]['rendered']['#type'] = 'pattern_preview';
-      $definitions[$id]['rendered']['#id'] = $definition->id();
-      $definitions[$id]['meta']['#theme'] = 'patterns_meta_information';
-      $definitions[$id]['meta']['#pattern'] = $definition->toArray();
+    $patterns = [];
+    foreach ($this->patternsManager->getDefinitions() as $definition) {
+      $patterns[$definition->id()] = $definition->toArray() + [
+        'meta' => [
+          '#theme' => 'patterns_meta_information',
+          '#pattern' => $definition->toArray(),
+        ],
+        'rendered' => $this->getPatternRenderArray($definition),
+        'definition' => $definition->toArray(),
+      ];
     }
 
     return [
       '#theme' => 'patterns_overview_page',
-      '#patterns' => $definitions,
+      '#patterns' => $patterns,
     ];
+  }
+
+  /**
+   * Get pattern preview render array, handling variants.
+   *
+   * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
+   *   Pattern definition object.
+   *
+   * @return array
+   *   Render array.
+   */
+  protected function getPatternRenderArray(PatternDefinition $definition) {
+    $render = [];
+
+    // If pattern has variants then render them all adding meta information
+    // on top of each one, or simply render pattern preview otherwise.
+    if ($definition->hasVariants()) {
+      foreach ($definition->getVariants() as $variant) {
+        $render[$definition->id() . '_' . $variant->getName()] = [
+          'meta' => [
+            '#theme' => 'patterns_variant_meta_information',
+            '#variant' => $variant->toArray(),
+          ],
+          'pattern' => [
+            '#type' => 'pattern_preview',
+            '#id' => $definition->id(),
+            '#variant' => $variant->getName(),
+            '#theme_wrappers' => [
+              'container' => [
+                '#attributes' => ['class' => 'pattern-preview__markup pattern-preview__markup--variant_' . $variant->getName()],
+              ],
+            ],
+          ],
+        ];
+      }
+    }
+    else {
+      $render[$definition->id()] = [
+        'pattern' => [
+          '#type' => 'pattern_preview',
+          '#id' => $definition->id(),
+          '#theme_wrappers' => [
+            'container' => [
+              '#attributes' => ['class' => 'pattern-preview__markup'],
+            ],
+          ],
+        ],
+      ];
+    }
+
+    return $render;
   }
 
 }

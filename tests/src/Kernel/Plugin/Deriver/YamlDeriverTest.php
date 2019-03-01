@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel\Plugin\Deriver;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\hasKey;
 use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
 use Drupal\ui_patterns\UiPatterns;
 
@@ -15,16 +13,20 @@ use Drupal\ui_patterns\UiPatterns;
 class YamlDeriverTest extends AbstractUiPatternsTest {
 
   /**
+   * {@inheritdoc}
+   */
+  public static $modules = [
+    'ui_patterns',
+  ];
+
+  /**
    * Test get derivative definitions.
    *
    * @covers ::getDerivativeDefinitions
    */
   public function testGetDerivativeDefinitions() {
     foreach (UiPatterns::getManager()->getDefinitions() as $definition) {
-      assert($definition, hasKey('id')
-        ->and(hasKey('provider'))
-        ->and(hasKey('base path'))
-      );
+      $this->assertArrayHasKey(['id', 'provider', 'base path'], $definition);
     }
   }
 

@@ -1,5 +1,8 @@
-vendor
-behat.yml
-tests/drupal
-composer.lock
-docs/_build
+/.idea
+/vendor
+/composer.lock
+/docs/_build
+/build/
+/phpunit.xml
+/docker-compose.override.yml
+/runner.yml

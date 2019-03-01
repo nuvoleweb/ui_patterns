@@ -2,11 +2,8 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel\TypedData;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\equals;
 use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
 use Drupal\ui_patterns\TypedData\PatternDataDefinition;
-use Drupal\Component\Serialization\Yaml;
 
 /**
  * @coversDefaultClass \Drupal\ui_patterns\TypedData\PatternDataDefinition
@@ -28,17 +25,17 @@ class PatternDataDefinitionTest extends AbstractUiPatternsTest {
     foreach ($violations as $violation) {
       $actual[] = $violation->getPropertyPath() . ': ' . $violation->getMessage();
     }
-    assert($actual, equals($expected));
+    $this->assertEquals($expected, $actual);
   }
 
   /**
    * Return validation data.
    *
    * @return array
-   *    Pattern validation data.
+   *   Pattern validation data.
    */
   public function validationProvider() {
-    return Yaml::decode(file_get_contents($this->getFixturePath() . '/validation.yml'));
+    return $this->getFixtureContent('validation.yml');
   }
 
 }

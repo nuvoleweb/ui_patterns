@@ -1,5 +1,4 @@
--
-  pattern:
+- pattern:
     id: 'not valid Name'
   messages:
     - "id: This value is not valid."
@@ -7,23 +6,31 @@
     - "base path: This value should not be null."
     - "file name: This value should not be null."
     - "provider: This value should not be null."
-    - "fields: This value should not be null."
     - "theme hook: This value should not be null."
--
-  pattern:
+- pattern:
+    id: 'id'
+  messages:
+    - "id: This value is not valid."
+    - "label: This value should not be null."
+    - "base path: This value should not be null."
+    - "file name: This value should not be null."
+    - "provider: This value should not be null."
+    - "theme hook: This value should not be null."
+- pattern:
     id: pattern_id
     label: label
     description: description
     fields:
-      not valid name:
+      fass:
+        name: 'not valid name'
   messages:
     - "base path: This value should not be null."
     - "file name: This value should not be null."
     - "provider: This value should not be null."
-    - "fields: This value should not be null."
+    - "fields.0.name: This value is not valid."
+    - "fields.0.label: This value should not be null."
     - "theme hook: This value should not be null."
--
-  pattern:
+- pattern:
     id: pattern_id
     label: label
     description: description
@@ -39,8 +46,7 @@
     - "provider: This value should not be null."
     - "fields.0.name: This value should not be null."
     - "theme hook: This value should not be null."
--
-  pattern:
+- pattern:
     id: pattern_id
     label: label
     description: description

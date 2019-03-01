@@ -41,6 +41,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
     'template' => NULL,
     'libraries' => [],
     'fields' => [],
+    'variants' => [],
     'tags' => [],
     'additional' => [],
     'deriver' => NULL,
@@ -63,6 +64,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
 
     $this->id = $this->definition['id'];
     $this->setFields($this->definition['fields']);
+    $this->setVariants($this->definition['variants']);
     $this->setThemeHook(self::PATTERN_PREFIX . $this->id());
 
     if (!empty($definition['theme hook'])) {
@@ -79,13 +81,17 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Return array definition.
    *
    * @return array
-   *    Array definition.
+   *   Array definition.
    */
   public function toArray() {
     $definition = $this->definition;
     foreach ($this->getFields() as $field) {
       $definition['fields'][$field->getName()] = $field->toArray();
     }
+    foreach ($this->getVariants() as $variant) {
+      $definition['variants'][$variant->getName()] = $variant->toArray();
+    }
+
     return $definition;
   }
 
@@ -195,7 +201,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Get field as options.
    *
    * @return array
-   *    Fields as select options.
+   *   Fields as select options.
    */
   public function getFieldsAsOptions() {
     $options = [];
@@ -215,8 +221,58 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    */
   public function setFields(array $fields) {
     foreach ($fields as $name => $value) {
-      $field = new PatternDefinitionField($name, $value);
+      $field = $this->getFieldDefinition($name, $value);
       $this->definition['fields'][$field->getName()] = $field;
+    }
+    return $this;
+  }
+
+  /**
+   * Check whereas pattern has variants.
+   *
+   * @return bool
+   *   Whereas pattern has variants.
+   */
+  public function hasVariants() {
+    return !empty($this->definition['variants']);
+  }
+
+  /**
+   * Getter.
+   *
+   * @return \Drupal\ui_patterns\Definition\PatternDefinitionVariant[]
+   *   Property value.
+   */
+  public function getVariants() {
+    return $this->definition['variants'];
+  }
+
+  /**
+   * Get field as options.
+   *
+   * @return array
+   *   Variants as select options.
+   */
+  public function getVariantsAsOptions() {
+    $options = [];
+    foreach ($this->getVariants() as $field) {
+      $options[$field->getName()] = $field->getLabel();
+    }
+    return $options;
+  }
+
+  /**
+   * Setter.
+   *
+   * @param array $variants
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setVariants(array $variants) {
+    foreach ($variants as $name => $value) {
+      $variant = $this->getVariantDefinition($name, $value);
+      $this->definition['variants'][$variant->getName()] = $variant;
     }
     return $this;
   }
@@ -225,10 +281,10 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Get field.
    *
    * @param string $name
-   *    Field name.
+   *   Field name.
    *
    * @return PatternDefinitionField|null
-   *    Definition field.
+   *   Definition field.
    */
   public function getField($name) {
     return $this->hasField($name) ? $this->definition['fields'][$name] : NULL;
@@ -251,14 +307,55 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Set field.
    *
    * @param string $name
-   *    Field name.
+   *   Field name.
    * @param string $label
-   *    Field label.
+   *   Field label.
    *
    * @return $this
    */
   public function setField($name, $label) {
-    $this->definition['fields'][$name] = new PatternDefinitionField($name, $label);
+    $this->definition['fields'][$name] = $this->getFieldDefinition($name, $label);
+    return $this;
+  }
+
+  /**
+   * Get variant.
+   *
+   * @param string $name
+   *   Field name.
+   *
+   * @return PatternDefinitionField|null
+   *   Definition field.
+   */
+  public function getVariant($name) {
+    return $this->hasField($name) ? $this->definition['variants'][$name] : NULL;
+  }
+
+  /**
+   * Check whereas variant exists.
+   *
+   * @param string $name
+   *   Variant name.
+   *
+   * @return bool
+   *   Whereas variant exists
+   */
+  public function hasVariant($name) {
+    return isset($this->definition['variants'][$name]);
+  }
+
+  /**
+   * Set variant.
+   *
+   * @param string $name
+   *   Variant name.
+   * @param string $label
+   *   Variant label.
+   *
+   * @return $this
+   */
+  public function setVariant($name, $label) {
+    $this->definition['variants'][$name] = $this->getVariantDefinition($name, $label);
     return $this;
   }
 
@@ -312,7 +409,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * Getter.
    *
    * @return bool
-   *    Whereas definition uses the "use:" property.
+   *   Whereas definition uses the "use:" property.
    */
   public function hasUse() {
     return !empty($this->definition['use']);
@@ -359,7 +456,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *
    * @return $this
    */
-  public function setTags($tags) {
+  public function setTags(array $tags) {
     $this->definition['tags'] = $tags;
     return $this;
   }
@@ -501,7 +598,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *
    * @return $this
    */
-  public function setAdditional($additional) {
+  public function setAdditional(array $additional) {
     $this->definition['additional'] = $additional;
     return $this;
   }
@@ -517,6 +614,36 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   public function setDeriver($deriver) {
     $this->definition['deriver'] = $deriver;
     return $this;
+  }
+
+  /**
+   * Factory method: create a new field definition.
+   *
+   * @param string $name
+   *   Field name.
+   * @param string $value
+   *   Field value.
+   *
+   * @return \Drupal\ui_patterns\Definition\PatternDefinitionField
+   *   Definition instance.
+   */
+  public function getFieldDefinition($name, $value) {
+    return new PatternDefinitionField($name, $value);
+  }
+
+  /**
+   * Factory method: create a new variant definition.
+   *
+   * @param string $name
+   *   Variant name.
+   * @param string $value
+   *   Variant value.
+   *
+   * @return \Drupal\ui_patterns\Definition\PatternDefinitionVariant
+   *   Definition instance.
+   */
+  public function getVariantDefinition($name, $value) {
+    return new PatternDefinitionVariant($name, $value);
   }
 
 }

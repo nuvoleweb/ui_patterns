@@ -1,0 +1,12 @@
+one_column:
+  label: "One column"
+  variants:
+    default:
+      label: "Default"
+    highlighted:
+      label: "Highlighted"
+  fields:
+    body:
+      type: "text"
+      label: "Body"
+      preview: "Body"

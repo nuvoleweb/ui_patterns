@@ -1,0 +1,40 @@
+- actual:
+    - variant1
+    - variant2
+  expected:
+    variant1:
+      name: variant1
+      label: variant1
+      description: ~
+    variant2:
+      name: variant2
+      label: variant2
+      description: ~
+- actual:
+    variant1: Variant 1
+    variant2: Variant 2
+  expected:
+    variant1:
+      name: variant1
+      label: Variant 1
+      description: ~
+    variant2:
+      name: variant2
+      label: Variant 2
+      description: ~
+- actual:
+    variant1:
+      label: variant1
+  expected:
+    variant1:
+      name: variant1
+      label: variant1
+      description: ~
+- actual:
+    - name: variant1
+      label: Variant 1
+  expected:
+    variant1:
+      name: variant1
+      label: Variant 1
+      description: ~

@@ -15,7 +15,7 @@ interface PatternInterface {
    * @see ui_patterns_theme()
    *
    * @return array
-   *    Theme implementation array.
+   *   Theme implementation array.
    */
   public function getThemeImplementation();
 
@@ -25,7 +25,7 @@ interface PatternInterface {
    * @see ui_patterns_library_info_build()
    *
    * @return array
-   *    Library definitions array.
+   *   Library definitions array.
    */
   public function getLibraryDefinitions();
 

@@ -1,16 +1,21 @@
 <?php
 
+/**
+ * @file
+ * API file.
+ */
+
 use Drupal\ui_patterns\Element\PatternContext;
 
 /**
  * Alter UI Patterns definitions.
  *
  * @param \Drupal\ui_patterns\Definition\PatternDefinition[] $definitions
- *    Pattern definitions.
+ *   Pattern definitions.
  *
  * @see \Drupal\ui_patterns\UiPatternsManager
  */
-function hook_ui_patterns_info_alter(&$definitions) {
+function hook_ui_patterns_info_alter(array &$definitions) {
   $definitions['my_pattern']->setLabel('My new label');
 }
 
@@ -62,7 +67,7 @@ function hook_ui_patterns_destination_suggestions_alter(array &$suggestions, arr
     $pattern = $context->getProperty('pattern');
     $field = $context->getProperty('field');
 
-    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $pattern  . '__' . $field;
-    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern  . '__' . $field;
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $pattern . '__' . $field;
+    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display . '__' . $pattern . '__' . $field;
   }
 }

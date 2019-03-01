@@ -46,7 +46,7 @@ Download and install the [Bootstrap Patterns](https://github.com/nuvoleweb/boots
 Documentation is hosted on [Read the Docs](https://readthedocs.org/) and available [here](http://ui-patterns.readthedocs.io/en/8.x-1.x).
 
 To build the documentation make sure you setup your environment by following
-[these instructions](http://read-the-docs.readthedocs.io/en/latest/getting_started.html) first.
+[these instructions](http://read-the-docs.readthedocs.io/en/latest/) first.
 
 After setting up your environment run:
 
@@ -64,3 +64,9 @@ $ make livehtml
 ```
 
 You can then preview the compiled documentation at ``http://127.0.0.1:8000``.
+
+To build the documentation using Docker run:
+
+```
+$ docker run -it -v $(pwd)/docs:/docs xeizmendi/docker-sphinx make --directory=/docs html
+```

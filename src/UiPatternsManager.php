@@ -8,7 +8,6 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\ui_patterns\Definition\PatternDefinition;
 
 /**
  * Provides the default ui_patterns manager.
@@ -27,6 +26,13 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   protected $themeHandler;
 
   /**
+   * An array of pattern theme hooks for fast lookup on not cached pages.
+   *
+   * @var array
+   */
+  protected $patternHooks = [];
+
+  /**
    * UiPatternsManager constructor.
    */
   public function __construct(\Traversable $namespaces, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, CacheBackendInterface $cache_backend) {
@@ -41,7 +47,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * Get pattern objects.
    *
    * @return \Drupal\ui_patterns\Plugin\PatternBase[]
-   *    Pattern objects.
+   *   Pattern objects.
    */
   public function getPatterns() {
     $patterns = [];
@@ -55,7 +61,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * Return pattern definitions.
    *
    * @return \Drupal\ui_patterns\Definition\PatternDefinition[]
-   *    Pattern definitions.
+   *   Pattern definitions.
    */
   public function getDefinitions() {
     $definitions = $this->getCachedDefinitions();
@@ -85,10 +91,13 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    * {@inheritdoc}
    */
   public function isPatternHook($hook) {
-    $definitions = array_filter($this->getDefinitions(), function (PatternDefinition $definition) use ($hook) {
-      return $definition->getThemeHook() == $hook;
-    });
-    return !empty($definitions);
+    // Improve performance on not cached pages.
+    if (empty($this->patternHooks)) {
+      foreach ($this->getDefinitions() as $definition) {
+        $this->patternHooks[$definition->getThemeHook()] = $definition->getThemeHook();
+      }
+    }
+    return !empty($this->patternHooks[$hook]);
   }
 
   /**

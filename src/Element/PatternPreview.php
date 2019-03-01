@@ -2,7 +2,7 @@
 
 namespace Drupal\ui_patterns\Element;
 
-use \Drupal\Core\Render\Markup;
+use Drupal\Core\Render\Markup;
 use Drupal\ui_patterns\UiPatterns;
 
 /**
@@ -71,6 +71,15 @@ class PatternPreview extends Pattern {
     }
 
     return Markup::create($preview);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function processContext(array $element) {
+    $element['#context'] = new PatternContext('preview');
+
+    return $element;
   }
 
 }

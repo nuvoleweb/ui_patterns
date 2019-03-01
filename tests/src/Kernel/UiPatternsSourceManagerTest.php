@@ -2,17 +2,20 @@
 
 namespace Drupal\Tests\ui_patterns\Kernel;
 
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\isNotEmpty;
-use function bovigo\assert\predicate\hasKey;
-use function bovigo\assert\predicate\equals;
-
 /**
  * @coversDefaultClass \Drupal\ui_patterns\UiPatternsSourceManager
  *
  * @group ui_patterns
  */
 class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static $modules = [
+    'ui_patterns',
+    'ui_patterns_field_source_test',
+  ];
 
   /**
    * Test processDefinition.
@@ -24,7 +27,8 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
     $plugin_manager = \Drupal::service('plugin.manager.ui_patterns_source');
 
     $definitions = $plugin_manager->getDefinitions();
-    assert($definitions, isNotEmpty()->and(hasKey('test_source')));
+    $this->assertNotEmpty($definitions);
+    $this->assertArrayHasKey('test_source', $definitions);
 
     $expected = [
       ['name' => 'field_1', 'label' => 'Field 1'],
@@ -37,8 +41,8 @@ class UiPatternsSourceManagerTest extends AbstractUiPatternsTest {
     /** @var \Drupal\ui_patterns\Plugin\PatternSourceBase $plugin */
     $plugin = $plugin_manager->createInstance('test_source');
     foreach ($plugin->getSourceFields() as $key => $field) {
-      assert($field->getFieldName(), equals($expected[$key]['name']));
-      assert($field->getFieldLabel(), equals($expected[$key]['label']));
+      $this->assertEquals($expected[$key]['name'], $field->getFieldName());
+      $this->assertEquals($expected[$key]['label'], $field->getFieldLabel());
     }
   }
 

@@ -13,10 +13,10 @@ interface FieldTemplateProcessorInterface {
    * Process field template variables.
    *
    * @param array $variables
-   *    Variables array.
+   *   Variables array.
    *
    * @see template_preprocess_field__pattern_ds_field_template()
    */
-  public function process(&$variables);
+  public function process(array &$variables);
 
 }

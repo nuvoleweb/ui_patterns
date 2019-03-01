@@ -1,0 +1,99 @@
+- name: 'simple'
+  label: 'Simple'
+  description: 'A simple pattern'
+  has_variants: false
+  preview: '<div class="pattern-simple">Simple pattern field</div>'
+  fields:
+  - name: 'field'
+    type: 'string'
+    label: 'Field'
+    description: 'Field description'
+
+- name: 'with_variants'
+  label: 'With variants'
+  description: 'Pattern with variants'
+  has_variants: true
+  preview: ~
+  fields:
+  - name: 'field'
+    type: 'string'
+    label: 'Field'
+    description: 'Field description'
+  variants:
+  - meta:
+      name: 'one'
+      label: 'One'
+      description: 'First variant'
+    preview: '<div class="pattern-with-variant-one">With variants pattern field</div>'
+  - meta:
+      name: 'two'
+      label: 'Two'
+      description: 'Second variant'
+    preview: '<div class="pattern-with-variant-two">With variants pattern field</div>'
+
+- name: 'with_custom_theme_hook'
+  theme hook: 'custom_theme_hook'
+  label: 'With custom theme hook'
+  description: 'Pattern with custom theme hook.'
+  has_variants: false
+  preview: 'With custom theme hook: Pattern field value'
+  fields:
+  - name: 'field'
+    type: 'string'
+    label: 'Field'
+    description: 'Field description'
+
+- name: 'button'
+  label: 'Button'
+  description: 'A simple button.'
+  has_variants: true
+  preview: ~
+  fields:
+  - name: 'title'
+    type: 'text'
+    label: 'Label'
+    description: 'The button label'
+    preview: 'Submit'
+  - name: 'url'
+    type: 'text'
+    label: 'URL'
+    description: 'The button URL'
+    preview: 'http://example.com'
+  variants:
+  - meta:
+      name: 'default'
+      label: 'Default'
+      description: 'A default button, nothing to see here.'
+    preview: '<a href="http://example.com" target="_blank" class="btn btn-default button">Submit</a>'
+  - meta:
+      name: 'primary'
+      label: 'Primary'
+      description: 'A primary button.'
+    preview: '<a href="http://example.com" target="_blank" class="btn btn-primary button">Submit</a>'
+  - meta:
+      name: 'danger'
+      label: 'Danger'
+      description: 'A button for dangerous operations.'
+    preview: '<a href="http://example.com" target="_blank" class="btn btn-danger button">Delete</a>'
+
+- name: 'with_local_libraries'
+  label: 'With local libraries'
+  description: 'Pattern defining local libraries'
+  has_variants: false
+  preview: 'With local libraries: Pattern field value'
+  fields:
+  - name: 'field'
+    type: 'string'
+    label: 'Field'
+    description: 'Field description'
+
+- name: 'with_raw_template'
+  label: 'With raw template'
+  description: 'Pattern using raw Twig template.'
+  has_variants: false
+  preview: 'With raw template: Pattern field value'
+  fields:
+  - name: 'field'
+    type: 'string'
+    label: 'Field'
+    description: 'Field description'

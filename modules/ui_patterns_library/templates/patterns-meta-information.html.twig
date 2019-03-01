@@ -8,11 +8,11 @@
 {% if pattern is not empty %}
 
   {# Pattern name and desciption. #}
-  <h3>{{ pattern.label }}</h3>
-  <p>{{ pattern.description }}</p>
+  <h3 class="pattern-preview__label">{{ pattern.label }}</h3>
+  <p class="pattern-preview__description">{{ pattern.description }}</p>
 
   {# Pattern fields descriptions. #}
-  <table>
+  <table class="pattern-preview__fields">
     <thead>
     <tr>
       <th>{{ "Field"|t }}</th>

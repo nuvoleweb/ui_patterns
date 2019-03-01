@@ -26,6 +26,21 @@ The code above will produce the following result:
    :align: center
    :width: 650
 
+To render a specific pattern variant use:
+
+.. code-block:: php
+
+   <?php
+   $elements['quote'] = [
+     '#type' => 'pattern',
+     '#id' => 'blockquote',
+     '#variant' => 'highlighted',
+     '#fields' => [
+       'quote' => 'You must do the things you think you cannot do.',
+       'attribution' => 'Eleanor Roosevelt'
+     ]
+   ];
+
 It is also possible to just render a pattern preview as displayed on the patterns overview page in the following way
 (since fields are already bundled within the pattern definition we don't need to re-declare them here):
 
@@ -46,6 +61,18 @@ Rendering the code above will produce the following output:
    :align: center
    :width: 650
 
+To render a specific pattern preview variant use:
+
+.. code-block:: php
+
+   <?php
+   $elements['quote'] = [
+     '#type' => 'pattern_preview',
+     '#id' => 'blockquote',
+     '#variant' => 'highlighted',
+   ];
+
+
 Render patterns using Twig functions
 ------------------------------------
 
@@ -63,6 +90,13 @@ Will print:
 .. image:: ../images/developer-3.png
    :align: center
    :width: 650
+
+To render pattern variants use:
+
+.. code-block:: twig
+
+   {{ pattern('button', {title: 'Link title', url: 'http://example.com'}, 'highlighted') }}
+   {{ pattern_preview('modal', 'highlighted') }}
 
 Since patterns are rendered using the render element described above all libraries and preprocess hooks will be ran when
 using Twig functions.
@@ -114,6 +148,7 @@ The following suggestions are automatically exposed by the project's sub-modules
 
    // Suggestions for patterns used as Display Suite field templates.
    // @see ui_patterns_ds_ui_patterns_suggestions_alter()
+   $suggestions[] = $hook . '__ds_field_template';
    $suggestions[] = $hook . '__ds_field_template__' . $field_name;
    $suggestions[] = $hook . '__ds_field_template__' . $field_name . '__' . $entity_type;
    $suggestions[] = $hook . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle;
@@ -122,6 +157,7 @@ The following suggestions are automatically exposed by the project's sub-modules
 
    // Suggestions for patterns used as field groups templates.
    // @see ui_patterns_field_group_ui_patterns_suggestions_alter()
+   $suggestions[] = $hook . '__field_group';
    $suggestions[] = $hook . '__field_group__' . $group_name;
    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type;
    $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle;
@@ -130,8 +166,49 @@ The following suggestions are automatically exposed by the project's sub-modules
 
    // Suggestions for patterns used as Views row templates.
    // @see ui_patterns_views_ui_patterns_suggestions_alter()
+   $suggestions[] = $hook . '__views_row';
    $suggestions[] = $hook . '__views_row__' . $view_name;
    $suggestions[] = $hook . '__views_row__' . $view_name . '__' . $display;
+
+When rendering a variant the following suggestions will be available too:
+
+.. code-block:: php
+
+   <?php
+
+   // Suggestions for patterns used as layouts.
+   // @see ui_patterns_layouts_ui_patterns_suggestions_alter()
+   $suggestions[] = $hook . '__variant_' . $variant . '__layout';
+   $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type;
+   $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $bundle;
+   $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $view_mode;
+   $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode;
+   $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $entity_id;
+
+   // Suggestions for patterns used as Display Suite field templates.
+   // @see ui_patterns_ds_ui_patterns_suggestions_alter()
+   $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template';
+   $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name;
+   $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type;
+   $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle;
+   $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $view_mode;
+   $suggestions[] = $hook . '__variant_' . $variant . '__ds_field_template__' . $field_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
+
+   // Suggestions for patterns used as field groups templates.
+   // @see ui_patterns_field_group_ui_patterns_suggestions_alter()
+   $suggestions[] = $hook . '__variant_' . $variant . '__field_group';
+   $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name;
+   $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type;
+   $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle;
+   $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode;
+   $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
+
+   // Suggestions for patterns used as Views row templates.
+   // @see ui_patterns_views_ui_patterns_suggestions_alter()
+   $suggestions[] = $hook . '__variant_' . $variant . '__views_row';
+   $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name;
+   $suggestions[] = $hook . '__variant_' . $variant . '__views_row__' . $view_name . '__' . $display;
+
 
 Expose source field plugins
 ---------------------------

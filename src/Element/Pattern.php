@@ -95,6 +95,11 @@ class Pattern extends RenderElement {
     else {
       $element['#markup'] = '';
     }
+
+    if (!isset($element['#variant'])) {
+      $element['#variant'] = "";
+    }
+
     return $element;
   }
 
@@ -181,9 +186,9 @@ class Pattern extends RenderElement {
    *   Render array.
    *
    * @return bool
-   *    TRUE or FALSE.
+   *   TRUE or FALSE.
    */
-  public static function hasFields($element) {
+  public static function hasFields(array $element) {
     return isset($element['#fields']) && !empty($element['#fields']) && is_array($element['#fields']);
   }
 
@@ -194,9 +199,9 @@ class Pattern extends RenderElement {
    *   Render array.
    *
    * @return bool
-   *    TRUE or FALSE.
+   *   TRUE or FALSE.
    */
-  public static function hasMultipleSources($element) {
+  public static function hasMultipleSources(array $element) {
     return isset($element['#multiple_sources']) && $element['#multiple_sources'] === TRUE;
   }
 
@@ -207,9 +212,9 @@ class Pattern extends RenderElement {
    *   Render array.
    *
    * @return bool
-   *    TRUE or FALSE.
+   *   TRUE or FALSE.
    */
-  public static function hasValidContext($element) {
+  public static function hasValidContext(array $element) {
     return isset($element['#context']) && is_array($element['#context']) && !empty($element['#context']['type']);
   }
 

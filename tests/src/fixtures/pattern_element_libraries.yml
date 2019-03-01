@@ -1,5 +1,4 @@
--
-  actual:
+- actual:
     id: pattern_name
     libraries:
       - drupal/library_one
