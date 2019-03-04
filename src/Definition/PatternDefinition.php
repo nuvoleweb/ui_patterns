@@ -328,7 +328,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    *   Definition field.
    */
   public function getVariant($name) {
-    return $this->hasField($name) ? $this->definition['variants'][$name] : NULL;
+    return $this->hasVariant($name) ? $this->definition['variants'][$name] : NULL;
   }
 
   /**
