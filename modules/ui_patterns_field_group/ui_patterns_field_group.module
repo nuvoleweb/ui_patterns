@@ -66,7 +66,7 @@ function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestio
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode;
 
-    if (!empty($variant)) {
+    if (!empty($variant) && is_string($variant)) {
       $suggestions[] = $hook . '__variant_' . $variant . '__field_group';
       $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name;
       $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type;
@@ -97,7 +97,7 @@ function ui_patterns_field_group_ui_patterns_destination_suggestions_alter(array
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
     $suggestions[] = $hook . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
 
-    if (!empty($variant)) {
+    if (!empty($variant) && is_string($variant)) {
       $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $pattern . '__' . $field;
       $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $pattern . '__' . $field;
       $suggestions[] = $hook . '__variant_' . $variant . '__field_group__' . $group_name . '__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
