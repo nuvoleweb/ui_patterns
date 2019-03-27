@@ -65,7 +65,7 @@ function ui_patterns_ui_patterns_suggestions_alter(array &$suggestions, array $v
     $suggestions[] = $variables['theme_hook_original'] . '__preview';
   }
 
-  if (!empty($variables['variant'])) {
+  if (!empty($variables['variant']) && is_string($variables['variant'])) {
     $suggestions[] = $variables['theme_hook_original'] . '__variant_' . $variables['variant'];
 
     // Add variant preview theme suggestion.
