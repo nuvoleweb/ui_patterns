@@ -27,6 +27,13 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
   use PatternDisplayFormTrait;
 
   /**
+   * Module Handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler = NULL;
+
+  /**
    * UI Patterns manager.
    *
    * @var \Drupal\ui_patterns\UiPatternsManager
@@ -67,6 +74,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $this->patternsManager = $patterns_manager;
     $this->sourceManager = $source_manager;
     $this->entityFinder = new EntityFinder();
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -78,7 +86,8 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       $plugin_id,
       $plugin_definition,
       $container->get('plugin.manager.ui_patterns'),
-      $container->get('plugin.manager.ui_patterns_source')
+      $container->get('plugin.manager.ui_patterns_source'),
+      $container->get('module_handler')
     );
   }
 

@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns_ds\Plugin\DsFieldTemplate;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\ds\Plugin\DsFieldTemplate\DsFieldTemplateBase;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
@@ -23,6 +24,13 @@ use Drupal\Core\Entity\EntityFieldManager;
 class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInterface {
 
   use PatternDisplayFormTrait;
+
+  /**
+   * Module Handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler = NULL;
 
   /**
    * UI Patterns manager.
@@ -69,13 +77,16 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
    *   Current $_POST parameters.
    * @param \Drupal\Core\Entity\EntityFieldManager $field_manager
    *   Field manager.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   Module handler.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager, RequestStack $parameters, EntityFieldManager $field_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager, RequestStack $parameters, EntityFieldManager $field_manager, ModuleHandlerInterface $module_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->patternsManager = $patterns_manager;
     $this->sourceManager = $source_manager;
     $this->parameters = $parameters->getCurrentRequest()->request;
     $this->fieldManager = $field_manager;
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -89,7 +100,8 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
       $container->get('plugin.manager.ui_patterns'),
       $container->get('plugin.manager.ui_patterns_source'),
       $container->get('request_stack'),
-      $container->get('entity_field.manager')
+      $container->get('entity_field.manager'),
+      $container->get('module_handler')
     );
   }
 
