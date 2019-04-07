@@ -68,9 +68,9 @@ trait PatternDisplayFormTrait {
         ],
         'settings' => $this->getMappingForm($pattern_id, $tag, $context, $configuration),
       ];
-      $this->moduleHandler->alter('ui_patterns_display_form', $form, $definition, $configuration);
     }
 
+    $this->moduleHandler->alter('ui_patterns_display_form', $form, $configuration);
   }
 
   /**

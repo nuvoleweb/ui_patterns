@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\field_group\FieldGroupFormatterBase;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
@@ -68,7 +69,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    * @param \Drupal\ui_patterns\UiPatternsSourceManager $source_manager
    *   UI Patterns source manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager, ModuleHandlerInterface $module_handler) {
     parent::__construct($plugin_id, $plugin_definition, $configuration['group'], $configuration['settings'], $configuration['label']);
     $this->configuration = $configuration;
     $this->patternsManager = $patterns_manager;
