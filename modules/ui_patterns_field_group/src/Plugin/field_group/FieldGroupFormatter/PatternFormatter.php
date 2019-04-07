@@ -68,6 +68,8 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    *   UI Patterns manager.
    * @param \Drupal\ui_patterns\UiPatternsSourceManager $source_manager
    *   UI Patterns source manager.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   Module handler.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager, ModuleHandlerInterface $module_handler) {
     parent::__construct($plugin_id, $plugin_definition, $configuration['group'], $configuration['settings'], $configuration['label']);
