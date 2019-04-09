@@ -8,9 +8,9 @@
 use Drupal\ui_patterns\Definition\PatternDefinition;
 
 /**
- * Alter "Manage display" layout form.
+ * Alter pattern layout "Manage display" form.
  *
- * @param array $fieldset
+ * @param array $form
  *   Pattern settings fieldset.
  * @param \Drupal\ui_patterns\Definition\PatternDefinition $definition
  *   Pattern definition.
@@ -18,6 +18,6 @@ use Drupal\ui_patterns\Definition\PatternDefinition;
  *   Pattern configuration.
  *
  */
-function hook_ui_patterns_layout_form_alter(array &$fieldset, PatternDefinition $definition, array $configuration) {
-  $fieldset['element'] = ['#type' => 'input'];
+function hook_ui_patterns_layout_form_alter(array &$form, PatternDefinition $definition, array $configuration) {
+  $form['element'] = ['#type' => 'input'];
 }
