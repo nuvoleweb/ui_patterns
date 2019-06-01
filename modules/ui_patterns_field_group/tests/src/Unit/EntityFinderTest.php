@@ -8,6 +8,8 @@ use Drupal\ui_patterns_field_group\Utility\EntityFinder;
 
 /**
  * Test entity finder utility.
+ *
+ * @group ui_patterns
  */
 class EntityFinderTest extends UnitTestCase {
 
