@@ -15,13 +15,13 @@ env:
   global:
   - DOCKER_COMPOSE_VERSION=1.17.1
   matrix:
-  - DRUPAL_VERSION=~8.5
-  - DRUPAL_VERSION=~8.6@rc
-  - DRUPAL_VERSION=8.7.x-dev
+  - DRUPAL_VERSION=~8.6
+  - DRUPAL_VERSION=~8.7
+  - DRUPAL_VERSION=8.8.x-dev
 
 matrix:
   allow_failures:
-  - env: DRUPAL_VERSION=8.7.x-dev
+  - env: DRUPAL_VERSION=8.8.x-dev
 
 before_install:
 - docker-compose up -d
