@@ -83,11 +83,11 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     $session = $this->assertSession();
 
     $this->drupalGet('/patterns/with_local_libraries');
-    $session->responseContains('<link rel="stylesheet" href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_one.css');
-    $session->responseContains('<link rel="stylesheet" href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_two.css');
-    $session->responseContains('<script src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_1.js');
-    $session->responseContains('<script src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_2.js');
-    $session->responseContains('<script src="/core/misc/tabledrag.js');
+    $session->responseContains('href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_one.css');
+    $session->responseContains('href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_two.css');
+    $session->responseContains('src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_1.js');
+    $session->responseContains('src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_2.js');
+    $session->responseContains('src="/core/misc/tabledrag.js');
   }
 
   /**

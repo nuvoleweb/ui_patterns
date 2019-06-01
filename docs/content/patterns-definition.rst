@@ -57,7 +57,7 @@ Let's break this down:
 
 ``id``
     The root of a new pattern definition (``blockquote`` in the example above). It must contain only lowercase
-    characters, numbers and underscores (i.e. it should validate against ``[^a-z0-9_]+``).
+    characters, numbers, underscores and hyphens (i.e. it should validate against ``[^a-z0-9_-]+``).
 ``label``
     Pattern label, used on pattern library page.
 ``description``
