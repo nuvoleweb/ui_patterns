@@ -27,6 +27,7 @@ class Pattern extends RenderElement {
         [$class, 'processLibraries'],
         [$class, 'processMultipleSources'],
         [$class, 'processFields'],
+        [$class, 'ensureVariant'],
         [$class, 'processUse'],
       ],
     ];
@@ -96,8 +97,24 @@ class Pattern extends RenderElement {
       $element['#markup'] = '';
     }
 
-    if (!isset($element['#variant'])) {
-      $element['#variant'] = "";
+    return $element;
+  }
+
+  /**
+   * Make sure that we never pass through a value that is not a string.
+   *
+   * This would prevent accidental assignments of a render array as variant
+   * which would break hook_ui_patterns_suggestions_alter().
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public static function ensureVariant(array $element) {
+    if (!isset($element['#variant']) || !is_string($element['#variant'])) {
+      $element['#variant'] = '';
     }
 
     return $element;
