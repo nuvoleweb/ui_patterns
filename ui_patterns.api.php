@@ -73,7 +73,7 @@ function hook_ui_patterns_destination_suggestions_alter(array &$suggestions, arr
 }
 
 /**
- * Alter pattern settings form under "Manage display" .
+ * Alter pattern settings form under "Manage display".
  *
  * @param array $form
  *   Pattern settings fieldset.
