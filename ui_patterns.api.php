@@ -73,13 +73,13 @@ function hook_ui_patterns_destination_suggestions_alter(array &$suggestions, arr
 }
 
 /**
- * Alter "Manage display" pattern settings form.
+ * Alter pattern settings form under "Manage display" .
  *
  * @param array $form
  *   Pattern settings fieldset.
  * @param array $configuration
  *   Pattern configuration.
  */
-function hook_ui_patterns_display_form_alter(array &$form, array $configuration) {
+function hook_ui_patterns_display_settings_form_alter(array &$form, array $configuration) {
   $form['element'] = ['#type' => 'input'];
 }

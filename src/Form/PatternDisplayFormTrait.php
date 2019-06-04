@@ -70,7 +70,7 @@ trait PatternDisplayFormTrait {
       ];
     }
 
-    $this->moduleHandler->alter('ui_patterns_display_form', $form, $configuration);
+    $this->moduleHandler->alter('ui_patterns_display_settings_form', $form, $configuration);
   }
 
   /**
