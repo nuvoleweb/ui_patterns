@@ -279,10 +279,13 @@ When you want to extend a pattern with the additional configuration, you can alt
 This sample implementation adds a CSS class input field to your pattern configuration.
 
 To alter the ``Layout form`` implement ``hook_ui_patterns_layouts_form_alter``.
+
 This form is rendered when you select a pattern as a layout.
 
 .. code-block:: php
+
    <?php
+
    /**
     * Implements hook_ui_patterns_layouts_form_alter().
     *
@@ -295,10 +298,13 @@ This form is rendered when you select a pattern as a layout.
 
 
 To alter the ``Pattern setting form`` implement ``hook_ui_patterns_display_settings_form_alter``.
+
 This form is render when viewing ``field patterns`` or ``fieldgroup patterns``.
 
 .. code-block:: php
+
    <?php
+
    /**
     * Implements hook_ui_patterns_display_settings_form_alter().
     *
