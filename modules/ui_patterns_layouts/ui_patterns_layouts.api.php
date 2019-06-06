@@ -17,6 +17,6 @@ use Drupal\ui_patterns\Definition\PatternDefinition;
  * @param array $configuration
  *   Pattern configuration.
  */
-function hook_ui_patterns_layouts_form_alter(array &$form, PatternDefinition $definition, array $configuration) {
+function hook_ui_patterns_layouts_display_settings_form_alter(array &$form, PatternDefinition $definition, array $configuration) {
   $form['element'] = ['#type' => 'input'];
 }
