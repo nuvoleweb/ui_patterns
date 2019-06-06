@@ -151,7 +151,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
         '#default_value' => $configuration['pattern']['variant'],
       ];
     }
-    $this->moduleHandler->alter('ui_patterns_layouts_form', $form['pattern'], $definition, $configuration);
+    $this->moduleHandler->alter('ui_patterns_layouts_display_settings_form', $form['pattern'], $definition, $configuration);
     return $form;
   }
 
