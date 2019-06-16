@@ -1,5 +1,40 @@
 # Change Log
 
+## [8.x-1.1](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.1) (2019-06-16)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0...8.x-1.1)
+
+**Fixed bugs:**
+
+- PatternDefinition:getVariant uses hasField instead of hasVariant [\#250](https://github.com/nuvoleweb/ui_patterns/issues/250)
+- Views Variant form only shows variant options for 1 pattern. [\#249](https://github.com/nuvoleweb/ui_patterns/issues/249)
+
+**Closed issues:**
+
+- Enable the module's drupal.org issue queue [\#259](https://github.com/nuvoleweb/ui_patterns/issues/259)
+- Allow fields to have value limits [\#256](https://github.com/nuvoleweb/ui_patterns/issues/256)
+- What do "variants" do? [\#255](https://github.com/nuvoleweb/ui_patterns/issues/255)
+- Remove config\_installer dependecy [\#253](https://github.com/nuvoleweb/ui_patterns/issues/253)
+- Missing @group annotation in Drupal\Tests\ui\_patterns\_field\_group\Unit\EntityFinderTest [\#246](https://github.com/nuvoleweb/ui_patterns/issues/246)
+- Allow hyphen \(-\) on pattern id [\#243](https://github.com/nuvoleweb/ui_patterns/issues/243)
+- can i used yml pattern fields in js library files? [\#242](https://github.com/nuvoleweb/ui_patterns/issues/242)
+- Define HTML element classes with pattern fields. [\#241](https://github.com/nuvoleweb/ui_patterns/issues/241)
+- Add layout settings option to control the variant selection [\#238](https://github.com/nuvoleweb/ui_patterns/issues/238)
+- Pattern configuration [\#222](https://github.com/nuvoleweb/ui_patterns/issues/222)
+- Patterns variables consistency [\#193](https://github.com/nuvoleweb/ui_patterns/issues/193)
+- Support Formatting in Pattern Descriptions on Pattern Library Page [\#191](https://github.com/nuvoleweb/ui_patterns/issues/191)
+- Update to D 8.5.3 and latest dev beta Version of ui-patterns [\#188](https://github.com/nuvoleweb/ui_patterns/issues/188)
+
+**Merged Pull Requests**
+
+- GH-118: Make sure that we never pass through a value that is not a string. [\#264](https://github.com/nuvoleweb/ui_patterns/pull/264) ([ademarco](https://github.com/ademarco))
+- Bump Drupal core versions in .travis.yml. [\#263](https://github.com/nuvoleweb/ui_patterns/pull/263) ([ademarco](https://github.com/ademarco))
+-  Allow hyphens \(-\) on pattern id [\#262](https://github.com/nuvoleweb/ui_patterns/pull/262) ([ademarco](https://github.com/ademarco))
+-  Allow modules to alter pattern setting forms [\#254](https://github.com/nuvoleweb/ui_patterns/pull/254) ([christianwiedemann](https://github.com/christianwiedemann))
+- Fix PatternDefinition:getVariant. [\#251](https://github.com/nuvoleweb/ui_patterns/pull/251) ([christianwiedemann](https://github.com/christianwiedemann))
+- Missing @group in EntityFinderTest [\#247](https://github.com/nuvoleweb/ui_patterns/pull/247) ([damienmckenna](https://github.com/damienmckenna))
+- Allow hyphens \(-\) on pattern id [\#244](https://github.com/nuvoleweb/ui_patterns/pull/244) ([gambry](https://github.com/gambry))
+- Find a content entity in a render array if keyed by '\#object' [\#234](https://github.com/nuvoleweb/ui_patterns/pull/234) ([ademarco](https://github.com/ademarco))
+
 ## [8.x-1.0](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.0) (2018-11-12)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0-rc2...8.x-1.0)
 
