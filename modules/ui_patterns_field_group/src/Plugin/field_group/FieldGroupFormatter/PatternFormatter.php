@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns_field_group\Plugin\field_group\FieldGroupFormatter;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\field_group\FieldGroupFormatterBase;
 use Drupal\ui_patterns\Form\PatternDisplayFormTrait;
@@ -25,6 +26,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class PatternFormatter extends FieldGroupFormatterBase implements ContainerFactoryPluginInterface {
 
   use PatternDisplayFormTrait;
+
+  /**
+   * Module Handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler = NULL;
 
   /**
    * UI Patterns manager.
@@ -60,13 +68,16 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    *   UI Patterns manager.
    * @param \Drupal\ui_patterns\UiPatternsSourceManager $source_manager
    *   UI Patterns source manager.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   Module handler.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $patterns_manager, UiPatternsSourceManager $source_manager, ModuleHandlerInterface $module_handler) {
     parent::__construct($plugin_id, $plugin_definition, $configuration['group'], $configuration['settings'], $configuration['label']);
     $this->configuration = $configuration;
     $this->patternsManager = $patterns_manager;
     $this->sourceManager = $source_manager;
     $this->entityFinder = new EntityFinder();
+    $this->moduleHandler = $module_handler;
   }
 
   /**
@@ -78,7 +89,8 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       $plugin_id,
       $plugin_definition,
       $container->get('plugin.manager.ui_patterns'),
-      $container->get('plugin.manager.ui_patterns_source')
+      $container->get('plugin.manager.ui_patterns_source'),
+      $container->get('module_handler')
     );
   }
 
