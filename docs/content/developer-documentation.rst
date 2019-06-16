@@ -274,13 +274,35 @@ At the moment the available source plugin tags are the following:
 Alter pattern configuration forms
 ---------------------------------
 
-When you want to extend a pattern with the additional configuration, you can alter UI Patterns configuration forms with two hooks.
+You can alter UI Patterns configuration forms by implementing ``hook_ui_patterns_display_settings_form_alter()``.
 
-This sample hook implementation adds a CSS class input field to the pattern configuration.
+For example, the following implementation adds a CSS class input field to the pattern configuration:
 
-To alter the ``Layout form`` implement ``hook_ui_patterns_layouts_display_settings_form_alter``.
+.. code-block:: php
 
-This form is rendered when you select a pattern as a layout.
+   <?php
+
+   /**
+    * Implements hook_ui_patterns_display_settings_form_alter().
+    *
+    * Add a css class name configuration option.
+    */
+    function my_module_ui_patterns_display_settings_form_alter(array &$form, array $configuration) {
+      $setting_value = isset($configuration['class_name']) ? $configuration[$key] : '';
+      $form['class_name'] = [
+        '#type' => 'input',
+        '#title' => t('Class name'),
+      ];
+    }
+
+This hook alter forms that are built using the ``PatternDisplayFormTrait`` trait, meaning:
+
+- Display Suite field templates
+- Field groups
+- Views
+
+If you want to alter an entity layout form that uses UI Patters for its layout use
+``hook_ui_patterns_layouts_display_settings_form_alter()`` instead, for example:
 
 .. code-block:: php
 
@@ -292,25 +314,9 @@ This form is rendered when you select a pattern as a layout.
     * Add a css class name configuration option.
     */
     function hook_ui_patterns_layouts_display_settings_form_alter(array &$form, PatternDefinition $definition, array $configuration) {
-      $class_name = isset($configuration['class_name']) ? $configuration['class_name'] : "";
-      $form['class_name'] = ['#type' => 'input', '#title' => 'Class name', '#default_value' => $class_name];
-    }
-
-
-To alter the ``Pattern setting form`` implement ``hook_ui_patterns_display_settings_form_alter``.
-
-This form is rendered when viewing ``field patterns`` or ``fieldgroup patterns``.
-
-.. code-block:: php
-
-   <?php
-
-   /**
-    * Implements hook_ui_patterns_display_settings_form_alter().
-    *
-    * Add a css class name configuration option.
-    */
-    function hook_ui_patterns_display_settings_form_alter(array &$form, array $configuration) {
-      $setting_value = isset($configuration['class_name']) ? $configuration[$key] : "";
-      $form['class_name'] = ['#type' => 'input', '#title' => 'Class name'];
+      $class_name = isset($configuration['class_name']) ? $configuration['class_name'] : '';
+      $form['class_name'] = [
+        '#type' => 'input',
+        '#title' => t('Class name'),
+      ];
     }
