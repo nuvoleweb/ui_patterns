@@ -131,7 +131,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
           $content = file_get_contents($file_path);
           foreach (Yaml::decode($content) as $id => $definition) {
             $definition['id'] = $id;
-            $definition['base path'] = dirname($file_path);
+            $definition['base path'] = str_replace($this->root, '', dirname($file_path));
             $definition['file name'] = basename($file_path);
             $definition['provider'] = $provider;
             $patterns[] = $this->getPatternDefinition($definition);
