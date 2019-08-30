@@ -46,7 +46,7 @@ function template_preprocess_pattern_views_row(array &$variables) {
   }
 
   $variables['pattern'] = [];
-  if (!empty($view->live_preview) && !isset($view->element['#embed'])) {
+  if (!empty($view->live_preview)) {
     drupal_set_message(t("Pattern Views row plugin does not support preview."), 'warning');
     $variables['pattern'] = ['#type' => 'status_messages'];
   }
