@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns\Element;
 
+use Drupal\Core\Render\Element;
 use Drupal\Core\Render\Element\RenderElement;
 use Drupal\Core\Template\Attribute;
 use Drupal\ui_patterns\UiPatterns;
@@ -86,6 +87,12 @@ class Pattern extends RenderElement {
     // Make sure we don't render anything in case fields are empty.
     if (self::hasFields($element)) {
       $fields = $element['#fields'];
+
+      // Add children elements as fields.
+      foreach (Element::children($element) as $children_key) {
+        $fields[$children_key] = $element[$children_key];
+      }
+
       unset($element['#fields']);
 
       foreach ($fields as $name => $field) {
@@ -206,7 +213,8 @@ class Pattern extends RenderElement {
    *   TRUE or FALSE.
    */
   public static function hasFields(array $element) {
-    return isset($element['#fields']) && !empty($element['#fields']) && is_array($element['#fields']);
+    $has_fields = isset($element['#fields']) && !empty($element['#fields']) && is_array($element['#fields']);
+    return $has_fields || !empty(Element::children($element));
   }
 
   /**
