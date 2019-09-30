@@ -86,7 +86,7 @@ class Pattern extends RenderElement {
   public static function processFields(array $element) {
     // Make sure we don't render anything in case fields are empty.
     if (self::hasFields($element)) {
-      $fields = $element['#fields'];
+      $fields = isset($element['#fields']) ? $element['#fields'] : [];
 
       // Add children elements as fields.
       foreach (Element::children($element) as $children_key) {
