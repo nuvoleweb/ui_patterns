@@ -1,0 +1,4 @@
+name: 'UI Patterns Test theme'
+type: theme
+description: 'Theme for testing UI Patterns features in action on a theme.'
+core: 8.x
