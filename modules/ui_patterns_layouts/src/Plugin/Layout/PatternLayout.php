@@ -119,7 +119,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $configuration = $this->getConfiguration();
-    $form = [];
+    $form = parent::buildConfigurationForm($form, $form_state);
 
     $form['pattern'] = [
       '#group' => 'additional_settings',
