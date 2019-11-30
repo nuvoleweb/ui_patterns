@@ -5,8 +5,6 @@ namespace Drupal\ui_patterns\Plugin\UiPatterns\Source;
 use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\ui_patterns\Plugin\PatternSourceBase;
-use Drupal\ui_patterns\UiPatternsManager;
-use Drupal\Core\TypedData\TypedDataManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -33,7 +31,7 @@ class ExtraFieldSource extends PatternSourceBase implements ContainerFactoryPlug
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, UiPatternsManager $ui_patterns_manager, TypedDataManager $typed_data_manager, EntityFieldManager $entity_field_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityFieldManager $entity_field_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityFieldManager = $entity_field_manager;
   }
@@ -46,8 +44,6 @@ class ExtraFieldSource extends PatternSourceBase implements ContainerFactoryPlug
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('plugin.manager.ui_patterns'),
-      $container->get('typed_data_manager'),
       $container->get('entity_field.manager')
     );
   }
@@ -66,10 +62,7 @@ class ExtraFieldSource extends PatternSourceBase implements ContainerFactoryPlug
     }
 
     foreach ($extra_fields['display'] as $extra_field_name => $field) {
-      if (!$this->getContextProperty('limit')) {
-        $sources[] = $this->getSourceField($extra_field_name, $field['label']);
-      }
-      elseif (in_array($extra_field_name, $this->getContextProperty('limit'))) {
+      if (empty($this->getContextProperty('limit')) || in_array($extra_field_name, $this->getContextProperty('limit'))) {
         $sources[] = $this->getSourceField($extra_field_name, $field['label']);
       }
     }
