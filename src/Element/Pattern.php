@@ -90,7 +90,9 @@ class Pattern extends RenderElement {
 
       // Add children elements as fields.
       foreach (Element::children($element) as $children_key) {
-        $fields[$children_key] = $element[$children_key];
+        if (!isset($fields[$children_key])) {
+          $fields[$children_key] = $element[$children_key];
+        }
       }
 
       unset($element['#fields']);
