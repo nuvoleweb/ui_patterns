@@ -24,11 +24,11 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->container->get('theme_installer')->install(['ui_patterns_library_theme_test']);
-    $this->container->get('theme_handler')->setDefault('ui_patterns_library_theme_test');
+    $this->container->get('config.factory')->getEditable('system.theme')->set('default', 'ui_patterns_library_theme_test')->save();
     $this->container->set('theme.registry', NULL);
 
     $user = $this->drupalCreateUser(['access patterns page']);
