@@ -6,13 +6,13 @@ use Drupal\Component\Plugin\Exception\PluginException;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\ui_patterns\Definition\PatternSourceField;
-use Drupal\Component\Plugin\ConfigurablePluginInterface;
+use Drupal\Component\Plugin\ConfigurableInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 
 /**
  * Base class for UI Patterns Source plugins.
  */
-abstract class PatternSourceBase extends PluginBase implements PatternSourceInterface, PluginInspectionInterface, ConfigurablePluginInterface {
+abstract class PatternSourceBase extends PluginBase implements PatternSourceInterface, PluginInspectionInterface, ConfigurableInterface {
 
   use StringTranslationTrait;
 
@@ -56,13 +56,6 @@ abstract class PatternSourceBase extends PluginBase implements PatternSourceInte
     }
     $reflection = new \ReflectionClass($this);
     throw new PluginException($this->t("Context property '@property' from @class is missing or empty.", ['@property' => $name, '@class' => $reflection->name]));
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function calculateDependencies() {
-    return [];
   }
 
 }
