@@ -19,4 +19,3 @@ config_devel:
   - field.field.node.article.body
   - node.type.article
   - core.entity_view_display.node.article.default
-

@@ -1,4 +1,3 @@
 services:
   ui_patterns_ds.field_template_processor:
     class: Drupal\ui_patterns_ds\FieldTemplateProcessor
-
