@@ -21,7 +21,7 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
   /**
    * Test UiPatternsManager::getPatternDefinition.
    *
-   * @covers ::getPatternDefinition
+   * @covers ::getPatterns
    */
   public function testGetPattern() {
     $manager = UiPatterns::getManager();

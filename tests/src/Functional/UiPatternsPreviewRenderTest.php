@@ -13,6 +13,13 @@ use Drupal\Tests\ui_patterns\Traits\TwigDebugTrait;
 class UiPatternsPreviewRenderTest extends BrowserTestBase {
 
   /**
+   * Default theme. See https://www.drupal.org/node/3083055.
+   *
+   * @var string
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Disable schema validation when running tests.
    *
    * @var bool

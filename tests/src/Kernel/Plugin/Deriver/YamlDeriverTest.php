@@ -6,7 +6,7 @@ use Drupal\Tests\ui_patterns\Kernel\AbstractUiPatternsTest;
 use Drupal\ui_patterns\UiPatterns;
 
 /**
- * @coversDefaultClass \Drupal\ui_patterns\Plugin\Deriver\YamlDeriver
+ * @coversDefaultClass \Drupal\ui_patterns\Plugin\Deriver\AbstractPatternsDeriver
  *
  * @group ui_patterns
  */

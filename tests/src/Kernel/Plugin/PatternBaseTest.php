@@ -17,7 +17,7 @@ class PatternBaseTest extends AbstractUiPatternsTest {
    *
    * @dataProvider hookLibraryInfoBuildDataProvider
    *
-   * @covers ::hookLibraryInfoBuild
+   * @covers ::getLibraryDefinitions
    */
   public function testHookLibraryInfoBuild($actual, $expected) {
     $pattern = $this->getUiPatternBaseMock($actual);

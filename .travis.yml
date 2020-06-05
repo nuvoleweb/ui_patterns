@@ -2,8 +2,8 @@ sudo: required
 language: php
 
 php:
-- 7.1
-- 7.2
+- 7.3
+- 7.4
 
 services:
 - docker
@@ -12,13 +12,13 @@ env:
   global:
   - DOCKER_COMPOSE_VERSION=1.17.1
   matrix:
-  - DRUPAL_VERSION=~8.6
   - DRUPAL_VERSION=~8.7
-  - DRUPAL_VERSION=8.8.x-dev
+  - DRUPAL_VERSION=~8.8
+  - DRUPAL_VERSION=9.0.x-dev
 
 matrix:
   allow_failures:
-  - env: DRUPAL_VERSION=8.8.x-dev
+  - env: DRUPAL_VERSION=9.0.x-dev
 
 before_install:
 - docker-compose up -d
