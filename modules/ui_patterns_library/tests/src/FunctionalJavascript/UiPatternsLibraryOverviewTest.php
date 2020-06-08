@@ -13,6 +13,13 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
 
   /**
+   * Default theme.
+   *
+   * @var string
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * {@inheritdoc}
    */
   protected static $modules = [
