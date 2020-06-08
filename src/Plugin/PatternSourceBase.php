@@ -55,7 +55,8 @@ abstract class PatternSourceBase extends PluginBase implements PatternSourceInte
       return $configuration['context'][$name];
     }
     $reflection = new \ReflectionClass($this);
-    throw new PluginException($this->t("Context property '@property' from @class is missing or empty.", ['@property' => $name, '@class' => $reflection->name]));
+    $message = sprintf("Context property '%s' from %s is missing or empty.", $name, $reflection->name);
+    throw new PluginException($message);
   }
 
 }

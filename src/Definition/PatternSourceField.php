@@ -11,9 +11,32 @@ class PatternSourceField {
 
   const FIELD_KEY_SEPARATOR = ':';
 
+  /**
+   * Field name.
+   *
+   * @var mixed
+   */
   private $fieldName;
+
+  /**
+   * Field label.
+   *
+   * @var mixed
+   */
   private $fieldLabel;
+
+  /**
+   * Plugin ID.
+   *
+   * @var mixed
+   */
   private $pluginId;
+
+  /**
+   * Plugin label.
+   *
+   * @var mixed
+   */
   private $pluginLabel;
 
   /**

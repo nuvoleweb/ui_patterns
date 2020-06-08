@@ -84,7 +84,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
    *   Typed data manager service.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   Messenger.
-   * @param \Drupal\Core\File\FileSystemInterface
+   * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   File system service.
    * @param string $root
    *   Application root directory.

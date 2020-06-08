@@ -67,7 +67,7 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
   public function testSinglePages() {
     $session = $this->assertSession();
 
-    foreach ($this->getExpectedPatterns() as $index => $pattern) {
+    foreach ($this->getExpectedPatterns() as $pattern) {
       $this->drupalGet('/patterns/' . $pattern['name']);
       $session->elementContains('css', 'h1', $pattern['label']);
 

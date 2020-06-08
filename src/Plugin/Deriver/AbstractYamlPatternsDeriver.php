@@ -33,7 +33,7 @@ abstract class AbstractYamlPatternsDeriver extends AbstractPatternsDeriver imple
    *   Typed data manager service.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   Messenger.
-   * @param \Drupal\Core\File\FileSystemInterface
+   * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   File system service.
    */
   public function __construct($base_plugin_id, TypedDataManager $typed_data_manager, MessengerInterface $messenger, FileSystemInterface $file_system) {
