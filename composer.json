@@ -15,21 +15,21 @@
   "require-dev": {
     "composer/installers": "^1.2",
     "cweagans/composer-patches": "~1.4",
-    "drupal-composer/drupal-scaffold": "^2.2",
-    "drupal/config_installer": "~1",
-    "drupal/console": "~1",
-    "drush/drush": "~9",
-    "drupal/ds": "~3",
-    "drupal/field_group": "~1",
+    "drupal-composer/drupal-scaffold": "^2.6",
     "drupal/coffee": "~1",
     "drupal/config_devel": "~1",
-    "drupal/panels": "~4",
+    "drupal/config_installer": "~1",
+    "drupal/console": "~1",
+    "drupal/core-dev": "~9.0",
+    "drupal/ds": "~3",
+    "drupal/field_group": "~1",
     "drupal/page_manager": "*",
+    "drupal/panels": "~4",
     "drupal/paragraphs": "~1",
     "drupal/token": "~1",
-    "phpro/grumphp": "~0.14",
-    "webflo/drupal-core-require-dev": "~8.7",
-    "openeuropa/task-runner": "~1.0-beta3"
+    "drush/drush": "~9",
+    "openeuropa/task-runner": "~1.0-beta6",
+    "phpro/grumphp": "~0.19"
   },
   "repositories": [
     {
