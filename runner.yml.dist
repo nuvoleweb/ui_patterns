@@ -24,7 +24,14 @@ selenium:
 
 commands:
   drupal:site-setup:
-    - { task: "symlink", from: "../../..", to: "${drupal.root}/modules/custom/ui_patterns" }
+    - { task: "symlink", from: "../../../../modules", to: "${drupal.root}/modules/custom/ui_patterns/modules" }
+    - { task: "symlink", from: "../../../../src", to: "${drupal.root}/modules/custom/ui_patterns/src" }
+    - { task: "symlink", from: "../../../../templates", to: "${drupal.root}/modules/custom/ui_patterns/templates" }
+    - { task: "symlink", from: "../../../../tests", to: "${drupal.root}/modules/custom/ui_patterns/tests" }
+    - { task: "symlink", from: "../../../../ui_patterns.info.yml", to: "${drupal.root}/modules/custom/ui_patterns/ui_patterns.info.yml" }
+    - { task: "symlink", from: "../../../../ui_patterns.install", to: "${drupal.root}/modules/custom/ui_patterns/ui_patterns.install" }
+    - { task: "symlink", from: "../../../../ui_patterns.module", to: "${drupal.root}/modules/custom/ui_patterns/ui_patterns.module" }
+    - { task: "symlink", from: "../../../../ui_patterns.services.yml", to: "${drupal.root}/modules/custom/ui_patterns/ui_patterns.services.yml" }
     # Generate settings.testing.php, it will be used when running functional tests.
     - { task: "process-php", type: "write", config: "drupal.settings", source: "${drupal.root}/sites/default/default.settings.php", destination: "${drupal.root}/sites/default/settings.testing.php", override: true }
     - { task: "run", command: "drupal:drush-setup" }
