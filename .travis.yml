@@ -3,7 +3,6 @@ language: php
 
 php:
 - 7.3
-- 7.4
 
 services:
 - docker
@@ -12,9 +11,9 @@ env:
   global:
   - DOCKER_COMPOSE_VERSION=1.25.5
   matrix:
-  - DRUPAL_VERSION=~8.8
-  - DRUPAL_VERSION=~8.9
-  - DRUPAL_VERSION=~9.0
+  - DRUPAL_VERSION=~8.8.7
+  - DRUPAL_VERSION=~8.9.0
+  - DRUPAL_VERSION=~9.0.0
   - DRUPAL_VERSION=9.1.x-dev
 
 matrix:
@@ -25,7 +24,7 @@ before_install:
 - docker-compose up -d
 
 install:
-- docker-compose exec -u root php composer require drupal/core-dev:$DRUPAL_VERSION --dev
+- docker-compose exec -u root php composer require webflo/drupal-core-require-dev:$DRUPAL_VERSION --dev
 - docker-compose exec -u root php chown -R www-data:www-data build
 
 script:
