@@ -24,7 +24,7 @@ before_install:
 - docker-compose up -d
 
 install:
-- docker-compose exec -u root php composer require drupal/core-dev:$DRUPAL_VERSION --dev
+- docker-compose exec -u root php composer require drupal/core-recommended:$DRUPAL_VERSION --dev
 - docker-compose exec -u root php chown -R www-data:www-data build
 
 script:
