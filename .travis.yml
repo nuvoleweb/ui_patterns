@@ -12,10 +12,10 @@ env:
   global:
   - DOCKER_COMPOSE_VERSION=1.25.5
   matrix:
-    - DRUPAL_VERSION=~8.8.7 GRUMPHP_VERSION=0.18
-    - DRUPAL_VERSION=~8.9.0 GRUMPHP_VERSION=0.18
-    - DRUPAL_VERSION=~9.0.0 GRUMPHP_VERSION=0.19
-    - DRUPAL_VERSION=9.1.x-dev GRUMPHP_VERSION=0.19
+    - DRUPAL_VERSION=~8.8.7 GRUMPHP_CONFIG=grumphp.drupal8.yml
+    - DRUPAL_VERSION=~8.9.0 GRUMPHP_CONFIG=grumphp.drupal8.yml
+    - DRUPAL_VERSION=~9.0.0 GRUMPHP_CONFIG=grumphp.yml
+    - DRUPAL_VERSION=9.1.x-dev GRUMPHP_CONFIG=grumphp.yml
 
 
 matrix:
@@ -30,7 +30,7 @@ install:
 - docker-compose exec -u root php chown -R www-data:www-data build
 
 script:
-- docker-compose exec -u www-data php ./vendor/bin/grumphp run -c grumphp.$GRUMPHP_VERSION.yml
+- docker-compose exec -u www-data php ./vendor/bin/grumphp run -c $GRUMPHP_CONFIG
 - docker-compose exec -u www-data php ./vendor/bin/phpunit
 
 notifications:
