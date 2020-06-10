@@ -4,6 +4,7 @@ namespace Drupal\Tests\ui_patterns_library\FunctionalJavascript;
 
 use Drupal\Core\Serialization\Yaml;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
+use Drupal\ui_patterns\UiPatterns;
 
 /**
  * Test patterns overview page.
@@ -53,10 +54,12 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     $session->elementContains('css', 'h1', 'Pattern library');
     $session->elementContains('css', 'h2', 'Available patterns');
 
+    foreach (UiPatterns::getManager()->getDefinitions() as $definition) {
+      print 'pattern definition. id: "' . $definition->id() . '", label: "' . $definition->getLabel() . '". ';
+    }
     foreach ($this->getExpectedPatterns() as $index => $pattern) {
 
       // Assert pattern anchor link.
-      print 'Pattern - ' . $index . ', label "' . $pattern['label'] . '", name "' . $pattern['name'] . '". ';
       $this->assertListLink($index + 1, $pattern['label'], $pattern['name']);
 
       // Assert pattern preview.
