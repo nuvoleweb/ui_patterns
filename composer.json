@@ -15,11 +15,9 @@
     "require-dev": {
         "composer/installers": "^1.2",
         "cweagans/composer-patches": "~1.4",
-        "drupal/core-composer-scaffold": "^8.8 || ^9",
         "drupal/coffee": "~1",
         "drupal/config_devel": "~1",
-        "drupal/config_installer": "~1",
-        "drupal/console": "~1",
+        "drupal/core-composer-scaffold": "^8.8 || ^9",
         "drupal/core-dev": "~8.9.0",
         "drupal/ds": "~3",
         "drupal/field_group": "~1",
