@@ -64,7 +64,7 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
       // Test view single page link.
       $session->linkExists("View {$pattern['label']} as stand-alone");
       $link = $this->getSession()->getPage()->findLink("View {$pattern['label']} as stand-alone");
-      $this->assertContains('/patterns/' . $pattern['name'], $link->getAttribute('href'));
+      $this->assertStringContainsString('/patterns/' . $pattern['name'], $link->getAttribute('href'));
     }
   }
 

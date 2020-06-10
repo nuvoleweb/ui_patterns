@@ -18,14 +18,15 @@
         "drupal/coffee": "~1",
         "drupal/config_devel": "~1",
         "drupal/core-composer-scaffold": "^8.8 || ^9",
-        "drupal/core-dev": "~8.9.0",
+        "drupal/core-dev": "^8.8 || ^9",
+        "drupal/core-recommended": "~8.9.0",
         "drupal/ds": "~3",
-        "drupal/field_group": "~1",
+        "drupal/field_group": "~3",
         "drupal/page_manager": "*",
         "drupal/panels": "~4",
         "drupal/paragraphs": "~1",
         "drupal/token": "~1",
-        "drush/drush": "~9",
+        "drush/drush": "~10",
         "openeuropa/task-runner": "~1.0-beta3",
         "phpro/grumphp": "~0.14"
     },
@@ -62,6 +63,11 @@
             "build/modules/contrib/{$name}": ["type:drupal-module"],
             "build/profiles/contrib/{$name}": ["type:drupal-profile"],
             "build/themes/contrib/{$name}": ["type:drupal-theme"]
+        },
+        "patches": {
+            "drupal/coffee": {
+                "Drupal 9 compatibility issue": "https://www.drupal.org/files/issues/2020-06-09/3147664-5.patch"
+            }
         }
     },
     "config": {
