@@ -56,6 +56,7 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     foreach ($this->getExpectedPatterns() as $index => $pattern) {
 
       // Assert pattern anchor link.
+      print 'Pattern - ' . $index . ', label "' . $pattern['label'] . '", name "' . $pattern['name'] . '". ';
       $this->assertListLink($index + 1, $pattern['label'], $pattern['name']);
 
       // Assert pattern preview.
