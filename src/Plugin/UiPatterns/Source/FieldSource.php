@@ -31,9 +31,9 @@ class FieldSource extends PatternSourceBase implements ContainerFactoryPluginInt
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityFieldManager $entity_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityFieldManager $entity_field_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->entityFieldManager = $entity_manager;
+    $this->entityFieldManager = $entity_field_manager;
   }
 
   /**
