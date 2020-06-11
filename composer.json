@@ -15,21 +15,19 @@
   "require-dev": {
     "composer/installers": "^1.2",
     "cweagans/composer-patches": "~1.4",
-    "drupal-composer/drupal-scaffold": "^2.2",
-    "drupal/config_installer": "~1",
-    "drupal/console": "~1",
-    "drush/drush": "~9",
-    "drupal/ds": "~3",
-    "drupal/field_group": "~1",
-    "drupal/coffee": "~1",
     "drupal/config_devel": "~1",
-    "drupal/panels": "~4",
+    "drupal/core-composer-scaffold": "^8.8 || ^9",
+    "drupal/core-dev": "^8.8 || ^9",
+    "drupal/core-recommended": "~8.9.0",
+    "drupal/ds": "~3",
+    "drupal/field_group": "~3",
     "drupal/page_manager": "*",
+    "drupal/panels": "~4",
     "drupal/paragraphs": "~1",
     "drupal/token": "~1",
-    "phpro/grumphp": "~0.14",
-    "webflo/drupal-core-require-dev": "~8.7",
-    "openeuropa/task-runner": "~1.0-beta3"
+    "drush/drush": "~10",
+    "openeuropa/task-runner": "~1.0-beta3",
+    "phpro/grumphp": "~0.14"
   },
   "repositories": [
     {
@@ -48,13 +46,17 @@
     }
   },
   "scripts": {
-    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "post-install-cmd": "./vendor/bin/run drupal:site-setup",
     "post-update-cmd": "./vendor/bin/run drupal:site-setup"
   },
   "extra": {
     "composer-exit-on-patch-failure": true,
     "enable-patching": true,
+    "drupal-scaffold": {
+      "locations": {
+        "web-root": "build/"
+      }
+    },
     "installer-paths": {
       "build/core": ["type:drupal-core"],
       "build/modules/contrib/{$name}": ["type:drupal-module"],

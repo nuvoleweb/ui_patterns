@@ -12,6 +12,13 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 class UiPatternsLibraryBadDefinitionTest extends WebDriverTestBase {
 
   /**
+   * Default theme.
+   *
+   * @var string
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * {@inheritdoc}
    */
   protected static $modules = [

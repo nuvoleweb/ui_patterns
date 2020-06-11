@@ -2,6 +2,5 @@ name: UI Patterns
 type: module
 description: UI patterns
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: User interface
-dependencies:
-  - drupal:system (>=8.3.0)

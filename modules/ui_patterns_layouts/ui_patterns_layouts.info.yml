@@ -2,6 +2,7 @@ name: UI Patterns Layouts
 type: module
 description: Use patterns as layouts via the Layout Discovery module.
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: User interface
 dependencies:
   - drupal:layout_discovery

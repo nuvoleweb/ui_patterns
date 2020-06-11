@@ -15,6 +15,13 @@ class UiPatternsViewsRenderTest extends WebDriverTestBase {
   use TwigDebugTrait;
 
   /**
+   * Default theme.
+   *
+   * @var string
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Disable schema validation when running tests.
    *
    * @var bool

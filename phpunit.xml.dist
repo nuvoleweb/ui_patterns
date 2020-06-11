@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="${drupal.root}/core/tests/bootstrap.php" backupGlobals="true" colors="true" >
+<phpunit bootstrap="${drupal.root}/core/tests/bootstrap.php" backupGlobals="true" colors="true" cacheResult="false">
   <php>
     <ini name="error_reporting" value="32767"/>
     <ini name="memory_limit" value="-1"/>
@@ -9,7 +9,7 @@
     <env name="MINK_DRIVER_ARGS_WEBDRIVER" value='["${selenium.browser}", null, "${selenium.host}/wd/hub"]'/>
   </php>
   <testsuites>
-    <testsuite>
+    <testsuite name="ui-patterns">
       <directory>./tests/</directory>
       <directory>./modules/*/tests/</directory>
     </testsuite>

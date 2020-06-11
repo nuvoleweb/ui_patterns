@@ -3,7 +3,9 @@
 namespace Drupal\ui_patterns\Plugin\Deriver;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\TypedData\TypedDataManager;
 use Drupal\ui_patterns\Definition\PatternDefinition;
 use Drupal\ui_patterns\TypedData\PatternDataDefinition;
@@ -16,6 +18,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDeriverInterface, ContainerDeriverInterface {
 
+  use StringTranslationTrait;
+
   /**
    * Typed data manager service.
    *
@@ -24,11 +28,19 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
   protected $typedDataManager;
 
   /**
+   * The messenger.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * AbstractPatternsDeriver constructor.
    */
-  public function __construct($base_plugin_id, TypedDataManager $typed_data_manager) {
+  public function __construct($base_plugin_id, TypedDataManager $typed_data_manager, MessengerInterface $messenger) {
     $this->basePluginId = $base_plugin_id;
     $this->typedDataManager = $typed_data_manager;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -37,7 +49,8 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
   public static function create(ContainerInterface $container, $base_plugin_id) {
     return new static(
       $base_plugin_id,
-      $container->get('typed_data_manager')
+      $container->get('typed_data_manager'),
+      $container->get('messenger')
     );
   }
 
@@ -82,14 +95,14 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
     $violations = $this->typedDataManager->create($data_definition, $definition->toArray())->validate();
     if ($violations->count()) {
       /** @var \Symfony\Component\Validator\ConstraintViolation $violation */
-      drupal_set_message(t("Pattern ':id' is skipped because of the following validation error(s):", [':id' => $definition->id()]), 'error');
+      $this->messenger->addError($this->t("Pattern ':id' is skipped because of the following validation error(s):", [':id' => $definition->id()]));
       foreach ($violations as $violation) {
-        $message = t('Validation error on ":id.:property": :message', [
+        $message = $this->t('Validation error on ":id.:property": :message', [
           ':id' => $definition->id(),
           ':property' => $violation->getPropertyPath(),
           ':message' => $violation->getMessage(),
         ]);
-        drupal_set_message($message, 'error');
+        $this->messenger->addError($message);
       }
       return FALSE;
     }
