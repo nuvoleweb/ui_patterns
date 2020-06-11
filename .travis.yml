@@ -35,4 +35,3 @@ script:
 
 notifications:
   email: false
-
