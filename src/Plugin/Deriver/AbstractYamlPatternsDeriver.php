@@ -62,7 +62,9 @@ abstract class AbstractYamlPatternsDeriver extends AbstractPatternsDeriver imple
     $extensions = $this->getFileExtensions();
     $extensions = array_map('preg_quote', $extensions);
     $extensions = implode('|', $extensions);
-    $files = $this->fileSystem->scanDirectory($directory, "/{$extensions}$/", $options);
+    if (is_dir($directory)) {
+      $files = $this->fileSystem->scanDirectory($directory, "/{$extensions}$/", $options);
+    }
     // In different file systems order of files in a folder can be different
     // that can break tests. So let's sort them alphabetically manually.
     ksort($files);
