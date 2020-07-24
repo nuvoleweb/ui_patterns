@@ -2,6 +2,7 @@ name: UI Patterns Display Suite
 type: module
 description: Use patterns as Display Suite field templates. It also provides Display Suite pattern sources.
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: User interface
 dependencies:
   - ds:ds

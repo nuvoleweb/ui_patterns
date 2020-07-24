@@ -4,6 +4,8 @@ namespace Drupal\ui_patterns_library\Plugin\Deriver;
 
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Extension\ExtensionDiscovery;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\TypedData\TypedDataManager;
 use Drupal\ui_patterns\Plugin\Deriver\AbstractYamlPatternsDeriver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -80,6 +82,10 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
    *   The base plugin ID.
    * @param \Drupal\Core\TypedData\TypedDataManager $typed_data_manager
    *   Typed data manager service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   Messenger.
+   * @param \Drupal\Core\File\FileSystemInterface $file_system
+   *   File system service.
    * @param string $root
    *   Application root directory.
    * @param array $extensions
@@ -89,8 +95,8 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
    * @param \Drupal\Core\Extension\ThemeHandlerInterface $theme_handler
    *   Theme handler service.
    */
-  public function __construct($base_plugin_id, TypedDataManager $typed_data_manager, $root, array $extensions, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
-    parent::__construct($base_plugin_id, $typed_data_manager);
+  public function __construct($base_plugin_id, TypedDataManager $typed_data_manager, MessengerInterface $messenger, FileSystemInterface $file_system, $root, array $extensions, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler) {
+    parent::__construct($base_plugin_id, $typed_data_manager, $messenger, $file_system);
     $this->root = $root;
     $this->fileExtensions = $extensions;
     $this->moduleHandler = $module_handler;
@@ -105,6 +111,8 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
     return new static(
       $base_plugin_id,
       $container->get('typed_data_manager'),
+      $container->get('messenger'),
+      $container->get('file_system'),
       $container->get('app.root'),
       $container->getParameter('ui_patterns_library.file_extensions'),
       $container->get('module_handler'),

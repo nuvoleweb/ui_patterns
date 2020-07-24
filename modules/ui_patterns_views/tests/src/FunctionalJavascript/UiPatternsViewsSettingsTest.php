@@ -13,6 +13,13 @@ use Drupal\views\Entity\View;
 class UiPatternsViewsSettingsTest extends WebDriverTestBase {
 
   /**
+   * Default theme.
+   *
+   * @var string
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Disable schema validation when running tests.
    *
    * @var bool

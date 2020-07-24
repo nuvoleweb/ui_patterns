@@ -2,6 +2,7 @@ name: 'UI Patterns Layouts Test'
 type: module
 description: 'Test module for UI Patterns.'
 core: 8.x
+core_version_requirement: ^8 || ^9
 hidden: true
 package: 'User interface'
 dependencies:
@@ -18,4 +19,3 @@ config_devel:
   - field.field.node.article.body
   - node.type.article
   - core.entity_view_display.node.article.default
-

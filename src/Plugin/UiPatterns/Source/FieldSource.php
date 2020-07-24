@@ -2,7 +2,7 @@
 
 namespace Drupal\ui_patterns\Plugin\UiPatterns\Source;
 
-use Drupal\Core\Entity\EntityManager;
+use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\ui_patterns\Plugin\PatternSourceBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -24,16 +24,16 @@ class FieldSource extends PatternSourceBase implements ContainerFactoryPluginInt
   /**
    * Entity manager service.
    *
-   * @var \Drupal\Core\Entity\EntityManager
+   * @var \Drupal\Core\Entity\EntityFieldManager
    */
-  protected $entityManager;
+  protected $entityFieldManager;
 
   /**
    * {@inheritdoc}
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityManager $entity_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityFieldManager $entity_field_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->entityManager = $entity_manager;
+    $this->entityFieldManager = $entity_field_manager;
   }
 
   /**
@@ -44,7 +44,7 @@ class FieldSource extends PatternSourceBase implements ContainerFactoryPluginInt
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity.manager')
+      $container->get('entity_field.manager')
     );
   }
 
@@ -53,7 +53,7 @@ class FieldSource extends PatternSourceBase implements ContainerFactoryPluginInt
    */
   public function getSourceFields() {
     $sources = [];
-    $fields = $this->entityManager->getFieldDefinitions($this->getContextProperty('entity_type'), $this->getContextProperty('entity_bundle'));
+    $fields = $this->entityFieldManager->getFieldDefinitions($this->getContextProperty('entity_type'), $this->getContextProperty('entity_bundle'));
 
     /** @var \Drupal\Core\Field\FieldDefinitionInterface $field */
     foreach ($fields as $field) {

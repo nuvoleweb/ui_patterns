@@ -1,5 +1,17 @@
 # Change Log
 
+## [8.x-1.2](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.2) (2020-06-11)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.1...8.x-1.2)
+
+**Closed issues:**
+
+- Pattern translation [\#285](https://github.com/nuvoleweb/ui_patterns/issues/285)
+- how to make compatible with react vue and angular? [\#272](https://github.com/nuvoleweb/ui_patterns/issues/272)
+
+**Merged Pull Requests**
+
+- Drupal 9 compatibility [\#292](https://github.com/nuvoleweb/ui_patterns/pull/292) ([ademarco](https://github.com/ademarco))
+
 ## [8.x-1.1](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.1) (2019-06-16)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.0...8.x-1.1)
 

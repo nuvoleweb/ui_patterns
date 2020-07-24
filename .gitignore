@@ -6,3 +6,5 @@
 /phpunit.xml
 /docker-compose.override.yml
 /runner.yml
+/.editorconfig
+/.gitattributes
