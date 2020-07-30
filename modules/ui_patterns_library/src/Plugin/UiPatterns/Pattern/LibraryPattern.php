@@ -72,16 +72,37 @@ class LibraryPattern extends PatternBase {
    *   Processed hook definition portion.
    */
   protected function processCustomThemeHookProperty(PatternDefinition $definition) {
-    /** @var \Drupal\Core\Extension\Extension $module */
-    $return = [];
-    if (!$definition->hasCustomThemeHook() && $this->moduleHandler->moduleExists($definition->getProvider())) {
-      $module = $this->moduleHandler->getModule($definition->getProvider());
-      $return['path'] = $module->getPath() . '/templates';
+    if (!$definition->hasCustomThemeHook()) {
       if ($this->templateExists($definition->getBasePath(), $definition->getTemplate())) {
-        $return['path'] = str_replace($this->root, '', $definition->getBasePath());
+        return ['path' => str_replace($this->root, '', $definition->getBasePath())];
+      }
+
+      $provider = $definition->getProvider();
+      $extension = $this->getProviderExtension($provider);
+      if ($extension) {
+        return ['path' => $extension->getPath() . '/templates'];
       }
     }
-    return $return;
+    return [];
+  }
+
+  /**
+   * Get the extension (module or theme) for the given provider.
+   *
+   * @param string $provider
+   *   The name of the provider.
+   *
+   * @return \Drupal\Core\Extension\Extension|null
+   *   The extension or NULL if none found.
+   */
+  protected function getProviderExtension($provider) {
+    if ($this->moduleHandler->moduleExists($provider)) {
+      return $this->moduleHandler->getModule($provider);
+    }
+    elseif ($this->themeHandler->themeExists($provider)) {
+      return $this->themeHandler->getTheme($provider);
+    }
+    return NULL;
   }
 
   /**
