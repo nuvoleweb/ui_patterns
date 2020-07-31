@@ -58,6 +58,9 @@ abstract class AbstractYamlPatternsDeriver extends AbstractPatternsDeriver imple
    * {@inheritdoc}
    */
   public function fileScanDirectory($directory) {
+    if (!is_dir($directory)) {
+      return [];
+    }
     $options = ['nomask' => $this->getNoMask()];
     $extensions = $this->getFileExtensions();
     $extensions = array_map('preg_quote', $extensions);
