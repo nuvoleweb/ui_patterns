@@ -156,13 +156,14 @@ class Pattern extends RenderElement {
         if (count($field) > 1) {
           /** @var \Drupal\ui_patterns\Element\PatternContext $context */
           $context = $element['#context'];
-          $context->setProperty('pattern', $element['#id']);
-          $context->setProperty('field', $name);
+          $field_context = new PatternContext($context->getType(), $context->getProperties());
+          $field_context->setProperty('pattern', $element['#id']);
+          $field_context->setProperty('field', $name);
 
           // Render multiple sources with "patterns_destination" template.
           $element['#fields'][$name] = [
             '#sources' => $field,
-            '#context' => $context,
+            '#context' => $field_context,
             '#theme' => 'patterns_destination',
           ];
         }

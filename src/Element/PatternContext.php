@@ -50,6 +50,16 @@ class PatternContext {
   }
 
   /**
+   * Get pattern context properties.
+   *
+   * @return mixed
+   *   Property value.
+   */
+  public function getProperties() {
+    return $this->properties;
+  }
+
+  /**
    * Set pattern context property.
    *
    * @param string $name
