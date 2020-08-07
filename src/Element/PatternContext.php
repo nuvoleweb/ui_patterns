@@ -53,7 +53,7 @@ class PatternContext {
    * Get pattern context properties.
    *
    * @return mixed
-   *   Property value.
+   *   All context properties.
    */
   public function getProperties() {
     return $this->properties;
