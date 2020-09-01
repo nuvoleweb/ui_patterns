@@ -152,6 +152,7 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
    */
   protected function processVariables(PatternDefinition $definition) {
     $return = [];
+    $return['variables']['ui_patterns_id'] = $definition->id();
     foreach ($definition->getFields() as $field) {
       $return['variables'][$field->getName()] = NULL;
     }
