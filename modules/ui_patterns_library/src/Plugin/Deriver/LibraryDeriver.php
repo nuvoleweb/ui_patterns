@@ -167,10 +167,10 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
 
     $directories = [];
     if (isset($theme_directories[$default_theme])) {
-      $directories[$default_theme] = $theme_directories[$default_theme];
       foreach ($base_themes as $name => $theme) {
         $directories[$name] = $theme_directories[$name];
       }
+      $directories[$default_theme] = $theme_directories[$default_theme];
     }
 
     return $directories + $this->moduleHandler->getModuleDirectories();
