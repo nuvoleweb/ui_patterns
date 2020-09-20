@@ -1,7 +1,7 @@
 Use patterns as layouts
 =======================
 
-Patterns can be used as layouts thanks to the ``ui_patterns_layouts`` module.
+Patterns can be used as layouts thanks to the ``ui_patterns_layouts`` module when ``display suite`` contrib module is enabled.
 
 Once exposed as layouts patterns can be used to arrange fields on entities like nodes,
 `paragraphs <https://www.drupal.org/project/paragraphs>`_, etc. or to place blocks on a page using
