@@ -88,9 +88,12 @@ class Pattern extends RenderElement {
       $fields = $element['#fields'];
       unset($element['#fields']);
 
-      foreach ($fields as $name => $field) {
+      $definition = UiPatterns::getPatternDefinition($element['#id']);
+      foreach ($definition->getFields() as $field_definition) {
+        $name = $field_definition->getName();
         $key = '#' . $name;
-        $element[$key] = $field;
+        // Enforce that fields with no value are rendered empty.
+        $element[$key] = isset($fields[$name]) ? $fields[$name] : ['#markup' => ''];
       }
     }
     else {
