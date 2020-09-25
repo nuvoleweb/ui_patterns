@@ -161,7 +161,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
    *   An array containing directory paths keyed by their extension name.
    */
    protected function getDirectories() {
-     return $this->moduleHandler->getModuleDirectories() + $this->themeHandler->getThemeDirectories();
+     return $this->themeHandler->getThemeDirectories() + $this->moduleHandler->getModuleDirectories();
    }
 
   /**
