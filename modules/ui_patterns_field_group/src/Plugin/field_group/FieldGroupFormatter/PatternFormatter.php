@@ -98,16 +98,87 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    * {@inheritdoc}
    */
   public function preRender(&$element, $rendering_object) {
-
-    $fields = [];
     $mapping = $this->getSetting('pattern_mapping');
     foreach ($mapping as $field) {
-      $fields[$field['destination']][] = $element[$field['source']];
+      $this->buildFieldGroupElements($element, $field);
+      $element['#fields'][$field['destination']][] = $element[$field['source']];
     }
+    $this->determineConfigSettings($element, $this->getSetting('pattern'));
+  }
+
+  /**
+   * Recursive method building the fieldgroup content.
+   *
+   * This method checks if one of the fieldgroup items are a fieldgroup pattern
+   * themselve. If so, we must build its configuration again and check if this
+   * fieldgroup doesn't have fieldgroup pattern items itself. (And the story
+   * keeps going until there are no more people alive on earth).
+   *
+   * @param array $element
+   *   Renderable array of the outputed content.
+   * @param array $field
+   *   Pattern config settings.
+   */
+  protected function buildFieldGroupElements(array &$element, array $field) {
+    if ($field['plugin'] == 'fieldgroup') {
+      $group_settings = $this->getSubFieldgroupPatternSettings($field);
+
+      // Build pattern group children content.
+      foreach ($group_settings["format_settings"]["pattern_mapping"] as $child) {
+        if ($child['plugin'] == 'fieldgroup') {
+          $this->buildFieldGroupElements($element[$field['source']], $child);
+        }
+        $element[$field['source']]['#fields'][$child['destination']][] = $element[$field['source']][$child['source']];
+      }
+      $this->determineConfigSettings($element[$field['source']], $group_settings['format_settings']['pattern']);
+    }
+    $element[$field['destination']][] = $element[$field['source']];
+  }
+
+  /**
+   * Helper to get the pattern subfieldgroup settings.
+   *
+   * @param array $field
+   *   Array if fieldgroup pattern fields config. Its determines the type of
+   *   each field within the pattern, its source and its destination.
+   *
+   * @return array
+   *   Array of settings for the group.
+   */
+  protected function getSubFieldgroupPatternSettings(array $field) {
+    $config_name_pieces = [];
+
+    // Build the key name of the view display config that we will retrieve
+    // the group config from.
+    foreach (['entity_type', 'bundle', 'mode'] as $key) {
+      $config_name_pieces[] = $this->configuration["group"]->{$key};
+    }
+    $config_name = implode('.', $config_name_pieces);
+
+    // @TODO:
+    // - Figure out if temporary modifications in the other fieldgroup
+    // patterns can be fetch. When loading from config storage, we may not
+    // have the latest changes.
+    // Fetch the child pattern configuration to know which field goes where.
+    $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
+    $view_display = $storage->load($config_name);
+    $group_settings = $view_display->getThirdPartySetting('field_group', $field['source']);
+
+    return $group_settings;
+  }
+
+  /**
+   * Helper to build the context expected to render the fieldgroup pattern.
+   *
+   * @param array $element
+   *   Field data.
+   * @param string $pattern_id
+   *   Machine name of the pattern to load.
+   */
+  protected function determineConfigSettings(array &$element, $pattern_id) {
+    $element['#id'] = $pattern_id;
 
     $element['#type'] = 'pattern';
-    $element['#id'] = $this->getSetting('pattern');
-    $element['#fields'] = $fields;
     $element['#multiple_sources'] = TRUE;
     $element['#variant'] = $this->getSetting('pattern_variant');
 
@@ -144,6 +215,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       $context = [
         'entity_type' => $this->configuration['group']->entity_type,
         'entity_bundle' => $this->configuration['group']->bundle,
+        'entity_view_mode' => $this->configuration['group']->mode,
         'limit' => $this->configuration['group']->children,
       ];
 
