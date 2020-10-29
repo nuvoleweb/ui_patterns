@@ -8,6 +8,7 @@ use Drupal\Core\Layout\LayoutDefault;
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
+use Drupal\Core\Security\TrustedCallbackInterface;
 use Drupal\ui_patterns\UiPatternsManager;
 use Drupal\Core\Render\ElementInfoManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @package Drupal\ui_patterns_layouts\Plugin\Layout
  */
-class PatternLayout extends LayoutDefault implements PluginFormInterface, ContainerFactoryPluginInterface {
+class PatternLayout extends LayoutDefault implements PluginFormInterface, ContainerFactoryPluginInterface, TrustedCallbackInterface {
 
   /**
    * Module Handler.
@@ -94,12 +95,22 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
       $fields[$region_name] = $regions[$region_name];
     }
 
-    return [
+    $build = [
       '#type' => 'pattern',
       '#id' => $this->getPluginDefinition()->get('additional')['pattern'],
       '#fields' => $fields,
       '#variant' => $configuration['pattern']['variant'],
     ] + $this->elementInfo->getInfo('pattern');
+
+    // Add the fields at the root of the render array so modules that usually
+    // deal with layouts (eg. Field Group) can still do their jobs.
+    $build += $fields;
+
+    // Prepend a new pre_render method that will copy back altered field arrays
+    // to the #fields variable.
+    array_unshift($build['#pre_render'], [get_class($this), 'preProcessFields']);
+
+    return $build;
   }
 
   /**
@@ -184,6 +195,31 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
         }
       }
     }
+  }
+
+  /**
+   * Copy field content back where it belongs.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public static function preProcessFields(array $element) {
+    foreach ($element['#fields'] as $field_name => $content) {
+      if (array_key_exists($field_name, $element)) {
+        $element['#fields'][$field_name] = $element[$field_name];
+      }
+    }
+    return $element;
+  }
+
+  /**
+   * @return string[]|void
+   */
+  public static function trustedCallbacks() {
+    return ['preProcessFields'];
   }
 
 }
