@@ -98,18 +98,70 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
    * {@inheritdoc}
    */
   public function preRender(&$element, $rendering_object) {
+    $this->preRenderGroup($element, $this->group->group_name, $rendering_object);
+  }
 
-    $fields = [];
-    $mapping = $this->getSetting('pattern_mapping');
-    foreach ($mapping as $field) {
-      $fields[$field['destination']][] = $element[$field['source']];
+  /**
+   * Recursive method to build the fieldgroup content.
+   *
+   * This method checks if one of the fieldgroup items are a fieldgroup pattern
+   * themselve. If so, we must build its configuration again and check if this
+   * fieldgroup doesn't have fieldgroup pattern items itself. (And the story
+   * keeps going until there are no more people alive on earth).
+   *
+   * @param array $element
+   *   Renderable array of the outputed content.
+   * @param array $group_settings
+   *   Pattern config settings.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  protected function preRenderGroup(array &$element, $group_name, array $rendering_object) {
+    // Do not pre render the group twice.
+    if (!empty($element['#pattern_pre_rendered'])) {
+      return;
+    }
+
+    // Load field group settings.
+    $group = $rendering_object['#fieldgroups'][$group_name];
+
+    // Handle groups managed by UI Patterns recursively.
+    if ($group->format_type == 'pattern_formatter') {
+      // Move content into their fields.
+      foreach ($group->format_settings['pattern_mapping'] as $field) {
+        if ($field['plugin'] == 'fieldgroup') {
+          $this->preRenderGroup($element[$field['source']], $field['source'], $rendering_object);
+        }
+        $element['#fields'][$field['destination']][$field['source']] = $element[$field['source']];
+      }
+
+      // Add render array metadata.
+      $this->addRenderContext($element, $group->format_settings);
+    }
+    // Fallback to default pre_rendering for fieldgroups not managed by UI
+    // Patterns.
+    else {
+      field_group_pre_render($element, $group, $rendering_object);
+    }
+  }
+
+  /**
+   * Helper to build the context expected to render the fieldgroup pattern.
+   *
+   * @param array $element
+   *   Field data.
+   * @param array $format_settings
+   *   The pattern format settings.
+   */
+  protected function addRenderContext(array &$element, array $format_settings) {
+    $element['#id'] = $format_settings['pattern'];
+    if (!empty($format_settings['pattern_variant'])) {
+      $element['#variant'] = $format_settings['pattern_variant'];
     }
 
     $element['#type'] = 'pattern';
-    $element['#id'] = $this->getSetting('pattern');
-    $element['#fields'] = $fields;
     $element['#multiple_sources'] = TRUE;
-    $element['#variant'] = $this->getSetting('pattern_variant');
 
     // Allow default context values to not override those exposed elsewhere.
     $element['#context']['type'] = 'field_group';
@@ -119,17 +171,13 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     $element['#context']['view_mode'] = $this->configuration['group']->mode;
 
     // Pass current entity to pattern context, if any.
-    $element['#context']['entity'] = $this->entityFinder->findEntityFromFields($element['#fields']);
-  }
+    if (!empty($element['#fields'])) {
+      $element['#context']['entity'] = $this->entityFinder->findEntityFromFields($element['#fields']);
+    }
 
-  /**
-   * Get field group name.
-   *
-   * @return string
-   *   Field group name.
-   */
-  protected function getFieldGroupName() {
-    return $this->configuration['group']->group_name;
+    // Nested groups can be rendered in any order so mark this one as done to
+    // prevent issues.
+    $element['#pattern_pre_rendered'] = TRUE;
   }
 
   /**
@@ -144,6 +192,7 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       $context = [
         'entity_type' => $this->configuration['group']->entity_type,
         'entity_bundle' => $this->configuration['group']->bundle,
+        'entity_view_mode' => $this->configuration['group']->mode,
         'limit' => $this->configuration['group']->children,
       ];
 
