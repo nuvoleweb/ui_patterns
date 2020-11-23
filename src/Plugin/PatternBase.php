@@ -79,8 +79,7 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
 
     // Attach pattern base path to assets.
     if (!empty($definition['base path'])) {
-      $base_path = str_replace($this->root, '', $definition['base path']);
-      $this->processLibraries($items, $base_path);
+      $this->processLibraries($items, $definition['base path']);
     }
 
     // Produce final libraries array.
