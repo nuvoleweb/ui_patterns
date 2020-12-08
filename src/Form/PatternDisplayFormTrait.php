@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns\Form;
 
+use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\SortArray;
 use Drupal\ui_patterns\Plugin\PatternSourceBase;
 
@@ -30,7 +31,7 @@ trait PatternDisplayFormTrait {
    *   Default configuration coming form the host form.
    */
   public function buildPatternDisplayForm(array &$form, $tag, array $context, array $configuration) {
-
+    $pattern_select_id = Html::getUniqueId('patterns-select');
     $form['pattern'] = [
       '#type' => 'select',
       '#empty_value' => '_none',
@@ -38,7 +39,7 @@ trait PatternDisplayFormTrait {
       '#options' => $this->patternsManager->getPatternsOptions(),
       '#default_value' => isset($configuration['pattern']) ? $configuration['pattern'] : NULL,
       '#required' => TRUE,
-      '#attributes' => ['id' => 'patterns-select'],
+      '#id' => $pattern_select_id,
     ];
     $form['variants'] = ['#type' => 'container'];
 
@@ -53,7 +54,7 @@ trait PatternDisplayFormTrait {
           '#weight' => 0,
           '#states' => [
             'visible' => [
-              'select[id="patterns-select"]' => ['value' => $pattern_id],
+              'select[id="' . $pattern_select_id . '"]' => ['value' => $pattern_id],
             ],
           ],
         ];
@@ -63,7 +64,7 @@ trait PatternDisplayFormTrait {
         '#weight' => 1,
         '#states' => [
           'visible' => [
-            'select[id="patterns-select"]' => ['value' => $pattern_id],
+            'select[id="' . $pattern_select_id . '"]' => ['value' => $pattern_id],
           ],
         ],
         'settings' => $this->getMappingForm($pattern_id, $tag, $context, $configuration),
