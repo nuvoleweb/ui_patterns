@@ -1,48 +1,3 @@
-- name: 'simple'
-  label: 'Simple'
-  description: 'A simple pattern'
-  has_variants: false
-  preview: '<div class="pattern-simple">Simple pattern field</div>'
-  fields:
-  - name: 'field'
-    type: 'string'
-    label: 'Field'
-    description: 'Field description'
-
-- name: 'with_variants'
-  label: 'With variants'
-  description: 'Pattern with variants'
-  has_variants: true
-  preview: ~
-  fields:
-  - name: 'field'
-    type: 'string'
-    label: 'Field'
-    description: 'Field description'
-  variants:
-  - meta:
-      name: 'one'
-      label: 'One'
-      description: 'First variant'
-    preview: '<div class="pattern-with-variant-one">With variants pattern field</div>'
-  - meta:
-      name: 'two'
-      label: 'Two'
-      description: 'Second variant'
-    preview: '<div class="pattern-with-variant-two">With variants pattern field</div>'
-
-- name: 'with_custom_theme_hook'
-  theme hook: 'custom_theme_hook'
-  label: 'With custom theme hook'
-  description: 'Pattern with custom theme hook.'
-  has_variants: false
-  preview: 'With custom theme hook: Pattern field value'
-  fields:
-  - name: 'field'
-    type: 'string'
-    label: 'Field'
-    description: 'Field description'
-
 - name: 'button'
   label: 'Button'
   description: 'A simple button.'
@@ -97,3 +52,48 @@
     type: 'string'
     label: 'Field'
     description: 'Field description'
+
+- name: 'simple'
+  label: 'Simple'
+  description: 'A simple pattern'
+  has_variants: false
+  preview: '<div class="pattern-simple">Simple pattern field</div>'
+  fields:
+    - name: 'field'
+      type: 'string'
+      label: 'Field'
+      description: 'Field description'
+
+- name: 'with_variants'
+  label: 'With variants'
+  description: 'Pattern with variants'
+  has_variants: true
+  preview: ~
+  fields:
+    - name: 'field'
+      type: 'string'
+      label: 'Field'
+      description: 'Field description'
+  variants:
+    - meta:
+        name: 'one'
+        label: 'One'
+        description: 'First variant'
+      preview: '<div class="pattern-with-variant-one">With variants pattern field</div>'
+    - meta:
+        name: 'two'
+        label: 'Two'
+        description: 'Second variant'
+      preview: '<div class="pattern-with-variant-two">With variants pattern field</div>'
+
+- name: 'with_custom_theme_hook'
+  theme hook: 'custom_theme_hook'
+  label: 'With custom theme hook'
+  description: 'Pattern with custom theme hook.'
+  has_variants: false
+  preview: 'With custom theme hook: Pattern field value'
+  fields:
+    - name: 'field'
+      type: 'string'
+      label: 'Field'
+      description: 'Field description'
