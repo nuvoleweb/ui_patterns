@@ -62,7 +62,7 @@ function ui_patterns_layouts_preprocess_ds_entity_view(&$variables) {
 function ui_patterns_layouts_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
   if ($display instanceof EntityDisplayWithLayoutInterface && isset($build['_field_layout']['#type']) && $build['_field_layout']['#type'] == 'pattern') {
     $build['_field_layout']['#context']['type'] = 'layout';
-    $build['_field_layout']['#context']['entity_type'] = $build['#entity_type'];
+    $build['_field_layout']['#context']['entity_type'] = $entity->getEntityTypeId();
     $build['_field_layout']['#context']['bundle'] = $entity->bundle();
     $build['_field_layout']['#context']['view_mode'] = $build['#view_mode'];
     $build['_field_layout']['#context']['entity_id'] = $entity->id();
