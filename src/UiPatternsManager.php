@@ -2,8 +2,8 @@
 
 namespace Drupal\ui_patterns;
 
-use Drupal\Component\Plugin\PluginManagerInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Component\Plugin\CategorizingPluginManagerInterface;
+use Drupal\Core\Plugin\CategorizingPluginManagerTrait;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
@@ -14,9 +14,9 @@ use Drupal\Core\Plugin\DefaultPluginManager;
  *
  * @method \Drupal\ui_patterns\Definition\PatternDefinition getDefinition($plugin_id, $exception_on_invalid = TRUE)
  */
-class UiPatternsManager extends DefaultPluginManager implements PluginManagerInterface {
+class UiPatternsManager extends DefaultPluginManager implements CategorizingPluginManagerInterface {
 
-  use StringTranslationTrait;
+  use CategorizingPluginManagerTrait;
 
   /**
    * The theme handler.
@@ -73,6 +73,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
         $definitions[$definition['id']] = $definition;
         unset($definitions[$id]);
       }
+      $definitions = $this->getSortedDefinitions($definitions);
       $this->setCachedDefinitions($definitions);
     }
     return $definitions;
