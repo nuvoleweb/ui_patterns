@@ -173,7 +173,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
       }
     }
 
-    return $directories + $this->moduleHandler->getModuleDirectories();
+    return $this->moduleHandler->getModuleDirectories() + $directories;
   }
 
   /**
