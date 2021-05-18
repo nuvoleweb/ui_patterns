@@ -78,7 +78,7 @@ class LibraryPattern extends PatternBase {
       $module = $this->moduleHandler->getModule($definition->getProvider());
       $return['path'] = $module->getPath() . '/templates';
       if ($this->templateExists($definition->getBasePath(), $definition->getTemplate())) {
-        $return['path'] = str_replace($this->root, '', $definition->getBasePath());
+        $return['path'] = str_replace($this->root . '/', '', $definition->getBasePath());
       }
     }
     return $return;
