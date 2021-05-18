@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class PatternBase extends PluginBase implements PatternInterface, ContainerFactoryPluginInterface {
 
   /**
-   * The app root.
+   * The app root, with trailing slash.
    *
    * @var string
    */
@@ -34,7 +34,7 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, $root, ModuleHandlerInterface $module_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->root = $root;
+    $this->root = $root . '/';
     $this->moduleHandler = $module_handler;
   }
 
