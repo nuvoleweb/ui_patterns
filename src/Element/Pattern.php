@@ -29,6 +29,7 @@ class Pattern extends RenderElement {
         [$class, 'processFields'],
         [$class, 'ensureVariant'],
         [$class, 'processUse'],
+        [$class, 'processContextualLinks'],
       ],
     ];
   }
@@ -193,6 +194,26 @@ class Pattern extends RenderElement {
       $element['#context'] = new PatternContext('empty');
     }
 
+    return $element;
+  }
+
+  /**
+   * Process contextual links, if any.
+   *
+   * @param array $element
+   *   Render array.
+   *
+   * @return array
+   *   Render array.
+   */
+  public static function processContextualLinks(array $element) {
+    if (isset($element['#contextual_links']) && \Drupal::moduleHandler()->moduleExists('contextual')) {
+      $element['#attributes']->addClass('contextual-region');
+      $element['#title_suffix']['contextual_links'] = [
+        '#type' => 'contextual_links_placeholder',
+        '#id' => _contextual_links_to_id($element['#contextual_links']),
+      ];
+    }
     return $element;
   }
 
