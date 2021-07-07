@@ -89,6 +89,7 @@ class PatternsLibraryController extends ControllerBase {
         'definition' => $definition->toArray(),
       ];
     }
+    ksort($patterns);
 
     return [
       '#theme' => 'patterns_overview_page',
@@ -143,6 +144,7 @@ class PatternsLibraryController extends ControllerBase {
         ],
       ];
     }
+    ksort($render);
 
     return $render;
   }
