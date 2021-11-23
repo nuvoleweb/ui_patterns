@@ -39,6 +39,7 @@ class FieldgroupSource extends PatternSourceBase {
         $sources[] = $this->getSourceField($group_name, $group->label);
       }
     }
+    $sources[] = $this->getSourceField('_label', 'Group label');
 
     return $sources;
   }

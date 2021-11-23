@@ -131,7 +131,12 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
       // Move content into their fields.
       foreach ($group->format_settings['pattern_mapping'] as $field) {
         if ($field['plugin'] == 'fieldgroup') {
-          $this->preRenderGroup($element[$field['source']], $field['source'], $rendering_object);
+          if ($field['source'] === '_label') {
+            $element[$field['source']] = ['#markup' => $group->label];
+          }
+          else {
+            $this->preRenderGroup($element[$field['source']], $field['source'], $rendering_object);
+          }
         }
         $element['#fields'][$field['destination']][$field['source']] = $element[$field['source']];
       }
