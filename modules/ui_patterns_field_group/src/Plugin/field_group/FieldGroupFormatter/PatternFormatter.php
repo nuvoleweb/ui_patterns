@@ -126,8 +126,13 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
     // Load field group settings.
     $group = $rendering_object['#fieldgroups'][$group_name];
 
+    /** @var \Drupal\Core\Entity\EntityInterface $entity */
+    $entity = $rendering_object['#' . $rendering_object['#entity_type']];
+
     // Handle groups managed by UI Patterns recursively.
     if ($group->format_type == 'pattern_formatter') {
+      $element['#is_empty'] = TRUE;
+
       // Move content into their fields.
       foreach ($group->format_settings['pattern_mapping'] as $field) {
         if ($field['plugin'] == 'fieldgroup') {
@@ -136,18 +141,49 @@ class PatternFormatter extends FieldGroupFormatterBase implements ContainerFacto
           }
           else {
             $this->preRenderGroup($element[$field['source']], $field['source'], $rendering_object);
+            if (!empty($element[$field['source']]) && !$element[$field['source']]['#is_empty']) {
+              $element['#is_empty'] = FALSE;
+            }
           }
+        }
+        elseif ($field['plugin'] == 'fields') {
+          // Use entity field so the hypothetical rendering elements are not
+          // to be taken into account to consider the field empty or not.
+          if ($entity->hasField($field['source']) && !$entity->{$field['source']}->isEmpty()) {
+            $element['#is_empty'] = FALSE;
+          }
+        }
+        elseif (!empty($element[$field['source']])) {
+          $element['#is_empty'] = FALSE;
         }
         $element['#fields'][$field['destination']][$field['source']] = $element[$field['source']];
       }
 
-      // Add render array metadata.
-      $this->addRenderContext($element, $group->format_settings);
+      // Prevent to show the group if fields are empty.
+      if ($element['#is_empty'] && empty($group->format_settings['show_empty_fields'])) {
+        $element = [];
+      }
+      else {
+        // Add render array metadata.
+        $this->addRenderContext($element, $group->format_settings);
+      }
     }
     // Fallback to default pre_rendering for fieldgroups not managed by UI
     // Patterns.
     else {
       field_group_pre_render($element, $group, $rendering_object);
+      $element['#is_empty'] = TRUE;
+      foreach ($group->children as $child) {
+        if (isset($rendering_object['#fieldgroups'][$child])) {
+          $this->preRenderGroup($element[$child], $child, $rendering_object);
+          if (!empty($element[$child]) && !$element[$child]['#is_empty']) {
+            $element['#is_empty'] = FALSE;
+          }
+        }
+        elseif ($entity->hasField($child) && !$entity->{$child}->isEmpty()) {
+          $element['#is_empty'] = FALSE;
+        }
+      }
     }
   }
 
