@@ -142,11 +142,11 @@ class Pattern extends Fields {
    *
    * @see template_preprocess_pattern_views_row()
    */
-  public function isFieldVisible(FieldPluginBase $field, $field_output) {
+  public function isFieldVisible(FieldPluginBase $field, $field_name, $field_output) {
     $empty_value = $field->isValueEmpty($field_output, $field->options['empty_zero']);
     $hide_field = !$empty_value || (empty($field->options['hide_empty']) && empty($this->options['hide_empty']));
     $empty = empty($field->options['exclude']) && $hide_field;
-    return $empty && $this->hasMappingDestination('views_row', $field->field, $this->options);
+    return $empty && $this->hasMappingDestination('views_row', $field_name, $this->options);
   }
 
 }
