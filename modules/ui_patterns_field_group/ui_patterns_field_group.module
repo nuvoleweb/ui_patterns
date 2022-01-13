@@ -9,6 +9,17 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\ui_patterns\Element\PatternContext;
 
 /**
+ * Implements hook_module_implements_alter().
+ */
+function ui_patterns_field_group_module_implements_alter(&$implementations, $hook) {
+  if ($hook === 'form_alter' && isset($implementations['ui_patterns_field_group'])) {
+    $group = $implementations['ui_patterns_field_group'];
+    unset($implementations['ui_patterns_field_group']);
+    $implementations['ui_patterns_field_group'] = $group;
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ui_patterns_field_group_form_entity_view_display_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
