@@ -14,6 +14,7 @@ trait ArrayAccessDefinitionTrait {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function offsetExists($offset) {
     return array_key_exists($offset, $this->definition);
   }
@@ -21,6 +22,7 @@ trait ArrayAccessDefinitionTrait {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function offsetGet($offset) {
     return $this->definition[$offset] ?? NULL;
   }
@@ -28,6 +30,7 @@ trait ArrayAccessDefinitionTrait {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function offsetSet($offset, $value) {
     $this->definition[$offset] = $value;
   }
@@ -35,6 +38,7 @@ trait ArrayAccessDefinitionTrait {
   /**
    * {@inheritdoc}
    */
+  #[\ReturnTypeWillChange]
   public function offsetUnset($offset) {
     unset($this->definition[$offset]);
   }
