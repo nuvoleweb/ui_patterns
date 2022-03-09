@@ -65,6 +65,7 @@ function template_preprocess_pattern_views_row(array &$variables) {
     $variables['pattern']['#context']['display'] = $view->current_display;
     $variables['pattern']['#context']['view'] = $view;
     $variables['pattern']['#context']['row'] = $row;
+    $variables['pattern']['#context']['entity'] = isset($row->_object) ? $row->_object->getEntity() : NULL;
   }
 }
 
