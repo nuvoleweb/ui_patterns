@@ -23,7 +23,6 @@ class PatternDefinitionField implements \ArrayAccess {
     'type' => NULL,
     'preview' => NULL,
     'escape' => TRUE,
-    'additional' => [],
   ];
 
   /**
@@ -160,29 +159,6 @@ class PatternDefinitionField implements \ArrayAccess {
    */
   public function setEscape($escape) {
     $this->definition['escape'] = $escape;
-    return $this;
-  }
-
-  /**
-   * Get Additional property.
-   *
-   * @return array
-   *   Property value.
-   */
-  public function getAdditional() {
-    return $this->definition['additional'];
-  }
-
-  /**
-   * Set Additional property.
-   *
-   * @param array $additional
-   *   Property value.
-   *
-   * @return $this
-   */
-  public function setAdditional(array $additional) {
-    $this->definition['additional'] = $additional;
     return $this;
   }
 
