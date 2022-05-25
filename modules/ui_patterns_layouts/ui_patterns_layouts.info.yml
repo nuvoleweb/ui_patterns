@@ -5,5 +5,4 @@ core: 8.x
 core_version_requirement: ^8 || ^9
 package: User interface
 dependencies:
-  - drupal:layout_discovery
   - ui_patterns:ui_patterns

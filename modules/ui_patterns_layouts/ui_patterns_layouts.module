@@ -6,36 +6,9 @@
  */
 
 use Drupal\ui_patterns\Element\PatternContext;
-use Drupal\Core\Layout\LayoutDefinition;
-use Drupal\ui_patterns\UiPatterns;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\field_layout\Display\EntityDisplayWithLayoutInterface;
-
-/**
- * Implements hook_layout_alter().
- */
-function ui_patterns_layouts_layout_alter(&$definitions) {
-  /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
-
-  // @todo: Use layout deriver instead.
-  // @link https://github.com/nuvoleweb/ui_patterns/issues/94
-  foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
-    $definition = [
-      'label' => $pattern_definition->getLabel(),
-      'theme' => $pattern_definition->getThemeHook(),
-      'provider' => $pattern_definition->getProvider(),
-      'category' => 'Patterns',
-      'class' => '\Drupal\ui_patterns_layouts\Plugin\Layout\PatternLayout',
-      'pattern' => $pattern_definition->id(),
-      'template' => 'pattern-' . $pattern_definition->id(),
-    ];
-    foreach ($pattern_definition->getFields() as $field) {
-      $definition['regions'][$field->getName()]['label'] = $field->getLabel();
-    }
-    $definitions['pattern_' . $pattern_definition->id()] = new LayoutDefinition($definition);
-  }
-}
 
 /**
  * Implements hook_preprocess_HOOK().
