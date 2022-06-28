@@ -1,0 +1,15 @@
+name: ci
+on: [push]
+jobs:
+  automated-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v2
+      - run: docker-compose up -d
+      - name: composer install
+        run: docker-compose exec -T -u root php bash -c "composer install"
+      - name: grumphp
+        run: docker-compose exec -T -u root php bash -c "vendor/bin/grumphp run"
+      - name: phpunit
+        run: docker-compose exec -T -u root php bash -c "vendor/bin/phpunit"
