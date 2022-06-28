@@ -3,13 +3,18 @@ on: [push]
 jobs:
   automated-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php_version: ["7.4"]
+    env:
+      PHP_VERSION: ${{ matrix.php_version }}
     steps:
       - name: Clone
         uses: actions/checkout@v2
       - run: docker-compose up -d
       - name: composer install
         run: docker-compose exec -T -u root php bash -c "composer install"
-      - name: grumphp
-        run: docker-compose exec -T -u root php bash -c "vendor/bin/grumphp run"
+#      - name: grumphp
+#        run: docker-compose exec -T -u root php bash -c "vendor/bin/grumphp run"
       - name: phpunit
         run: docker-compose exec -T -u root php bash -c "vendor/bin/phpunit"
