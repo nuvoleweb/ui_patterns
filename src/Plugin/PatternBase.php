@@ -9,7 +9,7 @@ use Drupal\ui_patterns\Definition\PatternDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class PatternBase.
+ * UI Patterns plugin base class.
  *
  * @package Drupal\ui_patterns\Plugin
  */

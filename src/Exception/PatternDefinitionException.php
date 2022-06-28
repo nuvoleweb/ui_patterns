@@ -5,7 +5,7 @@ namespace Drupal\ui_patterns\Exception;
 use Drupal\Component\Plugin\Exception\PluginException;
 
 /**
- * Class PatternDefinitionException.
+ * Exception thrown in case ofan invalid pattern definition.
  *
  * @package Drupal\ui_patterns\Exception
  */

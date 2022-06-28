@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Definition;
 
 /**
- * Class ArrayAccessDefinitionTrait.
+ * Helper trait implementing PHP array access.
  *
  * @property $definition
  *
@@ -22,7 +22,7 @@ trait ArrayAccessDefinitionTrait {
    * {@inheritdoc}
    */
   public function offsetGet($offset) {
-    return isset($this->definition[$offset]) ? $this->definition[$offset] : NULL;
+    return $this->definition[$offset] ?? NULL;
   }
 
   /**

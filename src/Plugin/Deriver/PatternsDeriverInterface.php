@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Plugin\Deriver;
 
 /**
- * Interface PatternsDeriverInterface.
+ * Deriver interface for pattern definitions.
  *
  * @package Drupal\ui_patterns\Plugin\Deriver
  */

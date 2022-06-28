@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Definition;
 
 /**
- * Class PatternDefinitionVariant.
+ * Definition class for a pattern variant.
  *
  * @package Drupal\ui_patterns\Definition
  */

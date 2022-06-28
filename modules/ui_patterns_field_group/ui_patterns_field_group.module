@@ -37,7 +37,11 @@ function ui_patterns_field_group_field_group_field_overview_submit(array $form, 
         // Call static processFormStateValues if the plugin implements it.
         $plugin_definition = \Drupal::service('plugin.manager.field_group.formatters')->getDefinition($field_group_form_state[$group_name]->format_type, FALSE);
         if (method_exists($plugin_definition['class'], 'processFormStateValues')) {
-          call_user_func_array([$plugin_definition['class'], 'processFormStateValues'], [&$field_group_form_state[$group_name]->format_settings]);
+          call_user_func_array([
+            $plugin_definition['class'],
+            'processFormStateValues',
+          ],
+            [&$field_group_form_state[$group_name]->format_settings]);
         }
       }
     }
@@ -53,7 +57,7 @@ function ui_patterns_field_group_field_group_field_overview_submit(array $form, 
 function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('field_group')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $group_name = $context->getProperty('group_name');
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');
@@ -83,7 +87,7 @@ function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestio
 function ui_patterns_field_group_ui_patterns_destination_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('field_group')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $group_name = $context->getProperty('group_name');
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');

@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Definition;
 
 /**
- * Class PatternDefinitionField.
+ * Definition class for a pattern field.
  *
  * @package Drupal\ui_patterns\Definition
  */

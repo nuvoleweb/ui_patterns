@@ -6,7 +6,7 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
- * Class AbstractUiPatternsTest.
+ * Abstract base test class.
  *
  * @group ui_patterns
  *

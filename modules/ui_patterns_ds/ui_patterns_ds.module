@@ -36,8 +36,8 @@ function ui_patterns_ds_form_entity_view_display_edit_form_alter(&$form, FormSta
  *   The form state.
  */
 function ui_patterns_ds_field_overview_submit(array $form, FormStateInterface $form_state) {
-  /* @var \Drupal\Core\Entity\EntityFormInterface $entity_form */
-  /* @var \Drupal\Core\Entity\Display\EntityDisplayInterface $display */
+  /** @var \Drupal\Core\Entity\EntityFormInterface $entity_form */
+  /** @var \Drupal\Core\Entity\Display\EntityDisplayInterface $display */
 
   $entity_form = $form_state->getFormObject();
   $display = $entity_form->getEntity();
@@ -69,7 +69,7 @@ function template_preprocess_field__pattern_ds_field_template(array &$variables)
 function ui_patterns_ds_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('ds_field_template')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $field_name = $context->getProperty('field_name');
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');

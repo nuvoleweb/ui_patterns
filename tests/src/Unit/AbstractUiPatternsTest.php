@@ -5,7 +5,7 @@ namespace Drupal\Tests\ui_patterns\Unit;
 use Drupal\Tests\UnitTestCase;
 
 /**
- * Class AbstractUiPatternsTest.
+ * Abstract base test class.
  *
  * @group ui_patterns
  *

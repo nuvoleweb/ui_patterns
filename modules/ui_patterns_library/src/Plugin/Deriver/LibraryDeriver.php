@@ -13,7 +13,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 
 /**
- * Class LibraryDeriver.
+ * Plugin deriver for UI Patterns library.
  *
  * @package Drupal\ui_patterns_library\Deriver
  */
