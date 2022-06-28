@@ -26,7 +26,8 @@
     "drupal/token": "~1",
     "drush/drush": "~10",
     "openeuropa/task-runner-drupal-project-symlink": "^1.0-beta5",
-    "phpro/grumphp": "^1.5"
+    "phpro/grumphp": "^1.5",
+    "phpspec/prophecy-phpunit": "^2"
   },
   "repositories": [
     {
