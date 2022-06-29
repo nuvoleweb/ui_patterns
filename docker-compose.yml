@@ -12,7 +12,7 @@ services:
       MYSQL_PASSWORD: drupal
 
   php:
-    image: wodby/drupal-php:${TRAVIS_PHP_VERSION}-4.15.9
+    image: wodby/drupal-php:${PHP_VERSION}
     environment:
       DB_HOST: mariadb
       DB_USER: drupal
@@ -20,6 +20,9 @@ services:
       DB_NAME: drupal
       DB_DRIVER: mysql
       PHP_XDEBUG: 1
+      PHP_FPM_USER: wodby
+      PHP_FPM_GROUP: wodby
+      PHP_OPCACHE_PRELOAD_USER: wodby
       PHP_XDEBUG_DEFAULT_ENABLE: 1
       PHP_XDEBUG_REMOTE_CONNECT_BACK: 1
       PHP_XDEBUG_REMOTE_HOST: "10.254.254.254"

@@ -18,7 +18,7 @@ use Drupal\field_layout\Display\EntityDisplayWithLayoutInterface;
 function ui_patterns_layouts_layout_alter(&$definitions) {
   /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
 
-  // @todo: Use layout deriver instead.
+  // @todo Use layout deriver instead.
   // @link https://github.com/nuvoleweb/ui_patterns/issues/94
   foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
     $definition = [
@@ -76,7 +76,7 @@ function ui_patterns_layouts_entity_view_alter(array &$build, EntityInterface $e
 function ui_patterns_layouts_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('layout')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');
     $view_mode = $context->getProperty('view_mode');
@@ -106,7 +106,7 @@ function ui_patterns_layouts_ui_patterns_suggestions_alter(array &$suggestions, 
 function ui_patterns_layouts_ui_patterns_destination_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('layout')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');
     $view_mode = $context->getProperty('view_mode');

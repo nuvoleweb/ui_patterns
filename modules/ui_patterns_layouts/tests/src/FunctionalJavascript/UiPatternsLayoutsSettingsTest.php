@@ -24,7 +24,7 @@ class UiPatternsLayoutsSettingsTest extends WebDriverTestBase {
    *
    * @var bool
    *
-   * @todo: Fix this by providing actual schema validation.
+   * @todo Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 

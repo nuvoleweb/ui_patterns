@@ -12,7 +12,7 @@ use Drupal\ui_patterns\TypedData\PatternDataDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class AbstractPatternsDeriver.
+ * Base class for all other UI Patterns derivers.
  *
  * @package Drupal\ui_patterns\Deriver
  */

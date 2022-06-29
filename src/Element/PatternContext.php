@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Element;
 
 /**
- * Class PatternContext.
+ * Represent the context in which the pattern is being rendered.
  *
  * @package Drupal\ui_patterns\Context
  */
@@ -46,7 +46,7 @@ class PatternContext {
    *   Property value.
    */
   public function getProperty($name) {
-    return isset($this->properties[$name]) ? $this->properties[$name] : NULL;
+    return $this->properties[$name] ?? NULL;
   }
 
   /**

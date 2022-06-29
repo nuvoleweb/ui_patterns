@@ -6,7 +6,7 @@ use Drupal\Component\Plugin\Definition\DerivablePluginDefinitionInterface;
 use Drupal\Component\Plugin\Definition\PluginDefinition;
 
 /**
- * Class PatternDefinition.
+ * Pattern definition class.
  *
  * @package Drupal\ui_patterns\Definition
  */

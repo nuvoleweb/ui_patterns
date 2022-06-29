@@ -67,7 +67,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
     $definitions = $this->getCachedDefinitions();
     if (!isset($definitions)) {
       // Remove derivative id from pattern definitions keys.
-      // @todo: make sure validation takes care of ensuring ids are unique.
+      // @todo make sure validation takes care of ensuring ids are unique.
       $definitions = [];
       foreach ($this->findDefinitions() as $id => $definition) {
         $definitions[$definition['id']] = $definition;

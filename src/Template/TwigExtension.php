@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Template;
 
 /**
- * Class UiPatternsTwigExtension.
+ * Twig extension providing UI Patterns-specific functionalities.
  *
  * @package Drupal\ui_patterns\Template
  */
@@ -21,8 +21,14 @@ class TwigExtension extends \Twig_Extension {
    */
   public function getFunctions() {
     return [
-      new \Twig_SimpleFunction('pattern', [$this, 'renderPattern']),
-      new \Twig_SimpleFunction('pattern_preview', [$this, 'renderPatternPreview']),
+      new \Twig_SimpleFunction('pattern', [
+        $this,
+        'renderPattern',
+      ]),
+      new \Twig_SimpleFunction('pattern_preview', [
+        $this,
+        'renderPatternPreview',
+      ]),
     ];
   }
 

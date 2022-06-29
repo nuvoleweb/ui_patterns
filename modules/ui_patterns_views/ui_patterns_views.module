@@ -56,7 +56,7 @@ function template_preprocess_pattern_views_row(array &$variables) {
       '#id' => $options['pattern'],
       '#fields' => $fields,
       '#multiple_sources' => TRUE,
-      '#variant' => isset($options['pattern_variant']) ? $options['pattern_variant'] : '',
+      '#variant' => $options['pattern_variant'] ?? '',
     ];
 
     // Allow default context values to not override those exposed elsewhere.
@@ -74,7 +74,7 @@ function template_preprocess_pattern_views_row(array &$variables) {
 function ui_patterns_views_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('views_row')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $view_name = $context->getProperty('view_name');
     $display = $context->getProperty('display');
 
@@ -96,7 +96,7 @@ function ui_patterns_views_ui_patterns_suggestions_alter(array &$suggestions, ar
 function ui_patterns_views_ui_patterns_destination_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('views_row')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $view_name = $context->getProperty('view_name');
     $display = $context->getProperty('display');
     $pattern = $context->getProperty('pattern');

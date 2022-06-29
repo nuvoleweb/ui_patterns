@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns_ds;
 
 /**
- * Interface FieldTemplateProcessorInterface.
+ * Field template processor interface.
  *
  * @package Drupal\ui_patterns_ds
  */
