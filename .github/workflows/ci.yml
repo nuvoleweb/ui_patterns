@@ -13,9 +13,9 @@ jobs:
         uses: actions/checkout@v2
       - run: docker-compose up -d
       - name: composer install
-        run: docker-compose exec -T -u root php bash -c "composer install"
+        run: docker-compose exec php composer install
       - name: phpunit
-        run: docker-compose exec -T -u root php bash -c "vendor/bin/phpunit"
+        run: docker-compose exec php ./vendor/bin/phpunit
   code-sniffer:
     runs-on: ubuntu-latest
     env:
@@ -25,6 +25,6 @@ jobs:
         uses: actions/checkout@v2
       - run: docker-compose up -d
       - name: composer install
-        run: docker-compose exec -T -u root php bash -c "composer install"
+        run: docker-compose exec php composer install
       - name: grumphp
-        run: docker-compose exec -T -u root php bash -c "vendor/bin/grumphp run"
+        run: docker-compose exec php ./vendor/bin/grumphp run
