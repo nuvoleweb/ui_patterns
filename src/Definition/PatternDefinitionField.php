@@ -35,7 +35,7 @@ class PatternDefinitionField implements \ArrayAccess {
     }
     else {
       $this->definition['name'] = !isset($value['name']) ? $name : $value['name'];
-      $this->definition['label'] = $value['label'];
+      $this->definition['label'] = !isset($value['label']) ? $this->definition['name'] : $value['label'];
       $this->definition = $value + $this->definition;
     }
   }
