@@ -39,7 +39,7 @@ function template_preprocess_pattern_views_row(array &$variables) {
     $field_name = $mapping['source'];
     $field = $view->field[$field_name];
     $field_output = $view->style_plugin->getField($row->index, $field_name);
-    if ($row_plugin->isFieldVisible($field, $field_output)) {
+    if ($row_plugin->isFieldVisible($field, $field_name, $field_output)) {
       $destination = $row_plugin->getMappingDestination('views_row', $field_name, $options);
       $fields[$destination][] = $field_output;
     }
