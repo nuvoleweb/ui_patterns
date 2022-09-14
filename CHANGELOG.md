@@ -1,5 +1,25 @@
 # Change Log
 
+## [8.x-1.3](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.3) (2022-09-14)
+[Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.2...8.x-1.3)
+
+**Closed issues:**
+
+- Is this module still under development? [\#355](https://github.com/nuvoleweb/ui_patterns/issues/355)
+- PHP 8.1 compatibility [\#342](https://github.com/nuvoleweb/ui_patterns/issues/342)
+- Field Group not working [\#335](https://github.com/nuvoleweb/ui_patterns/issues/335)
+- Warning: Invalid argument supplied for foreach\(\) in template\_preprocess\_pattern\_views\_row [\#325](https://github.com/nuvoleweb/ui_patterns/issues/325)
+- Integration with Component Schema? [\#296](https://github.com/nuvoleweb/ui_patterns/issues/296)
+- NotRegularDirectoryException thrown while scanning for Yaml Patterns Deriver [\#293](https://github.com/nuvoleweb/ui_patterns/issues/293)
+- Drupal 9 compatibility [\#291](https://github.com/nuvoleweb/ui_patterns/issues/291)
+
+**Merged Pull Requests**
+
+- Add GitHub Actions integration [\#356](https://github.com/nuvoleweb/ui_patterns/pull/356) ([ademarco](https://github.com/ademarco))
+- Issue \#342 by Grimreaper: PHP 8.1 compatibility. First try. [\#343](https://github.com/nuvoleweb/ui_patterns/pull/343) ([FlorentTorregrosa](https://github.com/FlorentTorregrosa))
+- Remove config\_devel dependency. [\#303](https://github.com/nuvoleweb/ui_patterns/pull/303) ([ademarco](https://github.com/ademarco))
+- GH-293: NotRegularDirectoryException thrown while scanning for Yaml Patterns Deriver [\#301](https://github.com/nuvoleweb/ui_patterns/pull/301) ([yenyasinn](https://github.com/yenyasinn))
+
 ## [8.x-1.2](https://github.com/nuvoleweb/ui_patterns/tree/8.x-1.2) (2020-06-11)
 [Full Changelog](https://github.com/nuvoleweb/ui_patterns/compare/8.x-1.1...8.x-1.2)
 
