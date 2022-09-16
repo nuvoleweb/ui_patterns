@@ -61,6 +61,7 @@ abstract class AbstractPatternsDeriver extends DeriverBase implements PatternsDe
     foreach ($this->getPatterns() as $pattern) {
       $pattern->setDeriver($base_plugin_definition['deriver']);
       $pattern->setClass($base_plugin_definition['class']);
+      $pattern->setProvider($base_plugin_definition['provider']);
       if ($this->isValidPatternDefinition($pattern)) {
         $this->derivatives[$pattern->id()] = $pattern;
       }
