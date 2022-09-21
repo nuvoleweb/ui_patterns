@@ -31,9 +31,7 @@ class EntityFinderTest extends UnitTestCase {
    *   Test data.
    */
   public function fieldsDataProvider() {
-    $good = $this->getMockBuilder(ContentEntityBase::class)
-      ->disableOriginalConstructor()
-      ->getMock();
+    $good = $this->createMock(ContentEntityBase::class);
     $bad = new \stdClass();
 
     return [
