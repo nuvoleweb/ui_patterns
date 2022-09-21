@@ -13,6 +13,15 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
 
   /**
+   * Module extension list.
+   *
+   * Currently no interface to rely on.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleExtensionList;
+
+  /**
    * Default theme.
    *
    * @var string
@@ -33,6 +42,8 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
+
+    $this->moduleExtensionList = $this->container->get('extension.list.module');
 
     $user = $this->drupalCreateUser(['access patterns page']);
     $this->drupalLogin($user);
@@ -86,10 +97,13 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     $session = $this->assertSession();
 
     $this->drupalGet('/patterns/with_local_libraries');
-    $session->responseContains('href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_one.css');
-    $session->responseContains('href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_two.css');
-    $session->responseContains('src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_1.js');
-    $session->responseContains('src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_2.js');
+
+    $ui_patterns_library_path = $this->moduleExtensionList->getPath('ui_patterns_library');
+
+    $session->responseContains('href="/' . $ui_patterns_library_path . '/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_one.css');
+    $session->responseContains('href="/' . $ui_patterns_library_path . '/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_two.css');
+    $session->responseContains('src="/' . $ui_patterns_library_path . '/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_1.js');
+    $session->responseContains('src="/' . $ui_patterns_library_path . '/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_2.js');
     $session->responseContains('src="/core/misc/tabledrag.js');
   }
 
