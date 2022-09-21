@@ -1,4 +1,5 @@
 name: 'UI Patterns library theme test'
 type: theme
+description: 'Test theme for UI Patterns.'
 package: 'Testing'
 base theme: stark

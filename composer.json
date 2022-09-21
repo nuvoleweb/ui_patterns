@@ -5,8 +5,8 @@
     "type": "drupal-module",
     "authors": [
         {
-          "name": "Nuvole Web",
-          "email": "info@nuvole.org"
+            "name": "Nuvole Web",
+            "email": "info@nuvole.org"
         }
     ],
     "require-dev": {

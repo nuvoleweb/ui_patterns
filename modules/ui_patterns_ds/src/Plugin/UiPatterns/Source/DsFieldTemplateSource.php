@@ -62,7 +62,7 @@ class DsFieldTemplateSource extends PatternSourceBase implements ContainerFactor
     $label = $field->getLabel();
 
     $sources[] = $this->getSourceField($field_name, $label);
-    foreach ($field->getFieldStorageDefinition()->getColumns() as $column_name => $column) {
+    foreach (array_keys($field->getFieldStorageDefinition()->getColumns()) as $column_name) {
       $sources[] = $this->getSourceField($field_name . '__' . $column_name, $label . ': ' . $column_name);
     }
     return $sources;

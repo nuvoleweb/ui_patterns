@@ -1,7 +1,7 @@
 name: 'UI Patterns Views'
 type: module
 description: 'Use patterns as Views templates.'
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9 || ^10
 package: 'User interface'
 dependencies:
   - drupal:views

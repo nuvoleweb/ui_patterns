@@ -133,7 +133,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
   public function getPatterns() {
     $patterns = [];
     foreach ($this->getDirectories() as $provider => $directory) {
-      foreach ($this->fileScanDirectory($directory) as $file_path => $file) {
+      foreach (array_keys($this->fileScanDirectory($directory)) as $file_path) {
         $host_extension = $this->getHostExtension($file_path);
         if ($host_extension == FALSE || $host_extension == $provider) {
           $content = file_get_contents($file_path);
@@ -168,7 +168,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
     $directories = [];
     if (isset($theme_directories[$default_theme])) {
       $directories[$default_theme] = $theme_directories[$default_theme];
-      foreach ($base_themes as $name => $theme) {
+      foreach (array_keys($base_themes) as $name) {
         $directories[$name] = $theme_directories[$name];
       }
     }
