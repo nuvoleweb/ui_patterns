@@ -11,6 +11,6 @@
     ],
     "require-dev": {
         "drupal/ds": "~3",
-        "drupal/field_group": "~3"
+        "drupal/field_group": "~3.0"
     }
 }
