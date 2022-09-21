@@ -3,6 +3,7 @@
 namespace Drupal\Tests\ui_patterns_library\FunctionalJavascript;
 
 use Drupal\Core\Serialization\Yaml;
+use Drupal\Core\Url;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
@@ -98,13 +99,13 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
 
     $this->drupalGet('/patterns/with_local_libraries');
 
-    $ui_patterns_library_path = $this->moduleExtensionList->getPath('ui_patterns_library');
+    $ui_patterns_library_module_test_path = $this->moduleExtensionList->getPath('ui_patterns_library_module_test');
 
-    $session->responseContains('href="/' . $ui_patterns_library_path . '/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_one.css');
-    $session->responseContains('href="/' . $ui_patterns_library_path . '/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_two.css');
-    $session->responseContains('src="/' . $ui_patterns_library_path . '/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_1.js');
-    $session->responseContains('src="/' . $ui_patterns_library_path . '/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_2.js');
-    $session->responseContains('src="/core/misc/tabledrag.js');
+    $session->responseContains('href="' . Url::fromUserInput('/' . $ui_patterns_library_module_test_path . '/templates/with_local_libraries/css/library_one.css')->toString());
+    $session->responseContains('href="' . Url::fromUserInput('/' . $ui_patterns_library_module_test_path . '/templates/with_local_libraries/css/library_two.css')->toString());
+    $session->responseContains('src="' . Url::fromUserInput('/' . $ui_patterns_library_module_test_path . '/templates/with_local_libraries/js/library_two_1.js')->toString());
+    $session->responseContains('src="' . Url::fromUserInput('/' . $ui_patterns_library_module_test_path . '/templates/with_local_libraries/js/library_two_2.js')->toString());
+    $session->responseContains('src="' . Url::fromUserInput('/core/misc/tabledrag.js')->toString());
   }
 
   /**
