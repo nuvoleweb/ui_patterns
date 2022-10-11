@@ -2,12 +2,15 @@
 
 namespace Drupal\ui_patterns\Template;
 
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
+
 /**
  * Twig extension providing UI Patterns-specific functionalities.
  *
  * @package Drupal\ui_patterns\Template
  */
-class TwigExtension extends \Twig_Extension {
+class TwigExtension extends AbstractExtension {
 
   /**
    * {@inheritdoc}
@@ -21,11 +24,11 @@ class TwigExtension extends \Twig_Extension {
    */
   public function getFunctions() {
     return [
-      new \Twig_SimpleFunction('pattern', [
+      new TwigFunction('pattern', [
         $this,
         'renderPattern',
       ]),
-      new \Twig_SimpleFunction('pattern_preview', [
+      new TwigFunction('pattern_preview', [
         $this,
         'renderPatternPreview',
       ]),
