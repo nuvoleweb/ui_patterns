@@ -46,7 +46,7 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('app.root'),
+      $container->getParameter('app.root'),
       $container->get('module_handler')
     );
   }

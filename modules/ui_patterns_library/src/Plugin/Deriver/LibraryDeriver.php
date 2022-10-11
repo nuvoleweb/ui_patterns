@@ -113,7 +113,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
       $container->get('typed_data_manager'),
       $container->get('messenger'),
       $container->get('file_system'),
-      $container->get('app.root'),
+      $container->getParameter('app.root'),
       $container->getParameter('ui_patterns_library.file_extensions'),
       $container->get('module_handler'),
       $container->get('theme_handler')
