@@ -9,6 +9,7 @@
       type: ~
       preview: ~
       escape: TRUE
+      additional: []
     field2:
       name: field2
       label: field2
@@ -16,6 +17,7 @@
       type: ~
       preview: ~
       escape: TRUE
+      additional: []
 - actual:
     field1: Field 1
     field2: Field 2
@@ -27,6 +29,7 @@
       type: ~
       preview: ~
       escape: TRUE
+      additional: []
     field2:
       name: field2
       label: Field 2
@@ -34,6 +37,7 @@
       type: ~
       preview: ~
       escape: TRUE
+      additional: []
 - actual:
     field1:
       label: field1
@@ -45,6 +49,7 @@
       type: ~
       preview: ~
       escape: TRUE
+      additional: []
 - actual:
     - name: field1
       label: Field 1
@@ -56,3 +61,4 @@
       type: ~
       preview: ~
       escape: TRUE
+      additional: []
