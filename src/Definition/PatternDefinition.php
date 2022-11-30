@@ -65,7 +65,10 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
     $this->id = $this->definition['id'];
     $this->setFields($this->definition['fields']);
     $this->setVariants($this->definition['variants']);
-    $this->setThemeHook(self::PATTERN_PREFIX . $this->id());
+    // As we now allow hyphens in pattern IDs we need to turn them into
+    // underscores when setting the theme hook.
+    $hook_friendly_id = str_replace('-', '_', $this->id());
+    $this->setThemeHook(self::PATTERN_PREFIX . $hook_friendly_id);
 
     if (!empty($definition['theme hook'])) {
       $this->setThemeHook($definition['theme hook']);

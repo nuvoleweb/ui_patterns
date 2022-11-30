@@ -66,6 +66,19 @@ class UiPatternsPreviewRenderTest extends BrowserTestBase {
     foreach ($suggestions as $suggestion) {
       $assert_session->responseContains($suggestion);
     }
+
+    // Pattern foo-bar default template is loaded.
+    $assert_session->pageTextContains('Foo Bar default template');
+    $assert_session->pageTextNotContains('Foo Bar overridden template');
+
+    // Install test theme to load template(s) overrides.
+    $this->container->get('theme_installer')->install(['ui_patterns_theme_test']);
+    $this->container->get('theme_handler')->setDefault('ui_patterns_theme_test');
+    $this->container->set('theme.registry', NULL);
+
+    $this->drupalGet('/patterns');
+    $assert_session->pageTextContains('Foo Bar overridden template');
+    $assert_session->pageTextNotContains('Foo Bar default template');
   }
 
 }
