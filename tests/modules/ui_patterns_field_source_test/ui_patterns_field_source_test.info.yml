@@ -1,4 +1,4 @@
-name: 'UI Patterns field source test'
+name: 'UI Patterns Field Source Test'
 description: 'Provides test plugin.'
 type: module
 package: 'Testing'

@@ -73,6 +73,7 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
         $definitions[$definition['id']] = $definition;
         unset($definitions[$id]);
       }
+      $definitions = $this->getSortedDefinitions($definitions);
       $this->setCachedDefinitions($definitions);
     }
     return $definitions;
@@ -105,6 +106,40 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
    */
   protected function providerExists($provider) {
     return $this->moduleHandler->moduleExists($provider) || $this->themeHandler->themeExists($provider);
+  }
+
+  /**
+   * Sort pattern definitions by label then ID.
+   *
+   * @param array $definitions
+   *   The patterns plugin definitions.
+   *
+   * @return array
+   *   The sorted definitions.
+   */
+  protected function getSortedDefinitions(array $definitions) {
+    // Sort by label ignoring parenthesis.
+    uasort($definitions, function ($item1, $item2) {
+      $sort_result = 0;
+
+      if (isset($item1['label'], $item2['label'])) {
+        // Ignore parenthesis.
+        $label1 = str_replace(['(', ')'], '', $item1['label']);
+        $label2 = str_replace(['(', ')'], '', $item2['label']);
+        $sort_result = $label1 <=> $label2;
+      }
+
+      // Fallback to pattern ID.
+      if ($sort_result === 0) {
+        // In case the pattern ID starts with an underscore.
+        $id1 = str_replace('_', '', $item1['id']);
+        $id2 = str_replace('_', '', $item2['id']);
+        $sort_result = $id1 <=> $id2;
+      }
+      return $sort_result;
+    });
+
+    return $definitions;
   }
 
 }

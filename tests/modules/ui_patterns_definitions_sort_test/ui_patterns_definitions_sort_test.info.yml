@@ -1,0 +1,4 @@
+name: 'UI Patterns Definitions Sort Test'
+description: 'Provides test plugins.'
+type: module
+package: 'Testing'
