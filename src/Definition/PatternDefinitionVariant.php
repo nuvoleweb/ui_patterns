@@ -32,7 +32,7 @@ class PatternDefinitionVariant implements \ArrayAccess {
     }
     else {
       $this->definition['name'] = !isset($value['name']) ? $name : $value['name'];
-      $this->definition['label'] = $value['label'];
+      $this->definition['label'] = $value['label'] ?? '';
       $this->definition = $value + $this->definition;
     }
   }
