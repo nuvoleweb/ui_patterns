@@ -77,17 +77,18 @@ class PatternsLibraryController extends ControllerBase {
    *   Patterns overview page render array.
    */
   public function overview() {
-
     $patterns = [];
-    foreach ($this->patternsManager->getDefinitions() as $definition) {
-      $patterns[$definition->id()] = $definition->toArray() + [
-        'meta' => [
-          '#theme' => 'patterns_meta_information',
-          '#pattern' => $definition->toArray(),
-        ],
-        'rendered' => $this->getPatternRenderArray($definition),
-        'definition' => $definition->toArray(),
-      ];
+    foreach ($this->patternsManager->getGroupedDefinitions() as $groupName => $groupedDefinitions) {
+      foreach ($groupedDefinitions as $definition) {
+        $patterns[$groupName][$definition->id()] = $definition->toArray() + [
+          'meta' => [
+            '#theme' => 'patterns_meta_information',
+            '#pattern' => $definition->toArray(),
+          ],
+          'rendered' => $this->getPatternRenderArray($definition),
+          'definition' => $definition->toArray(),
+        ];
+      }
     }
 
     return [

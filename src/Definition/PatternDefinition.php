@@ -33,6 +33,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
     'id' => NULL,
     'label' => NULL,
     'description' => NULL,
+    'category' => '',
     'base path' => NULL,
     'file name' => NULL,
     'use' => NULL,
@@ -43,6 +44,7 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
     'fields' => [],
     'variants' => [],
     'tags' => [],
+    'weight' => 0,
     'additional' => [],
     'deriver' => NULL,
     'provider' => NULL,
@@ -78,24 +80,6 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
-   * Return array definition.
-   *
-   * @return array
-   *   Array definition.
-   */
-  public function toArray() {
-    $definition = $this->definition;
-    foreach ($this->getFields() as $field) {
-      $definition['fields'][$field->getName()] = $field->toArray();
-    }
-    foreach ($this->getVariants() as $variant) {
-      $definition['variants'][$variant->getName()] = $variant->toArray();
-    }
-
-    return $definition;
-  }
-
-  /**
    * Getter.
    *
    * @return mixed
@@ -115,6 +99,52 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    */
   public function setLabel($label) {
     $this->definition['label'] = $label;
+    return $this;
+  }
+
+  /**
+   * Getter.
+   *
+   * @return string
+   *   Property value.
+   */
+  public function getDescription() {
+    return $this->definition['description'];
+  }
+
+  /**
+   * Setter.
+   *
+   * @param string $description
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setDescription($description) {
+    $this->definition['description'] = $description;
+    return $this;
+  }
+
+  /**
+   * Getter.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string
+   *   Property value.
+   */
+  public function getCategory() {
+    return $this->definition['category'];
+  }
+
+  /**
+   * Setter.
+   *
+   * @param \Drupal\Core\StringTranslation\TranslatableMarkup|string $category
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setCategory($category) {
+    $this->definition['category'] = $category;
     return $this;
   }
 
@@ -188,6 +218,19 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
+   * Get field.
+   *
+   * @param string $name
+   *   Field name.
+   *
+   * @return PatternDefinitionField|null
+   *   Definition field.
+   */
+  public function getField($name) {
+    return $this->hasField($name) ? $this->definition['fields'][$name] : NULL;
+  }
+
+  /**
    * Getter.
    *
    * @return PatternDefinitionField[]
@@ -212,6 +255,21 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
+   * Set field.
+   *
+   * @param string $name
+   *   Field name.
+   * @param string $label
+   *   Field label.
+   *
+   * @return $this
+   */
+  public function setField($name, $label) {
+    $this->definition['fields'][$name] = $this->getFieldDefinition($name, $label);
+    return $this;
+  }
+
+  /**
    * Setter.
    *
    * @param array $fields
@@ -228,13 +286,29 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
-   * Check whereas pattern has variants.
+   * Check whereas field exists.
+   *
+   * @param string $name
+   *   Field name.
    *
    * @return bool
-   *   Whereas pattern has variants.
+   *   Whereas field exists
    */
-  public function hasVariants() {
-    return !empty($this->definition['variants']);
+  public function hasField($name) {
+    return isset($this->definition['fields'][$name]);
+  }
+
+  /**
+   * Get variant.
+   *
+   * @param string $name
+   *   Field name.
+   *
+   * @return PatternDefinitionField|null
+   *   Definition field.
+   */
+  public function getVariant($name) {
+    return $this->hasVariant($name) ? $this->definition['variants'][$name] : NULL;
   }
 
   /**
@@ -255,10 +329,25 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    */
   public function getVariantsAsOptions() {
     $options = [];
-    foreach ($this->getVariants() as $field) {
-      $options[$field->getName()] = $field->getLabel();
+    foreach ($this->getVariants() as $variant) {
+      $options[$variant->getName()] = $variant->getLabel();
     }
     return $options;
+  }
+
+  /**
+   * Set variant.
+   *
+   * @param string $name
+   *   Variant name.
+   * @param string $label
+   *   Variant label.
+   *
+   * @return $this
+   */
+  public function setVariant($name, $label) {
+    $this->definition['variants'][$name] = $this->getVariantDefinition($name, $label);
+    return $this;
   }
 
   /**
@@ -278,60 +367,6 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
-   * Get field.
-   *
-   * @param string $name
-   *   Field name.
-   *
-   * @return PatternDefinitionField|null
-   *   Definition field.
-   */
-  public function getField($name) {
-    return $this->hasField($name) ? $this->definition['fields'][$name] : NULL;
-  }
-
-  /**
-   * Check whereas field exists.
-   *
-   * @param string $name
-   *   Field name.
-   *
-   * @return bool
-   *   Whereas field exists
-   */
-  public function hasField($name) {
-    return isset($this->definition['fields'][$name]);
-  }
-
-  /**
-   * Set field.
-   *
-   * @param string $name
-   *   Field name.
-   * @param string $label
-   *   Field label.
-   *
-   * @return $this
-   */
-  public function setField($name, $label) {
-    $this->definition['fields'][$name] = $this->getFieldDefinition($name, $label);
-    return $this;
-  }
-
-  /**
-   * Get variant.
-   *
-   * @param string $name
-   *   Field name.
-   *
-   * @return PatternDefinitionField|null
-   *   Definition field.
-   */
-  public function getVariant($name) {
-    return $this->hasVariant($name) ? $this->definition['variants'][$name] : NULL;
-  }
-
-  /**
    * Check whereas variant exists.
    *
    * @param string $name
@@ -345,18 +380,13 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
-   * Set variant.
+   * Check whereas pattern has variants.
    *
-   * @param string $name
-   *   Variant name.
-   * @param string $label
-   *   Variant label.
-   *
-   * @return $this
+   * @return bool
+   *   Whereas pattern has variants.
    */
-  public function setVariant($name, $label) {
-    $this->definition['variants'][$name] = $this->getVariantDefinition($name, $label);
-    return $this;
+  public function hasVariants() {
+    return !empty($this->definition['variants']);
   }
 
   /**
@@ -388,39 +418,6 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    * @return string
    *   Property value.
    */
-  public function getDescription() {
-    return $this->definition['description'];
-  }
-
-  /**
-   * Setter.
-   *
-   * @param string $description
-   *   Property value.
-   *
-   * @return $this
-   */
-  public function setDescription($description) {
-    $this->definition['description'] = $description;
-    return $this;
-  }
-
-  /**
-   * Getter.
-   *
-   * @return bool
-   *   Whereas definition uses the "use:" property.
-   */
-  public function hasUse() {
-    return !empty($this->definition['use']);
-  }
-
-  /**
-   * Getter.
-   *
-   * @return string
-   *   Property value.
-   */
   public function getUse() {
     return $this->definition['use'];
   }
@@ -436,6 +433,16 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   public function setUse($use) {
     $this->definition['use'] = $use;
     return $this;
+  }
+
+  /**
+   * Getter.
+   *
+   * @return bool
+   *   Whereas definition uses the "use:" property.
+   */
+  public function hasUse() {
+    return !empty($this->definition['use']);
   }
 
   /**
@@ -547,26 +554,6 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
-   * Get Deriver property.
-   *
-   * @return mixed
-   *   Property value.
-   */
-  public function getDeriver() {
-    return $this->definition['deriver'];
-  }
-
-  /**
-   * Get Additional property.
-   *
-   * @return array
-   *   Property value.
-   */
-  public function getAdditional() {
-    return $this->definition['additional'];
-  }
-
-  /**
    * Get Class property.
    *
    * @return string
@@ -591,6 +578,39 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   }
 
   /**
+   * Getter.
+   *
+   * @return int
+   *   Property value.
+   */
+  public function getWeight(): int {
+    return $this->definition['weight'];
+  }
+
+  /**
+   * Setter.
+   *
+   * @param int $weight
+   *   Property value.
+   *
+   * @return $this
+   */
+  public function setWeight(int $weight) {
+    $this->definition['weight'] = $weight;
+    return $this;
+  }
+
+  /**
+   * Get Additional property.
+   *
+   * @return array
+   *   Property value.
+   */
+  public function getAdditional() {
+    return $this->definition['additional'];
+  }
+
+  /**
    * Set Additional property.
    *
    * @param array $additional
@@ -601,6 +621,16 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
   public function setAdditional(array $additional) {
     $this->definition['additional'] = $additional;
     return $this;
+  }
+
+  /**
+   * Get Deriver property.
+   *
+   * @return mixed
+   *   Property value.
+   */
+  public function getDeriver() {
+    return $this->definition['deriver'];
   }
 
   /**
@@ -644,6 +674,24 @@ class PatternDefinition extends PluginDefinition implements DerivablePluginDefin
    */
   public function getVariantDefinition($name, $value) {
     return new PatternDefinitionVariant($name, $value);
+  }
+
+  /**
+   * Return array definition.
+   *
+   * @return array
+   *   Array definition.
+   */
+  public function toArray() {
+    $definition = $this->definition;
+    foreach ($this->getFields() as $field) {
+      $definition['fields'][$field->getName()] = $field->toArray();
+    }
+    foreach ($this->getVariants() as $variant) {
+      $definition['variants'][$variant->getName()] = $variant->toArray();
+    }
+
+    return $definition;
   }
 
 }

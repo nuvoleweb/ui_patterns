@@ -2,19 +2,20 @@
 
 namespace Drupal\ui_patterns;
 
-use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\ui_patterns\Definition\PatternDefinition;
 
 /**
- * Provides the default ui_patterns manager.
+ * Provides the default ui patterns manager.
  *
  * @method \Drupal\ui_patterns\Definition\PatternDefinition getDefinition($plugin_id, $exception_on_invalid = TRUE)
  */
-class UiPatternsManager extends DefaultPluginManager implements PluginManagerInterface {
+class UiPatternsManager extends DefaultPluginManager implements UiPatternsManagerInterface {
 
   use StringTranslationTrait;
 
@@ -35,26 +36,111 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   /**
    * UiPatternsManager constructor.
    */
-  public function __construct(\Traversable $namespaces, ModuleHandlerInterface $module_handler, ThemeHandlerInterface $theme_handler, CacheBackendInterface $cache_backend) {
+  public function __construct(
+    \Traversable $namespaces,
+    CacheBackendInterface $cache_backend,
+    ModuleHandlerInterface $module_handler,
+    ThemeHandlerInterface $theme_handler
+  ) {
     parent::__construct('Plugin/UiPatterns/Pattern', $namespaces, $module_handler, 'Drupal\ui_patterns\Plugin\PatternInterface', 'Drupal\ui_patterns\Annotation\UiPattern');
-    $this->moduleHandler = $module_handler;
-    $this->themeHandler = $theme_handler;
-    $this->alterInfo('ui_patterns_info');
     $this->setCacheBackend($cache_backend, 'ui_patterns', ['ui_patterns']);
+    $this->alterInfo('ui_patterns_info');
+    $this->themeHandler = $theme_handler;
   }
 
   /**
-   * Get pattern objects.
-   *
-   * @return \Drupal\ui_patterns\Plugin\PatternBase[]
-   *   Pattern objects.
+   * {@inheritdoc}
    */
-  public function getPatterns() {
-    $patterns = [];
-    foreach ($this->getDefinitions() as $definition) {
-      $patterns[] = $this->getFactory()->createInstance($definition->id());
+  public function processDefinition(&$definition, $plugin_id) {
+    parent::processDefinition($definition, $plugin_id);
+
+    if (is_array($definition)) {
+      $definition = new PatternDefinition($definition);
     }
-    return $patterns;
+
+    // Add default category.
+    if ($definition instanceof PatternDefinition && empty($definition->getCategory())) {
+      $definition->setCategory($this->t('Other'));
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCategories() {
+    // Fetch all categories from definitions and remove duplicates.
+    $categories = \array_unique(\array_values(\array_map(static function (PatternDefinition $definition) {
+      return $definition->getCategory();
+    }, $this->getDefinitions())));
+    \natcasesort($categories);
+    // @phpstan-ignore-next-line
+    return $categories;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @phpstan-ignore-next-line
+   */
+  public function getSortedDefinitions(?array $definitions = NULL): array {
+    $definitions = $definitions ?? $this->getDefinitions();
+
+    \uasort($definitions, static function (PatternDefinition $item1, PatternDefinition $item2) {
+      // Sort by category.
+      $category1 = $item1->getCategory();
+      if ($category1 instanceof TranslatableMarkup) {
+        $category1 = $category1->render();
+      }
+      $category2 = $item2->getCategory();
+      if ($category2 instanceof TranslatableMarkup) {
+        $category2 = $category2->render();
+      }
+      if ($category1 != $category2) {
+        return \strnatcasecmp($category1, $category2);
+      }
+
+      // Sort by weight.
+      $weight = $item1->getWeight() <=> $item2->getWeight();
+      if ($weight != 0) {
+        return $weight;
+      }
+
+      // Sort by label ignoring parenthesis.
+      $label1 = $item1->getLabel();
+      if ($label1 instanceof TranslatableMarkup) {
+        $label1 = $label1->render();
+      }
+      $label2 = $item2->getLabel();
+      if ($label2 instanceof TranslatableMarkup) {
+        $label2 = $label2->render();
+      }
+      // Ignore parenthesis.
+      $label1 = \str_replace(['(', ')'], '', $label1);
+      $label2 = \str_replace(['(', ')'], '', $label2);
+      if ($label1 != $label2) {
+        return \strnatcasecmp($label1, $label2);
+      }
+
+      // Sort by plugin ID.
+      // In case the plugin ID starts with an underscore.
+      $id1 = \str_replace('_', '', $item1->id());
+      $id2 = \str_replace('_', '', $item2->id());
+      return \strnatcasecmp($id1, $id2);
+    });
+
+    return $definitions;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getGroupedDefinitions(?array $definitions = NULL): array {
+    $definitions = $this->getSortedDefinitions($definitions ?? $this->getDefinitions());
+    $grouped_definitions = [];
+    foreach ($definitions as $id => $definition) {
+      $grouped_definitions[(string) $definition->getCategory()][$id] = $definition;
+    }
+    return $grouped_definitions;
   }
 
   /**
@@ -73,32 +159,9 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
         $definitions[$definition['id']] = $definition;
         unset($definitions[$id]);
       }
-      $definitions = $this->getSortedDefinitions($definitions);
       $this->setCachedDefinitions($definitions);
     }
     return $definitions;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPatternsOptions() {
-    return array_map(function ($option) {
-      return $option['label'];
-    }, $this->getDefinitions());
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function isPatternHook($hook) {
-    // Improve performance on not cached pages.
-    if (empty($this->patternHooks)) {
-      foreach ($this->getDefinitions() as $definition) {
-        $this->patternHooks[$definition->getThemeHook()] = $definition->getThemeHook();
-      }
-    }
-    return !empty($this->patternHooks[$hook]);
   }
 
   /**
@@ -109,37 +172,47 @@ class UiPatternsManager extends DefaultPluginManager implements PluginManagerInt
   }
 
   /**
-   * Sort pattern definitions by label then ID.
-   *
-   * @param array $definitions
-   *   The patterns plugin definitions.
-   *
-   * @return array
-   *   The sorted definitions.
+   * {@inheritdoc}
    */
-  protected function getSortedDefinitions(array $definitions) {
-    // Sort by label ignoring parenthesis.
-    uasort($definitions, function ($item1, $item2) {
-      $sort_result = 0;
+  public function getPatterns(): array {
+    $patterns = [];
+    foreach ($this->getDefinitions() as $definition) {
+      $patterns[] = $this->getFactory()->createInstance($definition->id());
+    }
+    return $patterns;
+  }
 
-      if (isset($item1['label'], $item2['label'])) {
-        // Ignore parenthesis.
-        $label1 = str_replace(['(', ')'], '', $item1['label']);
-        $label2 = str_replace(['(', ')'], '', $item2['label']);
-        $sort_result = $label1 <=> $label2;
+  /**
+   * {@inheritdoc}
+   */
+  public function getPatternsOptions(): array {
+    $options = [];
+    $grouped_definitions = $this->getGroupedDefinitions();
+    foreach ($grouped_definitions as $group_name => $group_definitions) {
+      foreach ($group_definitions as $definition) {
+        $options[$group_name][$definition->id()] = $definition->getLabel();
       }
+    }
 
-      // Fallback to pattern ID.
-      if ($sort_result === 0) {
-        // In case the pattern ID starts with an underscore.
-        $id1 = str_replace('_', '', $item1['id']);
-        $id2 = str_replace('_', '', $item2['id']);
-        $sort_result = $id1 <=> $id2;
+    // If there is only one category, do not put in optgroup.
+    if (count(array_keys($options)) == 1) {
+      $options = array_shift($options);
+    }
+
+    return $options;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isPatternHook(string $hook): bool {
+    // Improve performance on not cached pages.
+    if (empty($this->patternHooks)) {
+      foreach ($this->getDefinitions() as $definition) {
+        $this->patternHooks[$definition->getThemeHook()] = $definition->getThemeHook();
       }
-      return $sort_result;
-    });
-
-    return $definitions;
+    }
+    return !empty($this->patternHooks[$hook]);
   }
 
 }

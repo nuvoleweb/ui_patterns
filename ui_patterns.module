@@ -31,9 +31,7 @@ function ui_patterns_theme() {
 /**
  * Implements hook_library_info_build().
  */
-function ui_patterns_library_info_build() {
-  /** @var \Drupal\ui_patterns\Plugin\PatternBase $pattern */
-
+function ui_patterns_library_info_build(): array {
   $definitions = [];
   foreach (UiPatterns::getManager()->getPatterns() as $pattern) {
     $definitions += $pattern->getLibraryDefinitions();
@@ -42,9 +40,9 @@ function ui_patterns_library_info_build() {
 }
 
 /**
- * Implements hook_theme_suggestions_HOOK_alter().
+ * Implements hook_theme_suggestions_alter().
  */
-function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
+function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variables, string $hook): void {
   if (UiPatterns::getManager()->isPatternHook($hook)) {
     \Drupal::moduleHandler()->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
     \Drupal::theme()->alter('ui_patterns_suggestions', $suggestions, $variables, $variables['context']);
@@ -59,7 +57,7 @@ function ui_patterns_theme_suggestions_alter(array &$suggestions, array $variabl
 /**
  * Implements hook_ui_patterns_suggestions_alter().
  */
-function ui_patterns_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
+function ui_patterns_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context): void {
   // Add preview theme suggestion.
   if ($context->isOfType('preview')) {
     $suggestions[] = $variables['theme_hook_original'] . '__preview';

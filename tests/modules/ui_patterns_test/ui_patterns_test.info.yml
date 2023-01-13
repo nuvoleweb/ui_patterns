@@ -1,0 +1,4 @@
+name: 'UI Patterns Test'
+type: module
+description: 'Provides test plugin.'
+package: 'Testing'
