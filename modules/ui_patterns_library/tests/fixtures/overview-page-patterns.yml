@@ -97,3 +97,14 @@
         label: 'Two'
         description: 'Second variant'
       preview: '<div class="pattern-with-variant-two">With variants pattern field</div>'
+
+- name: 'subtheme_override'
+  label: '[Overridden] Sub-theme override'
+  description: '[Overridden] Sub-theme override description'
+  has_variants: false
+  preview: '<div class="overridden pattern-subtheme-override">[Overridden] Simple pattern field</div>'
+  fields:
+    - name: 'field'
+      type: 'string'
+      label: '[Overridden] Field'
+      description: '[Overridden] Field description'

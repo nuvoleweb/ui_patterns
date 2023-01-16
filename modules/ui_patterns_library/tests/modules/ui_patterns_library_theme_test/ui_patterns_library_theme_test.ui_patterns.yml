@@ -35,3 +35,13 @@ with_custom_theme_hook:
       label: 'Field'
       description: 'Field description'
       preview: 'Pattern field value'
+
+subtheme_override:
+  label: 'Sub-theme override'
+  description: 'Sub-theme override description'
+  fields:
+    field:
+      type: 'string'
+      label: 'Field'
+      description: 'Field description'
+      preview: 'Simple pattern field'

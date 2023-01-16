@@ -27,7 +27,7 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
    *
    * @var string
    */
-  protected $defaultTheme = 'ui_patterns_library_theme_test';
+  protected $defaultTheme = 'ui_patterns_library_subtheme_test';
 
   /**
    * {@inheritdoc}

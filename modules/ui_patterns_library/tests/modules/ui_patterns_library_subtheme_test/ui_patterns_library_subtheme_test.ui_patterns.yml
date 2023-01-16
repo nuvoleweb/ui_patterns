@@ -1,0 +1,9 @@
+subtheme_override:
+  label: '[Overridden] Sub-theme override'
+  description: '[Overridden] Sub-theme override description'
+  fields:
+    field:
+      type: 'string'
+      label: '[Overridden] Field'
+      description: '[Overridden] Field description'
+      preview: '[Overridden] Simple pattern field'

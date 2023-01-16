@@ -1,0 +1,5 @@
+name: 'UI Patterns library sub-theme test'
+type: theme
+description: 'Test sub-theme for UI Patterns.'
+package: 'Testing'
+base theme: ui_patterns_library_theme_test

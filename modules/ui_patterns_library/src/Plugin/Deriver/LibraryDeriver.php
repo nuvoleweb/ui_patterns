@@ -160,7 +160,36 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
    *   An array containing directory paths keyed by their extension name.
    */
   protected function getDirectories() {
-    return $this->moduleHandler->getModuleDirectories() + $this->themeHandler->getThemeDirectories();
+    // Sort modules list.
+    $module_list = $this->moduleHandler->getModuleList();
+    $module_list = $this->moduleHandler->buildModuleDependencies($module_list);
+    $module_list = $this->sortExtensionList($module_list);
+
+    // Sort themes list.
+    $theme_list = $this->themeHandler->listInfo();
+    $theme_list = $this->sortExtensionList($theme_list);
+
+    $module_dirs = array_replace($module_list, $this->moduleHandler->getModuleDirectories());
+    $theme_dirs = array_replace($theme_list, $this->themeHandler->getThemeDirectories());
+
+    return $module_dirs + $theme_dirs;
+  }
+
+  /**
+   * Sort an extension list.
+   *
+   * @param \Drupal\Core\Extension\Extension[] $extensions
+   *   The extension list.
+   *
+   * @return string[]
+   *
+   */
+  protected function sortExtensionList(array $extensions) {
+    $extensions_sort = array_map(function ($extension) {
+      return $extension->sort;
+    }, $extensions);
+    arsort($extensions_sort);
+    return array_replace($extensions_sort, $extensions);
   }
 
   /**
