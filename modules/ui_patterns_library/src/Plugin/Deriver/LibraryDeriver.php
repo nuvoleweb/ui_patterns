@@ -154,26 +154,13 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
   /**
    * Create a list of all directories to scan.
    *
-   * This includes all module directories and directories of the default theme
-   * and all of its possible base themes.
+   * This includes all module and theme directories.
    *
    * @return array
    *   An array containing directory paths keyed by their extension name.
    */
   protected function getDirectories() {
-    $default_theme = $this->themeHandler->getDefault();
-    $base_themes = $this->themeHandler->getBaseThemes($this->themeHandler->listInfo(), $default_theme);
-    $theme_directories = $this->themeHandler->getThemeDirectories();
-
-    $directories = [];
-    if (isset($theme_directories[$default_theme])) {
-      $directories[$default_theme] = $theme_directories[$default_theme];
-      foreach (array_keys($base_themes) as $name) {
-        $directories[$name] = $theme_directories[$name];
-      }
-    }
-
-    return $directories + $this->moduleHandler->getModuleDirectories();
+    return $this->moduleHandler->getModuleDirectories() + $this->themeHandler->getThemeDirectories();
   }
 
   /**
