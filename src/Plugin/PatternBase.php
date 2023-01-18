@@ -111,10 +111,14 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
         $is_asset = in_array($parent, $parents, TRUE);
         $is_external = isset($values['type']) && $values['type'] == 'external';
         if ($is_asset && !$is_external) {
-          $libraries[$base_path . DIRECTORY_SEPARATOR . $name] = $values;
+          // Operating system specific DIRECTORY_SEPARATOR.
+          $directory_separator = DIRECTORY_SEPARATOR;
+          if (substr(PHP_OS, 0, 3) == 'WIN') {
+            $directory_separator = '/';
+          }
+          $libraries[$base_path . $directory_separator . $name] = $values;
           unset($libraries[$name]);
-        }
-        elseif (!$is_asset) {
+        } elseif (!$is_asset) {
           $this->processLibraries($libraries[$name], $base_path, $name);
         }
       }
