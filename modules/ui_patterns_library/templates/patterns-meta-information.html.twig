@@ -10,6 +10,16 @@
   {# Pattern name and description. #}
   <h3 class="pattern-preview__label">{{ pattern.label }}</h3>
   <p class="pattern-preview__description">{{ pattern.description }}</p>
+  {% if pattern.tags %}
+  <div class="pattern-preview__tags">
+    {{ "Tags:"|t }}
+    <ul>
+    {% for tag in pattern.tags %}
+       <li>{{ tag }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
 
   {# Pattern fields descriptions. #}
   <table class="pattern-preview__fields">
