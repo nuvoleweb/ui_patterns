@@ -158,7 +158,7 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     $session = $this->assertSession();
 
     // Assert table header.
-    foreach (['Field', 'Label', 'Type', 'Description'] as $index => $item) {
+    foreach (['Type', 'Name', 'Label', 'Type', 'Description / Options'] as $index => $item) {
       $child = $index + 1;
       $session->elementContains('css', "$root > table.pattern-preview__fields > thead > tr > th:nth-child($child)", $item);
     }
@@ -167,10 +167,11 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     foreach ($pattern['fields'] as $index => $field) {
       $child = $index + 1;
       $row_root = "$root > table.pattern-preview__fields > tbody > tr:nth-child($child)";
-      $session->elementContains('css', "$row_root > td:nth-child(1)", $field['name']);
-      $session->elementContains('css', "$row_root > td:nth-child(2)", $field['label']);
-      $session->elementContains('css', "$row_root > td:nth-child(3)", $field['type']);
-      $session->elementContains('css', "$row_root > td:nth-child(4)", $field['description']);
+      $session->elementContains('css', "$row_root > td:nth-child(1)", 'Field');
+      $session->elementContains('css', "$row_root > td:nth-child(2)", $field['name']);
+      $session->elementContains('css', "$row_root > td:nth-child(3)", $field['label']);
+      $session->elementContains('css', "$row_root > td:nth-child(4)", $field['type']);
+      $session->elementContains('css', "$row_root > td:nth-child(5)", $field['description']);
     }
   }
 
