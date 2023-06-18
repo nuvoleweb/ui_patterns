@@ -1,0 +1,5 @@
+ui_patterns_library.overview:
+  title: 'UI Patterns library'
+  description: 'See a list of UI Patterns which exist on the site.'
+  parent: system.admin_reports
+  route_name: ui_patterns.patterns.overview

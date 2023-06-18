@@ -1,4 +1,4 @@
 name: 'UI Patterns bad definition test'
 type: module
-core: 8.x
-core_version_requirement: ^8 || ^9
+description: 'Test module for UI Patterns.'
+package: 'Testing'

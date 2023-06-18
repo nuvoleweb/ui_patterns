@@ -1,17 +1,14 @@
 name: 'UI Patterns Views Test'
 type: module
 description: 'Test module for UI Patterns.'
-core: 8.x
-core_version_requirement: ^8 || ^9
-hidden: true
-package: 'User interface'
+package: 'Testing'
 dependencies:
-- ui_patterns
-- ui_patterns_views
-- ui_patterns_library
-- views_ui
-- node
-- text
+  - drupal:node
+  - drupal:text
+  - drupal:views_ui
+  - ui_patterns:ui_patterns
+  - ui_patterns:ui_patterns_library
+  - ui_patterns:ui_patterns_views
 
 config_devel:
   install:

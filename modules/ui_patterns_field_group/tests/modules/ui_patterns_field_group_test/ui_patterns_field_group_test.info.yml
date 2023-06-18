@@ -1,20 +1,17 @@
 name: 'UI Patterns Field Group Test'
 type: module
 description: 'Test module for UI Patterns.'
-core: 8.x
-core_version_requirement: ^8 || ^9
-hidden: true
-package: 'User interface'
+package: 'Testing'
 dependencies:
-- ui_patterns
-- ui_patterns_field_group
-- ui_patterns_library
+  - ui_patterns:ui_patterns
+  - ui_patterns:ui_patterns_field_group
+  - ui_patterns:ui_patterns_library
 
 config_devel:
   install:
-  - core.entity_form_display.node.article.default
-  - core.entity_view_display.node.article.default
-  - field.field.node.article.body
-  - field.field.node.article.field_text
-  - field.storage.node.field_text
-  - node.type.article
+    - core.entity_form_display.node.article.default
+    - core.entity_view_display.node.article.default
+    - field.field.node.article.body
+    - field.field.node.article.field_text
+    - field.storage.node.field_text
+    - node.type.article

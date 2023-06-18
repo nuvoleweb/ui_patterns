@@ -13,7 +13,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 
 /**
- * Class LibraryDeriver.
+ * Plugin deriver for UI Patterns library.
  *
  * @package Drupal\ui_patterns_library\Deriver
  */
@@ -113,7 +113,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
       $container->get('typed_data_manager'),
       $container->get('messenger'),
       $container->get('file_system'),
-      $container->get('app.root'),
+      $container->getParameter('app.root'),
       $container->getParameter('ui_patterns_library.file_extensions'),
       $container->get('module_handler'),
       $container->get('theme_handler')
@@ -133,7 +133,7 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
   public function getPatterns() {
     $patterns = [];
     foreach ($this->getDirectories() as $provider => $directory) {
-      foreach ($this->fileScanDirectory($directory) as $file_path => $file) {
+      foreach (array_keys($this->fileScanDirectory($directory)) as $file_path) {
         $host_extension = $this->getHostExtension($file_path);
         if ($host_extension == FALSE || $host_extension == $provider) {
           $content = file_get_contents($file_path);
@@ -154,26 +154,42 @@ class LibraryDeriver extends AbstractYamlPatternsDeriver {
   /**
    * Create a list of all directories to scan.
    *
-   * This includes all module directories and directories of the default theme
-   * and all of its possible base themes.
+   * This includes all module and theme directories.
    *
    * @return array
    *   An array containing directory paths keyed by their extension name.
    */
   protected function getDirectories() {
-    $default_theme = $this->themeHandler->getDefault();
-    $base_themes = $this->themeHandler->getBaseThemes($this->themeHandler->listInfo(), $default_theme);
-    $theme_directories = $this->themeHandler->getThemeDirectories();
+    // Sort modules list.
+    $module_list = $this->moduleHandler->getModuleList();
+    $module_list = $this->moduleHandler->buildModuleDependencies($module_list);
+    $module_list = $this->sortExtensionList($module_list);
 
-    $directories = [];
-    if (isset($theme_directories[$default_theme])) {
-      $directories[$default_theme] = $theme_directories[$default_theme];
-      foreach ($base_themes as $name => $theme) {
-        $directories[$name] = $theme_directories[$name];
-      }
-    }
+    // Sort themes list.
+    $theme_list = $this->themeHandler->listInfo();
+    $theme_list = $this->sortExtensionList($theme_list);
 
-    return $directories + $this->moduleHandler->getModuleDirectories();
+    $module_dirs = array_replace($module_list, $this->moduleHandler->getModuleDirectories());
+    $theme_dirs = array_replace($theme_list, $this->themeHandler->getThemeDirectories());
+
+    return $module_dirs + $theme_dirs;
+  }
+
+  /**
+   * Sort an extension list.
+   *
+   * @param \Drupal\Core\Extension\Extension[] $extensions
+   *   The extension list.
+   *
+   * @return string[]
+   *
+   */
+  protected function sortExtensionList(array $extensions) {
+    $extensions_sort = array_map(function ($extension) {
+      return $extension->sort;
+    }, $extensions);
+    arsort($extensions_sort);
+    return array_replace($extensions_sort, $extensions);
   }
 
   /**

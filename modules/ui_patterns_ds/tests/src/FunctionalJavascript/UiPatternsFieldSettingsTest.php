@@ -24,7 +24,7 @@ class UiPatternsFieldSettingsTest extends WebDriverTestBase {
    *
    * @var bool
    *
-   * @todo: Fix this by providing actual schema validation.
+   * @todo Fix this by providing actual schema validation.
    */
   protected $strictConfigSchema = FALSE;
 
@@ -78,7 +78,7 @@ class UiPatternsFieldSettingsTest extends WebDriverTestBase {
     $page->selectFieldOption('Destination for Body: format', 'Format');
 
     // Submit field settings.
-    // @todo: Make sure values are persisted when re-editing the field settings.
+    // @todo Make sure values are persisted when re-editing the field settings.
     $page->pressButton('Update');
     $assert_session->assertWaitOnAjaxRequest();
 

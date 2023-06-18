@@ -52,8 +52,14 @@ class PatternPreview extends Pattern {
    *
    * @return array|\Drupal\Component\Render\MarkupInterface|string
    *   Preview safe markup.
+   *
+   * @deprecated in ui_patterns:1.6.0 and is removed from ui_patterns:2.0.0
+   *   without replacement.
+   *
+   * @see https://www.drupal.org/node/3353287
    */
   public static function getPreviewMarkup($preview) {
+    @trigger_error(__METHOD__ . '() is deprecated in ui_patterns:1.6.0 and is removed from ui_patterns:2.0.0. No replacement provided. See https://www.drupal.org/node/3353287', E_USER_DEPRECATED);
     if (is_array($preview)) {
       $rendered = [];
       // If preview is a render array add hashes to keys.

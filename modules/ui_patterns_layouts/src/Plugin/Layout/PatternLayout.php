@@ -90,7 +90,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
 
     // Patterns expect regions to be passed along in a render array fashion.
     $fields = [];
-    foreach ($regions as $region_name => $region) {
+    foreach (array_keys($regions) as $region_name) {
       $fields[$region_name] = $regions[$region_name];
     }
 

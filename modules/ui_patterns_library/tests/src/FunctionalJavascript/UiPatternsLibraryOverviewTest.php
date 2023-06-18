@@ -3,6 +3,7 @@
 namespace Drupal\Tests\ui_patterns_library\FunctionalJavascript;
 
 use Drupal\Core\Serialization\Yaml;
+use Drupal\Core\Url;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
@@ -13,11 +14,20 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
 
   /**
+   * Module extension list.
+   *
+   * Currently no interface to rely on.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleExtensionList;
+
+  /**
    * Default theme.
    *
    * @var string
    */
-  protected $defaultTheme = 'ui_patterns_library_theme_test';
+  protected $defaultTheme = 'ui_patterns_library_subtheme_test';
 
   /**
    * {@inheritdoc}
@@ -33,6 +43,8 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
+
+    $this->moduleExtensionList = $this->container->get('extension.list.module');
 
     $user = $this->drupalCreateUser(['access patterns page']);
     $this->drupalLogin($user);
@@ -86,11 +98,14 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     $session = $this->assertSession();
 
     $this->drupalGet('/patterns/with_local_libraries');
-    $session->responseContains('href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_one.css');
-    $session->responseContains('href="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/css/library_two.css');
-    $session->responseContains('src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_1.js');
-    $session->responseContains('src="/modules/custom/ui_patterns/modules/ui_patterns_library/tests/modules/ui_patterns_library_module_test/templates/with_local_libraries/js/library_two_2.js');
-    $session->responseContains('src="/core/misc/tabledrag.js');
+
+    $ui_patterns_library_module_test_path = $this->moduleExtensionList->getPath('ui_patterns_library_module_test');
+
+    $session->responseContains('href="' . Url::fromUserInput('/' . $ui_patterns_library_module_test_path . '/templates/with_local_libraries/css/library_one.css')->toString());
+    $session->responseContains('href="' . Url::fromUserInput('/' . $ui_patterns_library_module_test_path . '/templates/with_local_libraries/css/library_two.css')->toString());
+    $session->responseContains('src="' . Url::fromUserInput('/' . $ui_patterns_library_module_test_path . '/templates/with_local_libraries/js/library_two_1.js')->toString());
+    $session->responseContains('src="' . Url::fromUserInput('/' . $ui_patterns_library_module_test_path . '/templates/with_local_libraries/js/library_two_2.js')->toString());
+    $session->responseContains('src="' . Url::fromUserInput('/core/misc/tabledrag.js')->toString());
   }
 
   /**
@@ -143,7 +158,7 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     $session = $this->assertSession();
 
     // Assert table header.
-    foreach (['Field', 'Label', 'Type', 'Description'] as $index => $item) {
+    foreach (['Type', 'Name', 'Label', 'Type', 'Description / Options'] as $index => $item) {
       $child = $index + 1;
       $session->elementContains('css', "$root > table.pattern-preview__fields > thead > tr > th:nth-child($child)", $item);
     }
@@ -152,10 +167,11 @@ class UiPatternsLibraryOverviewTest extends WebDriverTestBase {
     foreach ($pattern['fields'] as $index => $field) {
       $child = $index + 1;
       $row_root = "$root > table.pattern-preview__fields > tbody > tr:nth-child($child)";
-      $session->elementContains('css', "$row_root > td:nth-child(1)", $field['name']);
-      $session->elementContains('css', "$row_root > td:nth-child(2)", $field['label']);
-      $session->elementContains('css', "$row_root > td:nth-child(3)", $field['type']);
-      $session->elementContains('css', "$row_root > td:nth-child(4)", $field['description']);
+      $session->elementContains('css', "$row_root > td:nth-child(1)", 'Field');
+      $session->elementContains('css', "$row_root > td:nth-child(2)", $field['name']);
+      $session->elementContains('css', "$row_root > td:nth-child(3)", $field['label']);
+      $session->elementContains('css', "$row_root > td:nth-child(4)", $field['type']);
+      $session->elementContains('css', "$row_root > td:nth-child(5)", $field['description']);
     }
   }
 

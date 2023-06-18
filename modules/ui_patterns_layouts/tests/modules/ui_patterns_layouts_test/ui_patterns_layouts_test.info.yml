@@ -1,21 +1,18 @@
 name: 'UI Patterns Layouts Test'
 type: module
 description: 'Test module for UI Patterns.'
-core: 8.x
-core_version_requirement: ^8 || ^9
-hidden: true
-package: 'User interface'
+package: 'Testing'
 dependencies:
-- ui_patterns
-- ui_patterns_layouts
-- ui_patterns_library
-- node
-- text
-- field_layout
-- field_ui
+  - drupal:field_layout
+  - drupal:field_ui
+  - drupal:node
+  - drupal:text
+  - ui_patterns:ui_patterns
+  - ui_patterns:ui_patterns_layouts
+  - ui_patterns:ui_patterns_library
 
 config_devel:
   install:
-  - field.field.node.article.body
-  - node.type.article
-  - core.entity_view_display.node.article.default
+    - field.field.node.article.body
+    - node.type.article
+    - core.entity_view_display.node.article.default

@@ -17,6 +17,21 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    * Test getters.
    *
    * @dataProvider definitionGettersProvider
+   *
+   * @covers ::getCategory
+   * @covers ::getDescription
+   * @covers ::getLabel
+   * @covers ::getProvider
+   * @covers ::getUse
+   * @covers ::getWeight
+   * @covers ::getTags
+   * @covers ::getBasePath
+   * @covers ::getClass
+   * @covers ::getFileName
+   * @covers ::getTemplate
+   * @covers ::getThemeHook
+   * @covers ::hasCustomThemeHook
+   * @covers ::id
    */
   public function testGettersSetters($getter, $name, $value) {
     $pattern_definition = new PatternDefinition([$name => $value]);
@@ -24,9 +39,35 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
   }
 
   /**
+   * Provider.
+   *
+   * @return array
+   *   Data.
+   */
+  public function definitionGettersProvider() {
+    return [
+      ['getProvider', 'provider', 'my_module'],
+      ['id', 'id', 'pattern_id'],
+      ['getLabel', 'label', 'Pattern label'],
+      ['getDescription', 'description', 'Pattern description.'],
+      ['getCategory', 'category', 'Pattern category'],
+      ['getUse', 'use', 'template.twig'],
+      ['hasCustomThemeHook', 'custom theme hook', FALSE],
+      ['getThemeHook', 'theme hook', 'eme hook: custom_my_theme_hook'],
+      ['getTemplate', 'template', 'my-template.html.twig'],
+      ['getFileName', 'file name', '/path/to/filename.ui_patterns.yml'],
+      ['getClass', 'class', '\Drupal\ui_patterns\MyClass'],
+      ['getBasePath', 'base path', '/path/to'],
+      ['getTags', 'tags', ['a', 'b']],
+      ['getWeight', 'weight', 10],
+    ];
+  }
+
+  /**
    * Test field singleton.
    *
-   * @dataProvider definitionGettersProvider
+   * @covers ::getField
+   * @covers ::setFields
    */
   public function testFields() {
     $fields = [
@@ -74,6 +115,8 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    * Test fields processing.
    *
    * @dataProvider fieldsProcessingProvider
+   *
+   * @covers ::setFields
    */
   public function testFieldsProcessing($actual, $expected) {
     $pattern_definition = new PatternDefinition();
@@ -95,6 +138,8 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    * Test fields processing.
    *
    * @dataProvider variantsProcessingProvider
+   *
+   * @covers ::setVariants
    */
   public function testVariantsProcessing($actual, $expected) {
     $pattern_definition = new PatternDefinition();
@@ -110,29 +155,6 @@ class PatternDefinitionTest extends AbstractUiPatternsTest {
    */
   public function variantsProcessingProvider() {
     return Yaml::decode(file_get_contents($this->getFixturePath() . '/definition/variants_processing.yml'));
-  }
-
-  /**
-   * Provider.
-   *
-   * @return array
-   *   Data.
-   */
-  public function definitionGettersProvider() {
-    return [
-      ['getProvider', 'provider', 'my_module'],
-      ['id', 'id', 'pattern_id'],
-      ['getLabel', 'label', 'Pattern label'],
-      ['getDescription', 'description', 'Pattern description.'],
-      ['getUse', 'use', 'template.twig'],
-      ['hasCustomThemeHook', 'custom theme hook', FALSE],
-      ['getThemeHook', 'theme hook', 'eme hook: custom_my_theme_hook'],
-      ['getTemplate', 'template', 'my-template.html.twig'],
-      ['getFileName', 'file name', '/path/to/filename.ui_patterns.yml'],
-      ['getClass', 'class', '\Drupal\ui_patterns\MyClass'],
-      ['getBasePath', 'base path', '/path/to'],
-      ['getTags', 'tags', ['a', 'b']],
-    ];
   }
 
 }

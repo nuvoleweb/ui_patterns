@@ -9,7 +9,7 @@ use Drupal\ui_patterns\Definition\PatternDefinition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class PatternBase.
+ * UI Patterns plugin base class.
  *
  * @package Drupal\ui_patterns\Plugin
  */
@@ -46,7 +46,7 @@ abstract class PatternBase extends PluginBase implements PatternInterface, Conta
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('app.root'),
+      $container->getParameter('app.root'),
       $container->get('module_handler')
     );
   }

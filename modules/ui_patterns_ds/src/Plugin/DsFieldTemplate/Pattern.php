@@ -125,7 +125,11 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
    *   Context array.
    */
   protected function getContext() {
-    $fields = $this->parameters->get('fields');
+    $parameters = $this->parameters->all();
+    if (!isset($parameters['fields']) || !is_array($parameters['fields'])) {
+      return [];
+    }
+    $fields = $parameters['fields'];
     $field_name = $this->getCurrentField();
 
     return [
@@ -155,11 +159,14 @@ class Pattern extends DsFieldTemplateBase implements ContainerFactoryPluginInter
    *   Name of field currently being edited.
    */
   protected function getCurrentField() {
-    $fields = array_filter($this->parameters->get('fields', []), function ($field) {
-      return isset($field['settings_edit_form']['third_party_settings']['ds']['ft']['id']) && $field['settings_edit_form']['third_party_settings']['ds']['ft']['id'] == 'pattern';
-    });
-    $fields = array_keys($fields);
-    $field = reset($fields);
+    $parameters = $this->parameters->all();
+    if (isset($parameters['fields']) && is_array($parameters['fields'])) {
+      $fields = array_filter($parameters['fields'], function ($field) {
+        return isset($field['settings_edit_form']['third_party_settings']['ds']['ft']['id']) && $field['settings_edit_form']['third_party_settings']['ds']['ft']['id'] == 'pattern';
+      });
+      $fields = array_keys($fields);
+      $field = reset($fields);
+    }
 
     if (empty($field)) {
       $trigger_element = $this->parameters->get('_triggering_element_name');

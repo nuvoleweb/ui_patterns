@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Plugin\Deriver;
 
 /**
- * Interface YamlPatternsDeriverInterface.
+ * Deriver interface for YAML-based pattern definitions.
  *
  * @package Drupal\ui_patterns\Plugin\Deriver
  */

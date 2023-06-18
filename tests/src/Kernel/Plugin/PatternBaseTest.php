@@ -54,7 +54,7 @@ class PatternBaseTest extends AbstractUiPatternsTest {
       [],
       'plugin_id',
       $plugin_definition,
-      \Drupal::service('app.root'),
+      \Drupal::getContainer()->getParameter('app.root'),
       \Drupal::service('module_handler'),
     ], '', TRUE, TRUE, TRUE, $methods);
   }

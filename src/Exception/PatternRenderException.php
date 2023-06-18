@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Exception;
 
 /**
- * Class PatternRenderException.
+ * Exception thrown in case of an invalid pattern rendering.
  *
  * @package Drupal\ui_patterns\Exception
  */

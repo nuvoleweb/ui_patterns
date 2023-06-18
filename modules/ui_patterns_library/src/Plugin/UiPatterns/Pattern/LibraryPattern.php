@@ -45,7 +45,7 @@ class LibraryPattern extends PatternBase {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('app.root'),
+      $container->getParameter('app.root'),
       $container->get('module_handler'),
       $container->get('theme_handler')
     );

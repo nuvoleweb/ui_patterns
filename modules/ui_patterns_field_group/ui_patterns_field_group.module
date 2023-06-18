@@ -9,7 +9,24 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\ui_patterns\Element\PatternContext;
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_module_implements_alter().
+ */
+function ui_patterns_field_group_module_implements_alter(&$implementations, $hook) {
+  switch ($hook) {
+    // Ensure ui_patterns_field_group_form_entity_view_display_edit_form_alter,
+    // is executed after field_group_form_entity_view_display_edit_form_alter.
+    case 'form_alter':
+      if (isset($implementations['ui_patterns_field_group'])) {
+        $group = $implementations['ui_patterns_field_group'];
+        unset($implementations['ui_patterns_field_group']);
+        $implementations['ui_patterns_field_group'] = $group;
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for 'entity_view_display_edit_form'.
  */
 function ui_patterns_field_group_form_entity_view_display_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   array_unshift($form['actions']['submit']['#submit'], 'ui_patterns_field_group_field_group_field_overview_submit');
@@ -37,7 +54,11 @@ function ui_patterns_field_group_field_group_field_overview_submit(array $form, 
         // Call static processFormStateValues if the plugin implements it.
         $plugin_definition = \Drupal::service('plugin.manager.field_group.formatters')->getDefinition($field_group_form_state[$group_name]->format_type, FALSE);
         if (method_exists($plugin_definition['class'], 'processFormStateValues')) {
-          call_user_func_array([$plugin_definition['class'], 'processFormStateValues'], [&$field_group_form_state[$group_name]->format_settings]);
+          call_user_func_array([
+            $plugin_definition['class'],
+            'processFormStateValues',
+          ],
+            [&$field_group_form_state[$group_name]->format_settings]);
         }
       }
     }
@@ -53,7 +74,7 @@ function ui_patterns_field_group_field_group_field_overview_submit(array $form, 
 function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('field_group')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $group_name = $context->getProperty('group_name');
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');
@@ -83,7 +104,7 @@ function ui_patterns_field_group_ui_patterns_suggestions_alter(array &$suggestio
 function ui_patterns_field_group_ui_patterns_destination_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
   if ($context->isOfType('field_group')) {
     $hook = $variables['theme_hook_original'];
-    $variant = isset($variables["variant"]) ? $variables["variant"] : '';
+    $variant = $variables["variant"] ?? '';
     $group_name = $context->getProperty('group_name');
     $entity_type = $context->getProperty('entity_type');
     $bundle = $context->getProperty('bundle');

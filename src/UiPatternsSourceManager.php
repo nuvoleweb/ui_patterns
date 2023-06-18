@@ -49,7 +49,7 @@ class UiPatternsSourceManager extends DefaultPluginManager {
   public function getFieldsByTag($tag, array $context) {
     /** @var \Drupal\ui_patterns\Plugin\PatternSourceInterface $plugin */
     $fields = [];
-    foreach ($this->getDefinitionsByTag($tag) as $id => $definition) {
+    foreach (array_keys($this->getDefinitionsByTag($tag)) as $id) {
       $plugin = $this->createInstance($id, ['context' => $context]);
       foreach ($plugin->getSourceFields() as $field) {
         $fields[$field->getFieldKey()] = $field;

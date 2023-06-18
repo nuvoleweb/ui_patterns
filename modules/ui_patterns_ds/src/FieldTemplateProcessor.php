@@ -5,7 +5,7 @@ namespace Drupal\ui_patterns_ds;
 use Drupal\Core\Entity\ContentEntityBase;
 
 /**
- * Class FieldTemplateProcessor.
+ * Field template processor for Display Suite integration.
  *
  * @package Drupal\ui_patterns_ds
  */
@@ -25,7 +25,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
     $this->variables = $variables;
 
     $content = [];
-    foreach ($variables['items'] as $delta => $item) {
+    foreach (array_keys($variables['items']) as $delta) {
       $fields = [];
       foreach ($this->getMapping() as $mapping) {
         $fields[$mapping['destination']][] = $this->getSourceValue($mapping, $delta);
@@ -117,7 +117,7 @@ class FieldTemplateProcessor implements FieldTemplateProcessorInterface {
    *   Setting value.
    */
   protected function getSetting($name, $default = '') {
-    return isset($this->variables['ds-config']['settings'][$name]) ? $this->variables['ds-config']['settings'][$name] : $default;
+    return $this->variables['ds-config']['settings'][$name] ?? $default;
   }
 
   /**

@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Plugin;
 
 /**
- * Interface PatternInterface.
+ * Interface for UI Pattern plugins.
  *
  * @package Drupal\ui_patterns
  */

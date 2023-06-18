@@ -6,7 +6,7 @@ use Drupal\Component\Utility\SortArray;
 use Drupal\ui_patterns\Plugin\PatternSourceBase;
 
 /**
- * Trait PatternDisplayFormTrait.
+ * Helper trait dealing with pattern display forms.
  *
  * @property \Drupal\ui_patterns\UiPatternsManager $patternsManager
  * @property \Drupal\ui_patterns\UiPatternsSourceManager $sourceManager
@@ -36,7 +36,7 @@ trait PatternDisplayFormTrait {
       '#empty_value' => '_none',
       '#title' => $this->t('Pattern'),
       '#options' => $this->patternsManager->getPatternsOptions(),
-      '#default_value' => isset($configuration['pattern']) ? $configuration['pattern'] : NULL,
+      '#default_value' => $configuration['pattern'] ?? NULL,
       '#required' => TRUE,
       '#attributes' => ['id' => 'patterns-select'],
     ];
@@ -49,7 +49,7 @@ trait PatternDisplayFormTrait {
           '#type' => 'select',
           '#title' => $this->t('Variant'),
           '#options' => $definition->getVariantsAsOptions(),
-          '#default_value' => isset($configuration['pattern_variant']) ? $configuration['pattern_variant'] : NULL,
+          '#default_value' => $configuration['pattern_variant'] ?? NULL,
           '#weight' => 0,
           '#states' => [
             'visible' => [
@@ -169,7 +169,7 @@ trait PatternDisplayFormTrait {
           unset($settings['pattern_mapping'][$key]);
         }
         else {
-          list($plugin, $source) = explode(PatternSourceBase::DERIVATIVE_SEPARATOR, $key, 2);
+          [$plugin, $source] = explode(PatternSourceBase::DERIVATIVE_SEPARATOR, $key, 2);
           $settings['pattern_mapping'][$key]['plugin'] = $plugin;
           $settings['pattern_mapping'][$key]['source'] = $source;
         }
@@ -177,7 +177,10 @@ trait PatternDisplayFormTrait {
 
       // Normalize weights.
       $weight = 0;
-      uasort($settings['pattern_mapping'], [SortArray::class, 'sortByWeightElement']);
+      uasort($settings['pattern_mapping'], [
+        SortArray::class,
+        'sortByWeightElement',
+      ]);
       foreach ($settings['pattern_mapping'] as $key => $setting) {
         $settings['pattern_mapping'][$key]['weight'] = $weight++;
       }

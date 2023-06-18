@@ -14,7 +14,7 @@ class UiPatternsManagerTest extends AbstractUiPatternsTest {
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'system',
     'ui_patterns',
     'ui_patterns_library',
