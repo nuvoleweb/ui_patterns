@@ -1,8 +1,7 @@
-name: 'UI Patterns Field Group'
+name: 'UI Patterns SDC'
 type: module
-description: 'Use patterns as field groups templates.'
+description: 'Use patterns with Single Directory Components.'
 core_version_requirement: ^9 || ^10
 package: 'User interface'
 dependencies:
-  - field_group:field_group
   - ui_patterns:ui_patterns

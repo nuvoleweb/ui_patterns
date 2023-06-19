@@ -95,11 +95,11 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
     }
 
     return [
-      '#type' => 'pattern',
-      '#id' => $this->getPluginDefinition()->get('additional')['pattern'],
-      '#fields' => $fields,
+      '#type' => 'component',
+      '#component' => $this->getPluginDefinition()->getProvider() . ':' . $this->getPluginDefinition()->get('additional')['pattern'],
+      '#slots' => $fields,
       '#variant' => $configuration['pattern']['variant'],
-    ] + $this->elementInfo->getInfo('pattern');
+    ];
   }
 
   /**
