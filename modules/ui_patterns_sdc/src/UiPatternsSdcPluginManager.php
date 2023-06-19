@@ -48,6 +48,11 @@ final class UiPatternsSdcPluginManager extends ComponentPluginManager {
       if ($id) {
         $ui_patterns_id = explode(':', $id)[1] ?? NULL;
         if ($pattern = $ui_patterns_definitions[$ui_patterns_id] ?? NULL) {
+
+          // Check if the pattern is created by the sdc discover.
+          if (isset($pattern->getAdditional()['sdc'])) {
+            continue;
+          }
           //$definition['$schema'] = 'https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json';
           $definition['props'] = ['type' => 'object', 'properties' => []];
           foreach ($pattern->getFields() as $field_name => $field) {

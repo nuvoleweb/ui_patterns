@@ -18,6 +18,7 @@ use Drupal\field_layout\Display\EntityDisplayWithLayoutInterface;
 function ui_patterns_layouts_layout_alter(&$definitions) {
   /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
 
+  $defs = UiPatterns::getPatternDefinitions();
   // @todo Use layout deriver instead.
   // @link https://github.com/nuvoleweb/ui_patterns/issues/94
   foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
