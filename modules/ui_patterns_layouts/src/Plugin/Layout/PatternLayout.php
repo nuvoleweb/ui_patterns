@@ -72,7 +72,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
   public function build(array $regions) {
     $configuration = $this->getConfiguration();
 
-    // Patterns expect regions to be passed along in a render array fashion.
+    // Components expect slots to be passed along in a render array fashion.
     $slots = [];
     foreach (array_keys($regions) as $region_name) {
       $slots[$region_name] = $regions[$region_name];
@@ -102,7 +102,6 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
    * {@inheritdoc}
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $configuration = $this->getConfiguration();
     $form = [];
 
     $form['pattern'] = [
@@ -110,19 +109,6 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
       '#type' => 'details',
       '#title' => $this->t('Pattern settings'),
       '#tree' => TRUE,
-    ];
-    $form['pattern']['field_templates'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Field templates'),
-      '#options' => [
-        'default' => $this->t("Default"),
-        'only_content' => $this->t("Only content"),
-      ],
-      '#description' => implode('<br/>', [
-        $this->t("<b>Default</b>: use field templates to wrap field content."),
-        $this->t("<b>Only content</b>: only print field content, without field wrapping or label."),
-      ]),
-      '#default_value' => $configuration['pattern']['field_templates'],
     ];
 
     return $form;

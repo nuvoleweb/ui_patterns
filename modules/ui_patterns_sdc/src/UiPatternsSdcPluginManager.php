@@ -89,6 +89,7 @@ final class UiPatternsSdcPluginManager extends ComponentPluginManager {
             } else {
               $definitions[$id] = $this->mapPatternToComponent($pattern, $definition);
             }
+            $definitions[$id]['ui_pattern_id'] = $pattern_id;
           }
         }
       }

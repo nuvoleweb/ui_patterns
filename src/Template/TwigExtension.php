@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns\Template;
 
+use Drupal\ui_patterns\UiPatternsManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\TwigFilter;
@@ -64,11 +65,18 @@ class TwigExtension extends AbstractExtension {
    * @see \Drupal\ui_patterns\Element\Pattern
    */
   public function renderPattern($id, array $fields = [], $variant = "") {
+    $component = UiPatternsManager::getComponentByUiPatternId($id);
+    if ($component) {
+      return [
+        '#type' => 'component',
+        '#id' => $id,
+        '#slots' => $fields,
+        '#variant' => $variant,
+      ];
+    }
     return [
-      '#type' => 'pattern',
-      '#id' => $id,
-      '#fields' => $fields,
-      '#variant' => $variant,
+      '#type' => 'markup',
+      '#markup' => 'No component found for ' . $id,
     ];
   }
 
@@ -86,10 +94,17 @@ class TwigExtension extends AbstractExtension {
    * @see \Drupal\ui_patterns\Element\Pattern
    */
   public function renderPatternPreview($id, $variant = "") {
+    $component = UiPatternsManager::getComponentByUiPatternId($id);
+    if ($component) {
+      return [
+        '#type' => 'component',
+        '#id' => $component['id'],
+        '#variant' => $variant,
+      ];
+    }
     return [
-      '#type' => 'pattern_preview',
-      '#id' => $id,
-      '#variant' => $variant,
+      '#type' => 'markup',
+      '#markup' => 'No component found for ' . $id,
     ];
   }
 
