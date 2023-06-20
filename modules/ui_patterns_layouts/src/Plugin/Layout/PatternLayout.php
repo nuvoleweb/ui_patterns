@@ -27,13 +27,6 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
   protected $moduleHandler = NULL;
 
   /**
-   * Pattern manager service.
-   *
-   * @var \Drupal\ui_patterns\UiPatternsManager
-   */
-  protected $patternManager = NULL;
-
-  /**
    * The element info.
    *
    * @var \Drupal\Core\Render\ElementInfoManagerInterface
@@ -51,15 +44,12 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
    *   The plugin implementation definition.
    * @param \Drupal\Core\Render\ElementInfoManagerInterface $element_info
    *   Element info object.
-   * @param \Drupal\ui_patterns\UiPatternsManager $pattern_manager
-   *   Pattern manager service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   Module handler.
    */
-  public function __construct(array $configuration, $plugin_id, LayoutDefinition $plugin_definition, ElementInfoManagerInterface $element_info, UiPatternsManager $pattern_manager, ModuleHandlerInterface $module_handler) {
+  public function __construct(array $configuration, $plugin_id, LayoutDefinition $plugin_definition, ElementInfoManagerInterface $element_info, ModuleHandlerInterface $module_handler) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->elementInfo = $element_info;
-    $this->patternManager = $pattern_manager;
     $this->moduleHandler = $module_handler;
   }
 
@@ -72,7 +62,6 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
       $plugin_id,
       $plugin_definition,
       $container->get('plugin.manager.element_info'),
-      $container->get('plugin.manager.ui_patterns'),
       $container->get('module_handler')
     );
   }
@@ -83,21 +72,16 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
   public function build(array $regions) {
     $configuration = $this->getConfiguration();
 
-    // Remove default field template if "Only content" option has been selected.
-    if ($configuration['pattern']['field_templates'] == 'only_content') {
-      $this->processOnlyContentFields($regions);
-    }
-
     // Patterns expect regions to be passed along in a render array fashion.
-    $fields = [];
+    $slots = [];
     foreach (array_keys($regions) as $region_name) {
-      $fields[$region_name] = $regions[$region_name];
+      $slots[$region_name] = $regions[$region_name];
     }
 
     return [
       '#type' => 'component',
-      '#component' => $this->getPluginDefinition()->getProvider() . ':' . $this->getPluginDefinition()->get('additional')['pattern'],
-      '#slots' => $fields,
+      '#component' => $this->getPluginDefinition()->id(),
+      '#slots' => $slots,
       '#variant' => $configuration['pattern']['variant'],
     ];
   }
@@ -141,17 +125,6 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
       '#default_value' => $configuration['pattern']['field_templates'],
     ];
 
-    $pattern_id = $this->getPluginDefinition()->get('additional')['pattern'];
-    $definition = $this->patternManager->getDefinition($pattern_id);
-    if ($definition->hasVariants()) {
-      $form['pattern']['variant'] = [
-        '#type' => 'select',
-        '#title' => $this->t('Variant'),
-        '#options' => $definition->getVariantsAsOptions(),
-        '#default_value' => $configuration['pattern']['variant'],
-      ];
-    }
-    $this->moduleHandler->alter('ui_patterns_layouts_display_settings_form', $form['pattern'], $definition, $configuration);
     return $form;
   }
 
@@ -166,24 +139,6 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
     $this->configuration = $form_state->getValues();
-  }
-
-  /**
-   * Remove default field template if "Only content" option has been selected.
-   *
-   * @param array $regions
-   *   Layout regions.
-   */
-  protected function processOnlyContentFields(array &$regions) {
-    foreach ($regions as $region_name => $region) {
-      if (is_array($region)) {
-        foreach ($regions[$region_name] as $field_name => $field) {
-          if (is_array($field) && isset($field['#theme']) && $field['#theme'] == 'field') {
-            $regions[$region_name][$field_name]['#theme'] = NULL;
-          }
-        }
-      }
-    }
   }
 
 }

@@ -24,15 +24,14 @@ class PatternsLibraryController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct(UiPatternsManager $ui_patterns_manager) {
-    $this->patternsManager = $ui_patterns_manager;
+  public function __construct() {
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static($container->get('plugin.manager.ui_patterns'));
+    return new static();
   }
 
   /**

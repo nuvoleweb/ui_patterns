@@ -1,11 +1,4 @@
 services:
-  plugin.manager.ui_patterns:
-    class: Drupal\ui_patterns\UiPatternsManager
-    arguments:
-      - '@container.namespaces'
-      - '@cache.discovery'
-      - '@module_handler'
-      - '@theme_handler'
   plugin.manager.ui_patterns_source:
     class: Drupal\ui_patterns\UiPatternsSourceManager
     parent: default_plugin_manager

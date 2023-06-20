@@ -18,117 +18,21 @@ use Drupal\field_layout\Display\EntityDisplayWithLayoutInterface;
 function ui_patterns_layouts_layout_alter(&$definitions) {
   /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
 
-  $defs = UiPatterns::getPatternDefinitions();
-  // @todo Use layout deriver instead.
-  // @link https://github.com/nuvoleweb/ui_patterns/issues/94
-  foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
+  /** @var \Drupal\sdc\ComponentPluginManager $plugin_manager */
+  $plugin_manager = \Drupal::service('plugin.manager.sdc');
+  /** @var \Drupal\sdc\Component\ComponentMetadata[] $components */
+  $components = $plugin_manager->getDefinitions();
+  foreach ($components as $component) {
     $definition = [
-      'label' => $pattern_definition->getLabel(),
-      'theme' => $pattern_definition->getThemeHook(),
-      'provider' => $pattern_definition->getProvider(),
-      'category' => 'Patterns',
+      'label' => $component['name'] ?? $component['id'],
+      'category' => 'sdc',
+      'provider' => $component['provider'],
       'class' => '\Drupal\ui_patterns_layouts\Plugin\Layout\PatternLayout',
-      'pattern' => $pattern_definition->id(),
-      'template' => 'pattern-' . $pattern_definition->id(),
+      'id' => $component['id'],
     ];
-    foreach ($pattern_definition->getFields() as $field) {
-      $definition['regions'][$field->getName()]['label'] = $field->getLabel();
+    foreach ($component['slots'] as $slot_id => $slot) {
+      $definition['regions'][$slot_id]['label'] = $slot['title'];
     }
-    $definitions['pattern_' . $pattern_definition->id()] = new LayoutDefinition($definition);
-  }
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function ui_patterns_layouts_preprocess_ds_entity_view(&$variables) {
-  if (isset($variables['content']['#type']) && $variables['content']['#type'] == 'pattern') {
-
-    /** @var \Drupal\Core\Entity\EntityInterface $entity */
-    $entity = $variables['content']['#entity'];
-
-    // Allow default context values to not override those exposed elsewhere.
-    $variables['content']['#context']['type'] = 'layout';
-    $variables['content']['#context']['entity_type'] = $variables['content']['#entity_type'];
-    $variables['content']['#context']['bundle'] = $variables['content']['#bundle'];
-    $variables['content']['#context']['view_mode'] = $variables['content']['#view_mode'];
-    $variables['content']['#context']['entity_id'] = $entity->id();
-    $variables['content']['#context']['entity'] = $entity;
-  }
-}
-
-/**
- * Implements hook_entity_view_alter().
- */
-function ui_patterns_layouts_entity_view_alter(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
-  if ($display instanceof EntityDisplayWithLayoutInterface && isset($build['_field_layout']['#type']) && $build['_field_layout']['#type'] == 'pattern') {
-    $build['_field_layout']['#context']['type'] = 'layout';
-    $build['_field_layout']['#context']['entity_type'] = $build['#entity_type'];
-    $build['_field_layout']['#context']['bundle'] = $entity->bundle();
-    $build['_field_layout']['#context']['view_mode'] = $build['#view_mode'];
-    $build['_field_layout']['#context']['entity_id'] = $entity->id();
-    $build['_field_layout']['#context']['entity'] = $entity;
-  }
-}
-
-/**
- * Implements hook_ui_patterns_suggestions_alter().
- */
-function ui_patterns_layouts_ui_patterns_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
-  if ($context->isOfType('layout')) {
-    $hook = $variables['theme_hook_original'];
-    $variant = $variables["variant"] ?? '';
-    $entity_type = $context->getProperty('entity_type');
-    $bundle = $context->getProperty('bundle');
-    $view_mode = $context->getProperty('view_mode');
-    $entity_id = $context->getProperty('entity_id');
-
-    $suggestions[] = $hook . '__layout';
-    $suggestions[] = $hook . '__layout__' . $entity_type;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $view_mode;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $entity_id;
-
-    if (!empty($variant)) {
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout';
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $bundle;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $view_mode;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $entity_id;
-    }
-  }
-}
-
-/**
- * Implements hook_ui_patterns_destination_suggestions_alter().
- */
-function ui_patterns_layouts_ui_patterns_destination_suggestions_alter(array &$suggestions, array $variables, PatternContext $context) {
-  if ($context->isOfType('layout')) {
-    $hook = $variables['theme_hook_original'];
-    $variant = $variables["variant"] ?? '';
-    $entity_type = $context->getProperty('entity_type');
-    $bundle = $context->getProperty('bundle');
-    $view_mode = $context->getProperty('view_mode');
-    $entity_id = $context->getProperty('entity_id');
-    $pattern = $context->getProperty('pattern');
-    $field = $context->getProperty('field');
-
-    $suggestions[] = $hook . '__layout__' . $pattern . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $pattern . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
-    $suggestions[] = $hook . '__layout__' . $entity_type . '__' . $entity_id . '__' . $pattern . '__' . $field;
-
-    if (!empty($variant)) {
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $bundle . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $view_mode . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $bundle . '__' . $view_mode . '__' . $pattern . '__' . $field;
-      $suggestions[] = $hook . '__variant_' . $variant . '__layout__' . $entity_type . '__' . $entity_id . '__' . $pattern . '__' . $field;
-    }
+    $definitions['sdc_' . $component['id']] = new LayoutDefinition($definition);
   }
 }
