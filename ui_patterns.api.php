@@ -13,7 +13,7 @@ use Drupal\ui_patterns\Element\PatternContext;
  * @param \Drupal\ui_patterns\Definition\PatternDefinition[] $definitions
  *   Pattern definitions.
  *
- * @see \Drupal\ui_patterns\UiPatternsManager
+ * @see \Drupal\ui_patterns\UiPatternsLegacyManager
  */
 function hook_ui_patterns_info_alter(array &$definitions) {
   $definitions['my_pattern']->setLabel('My new label');

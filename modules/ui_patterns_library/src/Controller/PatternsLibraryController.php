@@ -4,7 +4,7 @@ namespace Drupal\ui_patterns_library\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\ui_patterns\Definition\PatternDefinition;
-use Drupal\ui_patterns\UiPatternsManager;
+use Drupal\ui_patterns\UiPatternsLegacyManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,7 +17,7 @@ class PatternsLibraryController extends ControllerBase {
   /**
    * Patterns manager service.
    *
-   * @var \Drupal\ui_patterns\UiPatternsManager
+   * @var \Drupal\ui_patterns\UiPatternsLegacyManager
    */
   protected $patternsManager;
 

@@ -1,0 +1,8 @@
+parameters:
+  ui_patterns_legacy.file_extensions:
+    - ".component.yml"
+services:
+  ui_patterns_legacy.twig.extension:
+    class: Drupal\ui_patterns_legacy\Template\TwigExtension
+    tags:
+      - { name: twig.extension }

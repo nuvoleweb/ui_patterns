@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Drupal\ui_patterns_sdc;
+namespace Drupal\ui_patterns_legacy;
 
 use Drupal\sdc\ComponentPluginManager;
 use Drupal\sdc\Plugin\Discovery\DirectoryWithMetadataPluginDiscovery;
 use Drupal\ui_patterns\UiPatterns;
-use Drupal\ui_patterns\UiPatternsManager;
-use Drupal\ui_patterns_sdc\Plugin\Discovery\UiPatternsSdcPluginDiscovery;
+use Drupal\ui_patterns\UiPatternsLegacyManager;
+use Drupal\ui_patterns_legacy\Plugin\Discovery\UiPatternsLegacyPluginDiscovery;
 
 /**
  * Defines a plugin manager to deal with sdc.
@@ -19,7 +19,7 @@ use Drupal\ui_patterns_sdc\Plugin\Discovery\UiPatternsSdcPluginDiscovery;
  *
  * @internal
  */
-final class UiPatternsSdcPluginManager extends ComponentPluginManager {
+final class UiPatternsLegacyPluginManager extends ComponentPluginManager {
 
   /**
    * {@inheritdoc}
@@ -28,10 +28,10 @@ final class UiPatternsSdcPluginManager extends ComponentPluginManager {
     if (!isset($this->discovery)) {
       $directories = $this->getScanDirectories();
       $decorated = new DirectoryWithMetadataPluginDiscovery($directories, 'sdc', $this->fileSystem);
-      $this->discovery = new UiPatternsSdcPluginDiscovery(
+      $this->discovery = new UiPatternsLegacyPluginDiscovery(
         $decorated,
         $directories,
-        'sdc',
+        'ui_patterns_legacy_sdc',
         $this->fileSystem
       );
     }

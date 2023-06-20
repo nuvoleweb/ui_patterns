@@ -10,8 +10,8 @@ use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Tests\UnitTestCase;
 use Drupal\ui_patterns\Definition\PatternDefinition;
-use Drupal\ui_patterns\UiPatternsManager;
-use Drupal\ui_patterns_test\DummyUiPatternsManager;
+use Drupal\ui_patterns\UiPatternsLegacyManager;
+use Drupal\ui_patterns_test\DummyUiPatternsLegacyManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @group ui_patterns
  *
- * @coversDefaultClass \Drupal\ui_patterns\UiPatternsManager
+ * @coversDefaultClass \Drupal\ui_patterns\UiPatternsLegacyManager
  */
 class UiPatternsManagerTest extends UnitTestCase {
 
@@ -40,9 +40,9 @@ class UiPatternsManagerTest extends UnitTestCase {
   /**
    * The ui patterns manager.
    *
-   * @var \Drupal\ui_patterns_test\DummyUiPatternsManager
+   * @var \Drupal\ui_patterns_test\DummyUiPatternsLegacyManager
    */
-  protected DummyUiPatternsManager $uiPatternsManager;
+  protected DummyUiPatternsLegacyManager $uiPatternsManager;
 
   /**
    * {@inheritdoc}
@@ -70,7 +70,7 @@ class UiPatternsManagerTest extends UnitTestCase {
     $cache = $this->createMock(CacheBackendInterface::class);
     $this->stringTranslation = $this->getStringTranslationStub();
 
-    $this->uiPatternsManager = new DummyUiPatternsManager($namespaces, $cache, $moduleHandler, $themeHandler, $this->stringTranslation);
+    $this->uiPatternsManager = new DummyUiPatternsLegacyManager($namespaces, $cache, $moduleHandler, $themeHandler, $this->stringTranslation);
   }
 
   /**
@@ -80,7 +80,7 @@ class UiPatternsManagerTest extends UnitTestCase {
    */
   public function testConstructor(): void {
     $this->assertInstanceOf(
-      UiPatternsManager::class,
+      UiPatternsLegacyManager::class,
       $this->uiPatternsManager
     );
   }

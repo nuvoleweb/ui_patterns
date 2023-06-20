@@ -5,7 +5,7 @@ namespace Drupal\Tests\ui_patterns\Kernel;
 use Drupal\ui_patterns\UiPatterns;
 
 /**
- * @coversDefaultClass \Drupal\ui_patterns\UiPatternsManager
+ * @coversDefaultClass \Drupal\ui_patterns\UiPatternsLegacyManager
  *
  * @group ui_patterns
  */

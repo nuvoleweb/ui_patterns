@@ -8,7 +8,7 @@ use Drupal\Core\Layout\LayoutDefault;
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
-use Drupal\ui_patterns\UiPatternsManager;
+use Drupal\ui_patterns\UiPatternsLegacyManager;
 use Drupal\Core\Render\ElementInfoManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

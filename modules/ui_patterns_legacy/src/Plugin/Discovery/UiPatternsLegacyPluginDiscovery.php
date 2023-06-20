@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns_sdc\Plugin\Discovery;
+namespace Drupal\ui_patterns_legacy\Plugin\Discovery;
 
 use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 use Drupal\Core\File\FileSystemInterface;
@@ -11,7 +11,7 @@ use Drupal\Core\Plugin\Discovery\YamlDiscoveryDecorator;
  *
  * @internal
  */
-final class UiPatternsSdcPluginDiscovery extends YamlDiscoveryDecorator {
+final class UiPatternsLegacyPluginDiscovery extends YamlDiscoveryDecorator {
 
   /**
    * Constructs a YamlDirectoryDiscovery object.
@@ -30,7 +30,7 @@ final class UiPatternsSdcPluginDiscovery extends YamlDiscoveryDecorator {
     // Intentionally does not call parent constructor as this class uses a
     // different YAML discovery.
     parent::__construct($decorated, 'sdc', $directories);
-    $this->discovery = new UIPatternsSdcDiscovery($directories, $file_cache_key_suffix, $file_system);
+    $this->discovery = new UIPatternsLegacyDiscovery($directories, $file_cache_key_suffix, $file_system);
   }
 
 }

@@ -1,3 +1,0 @@
-parameters:
-  ui_patterns_sdc.file_extensions:
-    - ".component.yml"

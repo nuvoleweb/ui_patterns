@@ -1,17 +1,17 @@
 <?php
 
-namespace Drupal\ui_patterns_sdc\Plugin\Discovery;
+namespace Drupal\ui_patterns_legacy\Plugin\Discovery;
 
 use Drupal\Component\Discovery\YamlDirectoryDiscovery;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\sdc\Plugin\Discovery\RegexRecursiveFilterIterator;
 
 /**
- * Does the actual finding of the directories with metadata files.
+ * Does the actual finding ui patterns files.
  *
  * @internal
  */
-final class UIPatternsSdcDiscovery extends YamlDirectoryDiscovery {
+final class UIPatternsLegacyDiscovery extends YamlDirectoryDiscovery {
 
   /**
    * Constructs a DirectoryWithMetadataDiscovery object.

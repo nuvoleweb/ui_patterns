@@ -8,7 +8,7 @@ use Drupal\ui_patterns\Plugin\PatternSourceBase;
 /**
  * Helper trait dealing with pattern display forms.
  *
- * @property \Drupal\ui_patterns\UiPatternsManager $patternsManager
+ * @property \Drupal\ui_patterns\UiPatternsLegacyManager $patternsManager
  * @property \Drupal\ui_patterns\UiPatternsSourceManager $sourceManager
  * @property \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
  * @method \Drupal\Core\StringTranslation\TranslatableMarkup t($string, array $args = [], array $options = [])

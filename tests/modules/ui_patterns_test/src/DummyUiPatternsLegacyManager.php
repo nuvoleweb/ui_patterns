@@ -8,14 +8,14 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
-use Drupal\ui_patterns\UiPatternsManager;
+use Drupal\ui_patterns\UiPatternsLegacyManager;
 
 /**
  * Plugin manager used for tests.
  *
  * @phpstan-ignore-next-line
  */
-class DummyUiPatternsManager extends UiPatternsManager {
+class DummyUiPatternsLegacyManager extends UiPatternsLegacyManager {
 
   /**
    * The list of patterns.

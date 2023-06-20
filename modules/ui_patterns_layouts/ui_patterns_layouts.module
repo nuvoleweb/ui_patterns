@@ -30,9 +30,12 @@ function ui_patterns_layouts_layout_alter(&$definitions) {
       'class' => '\Drupal\ui_patterns_layouts\Plugin\Layout\PatternLayout',
       'id' => $component['id'],
     ];
-    foreach ($component['slots'] as $slot_id => $slot) {
-      $definition['regions'][$slot_id]['label'] = $slot['title'];
+    if (isset($component['slots'])) {
+      foreach ($component['slots'] as $slot_id => $slot) {
+        $definition['regions'][$slot_id]['label'] = $slot['title'];
+      }
     }
+
     $definitions['sdc_' . $component['id']] = new LayoutDefinition($definition);
   }
 }

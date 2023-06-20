@@ -1,7 +1,7 @@
 <?php
-namespace Drupal\ui_patterns;
+namespace Drupal\ui_patterns_legacy;
 
-class UiPatternsManager {
+class UiPatternsLegacyManager {
 
   /**
    * Returns SDC component by UI Pattern id.
