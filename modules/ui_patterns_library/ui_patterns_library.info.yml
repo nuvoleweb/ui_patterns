@@ -1,7 +1,0 @@
-name: 'UI Patterns Library'
-type: module
-description: 'Exposed patterns in you modules and themes and display them in a pattern library page.'
-core_version_requirement: ^9 || ^10
-package: 'User interface'
-dependencies:
-  - ui_patterns:ui_patterns

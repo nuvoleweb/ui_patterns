@@ -1,0 +1,36 @@
+.js-ui-patterns-props-widget__wrapper {
+  position: relative;
+}
+
+#ui-patterns-props-widget-token-link {
+  display: none;
+}
+
+.ui-patterns-props-widget-show-token-a {
+  display: block;
+}
+
+.js-ui-patterns-props-widget__toggler {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  right: 0;
+  top: 0;
+  display: block;
+  cursor: pointer;
+  background-image: url("toggler.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.js-ui-patterns-props-widget__wrapper .js-ui-patterns-props-widget__token-wrapper > * {
+  display: none;
+}
+
+.js-ui-patterns-props-widget__wrapper.js-ui-patterns-props-widget--token-has-value > .js-ui-patterns-props-widget__input-wrapper > * {
+  display: none;
+}
+
+.js-ui-patterns-props-widget__wrapper.js-ui-patterns-props-widget--token-has-value > .js-ui-patterns-props-widget__token-wrapper > * {
+  display: block;
+}

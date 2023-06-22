@@ -5,12 +5,7 @@
  * Contains module file.
  */
 
-use Drupal\ui_patterns\Element\PatternContext;
 use Drupal\Core\Layout\LayoutDefinition;
-use Drupal\ui_patterns\UiPatterns;
-use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\field_layout\Display\EntityDisplayWithLayoutInterface;
 
 /**
  * Implements hook_layout_alter().

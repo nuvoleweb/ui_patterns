@@ -1,0 +1,4 @@
+name: 'UI Patterns Props Widget Test'
+type: module
+description: 'Provides test patterns.'
+package: 'Testing'

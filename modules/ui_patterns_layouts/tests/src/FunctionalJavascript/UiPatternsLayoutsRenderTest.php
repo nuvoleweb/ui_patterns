@@ -19,15 +19,6 @@ class UiPatternsLayoutsRenderTest extends WebDriverTestBase {
    */
   protected $defaultTheme = 'stark';
 
-  /**
-   * Disable schema validation when running tests.
-   *
-   * @var bool
-   *
-   * @todo Fix this by providing actual schema validation.
-   */
-  protected $strictConfigSchema = FALSE;
-
   use TwigDebugTrait;
 
   /**

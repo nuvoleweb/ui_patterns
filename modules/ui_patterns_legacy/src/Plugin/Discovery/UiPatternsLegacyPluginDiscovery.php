@@ -16,6 +16,8 @@ final class UiPatternsLegacyPluginDiscovery extends YamlDiscoveryDecorator {
   /**
    * Constructs a YamlDirectoryDiscovery object.
    *
+   * @param \Drupal\Component\Plugin\Discovery\DiscoveryInterface $decorated
+   *   The decorated origin SDC Discovery Service.
    * @param array $directories
    *   An array of directories to scan, keyed by the provider. The value can
    *   either be a string or an array of strings. The string values should be

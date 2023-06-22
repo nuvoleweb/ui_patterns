@@ -1,4 +1,0 @@
-name: 'UI Patterns SDC Render Test'
-type: module
-description: 'Provides test patterns.'
-package: 'Testing'

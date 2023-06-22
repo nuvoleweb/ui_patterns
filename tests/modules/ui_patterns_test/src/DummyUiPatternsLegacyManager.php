@@ -54,7 +54,7 @@ class DummyUiPatternsLegacyManager extends UiPatternsLegacyManager {
   /**
    * Getter.
    *
-   * getPatterns is already a method in the real plugin manager.
+   * GetPatterns is already a method in the real plugin manager.
    *
    * @return array
    *   Property value.

@@ -9,8 +9,8 @@
             "email": "info@nuvole.org"
         }
     ],
-    "require-dev": {
-        "drupal/ds": "~3",
-        "drupal/field_group": "~3.0"
+    "require": {
+        "drupal/token": "^1.0"
     }
+
 }

@@ -1,6 +1,10 @@
 <?php
+
 namespace Drupal\ui_patterns_legacy;
 
+/**
+ * UiPatternsLegacyManager provides static helper functions.
+ */
 class UiPatternsLegacyManager {
 
   /**
@@ -23,4 +27,5 @@ class UiPatternsLegacyManager {
       }
     }
   }
+
 }

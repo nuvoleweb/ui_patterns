@@ -1,25 +1,23 @@
 <?php
 
-
 namespace Drupal\ui_patterns_legacy;
 
 use Drupal\sdc\ComponentPluginManager;
 use Drupal\sdc\Plugin\Discovery\DirectoryWithMetadataPluginDiscovery;
-use Drupal\ui_patterns\UiPatterns;
-use Drupal\ui_patterns\UiPatternsLegacyManager;
 use Drupal\ui_patterns_legacy\Plugin\Discovery\UiPatternsLegacyPluginDiscovery;
 
 /**
- * Defines a plugin manager to deal with sdc.
+ * Plugin Manager for *.ui_patterns.yml configuration files.
  *
- * Modules and themes can create components by adding a folder under
- * MODULENAME/components/my-component/my-component.sdc.yml.
+ * Plugin Manager overwrites getDiscovery() to provide a decorated
+ * Discovery. Maybe there is more gentle way?
+ * After discovery it maps UiPatterns configuration to SDC components.
  *
  * @see plugin_api
  *
  * @internal
  */
-final class UiPatternsLegacyPluginManager extends ComponentPluginManager {
+class UiPatternsLegacyPluginManager extends ComponentPluginManager {
 
   /**
    * {@inheritdoc}
@@ -38,11 +36,16 @@ final class UiPatternsLegacyPluginManager extends ComponentPluginManager {
     return $this->discovery;
   }
 
-
-  protected function isUiPatternFile($definition){
+  /**
+   *
+   */
+  protected function isUiPatternFile($definition) {
     return isset($definition['_discovered_file_path']) && str_ends_with($definition['_discovered_file_path'], 'ui_patterns.yml');
   }
 
+  /**
+   *
+   */
   protected function mapPatternToComponent($pattern, $component) {
     $component['props'] = ['type' => 'object', 'properties' => []];
     if (isset($pattern['fields'])) {
@@ -50,7 +53,7 @@ final class UiPatternsLegacyPluginManager extends ComponentPluginManager {
         $component['slots'][$field_id] = [
           'title' => $field['label'],
           'description' => $field['description'] ?? NULL,
-          'examples' => $field['preview'] ?? NULL
+          'examples' => $field['preview'] ?? NULL,
         ];
       }
     }
@@ -62,7 +65,7 @@ final class UiPatternsLegacyPluginManager extends ComponentPluginManager {
    */
   protected function alterDefinitions(&$definitions) {
     foreach ($definitions as & $definition) {
-      $id = $definition['id']  ?? NULL;
+      $id = $definition['id'] ?? NULL;
       if ($id) {
         $definition_patterns_id = explode(':', $id)[1] ?? NULL;
         if ($this->isUiPatternFile($definition)) {
@@ -86,7 +89,8 @@ final class UiPatternsLegacyPluginManager extends ComponentPluginManager {
               $cloned_definition_id = $cloned_definition['provider'] . ':' . $pattern_id;
               $cloned_definition['id'] = $cloned_definition_id;
               $definitions[$cloned_definition_id] = $this->mapPatternToComponent($pattern, $cloned_definition);
-            } else {
+            }
+            else {
               $definitions[$id] = $this->mapPatternToComponent($pattern, $definition);
             }
             $definitions[$id]['ui_pattern_id'] = $pattern_id;

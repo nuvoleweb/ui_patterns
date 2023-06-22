@@ -8,7 +8,6 @@ use Drupal\Core\Layout\LayoutDefault;
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
-use Drupal\ui_patterns\UiPatternsLegacyManager;
 use Drupal\Core\Render\ElementInfoManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -77,11 +76,12 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
     foreach (array_keys($regions) as $region_name) {
       $slots[$region_name] = $regions[$region_name];
     }
-
+    $props_configuration = $configuration['pattern']['settings'] ?? [];
     return [
       '#type' => 'component',
       '#component' => $this->getPluginDefinition()->id(),
       '#slots' => $slots,
+      '#props_configuration' => $props_configuration,
       '#variant' => $configuration['pattern']['variant'],
     ];
   }
@@ -103,14 +103,19 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = [];
-
+    $configuration = $this->getConfiguration();
     $form['pattern'] = [
       '#group' => 'additional_settings',
-      '#type' => 'details',
-      '#title' => $this->t('Pattern settings'),
+      '#type' => 'container',
+      '#title' => $this->t('Configuration'),
       '#tree' => TRUE,
     ];
-
+    $component_id = $this->getPluginDefinition()->id();
+    /** @var \Drupal\sdc\ComponentPluginManager $plugin_manager */
+    $plugin_manager = \Drupal::service('plugin.manager.sdc');
+    /** @var \Drupal\sdc\Component\ComponentMetadata[] $components */
+    $component_metadata = $plugin_manager->find($component_id)?->metadata;
+    $this->moduleHandler->alter('ui_patterns_layouts_display_configuration_form', $form['pattern'], $component_metadata, $configuration);
     return $form;
   }
 

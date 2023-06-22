@@ -1,7 +1,7 @@
 name: 'UI Patterns Legacy'
 type: module
 description: 'Legacy discovery of UI Patterns configurations.'
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^10
 package: 'User interface'
 dependencies:
   - ui_patterns:ui_patterns

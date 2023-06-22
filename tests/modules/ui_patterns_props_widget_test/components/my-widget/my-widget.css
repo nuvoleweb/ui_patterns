@@ -1,0 +1,24 @@
+.component--my-widget {
+  position: relative;
+  width: 80%;
+  max-width: 1200px;
+  padding: 2em;
+  color: white;
+  background: black;
+  background-size: cover;
+}
+.component--my-widget--header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.component--my-widget--header h3 {
+  margin: 0;
+  font-size: 2em;
+}
+.component--my-widget--body > * {
+  margin-bottom: 0;
+}
+.component--my-widget--body > :first-child {
+  margin-top: 1em;
+}
