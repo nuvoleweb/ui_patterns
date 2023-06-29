@@ -3,3 +3,5 @@ type: module
 description: 'UI patterns.'
 core_version_requirement: ^10
 package: 'User interface'
+dependencies:
+  - drupal:sdc

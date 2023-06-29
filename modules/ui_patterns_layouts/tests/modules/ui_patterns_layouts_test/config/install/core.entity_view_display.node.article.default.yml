@@ -11,11 +11,9 @@ dependencies:
     - user
 third_party_settings:
   field_layout:
-    id: pattern_one_column
+    id: ui_patterns_layouts_test:one_column
     settings:
-      pattern:
-        field_templates: default
-        variant: default
+      pattern: {}
 id: node.article.default
 targetEntityType: node
 bundle: article

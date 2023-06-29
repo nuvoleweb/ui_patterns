@@ -1,8 +1,0 @@
-- render:
-    '#type': pattern_preview
-    '#id': foo
-  expected: preview
-- render:
-    '#type': pattern
-    '#id': foo
-  expected: empty

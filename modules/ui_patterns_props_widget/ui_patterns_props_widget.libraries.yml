@@ -7,6 +7,6 @@ widget:
       css/ui_patterns_props_widget.css: {}
   dependencies:
     - core/jquery
-    - core/jquery.once
+    - core/once
     - core/drupal
     - core/drupalSettings

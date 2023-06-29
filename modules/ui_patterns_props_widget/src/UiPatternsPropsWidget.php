@@ -101,6 +101,9 @@ class UiPatternsPropsWidget {
         if ($widget !== NULL) {
           $def['type'] = $widget['id'];
           $widgets[$key] = new PropWidgetDefinition($key, $def);
+        } else {
+          $def['type'] = 'string';
+          $widgets[$key] = new PropWidgetDefinition($key, $def);
         }
       }
     }

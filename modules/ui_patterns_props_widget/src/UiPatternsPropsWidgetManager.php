@@ -10,6 +10,8 @@ use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\sdc\Component\ComponentMetadata;
 use Drupal\sdc\Component\SchemaCompatibilityChecker;
+use Drupal\sdc\Exception\IncompatibleComponentSchema;
+use Drupal\sdc\Exception\InvalidComponentException;
 use Drupal\ui_patterns_props_widget\Element\ComponentPropsWidget;
 
 /**
@@ -30,7 +32,7 @@ class UiPatternsPropsWidgetManager extends DefaultPluginManager implements Plugi
   }
 
   /**
-   *
+   * Returns the right widget for given .
    */
   public function getWidgetByProp(ComponentMetadata $component_metadata, $prop_name, array $prop) {
     $definitions = $this->getDefinitions();
@@ -43,16 +45,20 @@ class UiPatternsPropsWidgetManager extends DefaultPluginManager implements Plugi
     }
 
     // Check for default widgets.
-    $schema_stub = ['name' => $prop_name, 'props' => ['properties' => []]];
-
+    $schema_stub = ['name' => $prop_name, 'properties' => []];
+    usort($definitions, function($a, $b) {
+        return $a['priority'] ?? 1 > $b['priority'] ?? 1;
+    } );
     foreach ($definitions as $definition) {
       $origin_schema = $schema_stub;
-      $origin_schema['props']['properties'][$prop_name] = $metadata_schema['props']['properties'][$prop_name];
       $annotation_schema = $origin_schema;
-      $annotation_schema['props']['properties'][$prop_name] = $definition['applies'];
-      if ($this->compatibilityChecker->isCompatible($origin_schema, $annotation_schema)) {
+      $origin_schema['properties'][$prop_name] = $metadata_schema['properties'][$prop_name];
+      $annotation_schema['properties'][$prop_name] = $definition['schema'];
+      try {
+        $this->compatibilityChecker->isCompatible($annotation_schema, $origin_schema);
         $widget = $definition;
-        break;
+      } catch (IncompatibleComponentSchema $exception) {
+        // Do nothing.
       }
     }
     return $widget;

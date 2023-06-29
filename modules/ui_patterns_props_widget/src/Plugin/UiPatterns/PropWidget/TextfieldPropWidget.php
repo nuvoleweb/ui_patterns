@@ -11,7 +11,8 @@ use Drupal\ui_patterns_props_widget\Definition\PropWidgetDefinition;
  * @PropWidget(
  *   id = "textfield",
  *   label = @Translation("Textfield"),
- *   applies = {
+ *   priority = 1,
+ *   schema = {
  *     "type": "string"
  *   }
  * )

@@ -10,8 +10,8 @@ use Drupal\ui_patterns_legacy\Plugin\Discovery\UiPatternsLegacyPluginDiscovery;
  * Plugin Manager for *.ui_patterns.yml configuration files.
  *
  * Plugin Manager overwrites getDiscovery() to provide a decorated
- * Discovery. Maybe there is more gentle way?
- * After discovery it maps UiPatterns configuration to SDC components.
+ * Discovery. Decoration of the service seems not possible for me.
+ * Probably there is more gentle way.
  *
  * @see plugin_api
  *
@@ -47,7 +47,10 @@ class UiPatternsLegacyPluginManager extends ComponentPluginManager {
    *
    */
   protected function mapPatternToComponent($pattern, $component) {
-    $component['props'] = ['type' => 'object', 'properties' => []];
+    $component['props'] = ['type' => 'object', 'properties' => [
+      'context' => [
+      ]
+    ]];
     if (isset($pattern['fields'])) {
       foreach ($pattern['fields'] as $field_id => $field) {
         $component['slots'][$field_id] = [

@@ -12,13 +12,10 @@ variants:
 
 props:
   type: object
-  required:
-    - heading
   properties:
     heading:
       title: Heading
-      required: true
-      default_value: 'Asdf'
+      default: 'Asdf'
       description: The title for the banner text.
       widget:
         type: textfield
@@ -48,7 +45,7 @@ props:
       description: Background image for the banner.
       type: string
 slots:
-  banner_body:
+  widget_body:
     title: Body
     description: The contents of the banner.
     examples:

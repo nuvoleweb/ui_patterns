@@ -14,7 +14,7 @@ class UiPatternsLegacyServiceProvider extends ServiceProviderBase {
    * {@inheritdoc}
    */
   public function alter(ContainerBuilder $container) {
-
+    return;
     if ($container->hasDefinition('plugin.manager.sdc')) {
       $definition = $container->getDefinition('plugin.manager.sdc');
       $definition->setClass(

@@ -30,10 +30,11 @@ class UiPatternsLayoutsRenderTest extends WebDriverTestBase {
     'field_ui',
     'field_layout',
     'text',
+    'sdc',
+    'layout_builder',
     'ui_patterns',
     'ui_patterns_layouts',
     'ui_patterns_layouts_test',
-    'ui_patterns_library',
   ];
 
   /**
@@ -42,7 +43,6 @@ class UiPatternsLayoutsRenderTest extends WebDriverTestBase {
   public function testUiPatternsLayoutsRendering() {
     $this->enableTwigDebugMode();
     $this->drupalLogin($this->drupalCreateUser([], NULL, TRUE));
-
     $node = $this->drupalCreateNode([
       'title' => 'Test article',
       'body' => 'Test body',

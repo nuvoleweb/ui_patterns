@@ -1,0 +1,22 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: One columns
+description: Widget Test with One Column
+libraryOverrides:
+  dependencies:
+    - core/drupal
+props:
+  type: object
+  properties:
+    heading:
+      title: Heading
+      description: The title for the banner text.
+      examples:
+        - Join us at The Conference
+      type: string
+slots:
+  body:
+    title: Body
+    description: The contents of the banner.
+    examples:
+      - <p>Foo is <strong>NOT</strong> bar.</p>
+

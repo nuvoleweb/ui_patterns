@@ -11,8 +11,6 @@ use Drupal\Core\Layout\LayoutDefinition;
  * Implements hook_layout_alter().
  */
 function ui_patterns_layouts_layout_alter(&$definitions) {
-  /** @var \Drupal\ui_patterns\Definition\PatternDefinition[] $pattern_definitions */
-
   /** @var \Drupal\sdc\ComponentPluginManager $plugin_manager */
   $plugin_manager = \Drupal::service('plugin.manager.sdc');
   /** @var \Drupal\sdc\Component\ComponentMetadata[] $components */
@@ -31,6 +29,6 @@ function ui_patterns_layouts_layout_alter(&$definitions) {
       }
     }
 
-    $definitions['sdc_' . $component['id']] = new LayoutDefinition($definition);
+    $definitions[str_replace('-', '_', $component['id'])] = new LayoutDefinition($definition);
   }
 }

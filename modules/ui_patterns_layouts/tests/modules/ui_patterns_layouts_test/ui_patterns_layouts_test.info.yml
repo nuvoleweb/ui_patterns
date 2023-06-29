@@ -9,8 +9,7 @@ dependencies:
   - drupal:text
   - ui_patterns:ui_patterns
   - ui_patterns:ui_patterns_layouts
-  - ui_patterns:ui_patterns_library
-
+  - drupal:sdc
 config_devel:
   install:
     - field.field.node.article.body

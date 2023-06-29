@@ -13,14 +13,5 @@ use Drupal\Tests\UnitTestCase;
  */
 abstract class AbstractUiPatternsTest extends UnitTestCase {
 
-  /**
-   * Get fixtures base path.
-   *
-   * @return string
-   *   Fixtures base path.
-   */
-  protected function getFixturePath() {
-    return realpath(dirname(__FILE__) . '/../fixtures');
-  }
 
 }

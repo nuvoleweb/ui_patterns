@@ -1,0 +1,8 @@
+core.entity_view_display.*.*.*.third_party_settings.field_layout.settings.pattern:
+  type: mapping
+  label: 'Per-view-mode Layout Pattern settings'
+  mapping:
+    variant:
+      type: string
+      label: 'Variant'
+

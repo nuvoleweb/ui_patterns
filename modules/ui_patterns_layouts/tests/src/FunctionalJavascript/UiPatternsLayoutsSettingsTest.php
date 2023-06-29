@@ -28,10 +28,11 @@ class UiPatternsLayoutsSettingsTest extends WebDriverTestBase {
     'field_ui',
     'field_layout',
     'text',
+    'layout_builder',
     'ui_patterns',
     'ui_patterns_layouts',
+    'sdc',
     'ui_patterns_layouts_test',
-    'ui_patterns_library',
   ];
 
   /**

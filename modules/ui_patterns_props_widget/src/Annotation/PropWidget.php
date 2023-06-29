@@ -31,10 +31,16 @@ class PropWidget extends Plugin {
   public $label;
 
   /**
+   * The loading priority .
+   *
+   * @var int
+   */
+  public int $priority;
+  /**
    * Applies for .
    *
    * @var array
    */
-  public $applies = [];
+  public $schema = [];
 
 }

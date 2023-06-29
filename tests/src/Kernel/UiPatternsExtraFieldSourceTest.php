@@ -3,7 +3,6 @@
 namespace Drupal\Tests\ui_patterns\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\ui_patterns\UiPatterns;
 
 /**
  * @coversDefaultClass \Drupal\ui_patterns\Plugin\UiPatterns\Source\ExtraFieldSource
@@ -37,7 +36,7 @@ class UiPatternsExtraFieldSourceTest extends KernelTestBase {
    */
   public function testGetSourceFields() {
     /** @var \Drupal\ui_patterns\UiPatternsSourceManager $manager */
-    $manager = UiPatterns::getSourceManager();
+    $manager = \Drupal::service('plugin.manager.ui_patterns_source');
 
     /** @var \Drupal\ui_patterns\Plugin\UiPatterns\Source\ExtraFieldSource $source */
     $fields = $manager->getFieldsByTag('entity_display', [
