@@ -1,0 +1,7 @@
+name: 'UI Patterns Library'
+type: module
+description: 'Browse components in library pages.'
+core_version_requirement: ^10
+package: 'User interface'
+dependencies:
+  - ui_patterns:ui_patterns
