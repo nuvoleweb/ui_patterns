@@ -1,0 +1,11 @@
+{% if variant and variant|lower != 'default' %}
+  {% set attributes = attributes.addClass('btn-close-' ~ variant) %}
+{% endif %}
+{% set attributes = attributes.addClass('btn-close') %}
+
+{% set attributes = attributes.setAttribute('aria-label', aria_label|default('Close'|t)) %}
+{% if disabled %}
+  {% set attributes = attributes.setAttribute('disabled', disabled) %}
+{% endif %}
+
+<button{{ attributes.setAttribute('type', 'button') }}></button>
