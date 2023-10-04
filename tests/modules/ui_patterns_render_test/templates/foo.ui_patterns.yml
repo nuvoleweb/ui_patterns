@@ -1,9 +1,0 @@
-foo:
-  label: Foo
-  fields:
-    test:
-      type: test
-      label: Test
-  variants:
-    default:
-      label: Default
