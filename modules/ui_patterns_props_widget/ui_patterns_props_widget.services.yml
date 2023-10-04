@@ -1,4 +1,0 @@
-services:
-  plugin.manager.ui_patterns_props_widget_manager:
-    class: Drupal\ui_patterns_props_widget\UiPatternsPropsWidgetManager
-    arguments: ['@container.namespaces', '@module_handler', '@cache.discovery', '@Drupal\sdc\Component\SchemaCompatibilityChecker']

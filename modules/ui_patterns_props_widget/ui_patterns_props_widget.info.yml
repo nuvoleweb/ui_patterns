@@ -1,9 +1,0 @@
-name: UI Patterns Props Widget
-type: module
-description: Configure components properties with widgets
-package: User interface
-core_version_requirement: ^10
-dependencies:
-  - ui_patterns:ui_patterns
-  - drupal:sdc
-  - token:token
