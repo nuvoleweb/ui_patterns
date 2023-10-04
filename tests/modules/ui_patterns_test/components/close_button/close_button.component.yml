@@ -1,0 +1,28 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: "Close button"
+description: "A generic close button for dismissing content like modals and alerts."
+links:
+  - "https://getbootstrap.com/docs/5.3/components/close-button"
+category: "Button"
+variants:
+  default:
+    label: "Default"
+  white:
+    label: "White (deprecated)"
+props:
+  type: object
+  properties:
+    disabled:
+      title: "Disabled?"
+      description: "Is the button disabled?"
+      type: "boolean"
+    aria_label:
+      title: "Aria label"
+      description: "Name of the close button for assistive technology."
+      type: "string"
+stories:
+  preview:
+    title: "The default preview from UI Patterns 1.x"
+    props:
+      disabled: false
+      aria_label: "Close"

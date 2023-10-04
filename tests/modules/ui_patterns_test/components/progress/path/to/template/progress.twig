@@ -1,0 +1,31 @@
+{% if variant and variant|lower != 'default' %}
+  {% set variants = variant|split('__')|map(v => v|lower|replace({(v): 'progress-bar-' ~ v})|replace({'_': '-'})) %}
+  {% set attributes = attributes.addClass(variants) %}
+{% endif %}
+
+{% set wrapper_attributes = create_attribute() %}
+{# Handle wrapper ID. #}
+{% if attributes.hasAttribute('id') %}
+  {% set wrapper_attributes = wrapper_attributes.setAttribute('id', attributes.offsetGet('id')) %}
+  {% set attributes = attributes.removeAttribute('id') %}
+{% endif %}
+
+{% set wrapper_attributes = bar_height ? wrapper_attributes.setAttribute('style', 'height:' ~ bar_height ~ 'px') : wrapper_attributes %}
+{% set percent = percent|default(0) %}
+{% set min = min|default(0) %}
+{% set max = max|default(100) %}
+{% set width = (percent * 100) // max %}
+
+<div{{ wrapper_attributes.addClass('progress')}}>
+  <div{{ attributes
+      .addClass('progress-bar')
+      .setAttribute('role', 'progressbar')
+      .setAttribute('aria-label', aria_label|default('Progress bar'|t))
+      .setAttribute('aria-valuenow', percent)
+      .setAttribute('aria-valuemin', min)
+      .setAttribute('aria-valuemax', max)
+      .setAttribute('style', 'width: ' ~ width ~ '%')
+    }}>
+    {{ label }}
+  </div>
+</div>

@@ -1,0 +1,32 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Blockquote
+description: "For quoting blocks of content from another source within your document."
+links:
+  - "https://getbootstrap.com/docs/5.3/content/typography/#blockquotes"
+category: "Typography"
+props:
+  type: object
+  properties: {}
+slots:
+  content:
+    title: "Content"
+    description: "The quote."
+  footer:
+    title: "Footer"
+    description: "For identifying the source. Wrap the name of the source work in <cite>."
+stories:
+  preview:
+    label: "The default preview from UI Patterns 1.x"
+    slots:
+      content:
+        type: "html_tag"
+        tag: "p"
+        value: "A well-known quote, contained in a blockquote element."
+      footer:
+        - type: "markup"
+          markup: "Someone famous in "
+        - type: "html_tag"
+          tag: "cite"
+          value: "Source Title"
+          attributes:
+            title: "Source Title"

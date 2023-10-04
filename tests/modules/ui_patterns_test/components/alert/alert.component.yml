@@ -1,0 +1,44 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: "Alert"
+description: "Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages."
+links:
+  - "https://getbootstrap.com/docs/5.3/components/alerts/"
+variants:
+  primary:
+    label: "Primary"
+  secondary:
+    label: "Secondary"
+  success:
+    label: "Success"
+  danger:
+    label: "Danger"
+  warning:
+    label: "Warning"
+  info:
+    label: "Info"
+  light:
+    label: "Light"
+  dark:
+    label: "Dark"
+props:
+  type: object
+  properties:
+    dismissible:
+      title: "Dismissible?"
+      description: "It is possible to dismiss any alert inline."
+      type: "boolean"
+slots:
+  heading:
+    title: "Heading"
+    description: "The alert heading. Optional."
+  message:
+    title: "Message"
+    description: "The alert message."
+stories:
+  preview:
+    title: "The default preview from UI Patterns 1.x"
+    props:
+      dismissible: True
+    slots:
+      heading: "Well done!"
+      message: "A simple alert. Check it out!"

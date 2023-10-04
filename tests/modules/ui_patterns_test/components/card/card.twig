@@ -1,0 +1,19 @@
+<div{{ attributes.addClass('card') }}>
+  {% if image and image_position != 'bottom' %}
+    {{ image|add_class('card-img-top') }}
+  {% endif %}
+  {% if header %}
+  <div class="card-header">
+    {{ header }}
+  </div>
+  {% endif %}
+  {{ content }}
+  {% if footer %}
+  <div class="card-footer">
+    {{ footer }}
+  </div>
+  {% endif %}
+  {% if image and image_position == 'bottom' %}
+    {{ image|add_class('card-img-bottom') }}
+  {% endif %}
+</div>
