@@ -2,28 +2,27 @@
 
 namespace Drupal\ui_patterns_legacy\Template;
 
-use Drupal\ui_patterns_legacy\UiPatternsLegacyManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
  * Twig extension providing UI Patterns-specific functionalities.
  *
- * @package Drupal\ui_patterns\Template
+ * @package Drupal\ui_patterns_legacy\Template
  */
 class TwigExtension extends AbstractExtension {
 
   /**
    * {@inheritdoc}
    */
-  public function getName() {
+  public function getName(): string {
     return 'ui_patterns_legacy';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getFunctions() {
+  public function getFunctions(): array {
     return [
       new TwigFunction('pattern', [
         $this,
@@ -49,21 +48,14 @@ class TwigExtension extends AbstractExtension {
    * @return array
    *   Pattern render array.
    *
-   * @see \Drupal\ui_patterns\Element\Pattern
+   * @see \Drupal\ui_patterns_legacy\Element\Pattern
    */
-  public function renderPattern($id, array $fields = [], $variant = "") {
-    $component = UiPatternsLegacyManager::getComponentByUiPatternId($id);
-    if ($component) {
-      return [
-        '#type' => 'component',
-        '#id' => $id,
-        '#slots' => $fields,
-        '#variant' => $variant,
-      ];
-    }
+  public function renderPattern(string $id, array $fields = [], $variant = ""): array {
     return [
-      '#type' => 'markup',
-      '#markup' => 'No component found for ' . $id,
+      '#type' => 'pattern',
+      '#id' => $id,
+      '#variant' => $variant,
+      '#fields' => $fields,
     ];
   }
 
@@ -78,20 +70,13 @@ class TwigExtension extends AbstractExtension {
    * @return array
    *   Pattern render array.
    *
-   * @see \Drupal\ui_patterns\Element\Pattern
+   * @see \Drupal\ui_patterns_legacy\Element\PatternPreview
    */
-  public function renderPatternPreview($id, $variant = "") {
-    $component = UiPatternsLegacyManager::getComponentByUiPatternId($id);
-    if ($component) {
-      return [
-        '#type' => 'component',
-        '#id' => $component['id'],
-        '#variant' => $variant,
-      ];
-    }
+  public function renderPatternPreview(string $id, string $variant = ""): array {
     return [
-      '#type' => 'markup',
-      '#markup' => 'No component found for ' . $id,
+      '#type' => 'pattern_preview',
+      '#id' => $id,
+      '#variant' => $variant,
     ];
   }
 
