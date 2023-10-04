@@ -1,0 +1,14 @@
+{% if footer %}
+  <figure{{ attributes }}>
+    <blockquote class="blockquote">
+      {{ content }}
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      {{ footer }}
+    </figcaption>
+  </figure>
+{% else %}
+  <blockquote{{ attributes.addClass('blockquote') }}>
+    {{ content }}
+  </blockquote>
+{% endif %}

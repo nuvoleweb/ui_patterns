@@ -1,0 +1,22 @@
+{% if variant and variant|lower != 'default' %}
+  {% set attributes = attributes.addClass('alert-' ~ variant|lower|replace({'_': '-'})) %}
+{% endif %}
+
+{% if dismissible %}
+  {% set attributes = attributes.addClass(['alert-dismissible', 'fade', 'show']) %}
+{% endif %}
+
+<div{{ attributes.addClass('alert').setAttribute('role', 'alert') }}>
+  {% if heading %}
+  <h4 class="alert-heading">{{ heading }}</h4>
+  {% endif %}
+  {{ message|add_class('alert-link') }}
+  {% if dismissible %}
+    {{ pattern('close_button', {
+      attributes: create_attribute({
+        'data-bs-dismiss': 'alert'
+      }),
+      aria_label: 'Close'|t,
+    }) }}
+  {% endif %}
+</div>

@@ -1,0 +1,25 @@
+close_button:
+  label: "Close button (Legacy)"
+  description: "A generic close button for dismissing content like modals and alerts."
+  links:
+    - "https://getbootstrap.com/docs/5.3/components/close-button"
+  category: "Button"
+  variants:
+    default:
+      label: "Default"
+    white:
+      label: "White (deprecated)"
+  settings:
+    disabled:
+      type: "boolean"
+      label: "Disabled?"
+      description: "Is the button disabled?"
+      preview: false
+      allow_expose: true
+      allow_token: true
+    aria_label:
+      type: "textfield"
+      label: "Aria label"
+      description: "Name of the close button for assistive technology."
+      preview: "Close"
+      allow_token: true

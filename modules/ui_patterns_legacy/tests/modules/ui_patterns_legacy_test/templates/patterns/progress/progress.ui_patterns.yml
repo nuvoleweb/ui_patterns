@@ -1,0 +1,47 @@
+progress:
+  label: "Progress (Legacy)"
+  description: "The progress element displays an indicator showing the completion progress of a task, typically in the form of a bar. Progress components are built with two HTML elements, some CSS to set the width, and a few attributes. Bootstrap does not use the HTML5 <progress> element, ensuring you can stack progress bars, animate them, and place text labels over them."
+  links:
+    - "https://getbootstrap.com/docs/5.3/components/progress/"
+  variants:
+    default:
+      label: "Default"
+    striped:
+      label: "Striped"
+    striped__animated:
+      label: "Animated stripes"
+  settings:
+    aria_label:
+      type: "textfield"
+      label: "Aria label"
+      description: "Name of the progress bar for assistive technology."
+      allow_token: true
+    percent:
+      type: "number"
+      label: "Total progress (%)"
+      description: "Width of the progress element representing total progress (25%, 50%, etc.)."
+      allow_token: true
+      preview: 50
+    min:
+      type: "number"
+      label: "Minimum value"
+      description: "Minimum value of the progress element (default is 0). Used for an aria attribute."
+      allow_token: true
+      preview: 0
+    max:
+      type: "number"
+      label: "Maximum value"
+      description: "Maximum value of the progress element (default is 100). Used for an aria attribute."
+      allow_token: true
+      preview: 100
+    bar_height:
+      type: "number"
+      label: "Height"
+      description: "Height of progress element in pixels (px). Leave empty for default height."
+      allow_token: true
+  fields:
+    label:
+      type: "text"
+      label: "Label"
+      description: "Text shown inside the progress bar."
+      preview: "Label"

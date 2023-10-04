@@ -1,0 +1,41 @@
+alert:
+  label: "Alert (Legacy)"
+  description: "Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages."
+  links:
+    - "https://getbootstrap.com/docs/5.3/components/alerts/"
+  variants:
+    primary:
+      label: "Primary"
+    secondary:
+      label: "Secondary"
+    success:
+      label: "Success"
+    danger:
+      label: "Danger"
+    warning:
+      label: "Warning"
+    info:
+      label: "Info"
+    light:
+      label: "Light"
+    dark:
+      label: "Dark"
+  settings:
+    dismissible:
+      type: "boolean"
+      label: "Dismissible?"
+      description: "It is possible to dismiss any alert inline."
+      preview: True
+      allow_expose: true
+      allow_token: true
+  fields:
+    heading:
+      type: "text"
+      label: "Heading"
+      description: "The alert heading. Optional."
+      preview: "Well done!"
+    message:
+      type: "render"
+      label: "Message"
+      description: "The alert message."
+      preview: "A simple alert. Check it out!"
