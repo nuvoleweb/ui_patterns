@@ -1,6 +1,6 @@
 services:
-  plugin.manager.ui_patterns_source:
-    class: Drupal\ui_patterns\UiPatternsSourceManager
+  plugin.manager.ui_patterns_prop_type:
+    class: Drupal\ui_patterns\PropTypePluginManager
     parent: default_plugin_manager
   ui_patterns.twig.extension:
     class: Drupal\ui_patterns\Template\TwigExtension
