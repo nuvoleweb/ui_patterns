@@ -15,4 +15,11 @@ interface PropTypeInterface {
    */
   public function label();
 
+  /**
+   * Returns the schema.
+   *
+   * @return array
+   *   The schema.
+   */
+  public function getSchema():array;
 }

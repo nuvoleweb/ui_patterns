@@ -13,6 +13,7 @@ services:
     public: false
     arguments:
       - '@ui_patterns_legacy.plugin.manager.sdc.decorator.inner'
+      - '@plugin.manager.ui_patterns_prop_type'
       - '@module_handler'
       - '@theme_handler'
       - '@cache.discovery'

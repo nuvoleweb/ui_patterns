@@ -1,8 +1,32 @@
 services:
   plugin.manager.ui_patterns_prop_type:
     class: Drupal\ui_patterns\PropTypePluginManager
-    parent: default_plugin_manager
+    arguments: [ '@container.namespaces', '@cache.discovery', '@module_handler',  '@Drupal\sdc\Component\SchemaCompatibilityChecker' ]
   ui_patterns.twig.extension:
     class: Drupal\ui_patterns\Template\TwigExtension
     tags:
       - { name: twig.extension }
+  ui_patterns.plugin.manager.sdc:
+    class: Drupal\ui_patterns\Sdc\UiPatternsSdcPluginManager
+    decorates: plugin.manager.sdc
+    decoration_priority: 9
+    public: false
+    arguments:
+      - '@ui_patterns.plugin.manager.sdc.inner'
+      - '@plugin.manager.ui_patterns_prop_type'
+      - '@module_handler'
+      - '@theme_handler'
+      - '@cache.discovery'
+      - '@config.factory'
+      - '@theme.manager'
+      - '@Drupal\sdc\ComponentNegotiator'
+      - '@file_system'
+      - '@Drupal\sdc\Component\SchemaCompatibilityChecker'
+      - '@Drupal\sdc\Component\ComponentValidator'
+      - '%app.root%'
+  stream_wrapper.ui_patterns_prop_type:
+    class: Drupal\ui_patterns\StreamWrapper\UiPatternsPropTypeStreamWrapper
+    arguments:
+      - '@plugin.manager.ui_patterns_prop_type'
+    tags:
+      - { name: stream_wrapper, scheme: ui-patterns }

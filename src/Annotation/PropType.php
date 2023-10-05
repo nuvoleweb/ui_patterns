@@ -25,7 +25,7 @@ class PropType extends Plugin {
    *
    * @ingroup plugin_translatable
    */
-  public $title;
+  public $label;
 
   /**
    * The description of the plugin.
@@ -36,4 +36,17 @@ class PropType extends Plugin {
    */
   public $description;
 
+  /**
+   * The json schema of the plugin matches.
+   *
+   * @var array
+   */
+  public $schema;
+
+  /**
+   * The priority of the PropType.
+   *
+   * @var integer
+   */
+  public int $priority;
 }

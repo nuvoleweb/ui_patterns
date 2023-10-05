@@ -12,6 +12,7 @@ use Drupal\sdc\Component\ComponentValidator;
 use Drupal\sdc\Component\SchemaCompatibilityChecker;
 use Drupal\sdc\ComponentPluginManager;
 use Drupal\sdc\Plugin\Component;
+use Drupal\ui_patterns\PropTypePluginManager;
 
 /**
  * Plugin Manager for *.ui_patterns.yml configuration files.
@@ -27,8 +28,8 @@ use Drupal\sdc\Plugin\Component;
 abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
 
   public function __construct(
-
-    protected ComponentPluginManager $parent_sdc_plugin_manager,
+    protected ComponentPluginManager $parentSdcPluginManager,
+    protected PropTypePluginManager $propTypePluginManager,
     ModuleHandlerInterface $module_handler,
     ThemeHandlerInterface $themeHandler,
     CacheBackendInterface $cacheBackend,
@@ -40,7 +41,6 @@ abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
     ComponentValidator $componentValidator,
     string $appRoot,
   ) {
-    $this->parentSdcPluginManager = $parent_sdc_plugin_manager;
     parent::__construct(
       $module_handler,
       $themeHandler,

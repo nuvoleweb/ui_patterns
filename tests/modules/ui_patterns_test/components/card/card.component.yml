@@ -23,12 +23,20 @@ props:
       title: "Image column classes"
       description: "Only for horizontal variant."
       type: "string"
+      format: uri-reference
       default: "col-md-4"
     content_col_classes:
       title: "Content column classes"
       description: "Only for horizontal variant."
       type: "string"
       default: "col-md-8"
+    url_test_1:
+      title: "Url (explitci typing)"
+      $ref: "ui-patterns://url"
+    url_test_2:
+      title: "Url (implicit typing)"
+      type: "string"
+      format: "iri-reference"
 slots:
   image:
     title: "Image"
