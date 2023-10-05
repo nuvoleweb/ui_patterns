@@ -6,6 +6,7 @@
 #}
 
 {% if component is not empty %}
+  <p class="ui_patterns_component__id">ID: <code>{{ component.id }}</code></p>
   {% if component.description %}
   <p class="ui_patterns_component__description">{{ component.description }}</p>
   {% endif %}
@@ -21,10 +22,9 @@
   {% endif %}
 
   {% if component.slots or component.props %}
-    <table class="ui_patterns_component__model">
+    <table class="ui_patterns_component__model views-table" style="width: 100%;">
       <thead>
         <tr>
-          <th>{{ "Type"|t }}</th>
           <th>{{ "Name"|t }}</th>
           <th>{{ "Label"|t }}</th>
           <th>{{ "Type"|t }}</th>
@@ -34,16 +34,14 @@
       <tbody>
       {% for slot_id, slot in component.slots %}
         <tr class="ui_patterns_component__slot">
-          <td>{{ "Slot"|t }}</td>
           <td><code>{{ slot_id }}</code></td>
           <td>{{ slot.title }}</td>
-          <td></td>
+          <td><code>slot</code></td>
           <td>{{ slot.description }}</td>
         </tr>
       {% endfor %}
       {% for prop_id, prop in component.props.properties %}
         <tr class="ui_patterns_component__prop">
-          <td>{{ "Prop"|t }}</td>
           <td><code>{{ prop_id }}</code></td>
           <td>{{ prop.title }}</td>
           <td><code>{{ prop.type }}</code></td>

@@ -27,7 +27,7 @@
   {% for components in groups %}
     {% for component in components %}
       <div class="ui_patterns_component" id="{{ component.id }}">
-        <h2 class="ui_patterns_component__title">{{ component.name }}</h2> 
+        <h2 class="ui_patterns_component__title">{{ component.name }}</h2>
         {{ include('ui-patterns-component-metadata.html.twig', {'component': component}, with_context = false) }}
         <p class="ui_patterns_component__link">
           <a href="{{ url('ui_patterns_library.single', {'name': component.id}) }}">
