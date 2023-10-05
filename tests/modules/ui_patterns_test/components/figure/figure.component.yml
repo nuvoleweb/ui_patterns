@@ -3,6 +3,7 @@ name: "Figure"
 description: "Used to display a piece of self-contained content (illustrations, diagrams, photos, code, etc) along with an optional caption. This content can be removed from the document without affecting the meaning of the document."
 links:
   - "https://getbootstrap.com/docs/5.3/content/figures/"
+replace: "ui_patterns_tests:replaced_figure"
 props:
   type: object
   properties:

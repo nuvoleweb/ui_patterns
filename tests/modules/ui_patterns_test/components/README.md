@@ -52,6 +52,8 @@ There was initially an issue about the use of "\_" and "-" in component ID and t
 
 1 prop (with explicit typing) and slots. No variants.
 
+Replace `replaced_figure`
+
 ❓ Not sure if the explicit typing will make this component a valid SDC component.
 
 # my-widget
@@ -67,3 +69,9 @@ A more "traditional" SDC example with JSON schema examples instead of stories, a
 With explicit template path (in a subfolder, without namespace, expected filename)
 
 ❌ Not a valid SDC component, because of explicit template path.
+
+# replaced_figure
+
+To test replacement mechanism
+
+✅ Valid SDC component.
