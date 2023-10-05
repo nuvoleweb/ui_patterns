@@ -34,13 +34,27 @@
             {% trans %}View {{ component.name }} as stand-alone{% endtrans %}
           </a>
         </p>
+        {% if component.variants is defined and component.variants|length > 0 %}
         <div class="ui_patterns_component__variants">
           {% for variant_id, variant in component.variants %}
+          <div class="ui_patterns_variant">
             {% for story_id, story in component.stories %}
+              <div class="ui_patterns_story">
               {{ component_story(component.id, story_id, {}, {'variant': variant_id}) }}
+              </div>
             {% endfor %}
+          </div>
           {% endfor %}
         </div>
+        {% else %}
+        <div class="ui_patterns_component__stories">
+          {% for story_id, story in component.stories %}
+            <div class="ui_patterns_story">
+            {{ component_story(component.id, story_id, {}, {'variant': variant_id}) }}
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
       </div>
       <hr>
     {% endfor %}

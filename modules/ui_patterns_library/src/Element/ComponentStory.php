@@ -3,6 +3,7 @@
 namespace Drupal\ui_patterns_library\Element;
 
 use Drupal\ui_patterns\Element\ComponentElement;
+use Drupal\ui_patterns\TemporaryHelper;
 
 /**
  * Renders a component story.
@@ -47,7 +48,8 @@ class ComponentStory extends ComponentElement {
     $story = $component["stories"][$story_id];
     $slots = $story["slots"] ?? [];
     $props = $story["props"] ?? [];
-    $element["#slots"] = array_merge($element["#slots"], $slots);
+    $slots = array_merge($element["#slots"], $slots);
+    $element["#slots"] = TemporaryHelper::processStoriesSlots($slots);
     $element["#props"] = array_merge($element["#props"], $props);
     return $element;
   }

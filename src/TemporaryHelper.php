@@ -46,4 +46,33 @@ class TemporaryHelper {
     return $groups;
   }
 
+  /**
+   * Stories slots have no "#" prefix in render arrays. Let's add them.
+   * A bit like UI Patterns 1.x's PatternPreview::getPreviewMarkup()
+   * Do we move this method to ui_patterns_library?
+   * Is iy something we want to remove in UI Patterns 2?
+   */
+  public static function processStoriesSlots(array $slots): array {
+    foreach ($slots as $slot_id => $slot) {
+      if (!is_array($slot)) {
+        continue;
+      }
+      if (array_is_list($slot)) {
+        $slots[$slot_id] = self::processStoriesSlots($slot);
+      }
+      $slot_keys = array_keys($slot);
+      $render_keys = ["theme", "type", "markup", "plain_text"];
+      if (count(array_intersect($slot_keys, $render_keys)) > 0) {
+        foreach ($slot as $key => $value) {
+          if (is_array($value)) {
+            $value = self::processStoriesSlots($value);
+          }
+          $slots[$slot_id]["#" . $key] = $value;
+          unset($slots[$slot_id][$key]);
+        }
+      }
+    }
+    return $slots;
+  }
+
 }
