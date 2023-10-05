@@ -6,7 +6,11 @@ links:
 category: "Typography"
 props:
   type: object
-  properties: {}
+  properties:
+    dummy_prop:
+      title: "Dummy Prop"
+      description: "The attributes to customize the figcaption tag."
+      type: "object"
 slots:
   content:
     title: "Content"

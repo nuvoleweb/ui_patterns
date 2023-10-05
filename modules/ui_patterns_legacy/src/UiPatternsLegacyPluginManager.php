@@ -25,9 +25,22 @@ class UiPatternsLegacyPluginManager extends ComponentPluginManagerDecorator {
   /**
    * {@inheritdoc}
    */
+  protected function getScanDirectories(): array {
+    $extension_directories = [
+      ...$this->moduleHandler->getModuleDirectories(),
+      ...$this->themeHandler->getThemeDirectories(),
+    ];
+    return array_map(
+      static fn(string $path) => rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'patterns',
+      $extension_directories
+    );
+  }
+  /**
+   * {@inheritdoc}
+   */
   protected function getDiscovery() {
     if (!isset($this->discovery)) {
-      $directories = parent::getScanDirectories();
+      $directories = $this->getScanDirectories();
       $this->discovery = new UiPatternsLegacyPluginDiscovery(
         $directories,
         'ui_patterns_legacy_sdc',
@@ -114,6 +127,17 @@ class UiPatternsLegacyPluginManager extends ComponentPluginManagerDecorator {
       }
     }
     parent::alterDefinitions($definitions);
+    foreach ($definitions as & $definition) {
+      $pattern_directory = dirname($definition['_discovered_file_path']);
+      $template = $this->findAsset(
+        $pattern_directory,
+        'pattern-' . $definition['machineName'],
+        'html.twig'
+      );
+      $definition['template'] = basename($template);
+    }
+
   }
+
 
 }
