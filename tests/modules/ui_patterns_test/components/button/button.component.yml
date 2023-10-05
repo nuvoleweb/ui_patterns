@@ -128,7 +128,8 @@ slots:
     description: "The button label."
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       disabled: false
       url: "https://example.com"

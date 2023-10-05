@@ -19,7 +19,8 @@ slots:
     description: "The caption that appears under the content."
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       figcaption_attributes:
         class: ["text-end"]

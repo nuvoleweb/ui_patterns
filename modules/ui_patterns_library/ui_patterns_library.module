@@ -10,13 +10,13 @@
  */
 function ui_patterns_library_theme() {
   return [
-    'patterns_overview_page' => [
-      'variables' => ['components' => NULL],
+    'ui_patterns_overview_page' => [
+      'variables' => ['groups' => NULL],
     ],
-    'patterns_single_page' => [
+    'ui_patterns_single_page' => [
       'variables' => ['component' => NULL],
     ],
-    'patterns_meta_information' => [
+    'ui_patterns_component_metadata' => [
       'variables' => ['component' => NULL],
     ]
   ];

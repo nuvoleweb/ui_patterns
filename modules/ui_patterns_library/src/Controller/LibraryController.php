@@ -4,6 +4,7 @@ namespace Drupal\ui_patterns_library\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\sdc\ComponentPluginManager;
+use Drupal\ui_patterns\TemporaryHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -51,7 +52,7 @@ class LibraryController extends ControllerBase {
   public function single($name) {
     $definition = $this->componentPluginManager->getDefinition($name);
     return [
-      '#theme' => 'patterns_single_page',
+      '#theme' => 'ui_patterns_single_page',
       '#component' => $definition,
     ];
   }
@@ -63,14 +64,10 @@ class LibraryController extends ControllerBase {
    *   Patterns overview page render array.
    */
   public function overview() {
-    // @todo use UI Patterns plugin maanger instead of SDC, because we look for categorized definitions.
-    $definitions = $this->componentPluginManager->getAllComponents();
-    $categorized_definitions = [
-      "all" => $definitions,
-    ];
+    $groups = TemporaryHelper::getGroupedDefinitions();
     return [
-      '#theme' => 'patterns_overview_page',
-      '#components' => $categorized_definitions,
+      '#theme' => 'ui_patterns_overview_page',
+      '#groups' => $groups,
     ];
   }
 

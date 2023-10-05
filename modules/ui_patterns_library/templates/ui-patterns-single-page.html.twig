@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * UI Pattern library standalone page, override this in your theme.
+ */
+#}
+
+{% if component is not empty %}
+  <div class="ui_patterns_component">
+    {{ include('ui-patterns-component-metadata.html.twig', {'component': component}, with_context = false) }}
+      <div class="ui_patterns_component__variants">
+        {% for variant_id, variant in component.variants %}
+          <div class="ui_patterns_variant">
+          <h2>{{ variant.label }} (<code>{{ variant_id }}</code>)</h2>
+          {% if variant.description %}
+          <p class="ui_patterns_variant__description">{{ variant.description }}</p>
+          {% endif %}
+          {% for story_id, story in component.stories %}
+            <h3>{{ story.title }}</h3>
+            {% if story.description %}
+            <p class="ui_patterns_variant__description">{{ variant.description }}</p>
+            {% endif %}
+            {{ component_story(component.id, story_id, {}, {'variant': variant_id}) }}
+          {% endfor %}
+        {% endfor %}
+      </div>
+  </div>
+{% endif %}

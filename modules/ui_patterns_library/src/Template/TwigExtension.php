@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ui_patterns_legacy\Template;
+namespace Drupal\ui_patterns_library\Template;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -52,7 +52,7 @@ class TwigExtension extends AbstractExtension {
     return [
       '#type' => 'component_story',
       '#component' => $component_id,
-      '#component' => $story_id,
+      '#story' => $story_id,
       '#slots' => $slots,
       '#props' => $props,
     ];

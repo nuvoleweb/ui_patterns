@@ -40,7 +40,8 @@ slots:
     description: "Text shown inside the progress bar."
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       percent: 50
       min: 0

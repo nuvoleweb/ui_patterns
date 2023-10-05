@@ -36,7 +36,8 @@ slots:
     description: "The alert message."
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       dismissible: True
     slots:

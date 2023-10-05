@@ -3,7 +3,8 @@
 namespace Drupal\ui_patterns_legacy\Element;
 
 use Drupal\Core\Render\Element;
-use Drupal\sdc\Element\ComponentElement;
+use Drupal\ui_patterns\Element\ComponentElement;
+use Drupal\ui_patterns\TemporaryHelper;
 
 /**
  * Renders a pattern element as a SDC element.
@@ -58,40 +59,14 @@ class Pattern extends ComponentElement {
   /**
    *
    */
-  private static function getComponentNamespace(array $element): array {
-    if (!array_key_exists("#id", $element)) {
-      // Nothing to do.
-      return $element;
-    }
-    $parts = explode(":", $element["id"]);
-    if (count(array_filter($parts)) === 2) {
-      // Already namespaced.
-      return $element;
-    }
-    if (count(array_filter($parts)) > 2) {
-      // Unexpected situation.
-      return $element;
-    }
-    $components = \Drupal::service('plugin.manager.sdc')->getAllComponents();
-    // @todo Search first in current active theme, then parents themes, then modules.
-    foreach ($components as $component) {
-      if ($component->getPluginDefinition()["machineName"] === $element["#id"]) {
-        $element["#id"] = $component->getPluginId();
-        return $element;
-      }
-    }
-    return $element;
-  }
-
-  /**
-   *
-   */
   public function convert(array $element): array {
     $element = self::resolveCompactFormat($element);
-    $element = self::getComponentNamespace($element);
     $element["#type"] = "component";
-    $element["#component"] = $element["#id"];
-    unset($element["#id"]);
+    if (array_key_exists("#id", $element) && is_string($element["#id"])) {
+      $element["#id"] = TemporaryHelper::getNamespacedId($element["#id"]);
+      $element["#component"] = $element["#id"];
+      unset($element["#id"]);
+    }
     if (array_key_exists("#fields", $element) && is_array($element["#fields"])) {
       $element["#slots"] = $element["#fields"];
       unset($element["#fields"]);

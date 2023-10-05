@@ -2,7 +2,7 @@
 
 namespace Drupal\ui_patterns_library\Element;
 
-use Drupal\sdc\Element\ComponentElement;
+use Drupal\ui_patterns\Element\ComponentElement;
 
 /**
  * Renders a component story.
@@ -21,6 +21,7 @@ class ComponentStory extends ComponentElement {
         [$this, 'preRenderComponent'],
       ],
       '#component' => '',
+      '#story' => '',
       '#props' => [],
       '#slots' => [],
       '#propsAlter' => [],
@@ -32,7 +33,22 @@ class ComponentStory extends ComponentElement {
    *
    */
   public function loadStory(array $element): array {
-    // @todo Load slots & props from a component story.
+    if (!isset($element["#story"])) {
+      return $element;
+    }
+    $story_id = $element["#story"];
+    $component = \Drupal::service('plugin.manager.sdc')->getDefinition($element["#component"]);
+    if (!isset($component["stories"])) {
+      return $element;
+    }
+    if (!isset($component["stories"][$story_id])) {
+      return $element;
+    }
+    $story = $component["stories"][$story_id];
+    $slots = $story["slots"] ?? [];
+    $props = $story["props"] ?? [];
+    $element["#slots"] = array_merge($element["#slots"], $slots);
+    $element["#props"] = array_merge($element["#props"], $props);
     return $element;
   }
 
