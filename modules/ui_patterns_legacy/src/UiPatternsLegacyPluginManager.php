@@ -2,32 +2,33 @@
 
 namespace Drupal\ui_patterns_legacy;
 
-use Drupal\sdc\ComponentPluginManager;
-use Drupal\sdc\Plugin\Discovery\DirectoryWithMetadataPluginDiscovery;
+use Drupal\ui_patterns\Sdc\ComponentPluginManagerDecorator;
 use Drupal\ui_patterns_legacy\Plugin\Discovery\UiPatternsLegacyPluginDiscovery;
+use Drupal\ui_patterns\Sdc\ComponentNegotiator;
 
 /**
  * Plugin Manager for *.ui_patterns.yml configuration files.
- *
- * Plugin Manager overwrites getDiscovery() to provide a decorated
- * Discovery. Decoration of the service seems not possible for me.
- * Probably there is more gentle way.
  *
  * @see plugin_api
  *
  * @internal
  */
-class UiPatternsLegacyPluginManager extends ComponentPluginManager {
+class UiPatternsLegacyPluginManager extends ComponentPluginManagerDecorator {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getCacheKey() {
+    return 'ui_patterns_legacy';
+  }
 
   /**
    * {@inheritdoc}
    */
   protected function getDiscovery() {
     if (!isset($this->discovery)) {
-      $directories = $this->getScanDirectories();
-      $decorated = new DirectoryWithMetadataPluginDiscovery($directories, 'sdc', $this->fileSystem);
+      $directories = parent::getScanDirectories();
       $this->discovery = new UiPatternsLegacyPluginDiscovery(
-        $decorated,
         $directories,
         'ui_patterns_legacy_sdc',
         $this->fileSystem
@@ -37,20 +38,26 @@ class UiPatternsLegacyPluginManager extends ComponentPluginManager {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   protected function isUiPatternFile($definition) {
-    return isset($definition['_discovered_file_path']) && str_ends_with($definition['_discovered_file_path'], 'ui_patterns.yml');
+    return isset($definition['_discovered_file_path']) && str_ends_with(
+        $definition['_discovered_file_path'],
+        'ui_patterns.yml'
+      );
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   protected function mapPatternToComponent($pattern, $component) {
-    $component['props'] = ['type' => 'object', 'properties' => [
-      'context' => [
-      ]
-    ]];
+    $component['props'] = [
+      'type' => 'object',
+      'properties' => [
+        'context' => [
+        ],
+      ],
+    ];
     if (isset($pattern['fields'])) {
       foreach ($pattern['fields'] as $field_id => $field) {
         $component['slots'][$field_id] = [
@@ -88,21 +95,25 @@ class UiPatternsLegacyPluginManager extends ComponentPluginManager {
           foreach ($patterns as $pattern_id => $pattern) {
             if ($definition_patterns_id !== $pattern_id) {
               $cloned_definition = $definition;
-              $cloned_definition[] = '';
               $cloned_definition_id = $cloned_definition['provider'] . ':' . $pattern_id;
               $cloned_definition['id'] = $cloned_definition_id;
-              $definitions[$cloned_definition_id] = $this->mapPatternToComponent($pattern, $cloned_definition);
+              $definitions[$cloned_definition_id] = $this->mapPatternToComponent(
+                $pattern,
+                $cloned_definition
+              );
             }
             else {
-              $definitions[$id] = $this->mapPatternToComponent($pattern, $definition);
+              $definitions[$id] = $this->mapPatternToComponent(
+                $pattern,
+                $definition
+              );
             }
             $definitions[$id]['ui_pattern_id'] = $pattern_id;
           }
         }
       }
-
     }
-    return parent::alterDefinitions($definitions);
+    parent::alterDefinitions($definitions);
   }
 
 }
