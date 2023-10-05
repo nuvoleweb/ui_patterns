@@ -1,0 +1,60 @@
+card_body:
+  label: "(Card body) (Legacy)"
+  description: "Internal: to be used in the 'Card' component."
+  links:
+    - "https://getbootstrap.com/docs/5.3/components/card/"
+  category: "Card"
+  settings:
+    heading_level:
+      type: "select"
+      label: "Heading level"
+      options:
+        2: "h2"
+        3: "h3"
+        4: "h4"
+        5: "h5 (Default)"
+        6: "h6"
+      preview: 5
+      allow_expose: true
+      allow_token: true
+  fields:
+    title:
+      type: "text"
+      label: "Title"
+      description: "Card title. Plain text."
+      preview: "Card title"
+    subtitle:
+      type: "text"
+      label: "Subtitle"
+      description: "Card subtitle. Plain text."
+      preview: "Card subtitle"
+    text:
+      type: "text"
+      label: "Text"
+      description: "Card text. Plain text."
+      preview: "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit."
+    content:
+      type: "render"
+      label: "Content"
+      description: "Free content outside of any wrapper."
+      preview:
+        type: "pattern"
+        id: "button"
+        variant: "primary"
+        fields:
+          label: "Go somewhere"
+    links:
+      type: "render"
+      label: "Links"
+      description: "Array of link elements"
+      preview:
+        - type: "html_tag"
+          tag: "a"
+          value: "Card link"
+          attributes:
+            href: "#"
+        - type: "html_tag"
+          tag: "a"
+          value: "Another link"
+          attributes:
+            href: "#"
