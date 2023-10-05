@@ -11,7 +11,7 @@
       <div class="ui_patterns_component__variants">
         {% for variant_id, variant in component.variants %}
           <div class="ui_patterns_variant">
-          <h2>{{ variant.label }} (<code>{{ variant_id }}</code>)</h2>
+          <h2>{{ variant.title }} (<code>{{ variant_id }}</code>)</h2>
           {% if variant.description %}
           <p class="ui_patterns_variant__description">{{ variant.description }}</p>
           {% endif %}

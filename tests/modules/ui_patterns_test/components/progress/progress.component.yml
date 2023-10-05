@@ -6,11 +6,11 @@ links:
 template: path/to/template/progress.twig
 variants:
   default:
-    label: "Default"
+    title: "Default"
   striped:
-    label: "Striped"
+    title: "Striped"
   striped__animated:
-    label: "Animated stripes"
+    title: "Animated stripes"
 props:
   type: object
   properties:

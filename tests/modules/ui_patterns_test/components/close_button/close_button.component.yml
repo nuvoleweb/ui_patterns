@@ -6,9 +6,9 @@ links:
 category: "Button"
 variants:
   default:
-    label: "Default"
+    title: "Default"
   white:
-    label: "White (deprecated)"
+    title: "White (deprecated)"
 props:
   type: object
   properties:

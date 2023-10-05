@@ -6,9 +6,9 @@ links:
 category: "Card"
 variants:
   default:
-    label: "Default"
+    title: "Default"
   horizontal:
-    label: "Horizontal"
+    title: "Horizontal"
 props:
   type: object
   properties:
