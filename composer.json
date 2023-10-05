@@ -1,16 +1,9 @@
 {
-    "name": "drupal/ui_patterns",
-    "description": "UI Patterns.",
-    "license": "GPL-2.0-or-later",
-    "type": "drupal-module",
-    "authors": [
-        {
-            "name": "Nuvole Web",
-            "email": "info@nuvole.org"
-        }
-    ],
-    "require": {
-        "drupal/token": "^1.0"
-    }
-
+  "name": "drupal/ui_patterns",
+  "description": "Define and expose self-contained UI components and use them seamlessly in development and site-building.",
+  "license": "GPL-2.0-or-later",
+  "type": "drupal-module",
+  "require": {
+    "drupal/token": "^1.0"
+  }
 }

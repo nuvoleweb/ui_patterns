@@ -1,0 +1,55 @@
+{#
+/**
+ * @file
+ * UI Pattern meta information.
+ */
+#}
+
+{% if component is not empty %}
+  <p class="ui_patterns_component__id">ID: <code>{{ component.id }}</code></p>
+  {% if component.description %}
+  <p class="ui_patterns_component__description">{{ component.description }}</p>
+  {% endif %}
+  {% if component.tags %}
+  <div class="ui_patterns_component__tags">
+    {{ "Tags:"|t }}
+    <ul>
+    {% for tag in component.tags %}
+       <li class="ui_patterns_component__tag">{{ tag }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if component.slots or component.props %}
+    <table class="ui_patterns_component__model views-table" style="width: 100%;">
+      <thead>
+        <tr>
+          <th>{{ "Name"|t }}</th>
+          <th>{{ "Label"|t }}</th>
+          <th>{{ "Type"|t }}</th>
+          <th>{{ "Description"|t }} / {{ "Options"|t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for slot_id, slot in component.slots %}
+        <tr class="ui_patterns_component__slot">
+          <td><code>{{ slot_id }}</code></td>
+          <td>{{ slot.title }}</td>
+          <td><code>slot</code></td>
+          <td>{{ slot.description }}</td>
+        </tr>
+      {% endfor %}
+      {% for prop_id, prop in component.props.properties %}
+        <tr class="ui_patterns_component__prop">
+          <td><code>{{ prop_id }}</code></td>
+          <td>{{ prop.title }}</td>
+          <td><code>{{ prop.type }}</code></td>
+          <td>{{ prop.description }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+{% endif %}

@@ -1,0 +1,5 @@
+services:
+  ui_patterns_library.twig.extension:
+    class: Drupal\ui_patterns_library\Template\TwigExtension
+    tags:
+      - { name: twig.extension }

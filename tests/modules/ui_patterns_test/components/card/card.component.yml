@@ -6,9 +6,9 @@ links:
 category: "Card"
 variants:
   default:
-    label: "Default"
+    title: "Default"
   horizontal:
-    label: "Horizontal"
+    title: "Horizontal"
 props:
   type: object
   properties:
@@ -40,7 +40,8 @@ slots:
     title: "Footer"
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       image_position: "top"
       image_col_classes: "col-md-4"

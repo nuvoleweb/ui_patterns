@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Contains module file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function ui_patterns_library_theme() {
+  return [
+    'ui_patterns_overview_page' => [
+      'variables' => ['groups' => NULL],
+    ],
+    'ui_patterns_single_page' => [
+      'variables' => ['component' => NULL],
+    ],
+    'ui_patterns_component_metadata' => [
+      'variables' => ['component' => NULL],
+    ]
+  ];
+}

@@ -1,0 +1,13 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: "Figure without caption (replaced by the 'real' Figure)"
+props:
+  type: object
+  properties:
+    figcaption_attributes:
+      title: "Figcaption attributes"
+      description: "The attributes to customize the figcaption tag."
+      type: "module:/ui_patterns/types.json#$defs/attributes"
+slots:
+  image:
+    title: "Image"
+    description: "The content of the figure."

@@ -6,9 +6,9 @@ links:
 category: "Button"
 variants:
   default:
-    label: "Default"
+    title: "Default"
   white:
-    label: "White (deprecated)"
+    title: "White (deprecated)"
 props:
   type: object
   properties:
@@ -22,7 +22,8 @@ props:
       type: "string"
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       disabled: false
       aria_label: "Close"

@@ -1,0 +1,140 @@
+button:
+  label: "Button (Legacy)"
+  description: "For actions in forms, dialogs, and more with support for multiple sizes, states, and more."
+  links:
+    - "https://getbootstrap.com/docs/5.3/components/buttons/"
+  category: "Button"
+  variants:
+    default:
+      label: "Default"
+      description: "No 'btn' class added."
+    primary__sm:
+      label: "Primary small"
+    secondary__sm:
+      label: "Secondary small"
+    success__sm:
+      label: "Success small"
+    danger__sm:
+      label: "Danger small"
+    warning__sm:
+      label: "Warning small"
+    info__sm:
+      label: "Info small"
+    light__sm:
+      label: "Light small"
+    dark__sm:
+      label: "Dark small"
+    link__sm:
+      label: "Link small"
+    primary:
+      label: "Primary"
+    secondary:
+      label: "Secondary"
+    success:
+      label: "Success"
+    danger:
+      label: "Danger"
+    warning:
+      label: "Warning"
+    info:
+      label: "Info"
+    light:
+      label: "Light"
+    dark:
+      label: "Dark"
+    link:
+      label: "Link"
+    primary__lg:
+      label: "Primary large"
+    secondary__lg:
+      label: "Secondary large"
+    success__lg:
+      label: "Success large"
+    danger__lg:
+      label: "Danger large"
+    warning__lg:
+      label: "Warning large"
+    info__lg:
+      label: "Info large"
+    light__lg:
+      label: "Light large"
+    dark__lg:
+      label: "Dark large"
+    link__lg:
+      label: "Link large"
+    outline_primary__sm:
+      label: "Outline Primary small"
+    outline_secondary__sm:
+      label: "Outline Secondary small"
+    outline_success__sm:
+      label: "Outline Success small"
+    outline_danger__sm:
+      label: "Outline Danger small"
+    outline_warning__sm:
+      label: "Outline Warning small"
+    outline_info__sm:
+      label: "Outline Info small"
+    outline_light__sm:
+      label: "Outline Light small"
+    outline_dark__sm:
+      label: "Outline Dark small"
+    outline_primary:
+      label: "Outline Primary"
+    outline_secondary:
+      label: "Outline Secondary"
+    outline_success:
+      label: "Outline Success"
+    outline_danger:
+      label: "Outline Danger"
+    outline_warning:
+      label: "Outline Warning"
+    outline_info:
+      label: "Outline Info"
+    outline_light:
+      label: "Outline Light"
+    outline_dark:
+      label: "Outline Dark"
+    outline_primary__lg:
+      label: "Outline Primary large"
+    outline_secondary__lg:
+      label: "Outline Secondary large"
+    outline_success__lg:
+      label: "Outline Success large"
+    outline_danger__lg:
+      label: "Outline Danger large"
+    outline_warning__lg:
+      label: "Outline Warning large"
+    outline_info__lg:
+      label: "Outline Info large"
+    outline_light__lg:
+      label: "Outline Light large"
+    outline_dark__lg:
+      label: "Outline Dark large"
+    dropdown_item:
+      label: "(Dropdown item)"
+  settings:
+    disabled:
+      type: "boolean"
+      label: "Disabled?"
+      description: "Is the button disabled?"
+      preview: false
+      allow_expose: true
+      allow_token: true
+    label_visually_hidden:
+      type: "boolean"
+      label: "Hide button label?"
+      description: "Is the button's label hidden?"
+      preview: false
+      allow_expose: true
+      allow_token: true
+    url:
+      type: "url"
+      label: "URL"
+      description: "The button URL. Optional."
+      preview: "https://example.com"
+  fields:
+    label:
+      type: "text"
+      label: "Label"
+      description: "The button label."
+      preview: "Submit"

@@ -1,0 +1,89 @@
+card:
+  label: "Card (Legacy)"
+  description: "A card is a flexible and extensible content container. It includes options for headers and footers, a wide variety of content, contextual background colors, and powerful display options."
+  links:
+    - "https://getbootstrap.com/docs/5.3/components/card/"
+  category: "Card"
+  variants:
+    default:
+      label: "Default"
+    horizontal:
+      label: "Horizontal"
+  settings:
+    image_position:
+      type: "select"
+      label: "Image position"
+      description: "Only for default variant."
+      options:
+        top: "Top (Default)"
+        bottom: "Bottom"
+      preview: "top"
+      allow_expose: true
+      allow_token: true
+    image_col_classes:
+      type: "textfield"
+      label: "Image column classes"
+      description: "Only for horizontal variant. Default value: col-md-4"
+      default_value: "col-md-4"
+      preview: "col-md-4"
+      allow_expose: true
+      allow_token: true
+    content_col_classes:
+      type: "textfield"
+      label: "Content column classes"
+      description: "Only for horizontal variant. Default value: col-md-8"
+      default_value: "col-md-8"
+      preview: "col-md-8"
+      allow_expose: true
+      allow_token: true
+  fields:
+    image:
+      type: "render"
+      label: "Image"
+      description: "Card image."
+      preview:
+        theme: "image"
+        uri: "data:image/svg+xml;base64,PHN2ZyBzdHlsZT0iZm9udC1zaXplOiAxLjEyNXJlbTsgdGV4dC1hbmNob3I6IG1pZGRsZTsgdXNlci1zZWxlY3Q6IG5vbmU7IiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIyNTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgc2xpY2UiIGZvY3VzYWJsZT0iZmFsc2UiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0iUGxhY2Vob2xkZXI6IEltYWdlIGNhcCI+PHRpdGxlPlBsYWNlaG9sZGVyPC90aXRsZT48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjODY4ZTk2Ij48L3JlY3Q+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZpbGw9IiNkZWUyZTYiIGR5PSIuM2VtIj5JbWFnZSBjYXA8L3RleHQ+PC9zdmc+Cg=="
+        alt: "&copy; 2017 John Smith photography"
+    header:
+      type: "render"
+      label: "Header"
+      description: "Card header."
+      preview: "Featured"
+    content:
+      type: "render"
+      label: "Content"
+      description: "Card body."
+      preview:
+        - type: "pattern"
+          id: "card_body"
+          variant: "body"
+          fields:
+            title: "Card title"
+            subtitle: "Card subtitle"
+            text: "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit."
+            content:
+              type: "pattern"
+              id: "button"
+              variant: "primary"
+              fields:
+                label: "Go somewhere"
+            links:
+              - type: "html_tag"
+                tag: "a"
+                value: "Card link"
+                attributes:
+                  href: "#"
+              - type: "html_tag"
+                tag: "a"
+                value: "Another link"
+                attributes:
+                  href: "#"
+    footer:
+      type: "render"
+      label: "Footer"
+      description: "Card footer."
+      preview:
+        type: "html_tag"
+        tag: "span"
+        value: "2 days ago"

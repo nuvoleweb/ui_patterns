@@ -1,0 +1,5 @@
+ui_patterns_library.overview:
+  title: 'UI Patterns library'
+  description: 'Browse components in library pages.'
+  parent: system.admin_reports
+  route_name: ui_patterns_library.overview

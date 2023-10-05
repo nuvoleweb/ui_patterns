@@ -12,7 +12,7 @@
   {% endif %}
   {{ message|add_class('alert-link') }}
   {% if dismissible %}
-    {{ component('ui_patterns_test:close_button', {}, {
+    {{ pattern('close_button', {
       attributes: create_attribute({
         'data-bs-dismiss': 'alert'
       }),

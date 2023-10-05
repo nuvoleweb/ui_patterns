@@ -3,6 +3,7 @@ name: "Figure"
 description: "Used to display a piece of self-contained content (illustrations, diagrams, photos, code, etc) along with an optional caption. This content can be removed from the document without affecting the meaning of the document."
 links:
   - "https://getbootstrap.com/docs/5.3/content/figures/"
+replaces: "ui_patterns_tests:replaced_figure"
 props:
   type: object
   properties:
@@ -19,7 +20,8 @@ slots:
     description: "The caption that appears under the content."
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       figcaption_attributes:
         class: ["text-end"]

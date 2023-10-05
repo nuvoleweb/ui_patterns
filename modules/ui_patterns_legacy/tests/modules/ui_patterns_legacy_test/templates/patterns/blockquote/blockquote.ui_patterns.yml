@@ -1,0 +1,27 @@
+blockquote:
+  label: "Blockquote (Legacy)"
+  description: "For quoting blocks of content from another source within your document."
+  links:
+    - "https://getbootstrap.com/docs/5.3/content/typography/#blockquotes"
+  category: "Typography"
+  fields:
+    content:
+      type: "render"
+      label: "Content"
+      description: "The quote."
+      preview:
+        - type: "html_tag"
+          tag: "p"
+          value: "A well-known quote, contained in a blockquote element."
+    footer:
+      type: "render"
+      label: "Footer"
+      description: "For identifying the source. Wrap the name of the source work in <cite>."
+      preview:
+        - type: "markup"
+          markup: "Someone famous in "
+        - type: "html_tag"
+          tag: "cite"
+          value: "Source Title"
+          attributes:
+            title: "Source Title"

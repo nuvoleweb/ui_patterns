@@ -1,0 +1,62 @@
+{#
+/**
+ * @file
+ * UI Pattern library page template, override this in your theme.
+ */
+#}
+
+{% if groups is not empty %}
+  <h2>{{ "Available components"|t }}</h2>
+
+  {# List of available patterns with anchor links. #}
+  {% for group_name, components in groups %}
+    {% if components|length > 1 %}
+      <h3>{{ group_name }}</h3>
+    {% endif %}
+    <ul>
+      {% for component in components %}
+        <li>
+          <a href="#{{ component.id }}">{{ component.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+
+  <hr>
+
+  {% for components in groups %}
+    {% for component in components %}
+      <div class="ui_patterns_component" id="{{ component.id }}">
+        <h2 class="ui_patterns_component__title">{{ component.name }}</h2>
+        {{ include('ui-patterns-component-metadata.html.twig', {'component': component}, with_context = false) }}
+        <p class="ui_patterns_component__link">
+          <a href="{{ url('ui_patterns_library.single', {'name': component.id}) }}">
+            {% trans %}View {{ component.name }} as stand-alone{% endtrans %}
+          </a>
+        </p>
+        {% if component.variants is defined and component.variants|length > 0 %}
+        <div class="ui_patterns_component__variants">
+          {% for variant_id, variant in component.variants %}
+          <div class="ui_patterns_variant">
+            {% for story_id, story in component.stories %}
+              <div class="ui_patterns_story">
+              {{ component_story(component.id, story_id, {}, {'variant': variant_id}) }}
+              </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="ui_patterns_component__stories">
+          {% for story_id, story in component.stories %}
+            <div class="ui_patterns_story">
+            {{ component_story(component.id, story_id, {}, {'variant': variant_id}) }}
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+      <hr>
+    {% endfor %}
+  {% endfor %}
+{% endif %}

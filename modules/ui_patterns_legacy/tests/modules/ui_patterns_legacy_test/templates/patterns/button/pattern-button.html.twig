@@ -1,0 +1,31 @@
+{% if variant and variant|lower != 'default' and variant|lower != 'dropdown_item' %}
+  {% set variants = variant|split('__')|map(v => v|lower|replace({(v): 'btn-' ~ v})|replace({'_': '-'})) %}
+  {% set attributes = attributes.addClass(variants) %}
+  {% set attributes = attributes.addClass('btn') %}
+{% endif %}
+
+{% set attributes = (variant|lower == 'dropdown_item') ? attributes.addClass('dropdown-item') : attributes %}
+
+{% if label_visually_hidden %}
+  {% set label %}
+    <span class="visually-hidden">
+      {{ label }}
+    </span>
+  {% endset %}
+{% endif %}
+
+{% if url or attributes.href %}
+  {% set url = url|default(attributes.href) %}
+  {% set attributes = attributes.setAttribute('href', url) %}
+  {% if disabled %}
+    {% set attributes = attributes.setAttribute('href', false).setAttribute('tabindex', '-1').setAttribute('aria-disabled', 'true').addClass('disabled') %}
+  {% endif %}
+
+  <a{{ attributes.setAttribute('role', 'button') }}>{{ label }}</a>
+{% else %}
+  {% if disabled %}
+    {% set attributes = attributes.setAttribute('disabled', '') %}
+  {% endif %}
+
+  <button{{ attributes.setAttribute('type', 'button') }}>{{ label }}</button>
+{% endif %}

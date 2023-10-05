@@ -5,21 +5,21 @@ links:
   - "https://getbootstrap.com/docs/5.3/components/alerts/"
 variants:
   primary:
-    label: "Primary"
+    title: "Primary"
   secondary:
-    label: "Secondary"
+    title: "Secondary"
   success:
-    label: "Success"
+    title: "Success"
   danger:
-    label: "Danger"
+    title: "Danger"
   warning:
-    label: "Warning"
+    title: "Warning"
   info:
-    label: "Info"
+    title: "Info"
   light:
-    label: "Light"
+    title: "Light"
   dark:
-    label: "Dark"
+    title: "Dark"
 props:
   type: object
   properties:
@@ -36,7 +36,8 @@ slots:
     description: "The alert message."
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       dismissible: True
     slots:

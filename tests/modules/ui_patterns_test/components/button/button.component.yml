@@ -7,110 +7,110 @@ category: "Button"
 template: pattern-button.html.twig
 variants:
   default:
-    label: "Default"
+    title: "Default"
     description: "No 'btn' class added."
   primary__sm:
-    label: "Primary small"
+    title: "Primary small"
   secondary__sm:
-    label: "Secondary small"
+    title: "Secondary small"
   success__sm:
-    label: "Success small"
+    title: "Success small"
   danger__sm:
-    label: "Danger small"
+    title: "Danger small"
   warning__sm:
-    label: "Warning small"
+    title: "Warning small"
   info__sm:
-    label: "Info small"
+    title: "Info small"
   light__sm:
-    label: "Light small"
+    title: "Light small"
   dark__sm:
-    label: "Dark small"
+    title: "Dark small"
   link__sm:
-    label: "Link small"
+    title: "Link small"
   primary:
-    label: "Primary"
+    title: "Primary"
   secondary:
-    label: "Secondary"
+    title: "Secondary"
   success:
-    label: "Success"
+    title: "Success"
   danger:
-    label: "Danger"
+    title: "Danger"
   warning:
-    label: "Warning"
+    title: "Warning"
   info:
-    label: "Info"
+    title: "Info"
   light:
-    label: "Light"
+    title: "Light"
   dark:
-    label: "Dark"
+    title: "Dark"
   link:
-    label: "Link"
+    title: "Link"
   primary__lg:
-    label: "Primary large"
+    title: "Primary large"
   secondary__lg:
-    label: "Secondary large"
+    title: "Secondary large"
   success__lg:
-    label: "Success large"
+    title: "Success large"
   danger__lg:
-    label: "Danger large"
+    title: "Danger large"
   warning__lg:
-    label: "Warning large"
+    title: "Warning large"
   info__lg:
-    label: "Info large"
+    title: "Info large"
   light__lg:
-    label: "Light large"
+    title: "Light large"
   dark__lg:
-    label: "Dark large"
+    title: "Dark large"
   link__lg:
-    label: "Link large"
+    title: "Link large"
   outline_primary__sm:
-    label: "Outline Primary small"
+    title: "Outline Primary small"
   outline_secondary__sm:
-    label: "Outline Secondary small"
+    title: "Outline Secondary small"
   outline_success__sm:
-    label: "Outline Success small"
+    title: "Outline Success small"
   outline_danger__sm:
-    label: "Outline Danger small"
+    title: "Outline Danger small"
   outline_warning__sm:
-    label: "Outline Warning small"
+    title: "Outline Warning small"
   outline_info__sm:
-    label: "Outline Info small"
+    title: "Outline Info small"
   outline_light__sm:
-    label: "Outline Light small"
+    title: "Outline Light small"
   outline_dark__sm:
-    label: "Outline Dark small"
+    title: "Outline Dark small"
   outline_primary:
-    label: "Outline Primary"
+    title: "Outline Primary"
   outline_secondary:
-    label: "Outline Secondary"
+    title: "Outline Secondary"
   outline_success:
-    label: "Outline Success"
+    title: "Outline Success"
   outline_danger:
-    label: "Outline Danger"
+    title: "Outline Danger"
   outline_warning:
-    label: "Outline Warning"
+    title: "Outline Warning"
   outline_info:
-    label: "Outline Info"
+    title: "Outline Info"
   outline_light:
-    label: "Outline Light"
+    title: "Outline Light"
   outline_dark:
-    label: "Outline Dark"
+    title: "Outline Dark"
   outline_primary__lg:
-    label: "Outline Primary large"
+    title: "Outline Primary large"
   outline_secondary__lg:
-    label: "Outline Secondary large"
+    title: "Outline Secondary large"
   outline_success__lg:
-    label: "Outline Success large"
+    title: "Outline Success large"
   outline_danger__lg:
-    label: "Outline Danger large"
+    title: "Outline Danger large"
   outline_warning__lg:
-    label: "Outline Warning large"
+    title: "Outline Warning large"
   outline_info__lg:
-    label: "Outline Info large"
+    title: "Outline Info large"
   outline_light__lg:
-    label: "Outline Light large"
+    title: "Outline Light large"
   outline_dark__lg:
-    label: "Outline Dark large"
+    title: "Outline Dark large"
 props:
   type: object
   properties:
@@ -128,7 +128,8 @@ slots:
     description: "The button label."
 stories:
   preview:
-    title: "The default preview from UI Patterns 1.x"
+    title: "Preview"
+    description: "The default preview from UI Patterns 1.x"
     props:
       disabled: false
       url: "https://example.com"

@@ -1,6 +1,6 @@
-name: 'UI Patterns Legacy'
+name: 'UI Patterns Library'
 type: module
-description: 'Discovery of UI Patterns 1.x components.'
+description: 'Browse components in library pages.'
 core_version_requirement: ^10
 package: 'User interface'
 dependencies:
