@@ -20,7 +20,7 @@
         <div class="ui_patterns_story">
           <h3 class="ui_patterns_story__title">{{ story.title }}</h3>
           {% if story.description %}
-          <p class="ui_patterns_story__description">{{ variant.description }}</p>
+          <p class="ui_patterns_story__description">{{ story.description }}</p>
           {% endif %}
           {{ component_story(component.id, story_id, {}, {'variant': variant_id}) }}
         </div>
