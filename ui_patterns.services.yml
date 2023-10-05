@@ -1,7 +1,4 @@
 services:
-  plugin.manager.ui_patterns_source:
-    class: Drupal\ui_patterns\UiPatternsSourceManager
-    parent: default_plugin_manager
   plugin.manager.ui_patterns_prop_type:
     class: Drupal\ui_patterns\PropTypePluginManager
     parent: default_plugin_manager
