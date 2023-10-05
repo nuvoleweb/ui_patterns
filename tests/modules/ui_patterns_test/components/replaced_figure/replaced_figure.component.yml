@@ -6,7 +6,7 @@ props:
     figcaption_attributes:
       title: "Figcaption attributes"
       description: "The attributes to customize the figcaption tag."
-      type: "module:/ui_patterns/types.json#$defs/attributes"
+      type: "object"
 slots:
   image:
     title: "Image"

@@ -1,5 +1,5 @@
 blockquote:
-  label: "Blockquote (Legacy)"
+  label: "Blockquote (Legacy)22"
   description: "For quoting blocks of content from another source within your document."
   links:
     - "https://getbootstrap.com/docs/5.3/content/typography/#blockquotes"
@@ -25,3 +25,7 @@ blockquote:
           value: "Source Title"
           attributes:
             title: "Source Title"
+  settings:
+    dismissible:
+      type: "boolean"
+      label: "Dismissible?"
