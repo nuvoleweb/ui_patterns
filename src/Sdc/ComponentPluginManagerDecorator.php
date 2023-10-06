@@ -10,8 +10,10 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\sdc\Component\ComponentValidator;
 use Drupal\sdc\Component\SchemaCompatibilityChecker;
+use Drupal\sdc\ComponentNegotiator;
 use Drupal\sdc\ComponentPluginManager;
 use Drupal\sdc\Plugin\Component;
+use Drupal\ui_patterns\PropTypePluginManager;
 
 /**
  * Plugin Manager for *.ui_patterns.yml configuration files.
@@ -26,21 +28,23 @@ use Drupal\sdc\Plugin\Component;
  */
 abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
 
+  /**
+   *
+   */
   public function __construct(
-
-    protected ComponentPluginManager $parent_sdc_plugin_manager,
+    protected ComponentPluginManager $parentSdcPluginManager,
+    protected PropTypePluginManager $propTypePluginManager,
     ModuleHandlerInterface $module_handler,
     ThemeHandlerInterface $themeHandler,
     CacheBackendInterface $cacheBackend,
     ConfigFactoryInterface $configFactory,
     ThemeManagerInterface $themeManager,
-    \Drupal\sdc\ComponentNegotiator $componentNegotiator,
+    ComponentNegotiator $componentNegotiator,
     FileSystemInterface $fileSystem,
     SchemaCompatibilityChecker $compatibilityChecker,
     ComponentValidator $componentValidator,
     string $appRoot,
   ) {
-    $this->parentSdcPluginManager = $parent_sdc_plugin_manager;
     parent::__construct(
       $module_handler,
       $themeHandler,
@@ -56,6 +60,9 @@ abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
     $this->setCacheBackend($cacheBackend, $this->getCacheKey());
   }
 
+  /**
+   *
+   */
   public function createInstance($plugin_id, array $configuration = []): Component {
     if (parent::hasDefinition($plugin_id)) {
       return parent::createInstance($plugin_id, $configuration);
@@ -71,7 +78,7 @@ abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
    * @return string
    *   The cache key.
    */
-  protected abstract function getCacheKey();
+  abstract protected function getCacheKey();
 
   /**
    * {@inheritdoc}

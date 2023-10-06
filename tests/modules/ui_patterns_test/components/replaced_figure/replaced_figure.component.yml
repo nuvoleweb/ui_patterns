@@ -6,7 +6,7 @@ props:
     figcaption_attributes:
       title: "Figcaption attributes"
       description: "The attributes to customize the figcaption tag."
-      type: "object"
+      "$ref": "ui-patterns://attributes"
 slots:
   image:
     title: "Image"

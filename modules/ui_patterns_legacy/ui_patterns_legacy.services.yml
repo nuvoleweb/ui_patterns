@@ -6,20 +6,21 @@ services:
     class: Drupal\ui_patterns_legacy\Template\TwigExtension
     tags:
       - { name: twig.extension }
-  ui_patterns_legacy.plugin.manager.sdc.decorator:
-    class: Drupal\ui_patterns_legacy\UiPatternsLegacyPluginManager
-    decorates: plugin.manager.sdc
-    decoration_priority: 9
-    public: false
-    arguments:
-      - '@ui_patterns_legacy.plugin.manager.sdc.decorator.inner'
-      - '@module_handler'
-      - '@theme_handler'
-      - '@cache.discovery'
-      - '@config.factory'
-      - '@theme.manager'
-      - '@Drupal\sdc\ComponentNegotiator'
-      - '@file_system'
-      - '@Drupal\sdc\Component\SchemaCompatibilityChecker'
-      - '@Drupal\sdc\Component\ComponentValidator'
-      - '%app.root%'
+#  ui_patterns_legacy.plugin.manager.sdc.decorator:
+#    class: Drupal\ui_patterns_legacy\UiPatternsLegacyPluginManager
+#    decorates: plugin.manager.sdc
+#    decoration_priority: 9
+#    public: false
+#    arguments:
+#      - '@ui_patterns_legacy.plugin.manager.sdc.decorator.inner'
+#      - '@plugin.manager.ui_patterns_prop_type'
+#      - '@module_handler'
+#      - '@theme_handler'
+#      - '@cache.discovery'
+#      - '@config.factory'
+#      - '@theme.manager'
+#      - '@Drupal\sdc\ComponentNegotiator'
+#      - '@file_system'
+#      - '@Drupal\sdc\Component\SchemaCompatibilityChecker'
+#      - '@Drupal\sdc\Component\ComponentValidator'
+#      - '%app.root%'
