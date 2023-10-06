@@ -6,6 +6,7 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\sdc\Component\SchemaCompatibilityChecker;
+use Drupal\sdc\Exception\IncompatibleComponentSchema;
 
 /**
  * PropType plugin manager.
@@ -38,11 +39,12 @@ class PropTypePluginManager extends DefaultPluginManager {
   /**
    *
    */
-  public function getPropType($prop_schema): ?PropTypeInterface {
-    $definition = $this->getPropTypeDefinition($prop_schema);
+  public function getPropType(string $prop_id, array $prop_schema): ?PropTypeInterface {
+    $definition = $this->getPropTypeDefinition($prop_id, $prop_schema);
     if ($definition !== NULL) {
       return $this->createInstance($definition['id'], []);
     }
+    return NULL;
   }
 
   /**
@@ -59,11 +61,11 @@ class PropTypePluginManager extends DefaultPluginManager {
   /**
    *
    */
-  public function getPropTypeDefinition($prop_schema): ?array {
+  public function getPropTypeDefinition(string $prop_id, array $prop_schema): ?array {
     $definitions = $this->getSortedDefinitions();
     foreach ($definitions as $definition) {
-      $annotation_schema['properties'][$definition['id']] = $definition['schema'];
-      $mapped_prop_schema['properties'][$definition['id']] = $prop_schema;
+      $annotation_schema['properties'][$prop_id] = $definition['schema'];
+      $mapped_prop_schema['properties'][$prop_id] = $prop_schema;
       try {
         $this->compatibilityChecker->isCompatible($mapped_prop_schema, $annotation_schema);
         return $definition;
@@ -72,6 +74,7 @@ class PropTypePluginManager extends DefaultPluginManager {
         // Do nothing.
       }
     }
+    return NULL;
   }
 
 }
