@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns_library\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\sdc\ComponentPluginManager;
-use Drupal\ui_patterns\TemporaryHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -64,7 +63,7 @@ class LibraryController extends ControllerBase {
    *   Patterns overview page render array.
    */
   public function overview() {
-    $groups = TemporaryHelper::getGroupedDefinitions();
+    $groups = $this->componentPluginManager->getGroupedDefinitions();
     return [
       '#theme' => 'ui_patterns_overview_page',
       '#groups' => $groups,

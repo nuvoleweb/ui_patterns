@@ -4,7 +4,6 @@ namespace Drupal\ui_patterns_legacy\Element;
 
 use Drupal\Core\Render\Element;
 use Drupal\ui_patterns\Element\ComponentElement;
-use Drupal\ui_patterns\TemporaryHelper;
 
 /**
  * Renders a pattern element as a SDC element.
@@ -63,7 +62,7 @@ class Pattern extends ComponentElement {
     $element = self::resolveCompactFormat($element);
     $element["#type"] = "component";
     if (array_key_exists("#id", $element) && is_string($element["#id"])) {
-      $element["#id"] = TemporaryHelper::getNamespacedId($element["#id"]);
+      $element["#id"] = \Drupal::service('plugin.manager.sdc')->getNamespacedId($element["#id"]);
       $element["#component"] = $element["#id"];
       unset($element["#id"]);
     }

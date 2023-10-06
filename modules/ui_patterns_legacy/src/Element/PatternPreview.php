@@ -2,8 +2,6 @@
 
 namespace Drupal\ui_patterns_legacy\Element;
 
-use Drupal\ui_patterns\TemporaryHelper;
-
 /**
  * Renders a pattern preview element.
  *
@@ -39,7 +37,8 @@ class PatternPreview extends Pattern {
    *   Render array.
    */
   public function loadPreviewStory(array $element): array {
-    $component = \Drupal::service('plugin.manager.sdc')->getDefinition($element["#component"]);
+    $manager = \Drupal::service('plugin.manager.sdc');
+    $component = $manager->getDefinition($element["#component"]);
     if (!isset($component["stories"])) {
       return $element;
     }
@@ -51,7 +50,7 @@ class PatternPreview extends Pattern {
     $slots = $story["slots"] ?? [];
     $props = $story["props"] ?? [];
     $slots = array_merge($element["#slots"], $slots);
-    $element["#slots"] = TemporaryHelper::processStoriesSlots($slots);
+    $element["#slots"] = $manager::processStoriesSlots($slots);
     $element["#props"] = array_merge($element["#props"], $props);
     return $element;
   }

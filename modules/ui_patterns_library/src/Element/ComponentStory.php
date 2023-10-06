@@ -3,7 +3,6 @@
 namespace Drupal\ui_patterns_library\Element;
 
 use Drupal\ui_patterns\Element\ComponentElement;
-use Drupal\ui_patterns\TemporaryHelper;
 
 /**
  * Renders a component story.
@@ -34,11 +33,12 @@ class ComponentStory extends ComponentElement {
    *
    */
   public function loadStory(array $element): array {
+    $manager = \Drupal::service('plugin.manager.sdc');
     if (!isset($element["#story"])) {
       return $element;
     }
     $story_id = $element["#story"];
-    $component = \Drupal::service('plugin.manager.sdc')->getDefinition($element["#component"]);
+    $component = $manager->getDefinition($element["#component"]);
     if (!isset($component["stories"])) {
       return $element;
     }
@@ -49,7 +49,7 @@ class ComponentStory extends ComponentElement {
     $slots = $story["slots"] ?? [];
     $props = $story["props"] ?? [];
     $slots = array_merge($element["#slots"], $slots);
-    $element["#slots"] = TemporaryHelper::processStoriesSlots($slots);
+    $element["#slots"] = $manager::processStoriesSlots($slots);
     $element["#props"] = array_merge($element["#props"], $props);
     return $element;
   }
