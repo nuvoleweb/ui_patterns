@@ -13,8 +13,24 @@ use Drupal\ui_patterns\PropTypePluginBase;
  *   description = @Translation("TBD"),
  *   priority = 10,
  *   schema = {
- *     "type": "string",
- *     "format": "iri-reference"
+ *     "anyOf": {
+ *       {
+ *         "type": "string",
+ *         "format": "uri"
+ *       },
+ *       {
+ *         "type": "string",
+ *         "format": "iri"
+ *       },
+ *       {
+ *         "type": "string",
+ *         "format": "uri-reference"
+ *       },
+ *       {
+ *         "type": "string",
+ *         "format": "iri-reference"
+ *       }
+ *     }
  *   }
  * )
  */

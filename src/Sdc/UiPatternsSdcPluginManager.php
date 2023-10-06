@@ -89,8 +89,8 @@ class UiPatternsSdcPluginManager extends ComponentPluginManagerDecorator {
   /**
    * Stories slots have no "#" prefix in render arrays. Let's add them.
    * A bit like UI Patterns 1.x's PatternPreview::getPreviewMarkup()
-   * Do we move this method to ui_patterns_library?
-   * Is it something we want to remove in UI Patterns 2?
+   * This method belongs here because sued by both ui_patterns_library and
+   * ui_patterns_legacy.
    */
   public static function processStoriesSlots(array $slots): array {
     foreach ($slots as $slot_id => $slot) {

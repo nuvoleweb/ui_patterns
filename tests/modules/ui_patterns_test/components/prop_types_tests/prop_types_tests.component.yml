@@ -1,0 +1,62 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: "Prop types tests"
+description: "A card is a flexible and extensible content container. It includes options for headers and footers, a wide variety of content, contextual background colors, and powerful display options."
+props:
+  type: object
+  properties:
+    string:
+      title: "String"
+      type: "string"
+    string_enum:
+      title: "String with enum"
+      type: "string"
+      enum:
+        - top
+        - bottom
+    string_length:
+      title: "String with length"
+      type: "string"
+      maxLength: 10
+    boolean:
+      title: "Boolean"
+      type: "boolean"
+    integer:
+      title: "Integer"
+      type: "integer"
+    number_1:
+      title: "Number"
+      type: "number"
+    number_2:
+      title: "Number with min max"
+      type: "number"
+      minimum: 2
+      maximum: 10
+    attributes:
+      title: "Attributes"
+      type: object
+      patternProperties:
+        ".+":
+          anyOf:
+            - type:
+                - string
+                - number
+            - type: array
+              items:
+                anyOf:
+                  - type: number
+                  - type: string
+    url_1:
+      title: "Url (explicit typing)"
+      $ref: "ui-patterns://url"
+    url_2:
+      title: "Url (implicit typing)"
+      type: "string"
+      format: "iri-reference"
+    url_3:
+      title: "Url (implicit typing, other type)"
+      type: "string"
+      format: "uri"
+    object:
+      title: "Plain object"
+      type: "object"
+slots: {}
