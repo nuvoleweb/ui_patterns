@@ -71,19 +71,18 @@ class UiPatternsSdcPluginManager extends ComponentPluginManagerDecorator {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
-  public function getGroupedDefinitions(): array {
-    $definitions = [];
+  public function getGroupedDefinitions(?array $definitions = NULL): array {
     // @todo use category metadata from ui_patterns_library
     // Do we move this method to ui_patterns_library?
     // Or do we move categories to ui_patterns?
-    foreach ($this->getAllComponents() as $component) {
-      $definitions[] = $component->getPluginDefinition();
+    $definitions = $definitions ?: $this->getDefinitions();
+    $groups = [];
+    foreach ($definitions as $id => $definition) {
+      $category = $definition["category"] ?? "Other";
+      $groups[$category][$id] = $definition;
     }
-    $groups = [
-      "All" => $definitions,
-    ];
     return $groups;
   }
 

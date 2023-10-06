@@ -8,11 +8,18 @@
 {% if groups is not empty %}
   <h2>{{ "Available components"|t }}</h2>
 
-  {# List of available patterns with anchor links. #}
-  {% for group_name, components in groups %}
-    {% if components|length > 1 %}
+  {% if groups|length > 1 %}
+    {% for group_name, components in groups %}
       <h3>{{ group_name }}</h3>
-    {% endif %}
+      <ul>
+        {% for component in components %}
+          <li>
+            <a href="#{{ component.id }}">{{ component.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  {% else %}
     <ul>
       {% for component in components %}
         <li>
@@ -20,7 +27,7 @@
         </li>
       {% endfor %}
     </ul>
-  {% endfor %}
+  {% endif %}
 
   <hr>
 
