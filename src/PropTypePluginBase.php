@@ -17,6 +17,9 @@ abstract class PropTypePluginBase extends PluginBase implements PropTypeInterfac
     return (string) $this->pluginDefinition['label'];
   }
 
+  /**
+   *
+   */
   public function getSchema():array {
     return (array) $this->pluginDefinition['schema'];
   }

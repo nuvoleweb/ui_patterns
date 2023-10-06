@@ -22,4 +22,5 @@ interface PropTypeInterface {
    *   The schema.
    */
   public function getSchema():array;
+
 }

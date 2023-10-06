@@ -10,6 +10,7 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\sdc\Component\ComponentValidator;
 use Drupal\sdc\Component\SchemaCompatibilityChecker;
+use Drupal\sdc\ComponentNegotiator;
 use Drupal\sdc\ComponentPluginManager;
 use Drupal\sdc\Plugin\Component;
 use Drupal\ui_patterns\PropTypePluginManager;
@@ -27,6 +28,9 @@ use Drupal\ui_patterns\PropTypePluginManager;
  */
 abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
 
+  /**
+   *
+   */
   public function __construct(
     protected ComponentPluginManager $parentSdcPluginManager,
     protected PropTypePluginManager $propTypePluginManager,
@@ -35,7 +39,7 @@ abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
     CacheBackendInterface $cacheBackend,
     ConfigFactoryInterface $configFactory,
     ThemeManagerInterface $themeManager,
-    \Drupal\sdc\ComponentNegotiator $componentNegotiator,
+    ComponentNegotiator $componentNegotiator,
     FileSystemInterface $fileSystem,
     SchemaCompatibilityChecker $compatibilityChecker,
     ComponentValidator $componentValidator,
@@ -56,6 +60,9 @@ abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
     $this->setCacheBackend($cacheBackend, $this->getCacheKey());
   }
 
+  /**
+   *
+   */
   public function createInstance($plugin_id, array $configuration = []): Component {
     if (parent::hasDefinition($plugin_id)) {
       return parent::createInstance($plugin_id, $configuration);
@@ -71,7 +78,7 @@ abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
    * @return string
    *   The cache key.
    */
-  protected abstract function getCacheKey();
+  abstract protected function getCacheKey();
 
   /**
    * {@inheritdoc}

@@ -46,7 +46,8 @@ class PropType extends Plugin {
   /**
    * The priority of the PropType.
    *
-   * @var integer
+   * @var int
    */
   public int $priority;
+
 }

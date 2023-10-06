@@ -24,10 +24,11 @@ class UiPatternsSdcPluginManager extends ComponentPluginManagerDecorator {
   protected function alterDefinitions(&$definitions) {
     parent::alterDefinitions($definitions);
     foreach ($definitions as & $definition) {
-      foreach ($definition['props']['properties'] as $prop_id => & $prop)  {
+      foreach ($definition['props']['properties'] as $prop_id => & $prop) {
         $prop_type = $this->propTypePluginManager->getPropType($prop);
         $prop['type_definition'] = $prop_type?->label() ?? 'undefined';
       }
     }
   }
+
 }

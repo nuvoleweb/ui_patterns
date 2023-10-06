@@ -35,6 +35,9 @@ class PropTypePluginManager extends DefaultPluginManager {
     $this->setCacheBackend($cache_backend, 'ui_patterns_prop_type_plugins');
   }
 
+  /**
+   *
+   */
   public function getPropType($prop_schema): ?PropTypeInterface {
     $definition = $this->getPropTypeDefinition($prop_schema);
     if ($definition !== NULL) {
@@ -42,24 +45,33 @@ class PropTypePluginManager extends DefaultPluginManager {
     }
   }
 
+  /**
+   *
+   */
   public function getSortedDefinitions() {
     $definitions = $this->getDefinitions();
-    usort($definitions, function($a, $b) {
+    usort($definitions, function ($a, $b) {
       return $a['priority'] ?? 1 > $b['priority'] ?? 1;
-    } );
+    });
     return $definitions;
   }
-  public function getPropTypeDefinition($prop_schema): ?array  {
+
+  /**
+   *
+   */
+  public function getPropTypeDefinition($prop_schema): ?array {
     $definitions = $this->getSortedDefinitions();
     foreach ($definitions as $definition) {
       $annotation_schema['properties'][$definition['id']] = $definition['schema'];
       $mapped_prop_schema['properties'][$definition['id']] = $prop_schema;
       try {
-        $this->compatibilityChecker->isCompatible( $mapped_prop_schema, $annotation_schema);
+        $this->compatibilityChecker->isCompatible($mapped_prop_schema, $annotation_schema);
         return $definition;
-      } catch (IncompatibleComponentSchema $exception) {
+      }
+      catch (IncompatibleComponentSchema $exception) {
         // Do nothing.
       }
     }
   }
+
 }
