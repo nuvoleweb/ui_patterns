@@ -9,6 +9,7 @@ use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\Core\Render\ElementInfoManagerInterface;
+use Drupal\ui_patterns\Form\UiPatternsFormBuilderTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,6 +18,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @package Drupal\ui_patterns_layouts\Plugin\Layout
  */
 class PatternLayout extends LayoutDefault implements PluginFormInterface, ContainerFactoryPluginInterface {
+
+  use UiPatternsFormBuilderTrait;
 
   /**
    * Module Handler.
@@ -104,7 +107,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = [];
     $configuration = $this->getConfiguration();
-    $form['pattern'] = [
+    $form['component_metadata'] = [
       '#group' => 'additional_settings',
       '#type' => 'container',
       '#title' => $this->t('Configuration'),
@@ -115,6 +118,8 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
     $plugin_manager = \Drupal::service('plugin.manager.sdc');
     /** @var \Drupal\sdc\Component\ComponentMetadata[] $components */
     $component_metadata = $plugin_manager->find($component_id)?->metadata;
+    $context = ['form_type' => 'layout', 'form' => $form, 'layout' => $this];
+    $form['component_metadata']['form'] = $this->buildComponentForm($form_state, $component_metadata, $context);
     $this->moduleHandler->alter('ui_patterns_layouts_display_configuration_form', $form['pattern'], $component_metadata, $configuration);
     return $form;
   }

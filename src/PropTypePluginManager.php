@@ -38,8 +38,8 @@ class PropTypePluginManager extends DefaultPluginManager {
   /**
    *
    */
-  public function getPropType(string $prop_id, array $prop_schema): ?PropTypeInterface {
-    $definition = $this->getPropTypeDefinition($prop_id, $prop_schema);
+  public function getPropType(array $prop_schema): ?PropTypeInterface {
+    $definition = $this->getPropTypeDefinition($prop_schema);
     if ($definition !== NULL) {
       return $this->createInstance($definition['id'], []);
     }
@@ -60,7 +60,7 @@ class PropTypePluginManager extends DefaultPluginManager {
   /**
    *
    */
-  public function getPropTypeDefinition(string $prop_id, array $prop_schema): ?array {
+  public function getPropTypeDefinition(array $prop_schema): ?array {
     if (isset($prop_schema['$ref']) && str_contains($prop_schema['$ref'], "ui-patterns://")) {
       $prop_type_id = str_replace("ui-patterns://", "", $prop_schema['$ref']);
       return $this->getDefinition($prop_type_id);
