@@ -1,0 +1,195 @@
+# String prop type
+- label: "String prop type"
+  schema:
+    type: string
+  tests:
+    - label: "String"
+      schema:
+        type: string
+      result: true
+    - label: "String with a format"
+      schema:
+        type: string
+        format: whatever
+      result: true
+    - label: "String with max length"
+      schema:
+        type: string
+        maxLength: 10
+      result: true
+
+# Other string tests
+- label: "String with max length"
+  schema:
+    type: string
+    maxLength: 10
+  tests:
+    - label: "No length"
+      schema:
+        type: string
+      result: false
+    - label: "Same max length"
+      schema:
+        type: string
+        maxLength: 10
+      result: true
+    - label: "Smaller max length"
+      schema:
+        type: string
+        maxLength: 5
+      result: true
+    - label: "Larger max length"
+      schema:
+        type: string
+        maxLength: 20
+      result: false
+- label: "String with min length"
+  schema:
+    type: string
+    minLength: 10
+  tests:
+    - label: "No length"
+      schema:
+        type: string
+      result: false
+    - label: "Same min length"
+      schema:
+        type: string
+        minLength: 10
+      result: true
+    - label: "Smaller min length"
+      schema:
+        type: string
+        minLength: 5
+      result: false
+    - label: "Larger min length"
+      schema:
+        type: string
+        minLength: 20
+      result: true
+
+# Enum
+- label: "Enum"
+  schema:
+    type: string
+    enum:
+      - foo
+      - bar
+  tests:
+    - label: "Same enum"
+      schema:
+        type: string
+        enum:
+          - foo
+          - bar
+      result: true
+    - label: "Enum with addition"
+      schema:
+        type: string
+        enum:
+          - foo
+          - bar
+          - baz
+      result: false
+    - label: "Enum with removal"
+      schema:
+        type: string
+        enum:
+          - foo
+      result: true
+
+# Number prop type
+- label: "Number prop type"
+  schema:
+    type: number
+  tests:
+    - label: "Number"
+      schema:
+        type: number
+      result: true
+    - label: "Integer"
+      schema:
+        type: integer
+      result: true
+
+# Url prop type
+- label: "URL prop type"
+  schema:
+    type: string
+    format: iri-reference
+  tests:
+    - label: "IRI Reference"
+      schema:
+        type: string
+        format: iri-reference
+      result: true
+    - label: "URI reference"
+      schema:
+        type: string
+        format: uri-reference
+      result: true
+    - label: "IRI"
+      schema:
+        type: string
+        format: iri
+      result: true
+    - label: "URI"
+      schema:
+        type: string
+        format: uri
+      result: true
+
+# Color prop type
+- label: "Color prop type"
+  schema:
+    type: string
+    pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+  tests:
+    - label: "Color (6 or 3 hex)"
+      schema:
+        type: string
+        pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+      result: true
+    - label: "Color (6)"
+      schema:
+        type: string
+        pattern: "^#([A-Fa-f0-9]{6})$"
+      result: true
+    - label: "Color (3)"
+      schema:
+        type: string
+        pattern: "^#([A-Fa-f0-9]{3})$"
+      result: true
+
+# Links prop type
+- label: "Links prop type"
+  schema:
+    type: array
+    items:
+      type: object
+      properties:
+        title: { type: string }
+        attributes: { $ref: "ui-patterns://attributes" }
+        below: { $ref: "ui-patterns://links" }
+  tests:
+    - label: "Links"
+      schema:
+        type: array
+        items:
+          type: object
+          properties:
+            title: { type: string }
+            attributes: { $ref: "ui-patterns://attributes" }
+            below: { $ref: "ui-patterns://links" }
+      result: true
+    - label: "Links with extra property on"
+      schema:
+        type: array
+        items:
+          type: object
+          properties:
+            title: { type: string }
+            attributes: { $ref: "ui-patterns://attributes" }
+            below: { $ref: "ui-patterns://links" }
+            extra: { type: string }
+      result: true

@@ -5,19 +5,19 @@ namespace Drupal\ui_patterns\Plugin\UiPatterns\PropType;
 use Drupal\ui_patterns\PropTypePluginBase;
 
 /**
- * Provides a 'Url' PropType.
+ * Provides a 'Color' PropType.
  *
  * @PropType(
- *   id = "url",
- *   label = @Translation("Url"),
+ *   id = "color",
+ *   label = @Translation("Color"),
  *   description = @Translation("TBD"),
  *   priority = 10,
  *   schema = {
  *     "type": "string",
- *     "format": "iri-reference"
+ *     "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
  *   }
  * )
  */
-class UrlPropType extends PropTypePluginBase {
+class ColorPropType extends PropTypePluginBase {
 
 }
