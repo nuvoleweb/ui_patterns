@@ -49,13 +49,55 @@ props:
       title: "Url (explicit typing)"
       $ref: "ui-patterns://url"
     url_2:
-      title: "Url (implicit typing)"
+      title: "Url (implicit typing, exact type)"
       type: "string"
       format: "iri-reference"
     url_3:
       title: "Url (implicit typing, other type)"
+      description: Test format comaptibility
       type: "string"
       format: "uri"
+    color:
+      title: "Color RGB (6 or 3 hex)"
+      type: "string"
+      pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    color_6:
+      title: "Color RGB (6 hex)"
+      description: Test Regexp comaptibility API
+      type: "string"
+      pattern: "^#[A-Fa-f0-9]{6}$"
+    color_3:
+      title: "Color RGB (3 hex)"
+      description: Test Regexp comaptibility API
+      type: "string"
+      pattern: "^#[A-Fa-f0-9]{3}$"
     object:
-      title: "Plain object"
+      title: "Undefined (Empty object)"
       type: "object"
+    array:
+      title: "Empty array"
+      type: "array"
+    links:
+      title: "Links"
+      type: array
+      items:
+        type: object
+        properties:
+          title: {type: string}
+          attributes: { $ref: "ui-patterns://attributes" }
+          below: { $ref: "ui-patterns://links" }
+    links_2:
+      title: "Links with extra property"
+      type: array
+      items:
+        type: object
+        properties:
+          title: {type: string}
+          attributes: { $ref: "ui-patterns://attributes" }
+          below: { $ref: "ui-patterns://links" }
+          extra: { type: string  }
+    machine_name:
+      title: "Machine name"
+      type: string
+      pattern: '^[A-Za-z]+[\w-]*$'
+slots: {}

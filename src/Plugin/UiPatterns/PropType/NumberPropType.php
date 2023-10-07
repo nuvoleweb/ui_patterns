@@ -5,18 +5,18 @@ namespace Drupal\ui_patterns\Plugin\UiPatterns\PropType;
 use Drupal\ui_patterns\PropTypePluginBase;
 
 /**
- * Provides a 'integer' PropType.
+ * Provides a 'number' PropType.
  *
  * @PropType(
- *   id = "integer",
- *   label = @Translation("Integer"),
+ *   id = "number",
+ *   label = @Translation("Number"),
  *   description = @Translation("TBD"),
  *   priority = 1,
  *   schema = {
- *     "type": "integer"
+ *     "type": {"number", "integer"}
  *   }
  * )
  */
-class IntegerPropType extends PropTypePluginBase {
+class NumberPropType extends PropTypePluginBase {
 
 }

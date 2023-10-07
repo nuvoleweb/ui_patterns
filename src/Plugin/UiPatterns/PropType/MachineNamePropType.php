@@ -5,19 +5,19 @@ namespace Drupal\ui_patterns\Plugin\UiPatterns\PropType;
 use Drupal\ui_patterns\PropTypePluginBase;
 
 /**
- * Provides a 'Url' PropType.
+ * Provides a 'Machine name' PropType.
  *
  * @PropType(
- *   id = "url",
- *   label = @Translation("Url"),
+ *   id = "machine_name",
+ *   label = @Translation("Machine name"),
  *   description = @Translation("TBD"),
  *   priority = 10,
  *   schema = {
  *     "type": "string",
- *     "format": "iri-reference"
+ *     "pattern": "^[A-Za-z]+[\w-]*$"
  *   }
  * )
  */
-class UrlPropType extends PropTypePluginBase {
+class MachineNamePropType extends PropTypePluginBase {
 
 }
