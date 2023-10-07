@@ -61,6 +61,10 @@ class PropTypePluginManager extends DefaultPluginManager {
    *
    */
   public function getPropTypeDefinition(array $prop_schema): ?array {
+    if (isset($prop_schema['$ref']) && str_contains($prop_schema['$ref'], "ui-patterns://")) {
+      $prop_type_id = str_replace("ui-patterns://", "", $prop_schema['$ref']);
+      return $this->getDefinition($prop_type_id);
+    }
     $definitions = $this->getSortedDefinitions();
     foreach ($definitions as $definition) {
       $compatibilityChecker = new SchemaCompatibilityChecker();
