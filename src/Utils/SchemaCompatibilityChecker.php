@@ -29,10 +29,10 @@ class SchemaCompatibilityChecker {
       return TRUE;
     }
     if (isset($checked_schema["type"]) && isset($reference_schema["type"])) {
-      return $this->isTypeCompatible($schema, $reference_schema);
+      return $this->isTypeCompatible($checked_schema, $reference_schema);
     }
     if (isset($checked_schema["anyOf"]) || isset($reference_schema["anyOf"])) {
-      return $this->isAnyOfCompatible($schema, $reference_schema);
+      return $this->isAnyOfCompatible($checked_schema, $reference_schema);
     }
     return FALSE;
   }
@@ -54,7 +54,10 @@ class SchemaCompatibilityChecker {
       return FALSE;
     }
     if ($checked_schema["type"] !== $reference_schema["type"]) {
-      return FALSE;
+      // Integers are numbers.
+      if (!($checked_schema["type"] === "integer" && $reference_schema["type"] === "number")) {
+        return FALSE;
+      }
     }
     // Now we know $checked_schema and $reference_schema have the same type.
     // So, testing $checked_schema type is enough.
@@ -99,9 +102,9 @@ class SchemaCompatibilityChecker {
       // @todo
     }
     if (isset($checked_schema["patternProperties"]) && isset($reference_schema["patternProperties"])) {
-      ksm(array_diff_key($checked_schema["patternProperties"], $reference_schema["patternProperties"]));
+      // @todo
     }
-    return FALSE;
+    return TRUE;
   }
 
   /**
@@ -114,52 +117,72 @@ class SchemaCompatibilityChecker {
         return FALSE;
       }
     }
+    // FALSE if at least one of those tests is FALSE.
     // @todo https://json-schema.org/understanding-json-schema/reference/array#contains
     // @todo https://json-schema.org/understanding-json-schema/reference/array#mincontains-maxcontains
-    // @tood: https://json-schema.org/understanding-json-schema/reference/array#length
+    // @todo https://json-schema.org/understanding-json-schema/reference/array#length
     // @todo https://json-schema.org/understanding-json-schema/reference/array#uniqueness
-    // @todo recursive
-    return FALSE;
+    return TRUE;
   }
 
   /**
    * Check if different numbers are compatible.
    */
   protected function isNumberCompatible(array $checked_schema, array $reference_schema): bool {
-    // @todo integer are number
+    // FALSE if at least one of those tests is FALSE.
+    if (isset($reference_schema["enum"])) {
+      if (!$this->isEnumCompatible($checked_schema, $reference_schema)) {
+        return FALSE;
+      }
+    }
     // @todo https://json-schema.org/understanding-json-schema/reference/numeric#multiples
     // @todo https://json-schema.org/understanding-json-schema/reference/numeric#range
-    return FALSE;
+    return TRUE;
   }
 
   /**
    * Check if different strings are compatible.
    */
   protected function isStringCompatible(array $checked_schema, array $reference_schema): bool {
-    // @todo https://json-schema.org/understanding-json-schema/reference/string#length
-    if (isset($checked_schema["pattern"]) && isset($reference_schema["pattern"])) {
-      return $this->isStringPatternCompatible($checked_schema, $reference_schema);
+    // FALSE if at least one of those tests is FALSE.
+    if (isset($reference_schema["pattern"])) {
+      if (!$this->isStringPatternCompatible($checked_schema, $reference_schema)) {
+        return FALSE;
+      }
     }
-    if (isset($checked_schema["format"]) && isset($reference_schema["format"])) {
-      return $this->isStringFormatCompatible($checked_schema, $reference_schema);
+    if (isset($reference_schema["format"])) {
+      if (!$this->isStringFormatCompatible($checked_schema, $reference_schema)) {
+        return FALSE;
+      }
     }
-    if (!isset($checked_schema["format"]) && isset($reference_schema["format"])) {
-      return FALSE;
+    if (isset($reference_schema["enum"])) {
+      if (!$this->isEnumCompatible($checked_schema, $reference_schema)) {
+        return FALSE;
+      }
     }
-    if (isset($checked_schema["format"]) && !isset($reference_schema["format"])) {
-      // A string with format is still a string.
-      return TRUE;
+    if (isset($reference_schema["minLength"])) {
+      if (!$this->isMinLengthCompatible($checked_schema, $reference_schema)) {
+        return FALSE;
+      }
     }
-    return FALSE;
+    if (isset($reference_schema["maxLength"])) {
+      if (!$this->isMaxLengthCompatible($checked_schema, $reference_schema)) {
+        return FALSE;
+      }
+    }
+    return TRUE;
   }
 
   /**
    * See: https://json-schema.org/understanding-json-schema/reference/string#regexp.
    */
   protected function isStringPatternCompatible(array $checked_schema, array $reference_schema): bool {
+    if (!isset($checked_schema["pattern"])) {
+      return FALSE;
+    }
     $checked_pattern = ltrim($checked_schema["pattern"], "^");
     $checked_pattern = rtrim($checked_schema["pattern"], "$");
-    // $reference_pattern = str_replace(["(", ")", ",
+    // @todo $reference_pattern = str_replace(["(", ")", ",
     if (str_contains($reference_schema["pattern"], $checked_pattern)) {
       return TRUE;
     }
@@ -170,6 +193,9 @@ class SchemaCompatibilityChecker {
    * See: https://json-schema.org/understanding-json-schema/reference/string#format.
    */
   protected function isStringFormatCompatible(array $checked_schema, array $reference_schema): bool {
+    if (!isset($checked_schema["format"])) {
+      return FALSE;
+    }
     $checked_format = $checked_schema["format"];
     $reference_format = $reference_schema["format"];
     if ($checked_format == $reference_format) {
@@ -194,11 +220,40 @@ class SchemaCompatibilityChecker {
       ],
       // @todo add others formats.
     ];
-    foreach ($compatibility_map as $checked_key => $comaptible_value) {
-      if ($this->isStringFormatCompatible(["format" => $checked_format], ["format" => $reference_format])) {
-        return TRUE;
-      }
+    if (array_key_exists($checked_format, $compatibility_map)) {
+      return in_array($reference_format, $compatibility_map[$checked_format]);
     }
+    return FALSE;
+  }
+
+  /**
+   *
+   */
+  protected function isMinLengthCompatible(array $checked_schema, array $reference_schema): bool {
+    if (!isset($checked_schema["minLength"])) {
+      return FALSE;
+    }
+    return ($checked_schema["minLength"] >= $reference_schema["minLength"]);
+  }
+
+  /**
+   *
+   */
+  protected function isMaxLengthCompatible(array $checked_schema, array $reference_schema): bool {
+    if (!isset($checked_schema["maxLength"])) {
+      return FALSE;
+    }
+    return ($checked_schema["maxLength"] <= $reference_schema["maxLength"]);
+  }
+
+  /**
+   *
+   */
+  protected function isEnumCompatible(array $checked_schema, array $reference_schema): bool {
+    if (!isset($checked_schema["enum"])) {
+      return FALSE;
+    }
+    // @todo
     return FALSE;
   }
 
