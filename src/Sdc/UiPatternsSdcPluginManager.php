@@ -23,13 +23,6 @@ class UiPatternsSdcPluginManager extends ComponentPluginManagerDecorator {
    */
   protected function alterDefinitions(&$definitions) {
     parent::alterDefinitions($definitions);
-    $definitions = $this->addPropTypes($definitions);
-  }
-
-  /**
-   *
-   */
-  protected function addPropTypes($definitions) {
     foreach ($definitions as $component_id => $definition) {
       if (!isset($definition['props'])) {
         continue;
@@ -38,13 +31,14 @@ class UiPatternsSdcPluginManager extends ComponentPluginManagerDecorator {
         continue;
       }
       foreach ($definition['props']['properties'] as $prop_id => $prop) {
-        $prop_type = $this->propTypePluginManager->getPropType($prop_id, $prop);
-        $prop['type_definition'] = $prop_type?->label() ?? 'undefined';
+        $prop_type = $this->propTypePluginManager->getPropType($prop);
+        $source_providers = $this->sourcePluginManager->getSourceProviders($prop_type);
+        $prop['ui_patterns']['type_definition'] = $prop_type;
+        $prop['ui_patterns']['source_providers'] = $source_providers;
         $definition['props']['properties'][$prop_id] = $prop;
       }
       $definitions[$component_id] = $definition;
     }
-    return $definitions;
   }
 
   /**

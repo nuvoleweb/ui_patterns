@@ -145,7 +145,10 @@ class SchemaCompatibilityChecker {
    *
    */
   protected function canonicalize(array $schema): array {
-    $schema = $this->removeUselessProperties($schema);
+    //$schema = $this->removeUselessProperties($schema);
+    if (!isset($schema["type"])) {
+      return $schema;
+    }
     if ($schema["type"] === "object" && isset($schema["properties"])) {
       foreach ($schema["properties"] as $property_id => $property) {
         $schema["properties"][$property_id] = $this->canonicalize($property);

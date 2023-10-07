@@ -59,4 +59,3 @@ props:
     object:
       title: "Plain object"
       type: "object"
-slots: {}

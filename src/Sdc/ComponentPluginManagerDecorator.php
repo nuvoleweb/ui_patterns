@@ -14,6 +14,7 @@ use Drupal\sdc\ComponentNegotiator;
 use Drupal\sdc\ComponentPluginManager;
 use Drupal\sdc\Plugin\Component;
 use Drupal\ui_patterns\PropTypePluginManager;
+use Drupal\ui_patterns\SourceProviderPluginManager;
 
 /**
  * Plugin Manager for *.ui_patterns.yml configuration files.
@@ -34,6 +35,7 @@ abstract class ComponentPluginManagerDecorator extends ComponentPluginManager {
   public function __construct(
     protected ComponentPluginManager $parentSdcPluginManager,
     protected PropTypePluginManager $propTypePluginManager,
+    protected SourceProviderPluginManager $sourcePluginManager,
     ModuleHandlerInterface $module_handler,
     ThemeHandlerInterface $themeHandler,
     CacheBackendInterface $cacheBackend,
