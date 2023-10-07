@@ -27,11 +27,7 @@ final class TextfieldWidget extends SourcePluginBase {
     array $form,
     FormStateInterface $form_state
   ) {
-    return parent::buildConfigurationForm(
-      $form,
-      $form_state
-    );
-    $form[$this->propId] = ['#type' => 'textfield', '#title' => $this->propDefinition['title']];
+    return ['#type' => 'textfield', '#title' => $this->propDefinition['title'], '#default_value' => $this->configuration['form_value']];
   }
 
   public function defaultConfiguration() {

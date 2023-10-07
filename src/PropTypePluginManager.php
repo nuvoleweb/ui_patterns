@@ -2,6 +2,7 @@
 
 namespace Drupal\ui_patterns;
 
+use Drupal\Component\Plugin\FallbackPluginManagerInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
@@ -10,7 +11,7 @@ use Drupal\ui_patterns\Utils\SchemaCompatibilityChecker;
 /**
  * PropType plugin manager.
  */
-class PropTypePluginManager extends DefaultPluginManager {
+class PropTypePluginManager extends DefaultPluginManager implements FallbackPluginManagerInterface {
 
   /**
    * Constructs PropTypePluginManager object.
@@ -43,7 +44,7 @@ class PropTypePluginManager extends DefaultPluginManager {
     if ($definition !== NULL) {
       return $this->createInstance($definition['id'], []);
     }
-    return NULL;
+    return $this->createInstance('unknown_prop_type', []);
   }
 
   /**
@@ -75,4 +76,7 @@ class PropTypePluginManager extends DefaultPluginManager {
     return NULL;
   }
 
+  public function getFallbackPluginId($plugin_id, array $configuration = []) {
+    return 'unknown_prop_type';
+  }
 }

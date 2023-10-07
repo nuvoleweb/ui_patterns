@@ -4,6 +4,7 @@ namespace Drupal\ui_patterns_layouts\Plugin\Layout;
 
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Form\SubformState;
 use Drupal\Core\Layout\LayoutDefault;
 use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -107,7 +108,7 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = [];
     $configuration = $this->getConfiguration();
-    $form['component_metadata'] = [
+    $form['ui_patterns'] = [
       '#group' => 'additional_settings',
       '#type' => 'container',
       '#title' => $this->t('Configuration'),
@@ -118,9 +119,9 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
     $plugin_manager = \Drupal::service('plugin.manager.sdc');
     /** @var \Drupal\sdc\Component\ComponentMetadata[] $components */
     $component_metadata = $plugin_manager->find($component_id)?->metadata;
-    $context = ['form_type' => 'layout', 'form' => $form, 'layout' => $this];
-    $form['component_metadata']['form'] = $this->buildComponentForm($form_state, $component_metadata, $context);
-    $this->moduleHandler->alter('ui_patterns_layouts_display_configuration_form', $form['pattern'], $component_metadata, $configuration);
+    $context = ['form_type' => 'layout', 'form' => $form, 'layout' => $this, 'form_values' => $this->configuration['ui_patterns'] ?? []];
+    $form['ui_patterns'] = $this->buildComponentForm($form_state, $component_metadata, $context);
+    $this->moduleHandler->alter('ui_patterns_layouts_display_configuration_form', $form['ui_patterns'], $component_metadata, $configuration);
     return $form;
   }
 
@@ -134,7 +135,8 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
    * {@inheritdoc}
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
-    $this->configuration = $form_state->getValues();
+    $sub_form_values = $this->submitComponentForm($form, $form_state, []);
+    $this->configuration['ui_patterns'] = $sub_form_values;
+    parent::submitConfigurationForm($form, $form_state);
   }
-
 }

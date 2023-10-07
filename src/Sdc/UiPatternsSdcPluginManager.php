@@ -32,7 +32,7 @@ class UiPatternsSdcPluginManager extends ComponentPluginManagerDecorator {
       }
       foreach ($definition['props']['properties'] as $prop_id => $prop) {
         $prop_type = $this->propTypePluginManager->getPropTypePlugin($prop);
-        $sources = $this->sourcePluginManager->getSources($prop_type);
+        $sources = $this->sourcePluginManager->getSourcePlugins($prop_type->getPluginId(), $prop_id, $prop);
         $prop['ui_patterns']['type_definition'] = $prop_type;
         $prop['ui_patterns']['source'] = $sources;
         $definition['props']['properties'][$prop_id] = $prop;
