@@ -38,7 +38,7 @@ class PropTypePluginManager extends DefaultPluginManager {
   /**
    *
    */
-  public function getPropType(array $prop_schema): ?PropTypeInterface {
+  public function getPropTypePlugin(array $prop_schema): ?PropTypeInterface {
     $definition = $this->getPropTypeDefinition($prop_schema);
     if ($definition !== NULL) {
       return $this->createInstance($definition['id'], []);
@@ -65,7 +65,7 @@ class PropTypePluginManager extends DefaultPluginManager {
       $prop_type_id = str_replace("ui-patterns://", "", $prop_schema['$ref']);
       return $this->getDefinition($prop_type_id);
     }
-    $definitions = $this->getSortedDefinitions();
+    $definitions = $this->getDefinitions();
     foreach ($definitions as $definition) {
       $compatibilityChecker = new SchemaCompatibilityChecker();
       if ($compatibilityChecker->isCompatible($definition['schema'], $prop_schema)) {

@@ -3,6 +3,7 @@
 namespace Drupal\Tests\ui_patterns\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\ui_patterns\Plugin\UiPatterns\PropType\StringPropType;
 
 /**
  * Test description.
@@ -26,15 +27,11 @@ final class PropTypePluginManagerTest extends KernelTestBase {
   /**
    * Test callback.
    */
-  public function testGetPropTypeDefinition(): void {
-    /** @var \Drupal\sdc\ComponentPluginManager $sdc_plugin_manager */
-    $sdc_plugin_manager = \Drupal::service('plugin.manager.sdc');
-    $component_metadata = $sdc_plugin_manager->find('ui_patterns_test:alert');
-    self::assertNotNull($component_metadata);
-    /** @var \Drupal\ui_patterns\SourceProviderPluginManager $source_provider_plugin_manager */
-    $source_provider_plugin_manager = \Drupal::service('plugin.manager.ui_patterns_source_provider');
-    $source_providers = $source_provider_plugin_manager->getSourceProviders('');
-    self::assertCount(3, count($source_providers));
+  public function testGetPropTypePlugin(): void {
+    /** @var \Drupal\ui_patterns\PropTypePluginManager $prop_type_plugin_manager */
+    $prop_type_plugin_manager = \Drupal::service('plugin.manager.ui_patterns_prop_type');
+    $plugin_type = $prop_type_plugin_manager->getPropTypePlugin(['type' => 'string']);
+    self::assertInstanceOf(StringPropType::class, $plugin_type);
   }
 
 }

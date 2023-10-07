@@ -9,7 +9,7 @@ use Drupal\Component\Annotation\Plugin;
  *
  * @Annotation
  */
-final class SourceProvider extends Plugin {
+final class Source extends Plugin {
 
   /**
    * The plugin ID.
@@ -29,5 +29,13 @@ final class SourceProvider extends Plugin {
    * @ingroup plugin_translatable
    */
   public readonly string $description;
+
+  /**
+   * An array of prop types the source provider supports.
+   *
+   * @var array
+   */
+  public $prop_types = [];
+
 
 }
