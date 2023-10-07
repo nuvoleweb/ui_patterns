@@ -2,8 +2,8 @@ services:
   plugin.manager.ui_patterns_prop_type:
     class: Drupal\ui_patterns\PropTypePluginManager
     arguments: [ '@container.namespaces', '@cache.discovery', '@module_handler',  '@Drupal\sdc\Component\SchemaCompatibilityChecker' ]
-  plugin.manager.ui_patterns_source_provider:
-    class: Drupal\ui_patterns\SourceProviderPluginManager
+  plugin.manager.ui_patterns_source:
+    class: Drupal\ui_patterns\SourcePluginManager
     parent: default_plugin_manager
   ui_patterns.twig.extension:
     class: Drupal\ui_patterns\Template\TwigExtension
@@ -17,7 +17,7 @@ services:
     arguments:
       - '@ui_patterns.plugin.manager.sdc.inner'
       - '@plugin.manager.ui_patterns_prop_type'
-      - '@plugin.manager.ui_patterns_source_provider'
+      - '@plugin.manager.ui_patterns_source'
       - '@module_handler'
       - '@theme_handler'
       - '@cache.discovery'

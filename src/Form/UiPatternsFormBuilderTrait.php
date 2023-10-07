@@ -13,9 +13,9 @@ trait UiPatternsFormBuilderTrait {
    *   The pattern definition.
    */
   protected function buildComponentForm(FormStateInterface $form_state, ComponentMetadata $component, array $context):array {
-    /** @var \Drupal\ui_patterns\SourceProviderPluginManager $source_provider_manager */
-    $source_provider_manager = \Drupal::service('plugin.manager.ui_patterns_source_provider');
-    $source_providers = $source_provider_manager->getSourceProviders($component);
+    /** @var \Drupal\ui_patterns\SourcePluginManager $source_provider_manager */
+    $source_manager = \Drupal::service('plugin.manager.ui_patterns_source');
+    $sources = $source_manager->getSources($component);
     return ['#type' => 'textfield', '#title' => 'Dummy'];
   }
 

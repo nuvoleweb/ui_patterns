@@ -31,7 +31,7 @@ final class SchemaCompatibilityCheckerTest extends UnitTestCase {
 
   public function provideIsCompatibleData() {
     return [
-      [['schema'], ['schema'], true]
+      [['type' => 'string'], ['type' => 'string'], true]
     ];
   }
 
