@@ -2,6 +2,7 @@
 namespace Drupal\ui_patterns\Form;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Form\SubformState;
 use Drupal\sdc\Component\ComponentMetadata;
 
 trait UiPatternsFormBuilderTrait {
@@ -12,11 +13,39 @@ trait UiPatternsFormBuilderTrait {
    * @param Drupal\sdc\Component\ComponentMetadata $component
    *   The pattern definition.
    */
-  protected function buildComponentForm(FormStateInterface $form_state, ComponentMetadata $component, array $context):array {
-    /** @var \Drupal\ui_patterns\SourcePluginManager $source_provider_manager */
-    $source_manager = \Drupal::service('plugin.manager.ui_patterns_source');
-    $sources = $source_manager->getSources($component);
-    return ['#type' => 'textfield', '#title' => 'Dummy'];
+  protected function buildComponentForm(FormStateInterface $form_state, ComponentMetadata $component_metadata, array $context):array {
+    $sub_sources_form_value = $context['form_values'];
+    $form = [];
+    $sub_sources = [];
+    foreach ($component_metadata->schema['properties'] as $prop_id => $prop) {
+      $sources = $prop['ui_patterns']['source'];
+      if (count($sources) > 0 ) {
+        /** @var \Drupal\ui_patterns\SourcePluginBase $default_source */
+        $default_source = current($sources);
+        $configuration = $default_source->getConfiguration();
+        if (isset($sub_sources_form_value[$prop_id])) {
+          $configuration['form_value'] = $sub_sources_form_value[$prop_id];
+          $default_source->setConfiguration($configuration);
+        }
+        $form[$prop_id] = $default_source->buildConfigurationForm($form, $form_state);
+        $sub_sources[$prop_id] = $default_source;
+      }
+    }
+    if (!$form_state->has('sub_sources')) {
+      $form_state->set('sub_sources', $sub_sources);
+    }
+    return $form;
+  }
+
+  protected function submitComponentForm($form, FormStateInterface $form_state, array $context):array {
+
+    $sub_sources = $form_state->get('sub_sources');
+    $sub_values = [];
+    foreach ($sub_sources as $prop_id => $sub_source) {
+      $sub_source->submitConfigurationForm($form['ui_patterns'][$prop_id], $form_state);
+      $sub_values[$prop_id] = $sub_source->getConfiguration()['form_value'];
+    }
+    return $sub_values;
   }
 
   /**

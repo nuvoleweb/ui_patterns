@@ -49,10 +49,10 @@ abstract class SourcePluginBase extends PluginBase implements SourceInterface {
     array &$form,
     FormStateInterface $form_state
   ) {
-    $values = $form_state->getValues();
-    foreach ($values as $key => $value) {
-      $this->configuration[$key] = $value;
-    }
+    $parents = $form['#parents'];
+    unset($parents[0]);
+    $value = $form_state->getValue($parents);
+    $this->configuration['form_value'] = $value;
   }
 
   public function getConfiguration() {
