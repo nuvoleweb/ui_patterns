@@ -2,6 +2,11 @@
 
 namespace Drupal\ui_patterns\Utils;
 
+use ReverseRegex\Generator\Scope;
+use ReverseRegex\Lexer;
+use ReverseRegex\Parser;
+use ReverseRegex\Random\SimpleRandom;
+
 /**
  * Checks whether two schemas are compatible.
  *
@@ -207,8 +212,25 @@ class SchemaCompatibilityChecker {
     if (!array_key_exists("pattern", $checked_schema)) {
       return FALSE;
     }
-    // @todo Is checked schema pattern and sub pattern of reference schema?
-    return FALSE;
+    // Is checked schema pattern and sub pattern of reference schema?
+    $example = $this->generateExampleFromPattern($checked_schema["pattern"]);
+    $result = preg_match("/" . $reference_schema["pattern"] . "/", $example);
+    if ($result !== 1) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+
+  /**
+   *
+   */
+  protected function generateExampleFromPattern(string $pattern): string {
+    $lexer = new Lexer($pattern);
+    $gen = new SimpleRandom(10007);
+    $result = '';
+    $parser = new Parser($lexer, new Scope(), new Scope());
+    $parser->parse()->getResult()->generate($result, $gen);
+    return $result;
   }
 
   /**

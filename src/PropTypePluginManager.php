@@ -67,8 +67,8 @@ class PropTypePluginManager extends DefaultPluginManager implements FallbackPlug
       return $this->getDefinition($prop_type_id);
     }
     $definitions = $this->getSortedDefinitions();
+    $compatibilityChecker = new SchemaCompatibilityChecker();
     foreach ($definitions as $definition) {
-      $compatibilityChecker = new SchemaCompatibilityChecker();
       if ($compatibilityChecker->isCompatible($prop_schema, $definition['schema'])) {
         return $definition;
       }

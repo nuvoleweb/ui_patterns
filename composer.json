@@ -4,6 +4,7 @@
   "license": "GPL-2.0-or-later",
   "type": "drupal-module",
   "require": {
-    "drupal/token": "^1.0"
+    "drupal/token": "^1.0",
+    "ilario-pierbattista/reverse-regex": "0.3.*"
   }
 }
