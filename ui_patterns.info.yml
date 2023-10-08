@@ -1,7 +1,7 @@
-name: 'UI Patterns'
+name: "UI Patterns"
 type: module
-description: 'UI patterns.'
+description: "Define and expose self-contained UI Components as Drupal plugins and use them seamlessly in Drupal development and site-building."
 core_version_requirement: ^10
-package: 'User interface'
+package: "User interface"
 dependencies:
   - drupal:sdc

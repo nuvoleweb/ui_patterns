@@ -1,7 +1,7 @@
-name: 'UI Patterns Legacy'
+name: "UI Patterns Legacy"
 type: module
-description: 'Discovery of UI Patterns 1.x components.'
+description: "Compatibility layer for UI Patterns 1.x components."
 core_version_requirement: ^10
-package: 'User interface'
+package: "User interface"
 dependencies:
   - ui_patterns:ui_patterns
