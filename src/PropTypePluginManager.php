@@ -66,10 +66,10 @@ class PropTypePluginManager extends DefaultPluginManager implements FallbackPlug
       $prop_type_id = str_replace("ui-patterns://", "", $prop_schema['$ref']);
       return $this->getDefinition($prop_type_id);
     }
-    $definitions = $this->getDefinitions();
+    $definitions = $this->getSortedDefinitions();
     foreach ($definitions as $definition) {
       $compatibilityChecker = new SchemaCompatibilityChecker();
-      if ($compatibilityChecker->isCompatible($definition['schema'], $prop_schema)) {
+      if ($compatibilityChecker->isCompatible($prop_schema, $definition['schema'])) {
         return $definition;
       }
     }

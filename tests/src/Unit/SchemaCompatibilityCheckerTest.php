@@ -26,9 +26,6 @@ final class SchemaCompatibilityCheckerTest extends UnitTestCase {
    * @dataProvider provideIsCompatibleData
    */
   public function testIsCompatible($test_name, $checked_schema, $reference_schema, $expected_result): void {
-    ob_end_clean();
-    print("\n" . $test_name . ": ");
-    ob_start();
     $validator = new SchemaCompatibilityChecker();
     self::assertEquals($expected_result, $validator->isCompatible($checked_schema, $reference_schema));
   }

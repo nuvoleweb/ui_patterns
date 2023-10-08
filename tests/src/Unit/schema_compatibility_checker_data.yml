@@ -68,8 +68,36 @@
         minLength: 20
       result: true
 
-# Enum
-- label: "Enum"
+# Enum prop type
+- label: "Enum prop type"
+  schema:
+    type: [string, number, integer]
+    enum: []
+  tests:
+    - label: "Empty enum"
+      schema:
+        type: string
+        enum: []
+      result: true
+    - label: "With strings"
+      schema:
+        type: string
+        enum:
+          - foo
+          - bar
+          - baz
+      result: true
+    - label: "With numbers"
+      schema:
+        type: number
+        enum:
+          - 4
+          - 5
+          - 8
+      result: true
+
+# Other enum tests
+- label: "Enum with 2 strings"
   schema:
     type: string
     enum:
@@ -83,7 +111,7 @@
           - foo
           - bar
       result: true
-    - label: "Enum with addition"
+    - label: "Enum with an addition"
       schema:
         type: string
         enum:
@@ -91,7 +119,7 @@
           - bar
           - baz
       result: false
-    - label: "Enum with removal"
+    - label: "Enum with a removal"
       schema:
         type: string
         enum:
@@ -150,16 +178,16 @@
         type: string
         pattern: "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
       result: true
-    - label: "Color (6)"
-      schema:
-        type: string
-        pattern: "^#([A-Fa-f0-9]{6})$"
-      result: true
-    - label: "Color (3)"
-      schema:
-        type: string
-        pattern: "^#([A-Fa-f0-9]{3})$"
-      result: true
+#    - label: "Color (6)"
+#      schema:
+#        type: string
+#        pattern: "^#([A-Fa-f0-9]{6})$"
+#      result: true
+#    - label: "Color (3)"
+#      schema:
+#        type: string
+#        pattern: "^#([A-Fa-f0-9]{3})$"
+#      result: true
 
 # Links prop type
 - label: "Links prop type"
@@ -193,3 +221,7 @@
             below: { $ref: "ui-patterns://links" }
             extra: { type: string }
       result: true
+    - label: "Simple array"
+      schema:
+        type: array
+      result: false

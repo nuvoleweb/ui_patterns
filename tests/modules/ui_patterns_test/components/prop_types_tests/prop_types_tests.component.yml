@@ -83,7 +83,7 @@ props:
       items:
         type: object
         properties:
-          title: {type: string}
+          title: { type: string }
           attributes: { $ref: "ui-patterns://attributes" }
           below: { $ref: "ui-patterns://links" }
     links_2:
@@ -92,12 +92,11 @@ props:
       items:
         type: object
         properties:
-          title: {type: string}
+          title: { type: string }
           attributes: { $ref: "ui-patterns://attributes" }
           below: { $ref: "ui-patterns://links" }
-          extra: { type: string  }
+          extra: { type: string }
     machine_name:
       title: "Machine name"
       type: string
       pattern: '^[A-Za-z]+[\w-]*$'
-slots: {}

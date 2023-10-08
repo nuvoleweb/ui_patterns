@@ -44,10 +44,10 @@
         <tr class="ui_patterns_component__prop">
           <td><code>{{ prop_id }}</code></td>
           <td>{{ prop.title }}</td>
-          <td><code>{{ prop.type_definition }}</code></td>
+          <td><code>{{ prop.ui_patterns.type_definition.pluginId }}</code></td>
           <td>{{ prop.description }}
           <small><pre>{{ prop|filter((v, k) => k != 'title')|filter((v, k) => k != 'description')
-          |filter((v, k) => k != 'examples')|filter((v, k) => k != 'default')|filter((v, k) => k != 'type_definition')
+          |filter((v, k) => k != 'examples')|filter((v, k) => k != 'default')|filter((v, k) => k != 'ui_patterns')
           |json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_SLASHES')) }}</pre></small>
           </td>
         </tr>

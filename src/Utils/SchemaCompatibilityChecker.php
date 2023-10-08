@@ -16,9 +16,9 @@ class SchemaCompatibilityChecker {
    * Checks if the second schema is compatible with the first one.
    *
    * @param array $checked_schema
-   *   The schema to check compatibility against.
+   *   The schema that should be compatible with the other one.
    * @param array $reference_schema
-   *   The schema that should be compatible with the first one.
+   *   The schema to check compatibility against.
    *
    * @return bool
    */
@@ -54,7 +54,7 @@ class SchemaCompatibilityChecker {
       return FALSE;
     }
     if ($checked_schema["type"] !== $reference_schema["type"]) {
-      // Integers are numbers.
+      // Integers are numbers, but numbers are not always integer.
       if (!($checked_schema["type"] === "integer" && $reference_schema["type"] === "number")) {
         return FALSE;
       }
@@ -67,7 +67,7 @@ class SchemaCompatibilityChecker {
       'object' => $this->isObjectCompatible($checked_schema, $reference_schema),
       'array' => $this->isArrayCompatible($checked_schema, $reference_schema),
       'number' => $this->isNumberCompatible($checked_schema, $reference_schema),
-      'integer' => $this->isNumberCompatible($checked_schema, $reference_schema),
+      'integer' => $this->isIntegerCompatible($checked_schema, $reference_schema),
       'string' => $this->isStringCompatible($checked_schema, $reference_schema),
     };
   }
@@ -82,7 +82,6 @@ class SchemaCompatibilityChecker {
           return TRUE;
         }
       }
-      return FALSE;
     }
     if (isset($checked_schema["anyOf"])) {
       foreach ($checked_schema["anyOf"] as $schema) {
@@ -98,6 +97,13 @@ class SchemaCompatibilityChecker {
    *
    */
   protected function isObjectCompatible(array $checked_schema, array $reference_schema): bool {
+    // FALSE if at least one of those tests is FALSE.
+    if (!isset($checked_schema["properties"]) && isset($reference_schema["properties"])) {
+      return FALSE;
+    }
+    if (!isset($checked_schema["patternProperties"]) && isset($reference_schema["patternProperties"])) {
+      return FALSE;
+    }
     if (isset($checked_schema["properties"]) && isset($reference_schema["properties"])) {
       // @todo
     }
@@ -111,13 +117,16 @@ class SchemaCompatibilityChecker {
    * Check if different arrays are compatible.
    */
   protected function isArrayCompatible(array $checked_schema, array $reference_schema): bool {
+    // FALSE if at least one of those tests is FALSE.
+    if (!isset($checked_schema["items"]) && isset($reference_schema["items"])) {
+      return FALSE;
+    }
     // https://json-schema.org/understanding-json-schema/reference/array#items
     if (isset($checked_schema["items"]) && isset($reference_schema["items"])) {
-      if (!$this->isCompatible($checked_schema, $reference_schema)) {
+      if (!$this->isCompatible($checked_schema["items"], $reference_schema["items"])) {
         return FALSE;
       }
     }
-    // FALSE if at least one of those tests is FALSE.
     // @todo https://json-schema.org/understanding-json-schema/reference/array#contains
     // @todo https://json-schema.org/understanding-json-schema/reference/array#mincontains-maxcontains
     // @todo https://json-schema.org/understanding-json-schema/reference/array#length
@@ -129,8 +138,26 @@ class SchemaCompatibilityChecker {
    * Check if different numbers are compatible.
    */
   protected function isNumberCompatible(array $checked_schema, array $reference_schema): bool {
+    if ($reference_schema["type"] === "integer") {
+      // Integers are always numbers, but numbers are not always integer.
+      return FALSE;
+    }
+    return $this->isNumericCompatible($checked_schema, $reference_schema);
+  }
+
+  /**
+   * Check if different integers are compatible.
+   */
+  protected function isIntegerCompatible(array $checked_schema, array $reference_schema): bool {
+    return $this->isNumericCompatible($checked_schema, $reference_schema);
+  }
+
+  /**
+   * Rules shared by numbers and integers.
+   */
+  protected function isNumericCompatible(array $checked_schema, array $reference_schema): bool {
     // FALSE if at least one of those tests is FALSE.
-    if (isset($reference_schema["enum"])) {
+    if (array_key_exists("enum", $reference_schema)) {
       if (!$this->isEnumCompatible($checked_schema, $reference_schema)) {
         return FALSE;
       }
@@ -145,27 +172,27 @@ class SchemaCompatibilityChecker {
    */
   protected function isStringCompatible(array $checked_schema, array $reference_schema): bool {
     // FALSE if at least one of those tests is FALSE.
-    if (isset($reference_schema["pattern"])) {
+    if (array_key_exists("pattern", $reference_schema)) {
       if (!$this->isStringPatternCompatible($checked_schema, $reference_schema)) {
         return FALSE;
       }
     }
-    if (isset($reference_schema["format"])) {
+    if (array_key_exists("format", $reference_schema)) {
       if (!$this->isStringFormatCompatible($checked_schema, $reference_schema)) {
         return FALSE;
       }
     }
-    if (isset($reference_schema["enum"])) {
+    if (array_key_exists("enum", $reference_schema)) {
       if (!$this->isEnumCompatible($checked_schema, $reference_schema)) {
         return FALSE;
       }
     }
-    if (isset($reference_schema["minLength"])) {
+    if (array_key_exists("minLength", $reference_schema)) {
       if (!$this->isMinLengthCompatible($checked_schema, $reference_schema)) {
         return FALSE;
       }
     }
-    if (isset($reference_schema["maxLength"])) {
+    if (array_key_exists("maxLength", $reference_schema)) {
       if (!$this->isMaxLengthCompatible($checked_schema, $reference_schema)) {
         return FALSE;
       }
@@ -177,15 +204,10 @@ class SchemaCompatibilityChecker {
    * See: https://json-schema.org/understanding-json-schema/reference/string#regexp.
    */
   protected function isStringPatternCompatible(array $checked_schema, array $reference_schema): bool {
-    if (!isset($checked_schema["pattern"])) {
+    if (!array_key_exists("pattern", $checked_schema)) {
       return FALSE;
     }
-    $checked_pattern = ltrim($checked_schema["pattern"], "^");
-    $checked_pattern = rtrim($checked_schema["pattern"], "$");
-    // @todo $reference_pattern = str_replace(["(", ")", ",
-    if (str_contains($reference_schema["pattern"], $checked_pattern)) {
-      return TRUE;
-    }
+    // @todo Is checked schema pattern and sub pattern of reference schema?
     return FALSE;
   }
 
@@ -193,7 +215,7 @@ class SchemaCompatibilityChecker {
    * See: https://json-schema.org/understanding-json-schema/reference/string#format.
    */
   protected function isStringFormatCompatible(array $checked_schema, array $reference_schema): bool {
-    if (!isset($checked_schema["format"])) {
+    if (!array_key_exists("format", $checked_schema)) {
       return FALSE;
     }
     $checked_format = $checked_schema["format"];
@@ -230,7 +252,7 @@ class SchemaCompatibilityChecker {
    *
    */
   protected function isMinLengthCompatible(array $checked_schema, array $reference_schema): bool {
-    if (!isset($checked_schema["minLength"])) {
+    if (!array_key_exists("minLength", $checked_schema)) {
       return FALSE;
     }
     return ($checked_schema["minLength"] >= $reference_schema["minLength"]);
@@ -240,7 +262,7 @@ class SchemaCompatibilityChecker {
    *
    */
   protected function isMaxLengthCompatible(array $checked_schema, array $reference_schema): bool {
-    if (!isset($checked_schema["maxLength"])) {
+    if (!array_key_exists("maxLength", $checked_schema)) {
       return FALSE;
     }
     return ($checked_schema["maxLength"] <= $reference_schema["maxLength"]);
@@ -250,10 +272,23 @@ class SchemaCompatibilityChecker {
    *
    */
   protected function isEnumCompatible(array $checked_schema, array $reference_schema): bool {
-    if (!isset($checked_schema["enum"])) {
+    if (!array_key_exists("enum", $checked_schema)) {
       return FALSE;
     }
-    // @todo
+    if (empty($reference_schema["enum"])) {
+      return TRUE;
+    }
+    if (count($checked_schema["enum"]) === count($reference_schema["enum"])) {
+      $diff = array_diff($checked_schema["enum"], $reference_schema["enum"]);
+      return ($diff === []);
+    }
+    if (count($checked_schema["enum"]) > count($reference_schema["enum"])) {
+      return FALSE;
+    }
+    if (count($checked_schema["enum"]) < count($reference_schema["enum"])) {
+      $diff = array_diff($reference_schema["enum"], $checked_schema["enum"]);
+      return (count($diff) >= 0);
+    }
     return FALSE;
   }
 
@@ -261,16 +296,15 @@ class SchemaCompatibilityChecker {
    * @todo Make it public and unit testable independently?
    */
   protected function canonicalize(array $schema): array {
-    $schema = $this->removeUselessProperties($schema);
-    if (isset($schema["type"])) {
+    $schema = $this->keepOnlyUsefulProperties($schema);
+    if (array_key_exists("type", $schema)) {
       $schema = $this->canonicalizeType($schema);
     }
-    if (isset($schema["anyOf"])) {
+    if (array_key_exists("anyOf", $schema)) {
       foreach ($schema["anyOf"] as $index => $sub_schema) {
         $schema["anyOf"][$index] = $this->canonicalize($sub_schema);
       }
     }
-    $schema = array_filter($schema);
     ksort($schema);
     return $schema;
   }
@@ -279,8 +313,12 @@ class SchemaCompatibilityChecker {
    *
    */
   protected function canonicalizeType(array $schema): array {
+    if (!isset($schema["type"])) {
+      return $schema;
+    }
     if (is_array($schema["type"])) {
       $schema = $this->resolveMultipleTypes($schema);
+      return $this->canonicalize($schema);
     }
     if ($schema["type"] === "object" && isset($schema["properties"])) {
       foreach ($schema["properties"] as $property_id => $property) {
@@ -304,12 +342,9 @@ class SchemaCompatibilityChecker {
       "anyOf" => [],
     ];
     foreach ($schema["type"] as $index => $type) {
-      $schemas["anyOf"][$index] = array_merge(
-        $schema,
-        [
-          "type" => $type,
-        ]
-      );
+      $sub_schema = $schema;
+      $sub_schema["type"] = $type;
+      $schemas["anyOf"][$index] = $sub_schema;
     }
     return $schemas;
   }
@@ -317,7 +352,7 @@ class SchemaCompatibilityChecker {
   /**
    *
    */
-  protected function removeUselessProperties(array $schema): array {
+  protected function keepOnlyUsefulProperties(array $schema): array {
     $keys = [
       "anyOf", "allOf", "oneOf", "not", "enum", "type", '$ref', "constant",
     ];
