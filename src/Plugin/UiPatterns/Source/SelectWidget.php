@@ -32,7 +32,7 @@ final class SelectWidget extends SourcePluginBase {
    *
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $otpions = [
+    $options = [
       "foo",
       "poo",
     ];

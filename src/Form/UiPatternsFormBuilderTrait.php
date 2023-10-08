@@ -16,7 +16,32 @@ trait UiPatternsFormBuilderTrait {
    * @param Drupal\sdc\Component\ComponentMetadata $component
    *   The pattern definition.
    */
-  protected function buildComponentForm(FormStateInterface $form_state, ComponentMetadata $component_metadata, array $context):array {
+  protected function buildComponentForm(FormStateInterface $form_state, ComponentMetadata $component_metadata, array $context): array {
+    return [
+      $this->buildVariantSelectorForm($form_state, $component_metadata),
+      $this->buildSlotsForm($form_state, $component_metadata, $context),
+      $this->buildPropsForm($form_state, $component_metadata, $context),
+    ];
+  }
+
+  /**
+   *
+   */
+  protected function buildVariantSelectorForm(FormStateInterface $form_state, ComponentMetadata $component_metadata): array {
+    return [];
+  }
+
+  /**
+   *
+   */
+  protected function buildSlotsForm(FormStateInterface $form_state, ComponentMetadata $component_metadata, array $context): array {
+    return [];
+  }
+
+  /**
+   *
+   */
+  protected function buildPropsForm(FormStateInterface $form_state, ComponentMetadata $component_metadata, array $context): array {
     $sub_sources_form_value = $context['form_values'];
     $form = [];
     $sub_sources = [];
@@ -57,7 +82,7 @@ trait UiPatternsFormBuilderTrait {
   /**
    * Build components selector widget.
    */
-  protected function buildComponentsForm():array {
+  protected function buildComponentsForm(): array {
     return [];
   }
 
