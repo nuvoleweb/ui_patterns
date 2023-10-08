@@ -11,16 +11,52 @@ use Drupal\sdc\Plugin\Component;
 trait UiPatternsFormBuilderTrait {
 
   /**
-   * Build component fieldset.
+   * ...
+   *
+   * To use with:
+   * - PluginSettingsInterface::defaultSettings
+   * - ConfigurableInterface::defaultConfiguration
+   * - views/PluginBase::setOptionDefaults
+   * - ...
+   */
+  public static function getComponentFormDefault() {
+    return [
+      "component_id" => "",
+      "variant_id" => "",
+      "slots" => [],
+      "props" => [],
+    ];
+  }
+
+  /**
+   * Build the complete form.
    *
    * @param Drupal\sdc\Plugin\Component $component
-   *   The comopnent plugin.
+   *   The component plugin.
    */
   protected function buildComponentForm(FormStateInterface $form_state, Component $component, array $context): array {
     return [
-      $this->buildVariantSelectorForm($form_state, $component),
-      $this->buildSlotsForm($form_state, $component, $context),
-      $this->buildPropsForm($form_state, $component, $context),
+      "component_id" => $this->buildComponentSelectorForm(),
+      "variant_id" => $this->buildVariantSelectorForm($form_state, $component),
+      "slots" => $this->buildSlotsForm($form_state, $component, $context),
+      "forms" => $this->buildPropsForm($form_state, $component, $context),
+    ];
+  }
+
+  /**
+   * Build components selector widget.
+   */
+  protected function buildComponentSelectorForm(): array {
+    $components = \Drupal::service("plugin.manager.sdc")->getDefinitions();
+    // @todo getGroupedDefinitions?
+    $options = [];
+    foreach ($components as $component_id => $component) {
+      $options[$component_id] = $component["name"];
+    }
+    return [
+      "#type" => "select",
+      "#title" => t("Component"),
+      "#options" => $options,
     ];
   }
 
@@ -38,7 +74,7 @@ trait UiPatternsFormBuilderTrait {
     }
     return [
       "#type" => "select",
-      "#title" => t("Variants"),
+      "#title" => t("Variant"),
       "#options" => $options,
     ];
   }
@@ -101,13 +137,6 @@ trait UiPatternsFormBuilderTrait {
       $sub_values[$prop_id] = $sub_source->getConfiguration()['form_value'];
     }
     return $sub_values;
-  }
-
-  /**
-   * Build components selector widget.
-   */
-  protected function buildComponentsForm(): array {
-    return [];
   }
 
 }
