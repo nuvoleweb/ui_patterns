@@ -3,7 +3,7 @@
 namespace Drupal\ui_patterns\Form;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\sdc\Component\ComponentMetadata;
+use Drupal\sdc\Plugin\Component;
 
 /**
  *
@@ -13,41 +13,53 @@ trait UiPatternsFormBuilderTrait {
   /**
    * Build component fieldset.
    *
-   * @param Drupal\sdc\Component\ComponentMetadata $component
-   *   The pattern definition.
+   * @param Drupal\sdc\Plugin\Component $component
+   *   The comopnent plugin.
    */
-  protected function buildComponentForm(FormStateInterface $form_state, ComponentMetadata $component_metadata, array $context): array {
+  protected function buildComponentForm(FormStateInterface $form_state, Component $component, array $context): array {
     return [
-      $this->buildVariantSelectorForm($form_state, $component_metadata),
-      $this->buildSlotsForm($form_state, $component_metadata, $context),
-      $this->buildPropsForm($form_state, $component_metadata, $context),
+      $this->buildVariantSelectorForm($form_state, $component),
+      $this->buildSlotsForm($form_state, $component, $context),
+      $this->buildPropsForm($form_state, $component, $context),
     ];
   }
 
   /**
    *
    */
-  protected function buildVariantSelectorForm(FormStateInterface $form_state, ComponentMetadata $component_metadata): array {
+  protected function buildVariantSelectorForm(FormStateInterface $form_state, Component $component): array {
+    $definition = $component->getPluginDefinition();
+    if (!isset($definition["variants"])) {
+      return [];
+    }
+    $options = [];
+    foreach ($definition["variants"] as $variant_id => $variant) {
+      $options[$variant_id] = $variant["title"];
+    }
+    return [
+      "#type" => "select",
+      "#title" => t("Variants"),
+      "#options" => $options,
+    ];
+  }
+
+  /**
+   *
+   */
+  protected function buildSlotsForm(FormStateInterface $form_state, Component $component, array $context): array {
     return [];
   }
 
   /**
    *
    */
-  protected function buildSlotsForm(FormStateInterface $form_state, ComponentMetadata $component_metadata, array $context): array {
-    return [];
-  }
-
-  /**
-   *
-   */
-  protected function buildPropsForm(FormStateInterface $form_state, ComponentMetadata $component_metadata, array $context): array {
+  protected function buildPropsForm(FormStateInterface $form_state, Component $component, array $context): array {
     $sub_sources_form_value = $context['form_values'];
     $form = [];
     $sub_sources = [];
-    foreach ($component_metadata->schema['properties'] as $prop_id => $prop) {
+    foreach ($component->metadata->schema['properties'] as $prop_id => $prop) {
       $sources = $prop['ui_patterns']['source'];
-      if (count($sources) > 0) {
+      if (count($sources) == 1) {
         /** @var \Drupal\ui_patterns\SourcePluginBase $default_source */
         $default_source = current($sources);
         $configuration = $default_source->getConfiguration();
@@ -57,6 +69,19 @@ trait UiPatternsFormBuilderTrait {
         }
         $form[$prop_id] = $default_source->buildConfigurationForm($form, $form_state);
         $sub_sources[$prop_id] = $default_source;
+      }
+      elseif (count($sources) > 1) {
+        $options = [];
+        foreach ($sources as $source) {
+          $options[$source->getPluginId()] = $source->label();
+        }
+        $form[$prop_id] = [
+          "#type" => "select",
+          "#title" => $prop["title"],
+          "#options" => $options,
+        ];
+        // @todo dynamically load source form on select.
+        // @todo $sub_sources?
       }
     }
     if (!$form_state->has('sub_sources')) {
@@ -69,7 +94,6 @@ trait UiPatternsFormBuilderTrait {
    *
    */
   protected function submitComponentForm($form, FormStateInterface $form_state, array $context):array {
-
     $sub_sources = $form_state->get('sub_sources');
     $sub_values = [];
     foreach ($sub_sources as $prop_id => $sub_source) {

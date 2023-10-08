@@ -118,10 +118,10 @@ class PatternLayout extends LayoutDefault implements PluginFormInterface, Contai
     /** @var \Drupal\sdc\ComponentPluginManager $plugin_manager */
     $plugin_manager = \Drupal::service('plugin.manager.sdc');
     /** @var \Drupal\sdc\Component\ComponentMetadata[] $components */
-    $component_metadata = $plugin_manager->find($component_id)?->metadata;
+    $component = $plugin_manager->find($component_id);
     $context = ['form_type' => 'layout', 'form' => $form, 'layout' => $this, 'form_values' => $this->configuration['ui_patterns'] ?? []];
-    $form['ui_patterns'] = $this->buildComponentForm($form_state, $component_metadata, $context);
-    $this->moduleHandler->alter('ui_patterns_layouts_display_configuration_form', $form['ui_patterns'], $component_metadata, $configuration);
+    $form['ui_patterns'] = $this->buildComponentForm($form_state, $component, $context);
+    $this->moduleHandler->alter('ui_patterns_layouts_display_configuration_form', $form['ui_patterns'], $component, $configuration);
     return $form;
   }
 
