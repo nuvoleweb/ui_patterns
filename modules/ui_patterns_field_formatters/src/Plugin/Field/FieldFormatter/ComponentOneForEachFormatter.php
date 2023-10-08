@@ -2,11 +2,6 @@
 
 namespace Drupal\ui_patterns_field_formatters\Plugin\Field\FieldFormatter;
 
-use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\Core\Form\FormStateInterface;
-
 /**
  * Plugin implementation of the 'component_each' formatter.
  *
