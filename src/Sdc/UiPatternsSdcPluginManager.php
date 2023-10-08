@@ -68,14 +68,11 @@ class UiPatternsSdcPluginManager extends ComponentPluginManagerDecorator {
    * {@inheritdoc}
    */
   public function getGroupedDefinitions(?array $definitions = NULL): array {
-    // @todo use category metadata from ui_patterns_library
-    // Do we move this method to ui_patterns_library?
-    // Or do we move categories to ui_patterns?
     $definitions = $definitions ?: $this->getDefinitions();
     $groups = [];
     foreach ($definitions as $id => $definition) {
-      $category = $definition["category"] ?? "Other";
-      $groups[$category][$id] = $definition;
+      $group = $definition["group"] ?? "Other";
+      $groups[$group][$id] = $definition;
     }
     return $groups;
   }
@@ -83,7 +80,7 @@ class UiPatternsSdcPluginManager extends ComponentPluginManagerDecorator {
   /**
    * Stories slots have no "#" prefix in render arrays. Let's add them.
    * A bit like UI Patterns 1.x's PatternPreview::getPreviewMarkup()
-   * This method belongs here because sued by both ui_patterns_library and
+   * This method belongs here because used by both ui_patterns_library and
    * ui_patterns_legacy.
    */
   public static function processStoriesSlots(array $slots): array {

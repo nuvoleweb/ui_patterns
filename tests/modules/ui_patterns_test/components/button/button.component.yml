@@ -3,7 +3,7 @@ name: "Button"
 description: "For actions in forms, dialogs, and more with support for multiple sizes, states, and more."
 links:
   - "https://getbootstrap.com/docs/5.3/components/buttons/"
-category: "Button"
+group: "Button"
 template: pattern-button.html.twig
 variants:
   default:

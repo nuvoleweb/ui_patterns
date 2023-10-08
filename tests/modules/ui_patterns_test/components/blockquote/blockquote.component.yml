@@ -3,7 +3,7 @@ name: Blockquote
 description: "For quoting blocks of content from another source within your document."
 links:
   - "https://getbootstrap.com/docs/5.3/content/typography/#blockquotes"
-category: "Typography"
+group: "Typography"
 props:
   type: object
   properties:

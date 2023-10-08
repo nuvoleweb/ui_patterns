@@ -3,7 +3,7 @@ name: "Close button"
 description: "A generic close button for dismissing content like modals and alerts."
 links:
   - "https://getbootstrap.com/docs/5.3/components/close-button"
-category: "Button"
+group: "Button"
 variants:
   default:
     title: "Default"

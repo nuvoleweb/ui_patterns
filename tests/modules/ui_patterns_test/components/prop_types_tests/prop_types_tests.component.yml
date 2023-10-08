@@ -99,4 +99,4 @@ props:
     machine_name:
       title: "Machine name"
       type: string
-      pattern: '^[A-Za-z]+[\w-]*$'
+      pattern: '^[A-Za-z]+\w*$'
