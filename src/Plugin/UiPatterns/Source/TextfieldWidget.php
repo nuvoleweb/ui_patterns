@@ -13,7 +13,7 @@ use Drupal\ui_patterns\SourcePluginBase;
  * @Source(
  *   id = "textfield",
  *   label = @Translation("Textfield"),
- *   description = @Translation("Foo description."),
+ *   description = @Translation("One-line text field."),
  *   prop_types = {
  *     "string"
  *   }

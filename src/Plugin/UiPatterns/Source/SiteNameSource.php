@@ -24,7 +24,7 @@ final class SiteNameSource extends SourcePluginBase {
    *
    */
   public function getData(): mixed {
-    return 'Nice Site name';
+    return \Drupal::config('system.site')>get('name');
   }
 
   /**
