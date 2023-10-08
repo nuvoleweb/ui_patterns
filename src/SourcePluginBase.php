@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 namespace Drupal\ui_patterns;
 
@@ -31,6 +33,9 @@ abstract class SourcePluginBase extends PluginBase implements SourceInterface {
     return (string) $this->pluginDefinition['label'];
   }
 
+  /**
+   *
+   */
   public function buildConfigurationForm(
     array $form,
     FormStateInterface $form_state
@@ -38,6 +43,9 @@ abstract class SourcePluginBase extends PluginBase implements SourceInterface {
     return [];
   }
 
+  /**
+   *
+   */
   public function validateConfigurationForm(
     array &$form,
     FormStateInterface $form_state
@@ -45,6 +53,9 @@ abstract class SourcePluginBase extends PluginBase implements SourceInterface {
 
   }
 
+  /**
+   *
+   */
   public function submitConfigurationForm(
     array &$form,
     FormStateInterface $form_state
@@ -55,10 +66,16 @@ abstract class SourcePluginBase extends PluginBase implements SourceInterface {
     $this->configuration['form_value'] = $value;
   }
 
+  /**
+   *
+   */
   public function getConfiguration() {
     return $this->configuration;
   }
 
+  /**
+   *
+   */
   public function setConfiguration(array $configuration) {
     if (isset($configuration['prop_definition'])) {
       $this->propDefinition = $configuration['prop_definition'];
@@ -69,12 +86,21 @@ abstract class SourcePluginBase extends PluginBase implements SourceInterface {
     $this->configuration = $configuration;
   }
 
+  /**
+   *
+   */
   abstract public function defaultConfiguration();
 
+  /**
+   *
+   */
   public function getPropId(): string {
     return $this->propId;
   }
 
+  /**
+   *
+   */
   public function getPropDefinition(): array {
     return $this->propDefinition;
   }

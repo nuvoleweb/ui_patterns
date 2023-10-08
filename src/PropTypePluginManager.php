@@ -76,7 +76,11 @@ class PropTypePluginManager extends DefaultPluginManager implements FallbackPlug
     return NULL;
   }
 
+  /**
+   *
+   */
   public function getFallbackPluginId($plugin_id, array $configuration = []) {
     return 'unknown_prop_type';
   }
+
 }

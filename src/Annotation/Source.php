@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 namespace Drupal\ui_patterns\Annotation;
 
@@ -36,6 +38,5 @@ final class Source extends Plugin {
    * @var array
    */
   public $prop_types = [];
-
 
 }

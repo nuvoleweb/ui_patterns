@@ -1,10 +1,13 @@
 <?php
+
 namespace Drupal\ui_patterns\Form;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Form\SubformState;
 use Drupal\sdc\Component\ComponentMetadata;
 
+/**
+ *
+ */
 trait UiPatternsFormBuilderTrait {
 
   /**
@@ -19,7 +22,7 @@ trait UiPatternsFormBuilderTrait {
     $sub_sources = [];
     foreach ($component_metadata->schema['properties'] as $prop_id => $prop) {
       $sources = $prop['ui_patterns']['source'];
-      if (count($sources) > 0 ) {
+      if (count($sources) > 0) {
         /** @var \Drupal\ui_patterns\SourcePluginBase $default_source */
         $default_source = current($sources);
         $configuration = $default_source->getConfiguration();
@@ -37,6 +40,9 @@ trait UiPatternsFormBuilderTrait {
     return $form;
   }
 
+  /**
+   *
+   */
   protected function submitComponentForm($form, FormStateInterface $form_state, array $context):array {
 
     $sub_sources = $form_state->get('sub_sources');
@@ -50,7 +56,6 @@ trait UiPatternsFormBuilderTrait {
 
   /**
    * Build components selector widget.
-   *
    */
   protected function buildComponentsForm():array {
     return [];

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 namespace Drupal\ui_patterns;
 
@@ -15,8 +17,19 @@ interface SourceInterface extends PluginFormInterface, ConfigurableInterface {
    */
   public function label(): string;
 
+  /**
+   *
+   */
   public function getData(): mixed;
 
+  /**
+   *
+   */
   public function getPropId(): string;
+
+  /**
+   *
+   */
   public function getPropDefinition(): mixed;
+
 }

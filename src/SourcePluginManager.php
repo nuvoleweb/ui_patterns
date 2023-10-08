@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Drupal\ui_patterns;
@@ -6,8 +7,6 @@ namespace Drupal\ui_patterns;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\sdc\Component\ComponentMetadata;
-use Drupal\sdc\Plugin\Component;
 use Drupal\ui_patterns\Annotation\Source;
 
 /**
@@ -34,6 +33,9 @@ final class SourcePluginManager extends DefaultPluginManager {
     $this->setCacheBackend($cache_backend, 'ui_patterns_source_plugins');
   }
 
+  /**
+   *
+   */
   public function getSourceDefinitions($prop_type_id) {
     $definitions = $this->getDefinitions();
     $sources = [];
@@ -48,6 +50,9 @@ final class SourcePluginManager extends DefaultPluginManager {
     return $sources;
   }
 
+  /**
+   *
+   */
   public function getSourcePlugins($prop_type_id, $prop_id, $prop_definition):array {
     $definitions = $this->getSourceDefinitions($prop_type_id);
     $sources = [];
