@@ -11,21 +11,21 @@ use Drupal\ui_patterns\SourcePluginBase;
  * Plugin implementation of the source_provider.
  *
  * @Source(
- *   id = "textfield",
- *   label = @Translation("Textfield"),
- *   description = @Translation("One-line text field."),
+ *   id = "url",
+ *   label = @Translation("Url"),
+ *   description = @Translation("Input of a URL."),
  *   prop_types = {
- *     "string"
+ *     "url"
  *   }
  * )
  */
-final class TextfieldWidget extends SourcePluginBase {
+final class UrlWidget extends SourcePluginBase {
 
   /**
    *
    */
   public function getData(): mixed {
-    return 'Nice Site name';
+    return 'https://example.org';
   }
 
   /**
@@ -33,7 +33,7 @@ final class TextfieldWidget extends SourcePluginBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     return [
-      '#type' => 'textfield',
+      '#type' => 'url',
       '#title' => $this->propDefinition['title'],
       '#default_value' => $this->configuration['form_value'],
     ];

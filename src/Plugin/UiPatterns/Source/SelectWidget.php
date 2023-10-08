@@ -8,18 +8,18 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\ui_patterns\SourcePluginBase;
 
 /**
- * Plugin implementation of the source_provider.
+ * Plugin implementation of the source.
  *
  * @Source(
- *   id = "textfield",
- *   label = @Translation("Textfield"),
- *   description = @Translation("One-line text field."),
+ *   id = "select",
+ *   label = @Translation("Select"),
+ *   description = @Translation("A drop-down menu or scrolling selection box."),
  *   prop_types = {
- *     "string"
+ *     "enum"
  *   }
  * )
  */
-final class TextfieldWidget extends SourcePluginBase {
+final class SelectWidget extends SourcePluginBase {
 
   /**
    *
@@ -32,10 +32,15 @@ final class TextfieldWidget extends SourcePluginBase {
    *
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $otpions = [
+      "foo",
+      "poo",
+    ];
     return [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->propDefinition['title'],
       '#default_value' => $this->configuration['form_value'],
+      "#options" => $options,
     ];
   }
 

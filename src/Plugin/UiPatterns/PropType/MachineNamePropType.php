@@ -11,10 +11,10 @@ use Drupal\ui_patterns\PropTypePluginBase;
  *   id = "machine_name",
  *   label = @Translation("Machine name"),
  *   description = @Translation("TBD"),
- *   priority = 10,
+ *   priority = 100,
  *   schema = {
  *     "type": "string",
- *     "pattern": "^[A-Za-z]+[\w-]*$"
+ *     "pattern": "^[A-Za-z]+\w*$"
  *   }
  * )
  */

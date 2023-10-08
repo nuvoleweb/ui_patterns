@@ -11,15 +11,15 @@ use Drupal\ui_patterns\SourcePluginBase;
  * Plugin implementation of the source_provider.
  *
  * @Source(
- *   id = "textfield",
- *   label = @Translation("Textfield"),
- *   description = @Translation("One-line text field."),
+ *   id = "color",
+ *   label = @Translation("Color"),
+ *   description = @Translation("Form elmeent for choosing a color."),
  *   prop_types = {
- *     "string"
+ *     "color"
  *   }
  * )
  */
-final class TextfieldWidget extends SourcePluginBase {
+final class ColorWidget extends SourcePluginBase {
 
   /**
    *
@@ -33,7 +33,7 @@ final class TextfieldWidget extends SourcePluginBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     return [
-      '#type' => 'textfield',
+      '#type' => 'color',
       '#title' => $this->propDefinition['title'],
       '#default_value' => $this->configuration['form_value'],
     ];

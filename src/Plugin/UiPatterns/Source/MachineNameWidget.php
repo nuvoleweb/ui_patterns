@@ -11,21 +11,21 @@ use Drupal\ui_patterns\SourcePluginBase;
  * Plugin implementation of the source_provider.
  *
  * @Source(
- *   id = "textfield",
- *   label = @Translation("Textfield"),
- *   description = @Translation("One-line text field."),
+ *   id = "machine_name",
+ *   label = @Translation("Machine name"),
+ *   description = @Translation("Validated to ensure that the name does not contain disallowed characters."),
  *   prop_types = {
- *     "string"
+ *     "machine_name"
  *   }
  * )
  */
-final class TextfieldWidget extends SourcePluginBase {
+final class MachineNameWidget extends SourcePluginBase {
 
   /**
    *
    */
   public function getData(): mixed {
-    return 'Nice Site name';
+    return 'abc_123';
   }
 
   /**
@@ -33,7 +33,7 @@ final class TextfieldWidget extends SourcePluginBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     return [
-      '#type' => 'textfield',
+      '#type' => 'machine_name',
       '#title' => $this->propDefinition['title'],
       '#default_value' => $this->configuration['form_value'],
     ];
