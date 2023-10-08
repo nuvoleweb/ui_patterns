@@ -2,11 +2,6 @@
 
 namespace Drupal\ui_patterns\Utils;
 
-use ReverseRegex\Generator\Scope;
-use ReverseRegex\Lexer;
-use ReverseRegex\Parser;
-use ReverseRegex\Random\SimpleRandom;
-
 /**
  * Checks whether two schemas are compatible.
  *
@@ -177,11 +172,6 @@ class SchemaCompatibilityChecker {
    */
   protected function isStringCompatible(array $checked_schema, array $reference_schema): bool {
     // FALSE if at least one of those tests is FALSE.
-    if (array_key_exists("pattern", $reference_schema)) {
-      if (!$this->isStringPatternCompatible($checked_schema, $reference_schema)) {
-        return FALSE;
-      }
-    }
     if (array_key_exists("format", $reference_schema)) {
       if (!$this->isStringFormatCompatible($checked_schema, $reference_schema)) {
         return FALSE;
@@ -202,6 +192,11 @@ class SchemaCompatibilityChecker {
         return FALSE;
       }
     }
+    if (array_key_exists("pattern", $reference_schema)) {
+      if (!$this->isStringPatternCompatible($checked_schema, $reference_schema)) {
+        return FALSE;
+      }
+    }
     return TRUE;
   }
 
@@ -212,24 +207,21 @@ class SchemaCompatibilityChecker {
     if (!array_key_exists("pattern", $checked_schema)) {
       return FALSE;
     }
+    return FALSE;
     // Is checked schema pattern and sub pattern of reference schema?
     $example = $this->generateExampleFromPattern($checked_schema["pattern"]);
     $result = preg_match("/" . $reference_schema["pattern"] . "/", $example);
-    if ($result !== 1) {
-      return FALSE;
+    if ($result === 1) {
+      return TRUE;
     }
-    return TRUE;
+    return FALSE;
   }
 
   /**
    *
    */
   protected function generateExampleFromPattern(string $pattern): string {
-    $lexer = new Lexer($pattern);
-    $gen = new SimpleRandom(10007);
-    $result = '';
-    $parser = new Parser($lexer, new Scope(), new Scope());
-    $parser->parse()->getResult()->generate($result, $gen);
+    // ilario-pierbattista/reverse-regex.
     return $result;
   }
 
