@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * UI Patterns Field Formatters module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ */
+function ui_patterns_field_formatters_field_formatter_info_alter(array &$info) {
+  /** @var \Drupal\Core\Field\FieldTypePluginManagerInterface $field_type_manager */
+  $field_type_manager = \Drupal::service('plugin.manager.field.field_type');
+  $field_types = array_keys($field_type_manager->getDefinitions());
+  $info['pattern_all_formatter']['field_types'] = $field_types;
+  $info['pattern_each_formatter']['field_types'] = $field_types;
+}

@@ -1,0 +1,7 @@
+name: UI Patterns Field Formatters
+type: module
+description: Use UI components with field formatters.
+core_version_requirement: ^10
+package: User interface
+dependencies:
+  - ui_patterns:ui_patterns
