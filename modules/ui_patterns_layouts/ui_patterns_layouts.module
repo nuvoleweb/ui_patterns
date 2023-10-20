@@ -21,7 +21,9 @@ function ui_patterns_layouts_layout_alter(&$definitions) {
   // @todo Use layout deriver instead.
   // @link https://github.com/nuvoleweb/ui_patterns/issues/94
   foreach (UiPatterns::getPatternDefinitions() as $pattern_definition) {
+    $id = 'pattern_' . $pattern_definition->id();
     $definition = [
+      'id' => $id,
       'label' => $pattern_definition->getLabel(),
       'theme' => $pattern_definition->getThemeHook(),
       'provider' => $pattern_definition->getProvider(),
@@ -33,7 +35,7 @@ function ui_patterns_layouts_layout_alter(&$definitions) {
     foreach ($pattern_definition->getFields() as $field) {
       $definition['regions'][$field->getName()]['label'] = $field->getLabel();
     }
-    $definitions['pattern_' . $pattern_definition->id()] = new LayoutDefinition($definition);
+    $definitions[$id] = new LayoutDefinition($definition);
   }
 }
 
