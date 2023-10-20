@@ -22,6 +22,11 @@ class PatternPreview extends Pattern {
    *   Render array.
    */
   public static function processFields(array $element) {
+    // Skip processing if pattern does not exist.
+    if (!static::exists($element)) {
+      return parent::processFields($element);
+    }
+
     $definition = UiPatterns::getPatternDefinition($element['#id']);
 
     $fields = [];
